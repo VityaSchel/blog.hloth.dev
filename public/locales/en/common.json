@@ -1,0 +1,20 @@
+{
+  "menu": {
+    "button": "Menu",
+    "about_me": "About Me",
+    "my_portfolio": "My Portfolio",
+    "contact": "Contact me"
+  },
+  "read_time": [
+    "min read",
+    "min read",
+    "min read"
+  ],
+  "categories": {
+    "life_story": "Life Story",
+    "tutorial": "Tutorial",
+    "project": "Project",
+    "announcement": "Announcement",
+    "review": "Review"
+  }
+}

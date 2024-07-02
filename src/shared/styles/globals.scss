@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'hloth blog text', sans-serif;
+  text-rendering: geometricPrecision;
+}
+
+html {
+  --bg-color: var(--cream);
+  --text-color: #000000;
+  --bg-alt: var(--cream-alt);
+}
+
+html.dark {
+  --bg-color: #000000;
+  --text-color: var(--sandy);
+  --bg-alt: var(--black-alt);
+}
+
+:root {
+  --cream: #f3f1e6;
+  --sandy: #d5c18e;
+  --cream-alt: #e0d9c9;
+  --black-alt: #333333;
+}
+
+.headline {
+  width: 100% !important;
+
+  path {
+    fill: var(--text-color);
+  }
+}

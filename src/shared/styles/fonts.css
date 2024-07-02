@@ -1,0 +1,32 @@
+@font-face {
+  font-family: 'hloth blog display';
+  font-weight: bold;
+  src: url('/fonts/display-semibold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'hloth blog display';
+  font-weight: normal;
+  src: url('/fonts/display-regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'hloth blog text';
+  font-weight: 400;
+  src: url('/fonts/text-regular.ttf'),
+    url('/fonts/text-regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'hloth blog text';
+  font-weight: 500;
+  src: url('/fonts/text-bold.ttf'),
+    url('/fonts/text-bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'hloth blog text';
+  font-weight: 600;
+  src: url('/fonts/text-extra-bold.ttf'),
+    url('/fonts/text-extra-bold.woff2') format('woff2');
+}

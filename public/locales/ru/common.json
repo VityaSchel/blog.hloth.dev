@@ -1,0 +1,20 @@
+{
+  "menu": {
+    "button": "Меню",
+    "about_me": "Обо мне",
+    "my_portfolio": "Моё портфолио",
+    "contact": "Связаться"
+  },
+  "read_time": [
+    "минута",
+    "минуты",
+    "минут"
+  ],
+  "categories": {
+    "life_story": "История",
+    "tutorial": "Туториал",
+    "project": "Проект",
+    "announcement": "Объявление",
+    "review": "Отзыв"
+  }
+}
