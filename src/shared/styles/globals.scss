@@ -20,6 +20,7 @@ html {
   --menu-bg: #000000;
   --text-inverted: #ffffff;
   --text-inverted-alt: #2f2f2f;
+  --text-alt: #121212;
 }
 
 html[data-theme='dark'] {
@@ -32,11 +33,13 @@ html[data-theme='dark'] {
   --menu-bg: #ffffff;
   --text-inverted: #000000;
   --text-inverted-alt: #a18d69;
+  --text-alt: var(--sandy-alt);
 }
 
 :root {
   --cream: #f3f1e6;
   --sandy: #d5c18e;
+  --sandy-alt: #a89870;
   --cream-alt: #e0d9c9;
   --black-alt: #333333;
 }
@@ -85,4 +88,49 @@ html[data-theme='dark'] {
 
 body.no-overscroll {
   overscroll-behavior-y: none;
+}
+
+.bg-placeholder {
+  background-color: #e5e5f7;
+  opacity: 0.8;
+  background-image: radial-gradient(#444cf7 0.5px, #e5e5f7 0.5px);
+  background-size: 10px 10px;
+}
+
+.ce-block__content,
+.ce-toolbar__content {
+  max-width: calc(100% - 80px) !important;
+}
+
+.cdx-block {
+  max-width: 100% !important;
+}
+
+.ce-inline-toolbar {
+  color: #000000;
+}
+
+.article-content {
+  h1,h2,h3,h4,h5,h6 {
+    font-family: 'hloth blog caption', 'hloth blog text', sans-serif;
+    font-weight: 600;
+  }
+  h1 {
+    font-size: 36px;
+  }
+  h2 {
+    font-size: 30px;
+  }
+  h3 {
+    font-size: 24px;
+  }
+  h4 {
+    font-size: 20px;
+  }
+  h5 {
+    font-size: 18px;
+  }
+  h6 {
+    font-size: 16px;
+  }
 }

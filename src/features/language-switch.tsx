@@ -22,12 +22,12 @@ export function LanguageSwitch() {
       className='px-2 py-[4px] w-44 bg-alt rounded-full flex gap-1 relative tracking-tight'
       onClick={handleSwitchLanguage}
     >
-      <span className={cx('transition-all block flex-1 relative z-10', {
+      <span className={cx('transition-[font-weight] block flex-1 relative z-10', {
         'font-bold': i18n.language === 'ru'
       })}>
         Русский
       </span>
-      <span className={cx('transition-all block flex-1 relative z-10', {
+      <span className={cx('transition-[font-weight] block flex-1 relative z-10', {
         'font-bold': i18n.language !== 'ru'
       })}>
         English

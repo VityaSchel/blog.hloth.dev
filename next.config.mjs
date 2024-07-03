@@ -2,7 +2,6 @@ import nexti18next from './next-i18next.config.js'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
   webpack(config) {
     const fileLoaderRule = config.module.rules.find((rule) =>
       rule.test?.test?.('.svg'),
@@ -41,8 +40,7 @@ const nextConfig = {
   },
   eslint: {
     ignoreDuringBuilds: true,
-  },
-  transpilePackages: ['geist']
+  }
 }
 
 export default nextConfig

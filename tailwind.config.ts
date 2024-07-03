@@ -21,7 +21,8 @@ const config: Config = {
       colors: {
         text: 'var(--text)',
         background: 'var(--bg)',
-        inverted: 'var(--text-inverted)'
+        inverted: 'var(--text-inverted)',
+        alt: 'var(--text-alt)',
       }
     },
   },

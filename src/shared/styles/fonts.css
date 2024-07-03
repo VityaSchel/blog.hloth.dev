@@ -19,6 +19,14 @@
 
 @font-face {
   font-family: 'hloth blog text';
+  font-weight: 400;
+  font-style: italic;
+  src: url('/fonts/text-regular-italic.ttf'),
+    url('/fonts/text-regular-italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'hloth blog text';
   font-weight: 500;
   src: url('/fonts/text-bold.ttf'),
     url('/fonts/text-bold.woff2') format('woff2');
@@ -26,7 +34,49 @@
 
 @font-face {
   font-family: 'hloth blog text';
+  font-weight: 500;
+  font-style: italic;
+  src: url('/fonts/text-bold-italic.ttf'),
+    url('/fonts/text-bold-italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'hloth blog text';
   font-weight: 600;
   src: url('/fonts/text-extra-bold.ttf'),
     url('/fonts/text-extra-bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'hloth blog text';
+  font-weight: 600;
+  font-style: italic;
+  src: url('/fonts/text-extra-bold-italic.ttf'),
+    url('/fonts/text-extra-bold-italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'hloth blog caption';
+  font-weight: 400;
+  src: url('/fonts/caption-regular.ttf');
+}
+
+@font-face {
+  font-family: 'hloth blog caption';
+  font-weight: 400;
+  font-style: italic;
+  src: url('/fonts/caption-regular-italic.ttf');
+}
+
+@font-face {
+  font-family: 'hloth blog caption';
+  font-weight: 600;
+  src: url('/fonts/caption-bold.ttf');
+}
+
+@font-face {
+  font-family: 'hloth blog caption';
+  font-weight: 600;
+  font-style: italic;
+  src: url('/fonts/caption-bold-italic.ttf');
 }

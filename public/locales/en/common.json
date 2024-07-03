@@ -1,4 +1,6 @@
 {
+  "me": "Viktor Shchelochkov",
+  "specialty": "Fullstack developer",
   "menu": {
     "button": "Menu",
     "about_me": "About Me",
@@ -24,5 +26,9 @@
   },
   "footer": {
     "contact_me": "Contact me"
+  },
+  "editor": {
+    "title": "Article title",
+    "content": "Write..."
   }
 }
