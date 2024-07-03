@@ -3,22 +3,35 @@
 @tailwind utilities;
 
 html {
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  background-color: var(--bg);
+  color: var(--text);
   font-family: 'hloth blog text', sans-serif;
   text-rendering: geometricPrecision;
+  letter-spacing: -.03em;
 }
 
 html {
-  --bg-color: var(--cream);
-  --text-color: #000000;
+  --bg: var(--cream);
+  --text: #000000;
   --bg-alt: var(--cream-alt);
+  --theme-switch-day: #000000;
+  --theme-switch-night: #2c4ebe;
+  --theme-switch-night-alt: #293760;
+  --menu-bg: #000000;
+  --text-inverted: #ffffff;
+  --text-inverted-alt: #2f2f2f;
 }
 
-html.dark {
-  --bg-color: #000000;
-  --text-color: var(--sandy);
+html[data-theme='dark'] {
+  --bg: #000000;
+  --text: var(--sandy);
   --bg-alt: var(--black-alt);
+  --theme-switch-day: var(--sandy);
+  --theme-switch-night: #7f7445;
+  --theme-switch-night-alt: #978d62;
+  --menu-bg: #ffffff;
+  --text-inverted: #000000;
+  --text-inverted-alt: #a18d69;
 }
 
 :root {
@@ -32,6 +45,44 @@ html.dark {
   width: 100% !important;
 
   path {
-    fill: var(--text-color);
+    fill: var(--text);
   }
+}
+
+.theme-switch-bg {
+  $smoothness: 2.5%;
+  background: linear-gradient(
+    to right,
+    var(--theme-switch-night),
+    var(--theme-switch-night) calc(8% - $smoothness/2),
+    var(--theme-switch-day) calc(8% + $smoothness/2),
+    var(--theme-switch-day) calc(25% - $smoothness/2),
+    var(--theme-switch-night) calc(25% + $smoothness/2),
+    var(--theme-switch-night) calc(33.33% - $smoothness/2),
+    var(--theme-switch-day) calc(33.33% + $smoothness/2),
+    var(--theme-switch-day) calc(50% - $smoothness/2),
+    var(--theme-switch-night) calc(50% + $smoothness/2),
+  );
+  background-size: 400% 100%;
+}
+
+.theme-switch-bg-open {
+  $smoothness: 5%;
+  background: linear-gradient(
+    to right,
+    var(--theme-switch-night-alt),
+    var(--theme-switch-night-alt) calc(8% - $smoothness/2),
+    var(--theme-switch-day) calc(8% + $smoothness/2),
+    var(--theme-switch-day) calc(25% - $smoothness/2),
+    var(--theme-switch-night-alt) calc(25% + $smoothness/2),
+    var(--theme-switch-night-alt) calc(33.33% - $smoothness/2),
+    var(--theme-switch-day) calc(33.33% + $smoothness/2),
+    var(--theme-switch-day) calc(50% - $smoothness/2),
+    var(--theme-switch-night-alt) calc(50% + $smoothness/2),
+  );
+  background-size: 400% 100%;
+}
+
+body.no-overscroll {
+  overscroll-behavior-y: none;
 }

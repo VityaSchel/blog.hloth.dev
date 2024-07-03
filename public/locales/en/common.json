@@ -16,5 +16,13 @@
     "project": "Project",
     "announcement": "Announcement",
     "review": "Review"
+  },
+  "no_posts_yet": "No posts yet",
+  "switch_theme": {
+    "dark": "Switch theme to dark",
+    "light": "Switch theme to light"
+  },
+  "footer": {
+    "contact_me": "Contact me"
   }
 }

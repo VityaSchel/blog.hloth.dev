@@ -4,7 +4,7 @@ export function Menu() {
   const { t } = useTranslation('common')
 
   return (
-    <button className='bg-black rounded-full text-white pt-[4px] pb-[3px] w-[83.16px]'>
+    <button className='bg-[var(--menu-bg)] rounded-full text-inverted pt-[3px] pb-[2px] w-[84px] text-[14px] tracking-[-.03em]'>
       {t('menu.button')}
     </button>
   )

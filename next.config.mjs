@@ -26,13 +26,23 @@ const nextConfig = {
 
     return config
   },
+  images: {
+    remotePatterns: [
+      {
+        hostname: 'images.unsplash.com',
+        protocol: 'https',
+        pathname: '**',
+      }
+    ]
+  },
   i18n: nexti18next.i18n,
   typescript: {
     ignoreBuildErrors: true,
   },
   eslint: {
     ignoreDuringBuilds: true,
-  }
+  },
+  transpilePackages: ['geist']
 }
 
 export default nextConfig

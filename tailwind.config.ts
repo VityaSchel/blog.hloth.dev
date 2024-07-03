@@ -15,7 +15,13 @@ const config: Config = {
         alt: 'var(--bg-alt)',
       },
       fontFamily: {
-        'display': ['hloth blog display', 'hloth blog text', 'sans-serif']
+        'display': ['hloth blog display', 'hloth blog text', 'sans-serif'],
+        'text': ['hloth blog text', 'sans-serif'],
+      },
+      colors: {
+        text: 'var(--text)',
+        background: 'var(--bg)',
+        inverted: 'var(--text-inverted)'
       }
     },
   },

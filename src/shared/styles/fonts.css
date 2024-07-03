@@ -1,13 +1,13 @@
 @font-face {
   font-family: 'hloth blog display';
-  font-weight: bold;
-  src: url('/fonts/display-semibold.otf') format('opentype');
+  font-weight: 400;
+  src: url('/fonts/display-regular.otf') format('opentype');
 }
 
 @font-face {
   font-family: 'hloth blog display';
-  font-weight: normal;
-  src: url('/fonts/display-regular.otf') format('opentype');
+  font-weight: 500;
+  src: url('/fonts/display-semibold.otf') format('opentype');
 }
 
 @font-face {
