@@ -70,6 +70,19 @@
 
 @font-face {
   font-family: 'hloth blog caption';
+  font-weight: 500;
+  src: url('/fonts/caption-medium.ttf');
+}
+
+@font-face {
+  font-family: 'hloth blog caption';
+  font-weight: 500;
+  font-style: italic;
+  src: url('/fonts/caption-medium-italic.ttf');
+}
+
+@font-face {
+  font-family: 'hloth blog caption';
   font-weight: 600;
   src: url('/fonts/caption-bold.ttf');
 }

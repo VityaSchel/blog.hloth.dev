@@ -1,7 +1,7 @@
 import { categories } from '@/shared/model/category'
-import Link from 'next/link'
 import React from 'react'
 import { useTranslation } from 'next-i18next'
+import { FocusableFooterLink } from '@/features/focusable-footer-link'
 
 export function Footer() {
   const { t } = useTranslation()
@@ -26,21 +26,21 @@ export function Footer() {
       <div className='flex items-end'>
         <div className='flex flex-col gap-1.5 font-medium text-3xl w-24 flex-[25%] max-w-[25%] pr-4'>
           {categories.map((category) => (
-            <Link 
+            <FocusableFooterLink
               href={'/?category=' + category + '#posts'}
               shallow={true}
               key={category}
               className='w-fit'
             >
               {t(`categories.${category}`)}
-            </Link>
+            </FocusableFooterLink>
           ))}
         </div>
         <div className='flex-1 flex flex-col gap-1 px-4'>
-          <Link href='https://github.com/VityaSchel' className='font-medium w-fit'>GitHub</Link>
-          <Link href='https://instagram.com/vityaczech' className='font-medium w-fit'>Instagram</Link>
-          <Link href='https://t.me/hlothdev' className='font-medium w-fit'>Telegram</Link>
-          <Link href='https://www.linkedin.com/in/hloth/' className='font-medium w-fit'>Linkedin</Link>
+          <FocusableFooterLink href='https://github.com/VityaSchel' className='font-medium w-fit'>GitHub</FocusableFooterLink>
+          <FocusableFooterLink href='https://instagram.com/vityaczech' className='font-medium w-fit'>Instagram</FocusableFooterLink>
+          <FocusableFooterLink href='https://t.me/hlothdev' className='font-medium w-fit'>Telegram</FocusableFooterLink>
+          <FocusableFooterLink href='https://www.linkedin.com/in/hloth/' className='font-medium w-fit'>Linkedin</FocusableFooterLink>
         </div>
         <div className='flex flex-col items-end justify-end gap-1 text-right'>
           <span className='text-xs font-medium'>{t('footer.contact_me')}:</span>

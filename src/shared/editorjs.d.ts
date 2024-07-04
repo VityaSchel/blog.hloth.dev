@@ -13,8 +13,8 @@ declare module '@editorjs/warning' {
   export = Warning;
 }
 
-declare module '@editorjs/code' {
-  import Code from '@editorjs/code'
+declare module '@eonasdan/editorjs-code' {
+  import Code from '@eonasdan/editorjs-code'
   export = Code;
 }
 

@@ -4,8 +4,8 @@ import { ThemeSwitch } from '@/features/theme-switcher'
 import { Menu } from '@/features/menu'
 
 export function AppBar({ previous, next }: {
-  previous?: { title: string, slug: string },
-  next?: { title: string, slug: string }
+  previous?: { title: string, path: string },
+  next?: { title: string, path: string }
 }) {
   return (
     <header className='flex flex-col w-full gap-[12px]'>
@@ -18,12 +18,26 @@ export function AppBar({ previous, next }: {
           })}>
             {previous && (
               <li>
-                <a href={`/blog/${previous.slug}`}>&larr; {previous.title}</a>
+                <a href={previous.path} className='flex items-center gap-2'>
+                  <svg width='20' viewBox='0 0 100 60' xmlns='http://www.w3.org/2000/svg'>
+                    <line x1='10' y1='50' x2='90' y2='50' stroke='black' stroke-width='6' />
+                    <line x1='10' y1='50' x2='30' y2='30' stroke='black' stroke-width='6' />
+                  </svg>
+                  
+                  {previous.title}
+                </a>
               </li>
             )}
             {next && (
               <li>
-                <a href={`/blog/${next.slug}`}>{next.title} &rarr;</a>
+                <a href={next.path} className='flex items-center gap-2'>
+                  {next.title}
+
+                  <svg width='20' viewBox='0 0 100 60' xmlns='http://www.w3.org/2000/svg'>
+                    <line x1='10' y1='50' x2='90' y2='50' stroke='black' stroke-width='6' />
+                    <line x1='70' y1='30' x2='90' y2='50' stroke='black' stroke-width='6' />
+                  </svg>
+                </a>
               </li>
             )}
           </ul>

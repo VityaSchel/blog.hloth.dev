@@ -29,6 +29,12 @@
   },
   "editor": {
     "title": "Article title",
-    "content": "Write..."
-  }
+    "content": "Write...",
+    "slug": "Slug",
+    "excerpt": "Excerpt",
+    "excerpt_placeholder": "Sum up in 260 characters...",
+    "post": "Post"
+  },
+  "published_at": "Published at",
+  "go_to_main_page": "Go back to home page"
 }

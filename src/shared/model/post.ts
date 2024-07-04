@@ -1,3 +1,5 @@
+import type { OutputData } from '@editorjs/editorjs'
+
 export type Post = {
   date: Date
   title: string
@@ -13,5 +15,13 @@ export type Post = {
 }
 
 export type PostProps = Omit<Post, 'date'> & {
+  createdAt: number
+}
+
+export type PostFull = Post & {
+  content: OutputData
+}
+
+export type PostFullProps = Omit<PostFull, 'date'> & {
   createdAt: number
 }

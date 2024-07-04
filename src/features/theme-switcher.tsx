@@ -8,6 +8,7 @@ export function ThemeSwitch() {
   const [open, setOpen] = React.useState(false)
   const { t } = useTranslation()
   const { resolvedTheme, setTheme } = useTheme()
+  const [focused, setFocused] = React.useState(false)
 
   React.useEffect(() => {
     setMounted(true)
@@ -21,11 +22,25 @@ export function ThemeSwitch() {
       <button
         type='button'
         className='w-full h-6'
-        onFocus={() => setOpen(true)}
-        onBlur={() => setOpen(false)}
+        onFocus={() => {
+          setOpen(true)
+          setTimeout(() => setFocused(true), 1)
+        }}
+        onBlur={() => {
+          console.log(focused)
+          focused && setOpen(false)
+          setFocused(false)
+        }}
         onMouseEnter={() => setOpen(true)}
         onMouseLeave={() => setOpen(false)}
-        onClick={() => setTheme(resolvedTheme === 'light' ? 'dark' : 'light')}
+        onClick={() => {
+          setTheme(resolvedTheme === 'light' ? 'dark' : 'light')
+        }}
+        onMouseUp={() => {
+          try {
+            (document.activeElement as HTMLElement)?.blur()
+          } catch {0}
+        }}
       >
         <div
           className={cx('w-full transition-all duration-75 theme-switch-bg relative  overflow-clip', {

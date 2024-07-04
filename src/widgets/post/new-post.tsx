@@ -9,6 +9,8 @@ import { Separator } from '@/shared/ui/separator'
 import { categories, type Category as CategoryType } from '@/shared/model/category'
 import { Category } from '@/entities/category'
 import dynamic from 'next/dynamic'
+import CyrillicToTranslit from 'cyrillic-to-translit-js'
+import type { EditorRef } from '@/features/article-editor/index'
 
 const ArticleEditor = dynamic(() => 
   import('@/features/article-editor/index').then(mod => mod.ArticleEditor),
@@ -25,6 +27,8 @@ export function NewPost() {
 
   const [banner, setBanner] = React.useState<string | null>(null)
   const [title, setTitle] = React.useState<string>('')
+  const [slug, setSlug] = React.useState<string>('')
+  const [excerpt, setExcerpt] = React.useState('')
   const [category, setCategory] = React.useState<CategoryType>('life_story')
   const [readingTime, setReadingTime] = React.useState<number>(0)
   
@@ -35,6 +39,10 @@ export function NewPost() {
     if (!textareaResized && event.currentTarget.scrollHeight > event.currentTarget.clientHeight) {
       setTextAreaResized(true)
     }
+  }
+
+  const handlePublish = async () => {
+    console.log(await articleEditorRef.current?.save())
   }
 
   const categorySelectRef = React.useRef<HTMLSelectElement>(null)
@@ -59,6 +67,8 @@ export function NewPost() {
       reader.readAsDataURL(file)
     }
   }
+
+  const articleEditorRef = React.useRef<EditorRef>(null)
 
   return (
     <article className='pt-16'>
@@ -135,7 +145,32 @@ export function NewPost() {
         </button>
       </div>
       <Separator />
-      <ArticleEditor />
+      <ArticleEditor defaultValue={undefined} innerRef={articleEditorRef} />
+      <Separator />
+      <div className='flex flex-col gap-6 items-center'>
+        <div className='w-[680px] max-w-full flex flex-col gap-2'>
+          <span className='font-semibold'>{t('editor.slug')}:</span>
+          <input
+            value={slug}
+            onChange={(event) => setSlug(event.currentTarget.value.toLowerCase().replaceAll('_', '-').replaceAll(' ', '-').replaceAll(/[^a-z0-9-]/g, ''))}
+            placeholder={CyrillicToTranslit().transform(title, '-').toLowerCase()}
+            className='w-full font-text px-3 py-2 rounded-lg font-normal text-base text-text focus:outline-none'
+          />
+        </div>
+        <div className='w-[680px] max-w-full flex flex-col gap-2'>
+          <span className='font-semibold'>{t('editor.excerpt')}:</span>
+          <textarea
+            value={excerpt}
+            onChange={(event) => setExcerpt(event.currentTarget.value.replaceAll('\n', ''))}
+            placeholder={t('editor.excerpt_placeholder')}
+            className='w-full font-text px-3 py-2 rounded-lg font-normal text-base text-text focus:outline-none resize-none'
+            rows={5}
+          />
+        </div>
+        <button className='bg-alt shadow-md border border-text rounded-full px-6 py-2 text-xl' onClick={handlePublish}>
+          {t('editor.post')}
+        </button>
+      </div>
     </article>
   )
 }

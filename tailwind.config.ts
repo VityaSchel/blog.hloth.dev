@@ -23,6 +23,7 @@ const config: Config = {
         background: 'var(--bg)',
         inverted: 'var(--text-inverted)',
         alt: 'var(--text-alt)',
+        gray: 'var(--text-gray)'
       }
     },
   },
