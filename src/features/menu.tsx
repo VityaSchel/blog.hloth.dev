@@ -27,17 +27,17 @@ export function Menu() {
       >
         {t('menu.button')}
       </button>
-      <div 
-        className={cx('fixed w-full h-full top-0 left-0 z-10 transition-blur', {
-          'pointer-events-none': !open
-        })} 
-        style={{ '--blur': open ? '20px' : '0px' } as React.CSSProperties}
-        onClick={(e) => {
-          if(e.target !== e.currentTarget) return
-          setOpen(false)
-        }}
-      >
-        <FocusTrap active={open}>
+      <FocusTrap active={open}>
+        <div 
+          className={cx('fixed w-full h-full top-0 left-0 z-10 transition-blur', {
+            'pointer-events-none': !open
+          })} 
+          style={{ '--blur': open ? '20px' : '0px' } as React.CSSProperties}
+          onClick={(e) => {
+            if(e.target !== e.currentTarget) return
+            setOpen(false)
+          }}
+        >
           <div className={cx('bg-black text-white w-96 h-full right-0 absolute transition-transform duration-500 menu-bg flex flex-col gap-4 p-8 font-display text-4xl font-bold', {
             'transform translate-x-full': !open,
             'transform-none': open
@@ -56,8 +56,8 @@ export function Menu() {
               <span className='font-normal'>hi@hloth.dev</span>
             </div>
           </div>
-        </FocusTrap>
-      </div>
+        </div>
+      </FocusTrap>
     </>
   )
 }
