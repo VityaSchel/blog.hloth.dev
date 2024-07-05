@@ -5,14 +5,16 @@ import { EDITOR_JS_TOOLS } from './tools'
 import { i18n } from './i18n'
 import type { EditorCore } from '@/shared/model/core'
 import type { OutputData } from '@editorjs/editorjs'
+import cx from 'classnames'
 
 const ReactEditorJS = createReactEditorJS()
 
 export type EditorRef = { save: () => Promise<OutputData> }
 
-export function ArticleEditor({ defaultValue, innerRef }: {
+export function ArticleEditor({ defaultValue, innerRef, disabled }: {
   defaultValue: EditorJS.EditorConfig['data']
   innerRef: React.Ref<EditorRef>
+  disabled: boolean
 }) {
   const { t } = useTranslation()
   const editorRef = React.useRef<EditorCore | null>(null)
@@ -25,7 +27,9 @@ export function ArticleEditor({ defaultValue, innerRef }: {
 
   return (
     <div className='flex justify-center w-full'>
-      <div className='w-full [&>div]:w-full font-text font-normal article-content'>
+      <div className={cx('w-full [&>div]:w-full font-text font-normal article-editor', {
+        'pointer-events-none': disabled,
+      })}>
         <ReactEditorJS
           defaultValue={defaultValue}
           tools={EDITOR_JS_TOOLS}

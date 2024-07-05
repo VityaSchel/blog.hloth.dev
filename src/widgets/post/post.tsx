@@ -9,6 +9,7 @@ import cx from 'classnames'
 import { Separator } from '@/shared/ui/separator'
 import { ArticleContentRenderer } from '@/features/article-content-renderer'
 import { ShareButtons } from '@/features/share-buttons'
+import Link from 'next/link'
 
 const RobotoMono = Roboto_Mono({ weight: ['400'], subsets: ['cyrillic', 'latin'] })
 
@@ -26,7 +27,7 @@ export function Post({ banner, title, category, slug, date, readingTime, content
           <h1 className='font-display font-medium text-6xl leading-tight line-clamp-3' title={title}>
             {title}
           </h1>
-          <div className='flex gap-4 mt-auto items-center'>
+          <Link className='flex gap-4 mt-auto items-center' href='https://hloth.dev'>
             <Image 
               src={Me}
               alt={t('me')}
@@ -43,7 +44,7 @@ export function Post({ banner, title, category, slug, date, readingTime, content
                 {t('specialty')}
               </span>
             </div>
-          </div>
+          </Link>
         </div>
         <div className='rounded-[60px] relative aspect-[1.625/1] flex-[40%] max-w-[40%] overflow-clip'>
           <Image 
@@ -53,6 +54,7 @@ export function Post({ banner, title, category, slug, date, readingTime, content
             blurDataURL={banner.placeholder}
             fill
             className='object-cover'
+            draggable={false}
           />
         </div>
       </div>

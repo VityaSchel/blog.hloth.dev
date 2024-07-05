@@ -50,6 +50,7 @@ export function PostPreview({ date, title, excerpt, slug, banner, category, firs
               // sizes='' // TODO
               priority={first}
               className='object-cover'
+              draggable={false}
             />
           </div>
         </div>

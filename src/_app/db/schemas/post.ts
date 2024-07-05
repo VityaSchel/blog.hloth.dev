@@ -1,7 +1,9 @@
 import type { OutputData } from '@editorjs/editorjs'
 
-export type Post = {
-  date: Date
+export type PostSchema = {
+  createdAt: Date
+  updatedAt: Date
+  views: number
   title: string
   slug: string
   banner: {
@@ -11,19 +13,10 @@ export type Post = {
     width: number
     height: number
   }
+  content: OutputData
   excerpt: string
   category: string
   readingTime: number
-}
-
-export type PostProps = Omit<Post, 'date'> & {
-  createdAt: number
-}
-
-export type PostFull = Post & {
-  content: OutputData
-}
-
-export type PostFullProps = Omit<PostFull, 'date'> & {
-  createdAt: number
+  locale: 'ru' | 'en'
+  draft: boolean
 }

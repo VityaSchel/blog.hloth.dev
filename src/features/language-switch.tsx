@@ -1,9 +1,8 @@
-import { useTranslation } from 'next-i18next'
 import cx from 'classnames'
 import { useRouter } from 'next/router'
 
 export function LanguageSwitch() {
-  const { i18n } = useTranslation()
+  const { locale } = useRouter()
   const router = useRouter()
 
   const handleSwitchLanguage = () => {
@@ -12,7 +11,7 @@ export function LanguageSwitch() {
       pathname: router.pathname,
       query: router.query
     }, urlNoHash, { 
-      locale: i18n.language === 'ru' ? 'en' : 'ru'
+      locale: locale === 'ru' ? 'en' : 'ru'
     })
   }
 
@@ -23,18 +22,18 @@ export function LanguageSwitch() {
       onClick={handleSwitchLanguage}
     >
       <span className={cx('transition-[font-weight] block flex-1 relative z-10', {
-        'font-bold': i18n.language === 'ru'
+        'font-bold': locale === 'ru'
       })}>
         Русский
       </span>
       <span className={cx('transition-[font-weight] block flex-1 relative z-10', {
-        'font-bold': i18n.language !== 'ru'
+        'font-bold': locale !== 'ru'
       })}>
         English
       </span>
       <span 
         className={cx('bg-amber-100 bg-opacity-30 w-[50%] h-[calc(100%-8px)] rounded-full absolute top-1 left-1 border border-white border-opacity-30 shadow-md transition-all', {
-          'left-[calc(50%-4px)]': i18n.language !== 'ru'
+          'left-[calc(50%-4px)]': locale !== 'ru'
         })}
       />
     </button>

@@ -20,8 +20,8 @@ export function AppBar({ previous, next }: {
               <li>
                 <a href={previous.path} className='flex items-center gap-2'>
                   <svg width='20' viewBox='0 0 100 60' xmlns='http://www.w3.org/2000/svg'>
-                    <line x1='10' y1='50' x2='90' y2='50' stroke='black' stroke-width='6' />
-                    <line x1='10' y1='50' x2='30' y2='30' stroke='black' stroke-width='6' />
+                    <line x1='10' y1='50' x2='90' y2='50' stroke='currentColor' strokeWidth='6' />
+                    <line x1='10' y1='50' x2='30' y2='30' stroke='currentColor' strokeWidth='6' />
                   </svg>
                   
                   {previous.title}
@@ -34,8 +34,8 @@ export function AppBar({ previous, next }: {
                   {next.title}
 
                   <svg width='20' viewBox='0 0 100 60' xmlns='http://www.w3.org/2000/svg'>
-                    <line x1='10' y1='50' x2='90' y2='50' stroke='black' stroke-width='6' />
-                    <line x1='70' y1='30' x2='90' y2='50' stroke='black' stroke-width='6' />
+                    <line x1='10' y1='50' x2='90' y2='50' stroke='currentColor' strokeWidth='6' />
+                    <line x1='70' y1='30' x2='90' y2='50' stroke='currentColor' strokeWidth='6' />
                   </svg>
                 </a>
               </li>

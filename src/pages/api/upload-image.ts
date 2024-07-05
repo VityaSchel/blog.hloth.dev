@@ -4,6 +4,7 @@ import path from 'path'
 import { v4 as uuid } from 'uuid'
 import { getPlaiceholder } from 'plaiceholder'
 import formidable from 'formidable'
+import sharp from 'sharp'
 
 export const config = {
   api: {
@@ -23,9 +24,12 @@ if (!publicStorageURL) {
 
 type PostUploadImageResponse = {
   success: number
+  error?: string
   file?: {
     url: string
     placeholder: string
+    width: number
+    height: number
   }
 }
 
@@ -59,12 +63,20 @@ export default async function handler(
     res.status(413).json({ success: 0 })
     return
   }
+  const buffer = await fs.readFile(file.filepath)
   const extension = path.extname(file.originalFilename ?? file.newFilename).toLowerCase()
+  const { width, height } = await sharp(buffer).metadata()
+  if(!width || !height) {
+    res.status(500).json({ success: 0, error: 'No width or height metadata' })
+    return
+  }
   res.status(200).send({
     success: 1,
     file: {
       url: path.resolve(publicStorageURL as string, filename + extension),
-      placeholder: (await getPlaiceholder(await fs.readFile(file.filepath))).base64
+      placeholder: (await getPlaiceholder(await fs.readFile(file.filepath))).base64,
+      width,
+      height
     }
   })
 }

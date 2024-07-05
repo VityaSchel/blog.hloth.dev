@@ -33,8 +33,10 @@
     "slug": "Slug",
     "excerpt": "Excerpt",
     "excerpt_placeholder": "Sum up in 260 characters...",
-    "post": "Post"
+    "post": "Post",
+    "to_draft": "To drafts"
   },
   "published_at": "Published at",
-  "go_to_main_page": "Go back to home page"
+  "go_to_main_page": "Go back to home page",
+  "page_not_found": "Page not found"
 }
