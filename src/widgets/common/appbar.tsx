@@ -11,7 +11,7 @@ export function AppBar({ previous, next }: {
     <header className='flex flex-col w-full gap-[12px]'>
       {(previous || next) && (
         <nav>
-          <ul className={cx('flex', {
+          <ul className={cx('flex md:flex-row flex-col', {
             'justify-end': !previous,
             'justify-start': !next,
             'justify-between': previous && next
@@ -29,7 +29,7 @@ export function AppBar({ previous, next }: {
               </li>
             )}
             {next && (
-              <li>
+              <li className='self-end'>
                 <a href={next.path} className='flex items-center gap-2'>
                   {next.title}
 

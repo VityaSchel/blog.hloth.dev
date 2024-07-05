@@ -18,8 +18,8 @@ export function Post({ banner, title, category, slug, date, readingTime, content
   
   return (
     <article className='pt-16'>
-      <div className='flex items-start justify-between'>
-        <div className='flex self-stretch flex-col gap-8 flex-[50%] max-w-[50%]'>
+      <div className='flex flex-col-reverse md:flex-row items-start justify-between'>
+        <div className='flex self-stretch flex-col gap-8 md:flex-[50%] md:max-w-[50%]'>
           <div className='flex gap-5 items-center'>
             <Category>{category}</Category>
             <ReadingTimer minutes={readingTime} />
@@ -46,7 +46,7 @@ export function Post({ banner, title, category, slug, date, readingTime, content
             </div>
           </Link>
         </div>
-        <div className='rounded-[60px] relative aspect-[1.625/1] flex-[40%] max-w-[40%] overflow-clip'>
+        <div className='rounded-[30px] md:rounded-[60px] relative aspect-[1.625/1] w-full mb-8 md:mb-0 md:w-auto md:flex-[40%] md:max-w-[40%] overflow-clip'>
           <Image 
             src={banner.src}
             alt={banner.alt}
@@ -63,7 +63,7 @@ export function Post({ banner, title, category, slug, date, readingTime, content
         content={content}
       />
       <div className='flex justify-center'>
-        <div className='w-[680px] flex justify-between items-center'>
+        <div className='w-[680px] flex flex-col gap-4 mt-16 md:gap-2 md:mt-0 md:flex-row justify-between md:items-center'>
           <div className='text-gray'>
             <span className='font-semibold font-display'>{t('published_at')}: </span>
             <span title={Intl.DateTimeFormat(i18n.language, {

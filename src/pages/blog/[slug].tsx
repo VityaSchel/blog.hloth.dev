@@ -55,9 +55,15 @@ export async function getStaticProps({ locale, defaultLocale, params }: GetStati
   const slug = params?.slug
   if(!slug) { return { notFound: true } }
   const db = await getDB()
-  const post = await db.collection<PostSchema>('posts')
+  let post = await db.collection<PostSchema>('posts')
     .findOne({ slug, draft: false, locale: locale as 'ru' | 'en' })
-  if (post === null) { return { notFound: true } }
+  if (post === null) { 
+    post = await db.collection<PostSchema>('posts')
+      .findOne({ slug, draft: false })
+    if(post === null) {
+      return { notFound: true } 
+    }
+  }
   const nextPost = await db.collection<PostSchema>('posts')
     .findOne({ createdAt: { $lt: post.createdAt }, locale: locale as 'ru' | 'en', draft: false }, { projection: { title: 1, slug: 1 } })
   return {

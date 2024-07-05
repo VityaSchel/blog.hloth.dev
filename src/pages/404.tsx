@@ -16,9 +16,9 @@ export default function Page404() {
       <AppBar 
         previous={{ title: t('go_to_main_page'), path: '/' }}
       />
-      <div className='flex flex-1 items-center justify-center'>
-        <div className='flex gap-12 h-[300px]'>
-          <div className='h-full w-fit [&>svg]:h-full flex gap-2 mix-blend-exclusion'>
+      <div className='flex flex-1 pt-8 md:pt-0 md:items-center justify-center'>
+        <div className='flex flex-col md:flex-row gap-12 h-full md:h-[300px]'>
+          <div className='h-full hidden md:w-fit [&>svg]:h-full [&>svg]:w-auto md:flex gap-2 mix-blend-exclusion'>
             {i18n.language === 'ru' ? <Ru404 /> : <En404 />}
             {i18n.language === 'ru' ? <En404 /> : <Ru404 />}
             <Jp404 />

@@ -10,7 +10,7 @@ import Link from 'next/link'
 
 export function ShareButtons({ url }: { url: string }) {
   return (
-    <div className='flex gap-1'>
+    <div className='flex gap-1 flex-wrap'>
       <ShareMenuButton href={`https://t.me/share/url?url=${encodeURIComponent(url)}`}>
         <Telegram />
       </ShareMenuButton>
