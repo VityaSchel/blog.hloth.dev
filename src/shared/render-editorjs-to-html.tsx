@@ -29,7 +29,7 @@ const ImageRenderer = (block: OutputBlockData): React.ReactNode => {
           'shadow-xl w-fit f-fit': withBackground
         })} style={{ aspectRatio: file.width / file.height }}>
           <Image 
-            src={file.url}
+            src={process.env.NEXT_PUBLIC_STORAGE_URL + file.url}
             placeholder='blur'
             blurDataURL={file.placeholder}
             alt={caption}
