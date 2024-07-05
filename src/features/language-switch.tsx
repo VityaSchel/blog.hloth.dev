@@ -11,7 +11,8 @@ export function LanguageSwitch() {
       pathname: router.pathname,
       query: router.query
     }, urlNoHash, { 
-      locale: locale === 'ru' ? 'en' : 'ru'
+      locale: locale === 'ru' ? 'en' : 'ru',
+      scroll: false
     })
   }
 

@@ -1,9 +1,11 @@
 import React from 'react'
 import Link from 'next/link'
 import type { ComponentProps } from 'react'
+import { useRouter } from 'next/router'
 
 export function FocusableFooterLink(props: ComponentProps<typeof Link>) {
   const linkRef = React.useRef<HTMLAnchorElement>(null)
+  const router = useRouter()
 
   React.useEffect(() => {
     if (linkRef.current) {
@@ -30,10 +32,20 @@ export function FocusableFooterLink(props: ComponentProps<typeof Link>) {
     }
   }, [linkRef])
 
+  const handleClick = () => {
+    const onRouteChangeComplete = () => {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' })
+      router.events.off('routeChangeComplete', onRouteChangeComplete)
+    }
+    router.events.on('routeChangeComplete', onRouteChangeComplete)
+  }
+
   return (
     <Link 
       {...props}
       ref={linkRef}
+      scroll={false}
+      onClick={handleClick}
     />
   )
 }

@@ -10,7 +10,7 @@ export function NoPostsYet() {
     <div className='w-full h-64 flex items-center justify-center text-[24.5px] flex-col gap-4'>
       <span className='font-text'>{t('no_posts_yet')}</span>
       <Image src={noGif} alt='🙂‍↔️' unoptimized />
-      <Link href='/' className='text-base border rounded-full px-4 font-medium'>Показать всё</Link>
+      <Link href='/#posts' className='text-base border rounded-full px-4 font-medium' scroll={false}>Показать всё</Link>
     </div>
   )
 }
