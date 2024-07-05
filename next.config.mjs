@@ -28,9 +28,9 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: 'images.unsplash.com',
+        hostname: 'blog.hloth.dev',
         protocol: 'https',
-        pathname: '**',
+        pathname: 'files/*',
       }
     ]
   },
