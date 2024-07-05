@@ -183,7 +183,7 @@ export function PostEditor({ initial }: { initial: PostFull | null }) {
                   })
               }
             }}
-            placeholder={CyrillicToTranslit().transform(title, '-').replaceAll('_', '-').replaceAll(/[^a-z0-9-]/g, '').toLowerCase()}
+            placeholder={CyrillicToTranslit().transform(title, '-').toLowerCase().replaceAll('_', '-').replaceAll(/[^a-z0-9-]/g, '')}
             className='w-full font-text px-3 py-2 rounded-lg font-normal text-base text-text focus:outline-none'
             disabled={submitting || initial !== null}
           />

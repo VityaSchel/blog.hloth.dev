@@ -64,7 +64,7 @@ const CodeRenderer = (block: OutputBlockData): React.ReactNode => {
     <Highlight
       theme={themes.vsDark}
       code={block.data.code}
-      language={block.data['language-code']}
+      language={block.data.languageCode ?? block.data['language-code']}
       key={block.id}
     >
       {({ style, tokens, getLineProps, getTokenProps }) => (
