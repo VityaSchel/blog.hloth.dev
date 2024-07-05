@@ -12,8 +12,11 @@ const ParagraphRenderer = (block: OutputBlockData): React.ReactNode => {
 const HeaderRenderer = (block: OutputBlockData): React.ReactNode => {
   const Tag = 'h' + block.data.level
   return (
-    // @ts-expect-error level is a number
-    <Tag key={block.id}>{block.data.text}</Tag>
+    <>
+      <a id={block.data.text.toLowerCase().replace(/\s/g, '-')} key={block.id + '_a'} />
+      {/* @ts-expect-error level is a number */}
+      <Tag key={block.id}>{block.data.text}</Tag>
+    </>
   )
 }
 

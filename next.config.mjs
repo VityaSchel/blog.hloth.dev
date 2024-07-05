@@ -30,7 +30,7 @@ const nextConfig = {
       {
         hostname: 'blog.hloth.dev',
         protocol: 'https',
-        pathname: 'files/*',
+        pathname: '/files/*',
       }
     ]
   },
