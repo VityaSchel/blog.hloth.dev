@@ -48,7 +48,7 @@ export function Post({ banner, title, category, slug, date, readingTime, content
         </div>
         <div className='rounded-[30px] md:rounded-[60px] relative aspect-[1.625/1] w-full mb-8 md:mb-0 md:w-auto md:flex-[40%] md:max-w-[40%] overflow-clip'>
           <Image 
-            src={process.env.NEXT_PUBLIC_STORAGE_URL + banner.src}
+            src={banner.src}
             alt={banner.alt}
             placeholder='blur'
             blurDataURL={banner.placeholder}
