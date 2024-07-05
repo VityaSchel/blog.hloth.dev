@@ -210,10 +210,10 @@ export function PostEditor({ initial }: { initial: PostFull | null }) {
           />
         </div>
         <div className='flex justify-between w-[680px] max-w-full'>
-          <button className='bg-alt shadow-md border border-text rounded-full px-6 py-2 text-xl disabled:opacity-50' onClick={() => handleSave({ draft: true })} disabled={!banner || !title || !excerpt || !slug || submitting || readingTime === 0 || slugExists !== false}>
+          <button className='bg-alt shadow-md border border-text rounded-full px-6 py-2 text-xl disabled:opacity-50' onClick={() => handleSave({ draft: true })} disabled={!banner || !title || !excerpt || !slug || submitting || readingTime === 0 || (slugExists !== false && initial === null)}>
             📝&nbsp;&nbsp;{t('editor.to_draft')}
           </button>
-          <button className='bg-alt shadow-md border border-text rounded-full px-6 py-2 text-xl disabled:opacity-50' onClick={() => handleSave({ draft: false })} disabled={!banner || !title || !excerpt || !slug || submitting || readingTime === 0 || slugExists !== false}>
+          <button className='bg-alt shadow-md border border-text rounded-full px-6 py-2 text-xl disabled:opacity-50' onClick={() => handleSave({ draft: false })} disabled={!banner || !title || !excerpt || !slug || submitting || readingTime === 0 || (slugExists !== false && initial === null)}>
             🚀&nbsp;&nbsp;{t('editor.post')}
           </button>
         </div>
