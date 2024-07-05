@@ -70,6 +70,11 @@ export async function getStaticProps({ locale }: { locale: string }): Promise<Ge
       $replaceRoot: {
         newRoot: '$selectedDocument'
       }
+    },
+    {
+      $sort: {
+        createdAt: -1
+      }
     }
   ]).toArray() as PostSchema[]
   return {

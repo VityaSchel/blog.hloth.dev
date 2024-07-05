@@ -11,7 +11,7 @@ export function PostPreview({ date, title, excerpt, slug, banner, category, firs
   const { i18n } = useTranslation()
 
   return (
-    <Link href={`/blog/${slug}`} className='w-full block'>
+    <Link href={`/blog/${slug}`} className='w-full block article-preview'>
       <article className='flex -ml-4 -mr-4'>
         <time 
           dateTime={date.toISOString()} 
@@ -39,9 +39,9 @@ export function PostPreview({ date, title, excerpt, slug, banner, category, firs
             <ReadingTimer minutes={readingTime} />
           </div>
         </div>
-        <div className='flex-[41.67%] max-w-[41.67%] ml-auto px-4 aspect-[1.625/1]'>
+        <div className='flex-[41.67%] max-w-[41.67%] ml-auto px-4 aspect-[1.625/1] relative'>
           <div className='relative w-full h-full overflow-clip rounded-[60px]'>
-            <Image 
+            <Image
               src={banner.src}
               placeholder='blur'
               blurDataURL={banner.placeholder}
@@ -52,6 +52,13 @@ export function PostPreview({ date, title, excerpt, slug, banner, category, firs
               className='object-cover'
               draggable={false}
             />
+          </div>
+          <div className='flex items-center justify-center top-10 right-14 z-10 absolute w-[50px] h-[50px]'>
+            <span className='bg-white w-0 h-0 transition-all rounded-full relative text-3xl open-indicator overflow-clip duration-300 shadow-md'>
+              <span className='opacity-0 transition-opacity duration-[800ms] absolute top-2.5 right-2.5'>
+                <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'><path fill='#000000' d='M6 6v2h8.59L5 17.59L6.41 19L16 9.41V18h2V6z'></path></svg>
+              </span>
+            </span>
           </div>
         </div>
       </article>
