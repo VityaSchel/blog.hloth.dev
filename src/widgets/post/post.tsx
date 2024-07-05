@@ -63,7 +63,7 @@ export function Post({ banner, title, category, slug, date, readingTime, content
         content={content}
       />
       <div className='flex justify-center'>
-        <div className='w-[680px] flex flex-col gap-4 mt-16 md:gap-2 md:mt-0 md:flex-row justify-between md:items-center'>
+        <div className='w-[680px] flex flex-col gap-4 mt-16 md:gap-2 md:mt-8 md:flex-row justify-between md:items-center'>
           <div className='text-gray'>
             <span className='font-semibold font-display'>{t('published_at')}: </span>
             <span title={Intl.DateTimeFormat(i18n.language, {

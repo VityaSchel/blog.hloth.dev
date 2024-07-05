@@ -1,3 +1,4 @@
+import React from 'react'
 import type { OutputBlockData, OutputData } from '@editorjs/editorjs'
 import Image from 'next/image'
 import { Highlight, themes } from 'prism-react-renderer'
@@ -12,11 +13,11 @@ const ParagraphRenderer = (block: OutputBlockData): React.ReactNode => {
 const HeaderRenderer = (block: OutputBlockData): React.ReactNode => {
   const Tag = 'h' + block.data.level
   return (
-    <>
-      <a id={block.data.text.toLowerCase().replace(/\s/g, '-')} key={block.id + '_a'} />
+    <React.Fragment key={block.id}>
+      <a id={block.data.text.toLowerCase().replace(/\s/g, '-')} />
       {/* @ts-expect-error level is a number */}
-      <Tag key={block.id}>{block.data.text}</Tag>
-    </>
+      <Tag>{block.data.text}</Tag>
+    </React.Fragment>
   )
 }
 
@@ -63,11 +64,12 @@ const DelimiterRenderer = (block: OutputBlockData): React.ReactNode => {
 }
 
 const CodeRenderer = (block: OutputBlockData): React.ReactNode => {
+  console.log(block)
   return (
     <Highlight
       theme={themes.vsDark}
       code={block.data.code}
-      language={block.data.languageCode ?? block.data['language-code']}
+      language={(block.data.languageCode ?? block.data['language-code']).substring('language-'.length)}
       key={block.id}
     >
       {({ style, tokens, getLineProps, getTokenProps }) => (

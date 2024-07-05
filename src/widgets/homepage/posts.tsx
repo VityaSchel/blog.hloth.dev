@@ -34,14 +34,16 @@ export function Posts({ posts }: {
       <a id='posts'></a>
       <section className='mt-[60px]'>
         {filteredPosts.length ? (
-          filteredPosts.map((post, i) => (<>
-            <PostPreview 
-              key={post.slug}
-              {...post}
-              first={i === 0}
-            />
-            {i !== filteredPosts.length - 1 && <Separator />}
-          </>))
+          filteredPosts.map((post, i) => (
+            <React.Fragment key={post.slug}>
+              <PostPreview
+                key={post.slug}
+                {...post}
+                first={i === 0}
+              />
+              {i !== filteredPosts.length - 1 && <Separator />}
+            </React.Fragment>
+          ))
         ) : (
           <NoPostsYet />
         )}
