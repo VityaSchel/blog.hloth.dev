@@ -8,7 +8,7 @@ export function NoPostsYet() {
   return (
     <div className='w-full h-64 flex items-center justify-center text-[24.5px] flex-col gap-4'>
       <span className='font-text'>{t('no_posts_yet')}</span>
-      <Image src={noGif} alt='🙂‍↔️' />
+      <Image src={noGif} alt='🙂‍↔️' unoptimized />
     </div>
   )
 }

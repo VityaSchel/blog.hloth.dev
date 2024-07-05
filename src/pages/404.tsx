@@ -6,16 +6,34 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Ru404 from '@/assets/404ru.svg'
 import En404 from '@/assets/404en.svg'
 import Jp404 from '@/assets/404jp.svg'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
 
 export default function Page404() {
   const { t, i18n } = useTranslation()
   const [hover, setHover] = React.useState(false)
+  const { locale, pathname } = useRouter()
 
   return (
     <Container>
-      <AppBar 
+      <AppBar
         previous={{ title: t('go_to_main_page'), path: '/' }}
       />
+      <Head>
+        <title>{t('page_not_found')}</title>
+        <meta name='description' content={t('description')} />
+        <meta property='og:title' content={t('page_not_found')} />
+        <meta property='og:description' content={t('description')} />
+        <meta property='og:site_name' content='hloth blog' />
+        <meta property='og:type' content='website' />
+        <meta property='og:url' content={'https://blog.hloth.dev/' + locale + '/' + pathname} />
+        <meta property='og:image' content='https://blog.hloth.dev/banner.jpg' />
+        <meta property='og:image:width' content='https://blog.hloth.dev/banner.jpg' />
+        <meta property='og:image:height' content='https://blog.hloth.dev/banner.jpg' />
+        <meta property='og:image:alt' content='hloth blog' />
+        <meta property='og:locale' content={locale === 'ru' ? 'ru_RU' : 'en_US'} />
+        <meta property='og:locale:alternate' content={locale === 'ru' ? 'en_US' : 'ru_RU'} />
+      </Head>
       <div className='flex flex-1 pt-8 md:pt-0 md:items-center justify-center'>
         <div className='flex flex-col md:flex-row gap-12 h-full md:h-[300px]'>
           <div className='h-full hidden md:w-fit [&>svg]:h-full [&>svg]:w-auto md:flex gap-2 mix-blend-exclusion'>

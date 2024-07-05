@@ -7,6 +7,9 @@ import { Posts } from '@/widgets/homepage/posts'
 import type { Post, PostProps } from '@/shared/model/post'
 import getDB from '@/_app/db/init'
 import type { PostSchema } from '@/_app/db/schemas/post'
+import { useTranslation } from 'next-i18next'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
 
 type HomePageProps = {
   posts: PostProps[]
@@ -14,10 +17,27 @@ type HomePageProps = {
 
 export default function Home(props: HomePageProps) {
   const posts = props.posts.map<Post>(post => ({ ...post, date: new Date(post.createdAt) }))
+  const { t } = useTranslation()
+  const { locale } = useRouter()
 
   return (
     <Container>
       <AppBar />
+      <Head>
+        <title>{t('main_page')}</title>
+        <meta name='description' content={t('description')} />
+        <meta property='og:title' content={t('main_page')} />
+        <meta property='og:description' content={t('description')} />
+        <meta property='og:site_name' content='hloth blog' />
+        <meta property='og:type' content='website' />
+        <meta property='og:url' content={'https://blog.hloth.dev/' + locale + '/'} />
+        <meta property='og:image' content='https://blog.hloth.dev/banner.jpg' />
+        <meta property='og:image:width' content='https://blog.hloth.dev/banner.jpg' />
+        <meta property='og:image:height' content='https://blog.hloth.dev/banner.jpg' />
+        <meta property='og:image:alt' content='hloth blog' />
+        <meta property='og:locale' content={locale === 'ru' ? 'ru_RU' : 'en_US'} />
+        <meta property='og:locale:alternate' content={locale === 'ru' ? 'en_US' : 'ru_RU'} />
+      </Head>
       <Headline className='headline mt-12' />
       <Posts posts={posts} />
     </Container>

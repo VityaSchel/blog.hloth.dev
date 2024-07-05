@@ -31,7 +31,7 @@ export function PostPreview({ date, title, excerpt, slug, banner, category, firs
             ...(date.getFullYear() !== new Date().getFullYear() && { year: 'numeric' })
           }).format(date)}
         </time>
-        <div className='px-4 mt-2 md:mt-0 md:flex-[25%] md:max-w-[25%] flex flex-col'>
+        <div className='px-4 mt-2 md:mt-0 md:flex-[50%] md:max-w-[50%] lg:flex-[25%] lg:max-w-[25%] flex flex-col'>
           <h2 className='text-3xl font-medium tracking-[-.03em]'>{title}</h2>
           <p className='mt-4 md:mt-6 text-ellipsis line-clamp-6 font-text'>{excerpt}</p>
           <div className='mt-8 md:mt-auto flex gap-5 items-center'>
