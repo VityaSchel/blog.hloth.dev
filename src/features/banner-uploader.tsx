@@ -1,14 +1,15 @@
 import React from 'react'
 import cx from 'classnames'
 
-export function BannerUploader({ onChange, alt, altOnChange, disabled, bannerAltShow }: {
+export function BannerUploader({ value, onChange, alt, altOnChange, disabled, bannerAltShow }: {
+  value: string
   onChange: (banner: { src: string, placeholder: string, width: number, height: number }) => void
   alt: string
   altOnChange: (alt: string) => void
   disabled: boolean
   bannerAltShow: boolean
 }) {
-  const [banner, setBanner] = React.useState('')
+  const [banner, setBanner] = React.useState(value)
   const [progress, setProgress] = React.useState(0)
   const [uploading, setUploading] = React.useState(false)
 
@@ -52,6 +53,10 @@ export function BannerUploader({ onChange, alt, altOnChange, disabled, bannerAlt
       xhr.send(formData)
     }
   }
+
+  React.useEffect(() => {
+    setBanner(value)
+  }, [value])
 
   return (
     <button

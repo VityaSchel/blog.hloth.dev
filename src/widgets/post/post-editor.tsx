@@ -151,7 +151,8 @@ export function PostEditor({ initial }: { initial: PostFull | null }) {
             </div>
           </div>
         </div>
-        <BannerUploader 
+        <BannerUploader
+          value={banner?.src ?? ''}
           onChange={setBanner}
           alt={bannerAlt}
           altOnChange={setBannerAlt}
