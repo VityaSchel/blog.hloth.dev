@@ -27,7 +27,6 @@ export function ThemeSwitch() {
           setTimeout(() => setFocused(true), 1)
         }}
         onBlur={() => {
-          console.log(focused)
           focused && setOpen(false)
           setFocused(false)
         }}

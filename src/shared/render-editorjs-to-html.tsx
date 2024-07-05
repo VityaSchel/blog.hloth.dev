@@ -64,7 +64,6 @@ const DelimiterRenderer = (block: OutputBlockData): React.ReactNode => {
 }
 
 const CodeRenderer = (block: OutputBlockData): React.ReactNode => {
-  console.log(block)
   return (
     <Highlight
       theme={themes.vsDark}

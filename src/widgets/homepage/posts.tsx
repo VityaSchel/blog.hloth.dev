@@ -23,6 +23,7 @@ export function Posts({ posts }: {
     }
     window.addEventListener('popstate', onUrlChange)
     router.events.on('routeChangeComplete', onUrlChange)
+    onUrlChange()
     return () => {
       window.removeEventListener('popstate', onUrlChange)
       router.events.off('routeChangeComplete', onUrlChange)
