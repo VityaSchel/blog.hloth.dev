@@ -43,6 +43,7 @@ const ImageRenderer = (block: OutputBlockData): React.ReactNode => {
             width={stretched ? undefined : file.width}
             height={stretched ? undefined : file.height}
             quality={100}
+            sizes='(max-width: 608px) 100vw, 560px'
           />
         </div>
       </div>
