@@ -13,7 +13,8 @@ import CyrillicToTranslit from 'cyrillic-to-translit-js'
 import type { EditorRef } from '@/features/article-editor/index'
 import { BannerUploader } from '@/features/banner-uploader'
 import { useRouter } from 'next/router'
-import type { PostFull } from '@/shared/model/post'
+import type { PostEditorFields } from '@/shared/model/post'
+import { clearDraft, saveDraft } from '@/shared/drafts'
 
 const ArticleEditor = dynamic(() => 
   import('@/features/article-editor/index').then(mod => mod.ArticleEditor),
@@ -25,13 +26,13 @@ const ArticleEditor = dynamic(() =>
 
 const RobotoMono = Roboto_Mono({ weight: ['400'], subsets: ['cyrillic', 'latin'] })
 
-export function PostEditor({ initial }: { initial: PostFull | null }) {
+export function PostEditor({ initial }: { initial: PostEditorFields | null }) {
   const { t } = useTranslation()
   const router = useRouter()
   const [submitting, setSubmitting] = React.useState(false)
 
   const [banner, setBanner] = React.useState<{ src: string, placeholder: string, width: number, height: number } | null>(initial ? initial.banner : null)
-  const [bannerAlt, setBannerAlt] = React.useState(initial ? initial.banner.alt : '')
+  const [bannerAlt, setBannerAlt] = React.useState(initial ? (initial.banner?.alt ?? '') : '')
   const [title, setTitle] = React.useState<string>(initial ? initial.title : '')
   const [slug, setSlug] = React.useState<string>(initial ? initial.slug : '')
   const [excerpt, setExcerpt] = React.useState(initial ? initial.excerpt : '')
@@ -39,6 +40,7 @@ export function PostEditor({ initial }: { initial: PostFull | null }) {
   const [readingTime, setReadingTime] = React.useState<number>(initial ? initial.readingTime : 0)
   const [bannerAltShow, setBannerAltShow] = React.useState(false)
   const [slugExists, setSlugExists] = React.useState<null | boolean>(null)
+  const stopDraftsSaving = React.useRef(false)
   
   const titleInput = React.useRef<HTMLTextAreaElement>(null)
   const [textareaResized, setTextAreaResized] = React.useState(false)
@@ -48,6 +50,17 @@ export function PostEditor({ initial }: { initial: PostFull | null }) {
       setTextAreaResized(true)
     }
   }
+
+  React.useEffect(() => {
+    setBannerAlt(initial?.banner?.alt ?? '')
+    setBanner(initial?.banner ?? null)
+    setSlug(initial?.slug ?? '')
+    setExcerpt(initial?.excerpt ?? '')
+    setCategory(initial?.category as CategoryType ?? 'life_story')
+    setReadingTime(initial?.readingTime ?? 0)
+    setTitle(initial?.title ?? '')
+    articleEditorRef.current?.load(initial?.content ?? { time: Date.now(), blocks: [], version: '2.29.1' })
+  }, [initial])
 
   const handleSave = async ({ draft }: { draft: boolean }) => {
     if (!banner) return
@@ -74,8 +87,15 @@ export function PostEditor({ initial }: { initial: PostFull | null }) {
       })
         .then(response => response.json() as Promise<{ ok: true } | { ok: false, error: string }>)
       if(request.ok) {
+        stopDraftsSaving.current = true
         setSubmitting(false)
-        router.push('/blog/' + slug)
+        window.onbeforeunload = null
+        clearDraft(router.locale ?? 'en')
+        if(draft) {
+          router.push('/blog/drafts')
+        } else {
+          router.push('/blog/' + slug)
+        }
       } else {
         alert('Error: ' + request.error)
       }
@@ -84,6 +104,12 @@ export function PostEditor({ initial }: { initial: PostFull | null }) {
       alert('Error: ' + (error instanceof Error ? error.message : 'Look into the console'))
     }
   }
+
+  React.useEffect(() => {
+    window.onbeforeunload = (e: BeforeUnloadEvent) => {
+      e.preventDefault()
+    }
+  }, [])
 
   const categorySelectRef = React.useRef<HTMLSelectElement>(null)
   React.useEffect(() => {
@@ -94,6 +120,49 @@ export function PostEditor({ initial }: { initial: PostFull | null }) {
   }, [title, titleInput])
 
   const articleEditorRef = React.useRef<EditorRef>(null)
+
+  const savePostDraft = React.useCallback(async () => {
+    const draft = {
+      title,
+      content: await articleEditorRef.current?.save(),
+      excerpt,
+      category,
+      readingTime,
+      banner: banner === null ? null : { ...banner, alt: bannerAlt },
+      slug,
+      locale: router.locale,
+    }
+    try {
+      saveDraft(draft, router.locale ?? 'en')
+    } catch (error) {
+      console.log('Draft:', draft)
+      throw error
+    }
+  }, [banner, bannerAlt, category, excerpt, readingTime, router.locale, slug, title])
+
+  React.useEffect(() => {
+    if(!router.query.edit) {
+      const interval = setInterval(() => {
+        if (stopDraftsSaving.current === true) {
+          clearInterval(interval)
+          return
+        }
+        savePostDraft()
+      }, 5000)
+      return () => clearInterval(interval)
+    }
+  }, [router.query.edit, savePostDraft])
+
+  React.useEffect(() => {
+    const onRouteChangeStart = async () => {
+      if(stopDraftsSaving.current) return
+      await savePostDraft()
+    }
+    router.events.on('routeChangeStart', onRouteChangeStart)
+    return () => {
+      router.events.off('routeChangeStart', onRouteChangeStart)
+    }
+  }, [router, savePostDraft])
 
   return (
     <article className='pt-16'>
@@ -161,10 +230,10 @@ export function PostEditor({ initial }: { initial: PostFull | null }) {
         />
       </div>
       <Separator />
-      <ArticleEditor 
+      <ArticleEditor
         defaultValue={initial ? initial.content : undefined}
         innerRef={articleEditorRef}
-        disabled={submitting} 
+        disabled={submitting}
       />
       <Separator />
       <div className='flex flex-col gap-6 items-center'>
@@ -186,7 +255,7 @@ export function PostEditor({ initial }: { initial: PostFull | null }) {
             }}
             placeholder={CyrillicToTranslit().transform(title, '-').toLowerCase().replaceAll('_', '-').replaceAll(/[^a-z0-9-]/g, '')}
             className='w-full font-text px-3 py-2 rounded-lg font-normal text-base text-text focus:outline-none'
-            disabled={submitting || initial !== null}
+            disabled={submitting || Boolean(router.query.edit)}
           />
           {slugExists !== null && (
             <span className='absolute right-3 bottom-3'>

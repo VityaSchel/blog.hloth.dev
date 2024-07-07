@@ -5,13 +5,15 @@ import { Category } from '@/entities/category'
 import type { Post } from '@/shared/model/post'
 import { ReadingTimer } from '@/entities/reading-timer'
 
-export function PostPreview({ date, title, excerpt, slug, banner, category, first, readingTime }: Post & {
+export function PostPreview({ date, title, excerpt, slug, banner, category, first, readingTime, locale, draft }: Post & {
   first: boolean
+  draft?: boolean
+  locale?: string
 }) {
   const { i18n } = useTranslation()
 
   return (
-    <Link href={`/blog/${slug}`} className='w-full block article-preview'>
+    <Link href={draft ? `/${locale}/blog/post?edit=${slug}` : `/blog/${slug}`} className='w-full block article-preview'>
       <article className='flex flex-col md:flex-row -ml-4 -mr-4'>
         <time 
           dateTime={date.toISOString()} 

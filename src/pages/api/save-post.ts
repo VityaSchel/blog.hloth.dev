@@ -41,6 +41,10 @@ export default async function handler(
     return
   }
   try {
+    if (body.data.slug === 'post' || body.data.slug === 'drafts') {
+      res.status(400).json({ ok: false, error: 'Invalid slug' })
+      return
+    }
     const db = await getDB()
     await db.collection<PostSchema>('posts').updateOne({
       slug: body.data.slug,
@@ -56,7 +60,6 @@ export default async function handler(
         },
         category: body.data.category,
         content: body.data.content,
-        createdAt: new Date(),
         excerpt: body.data.excerpt,
         readingTime: body.data.readingTime,
         title: body.data.title,
@@ -65,6 +68,7 @@ export default async function handler(
         draft: body.data.draft,
       },
       $setOnInsert: {
+        createdAt: new Date(),
         slug: body.data.slug,
         locale: body.data.locale
       }

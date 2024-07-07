@@ -9,7 +9,7 @@ import cx from 'classnames'
 
 const ReactEditorJS = createReactEditorJS()
 
-export type EditorRef = { save: () => Promise<OutputData> }
+export type EditorRef = { save: () => Promise<OutputData>, load: (data: OutputData) => void }
 
 export function ArticleEditor({ defaultValue, innerRef, disabled }: {
   defaultValue: EditorJS.EditorConfig['data']
@@ -22,6 +22,9 @@ export function ArticleEditor({ defaultValue, innerRef, disabled }: {
   React.useImperativeHandle(innerRef, () => ({
     async save() {
       return await editorRef.current!.save()
+    },
+    async load(data: OutputData) {
+      return await editorRef.current!.render(data)
     }
   }), [editorRef])
 

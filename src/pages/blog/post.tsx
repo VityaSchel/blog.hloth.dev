@@ -1,19 +1,32 @@
+import React from 'react'
 import getDB from '@/_app/db/init'
-import type { PostFull, PostFullProps } from '@/shared/model/post'
+import { getDraft } from '@/shared/drafts'
+import type { PostEditorFields, PostFullProps } from '@/shared/model/post'
 import { AppBar } from '@/widgets/common/appbar'
 import { Container } from '@/widgets/common/container'
 import { PostEditor } from '@/widgets/post/post-editor'
 import _ from 'lodash'
 import type { GetServerSidePropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useRouter } from 'next/router'
 
 export default function BlogPage(props: { post?: PostFullProps }) {
-  const post: PostFull | null = props.post ? { ...props.post, date: new Date(props.post.createdAt) } : null
+  const [draft, setDraft] = React.useState<PostEditorFields | null | undefined>(undefined)
+  const router = useRouter()
+
+  React.useEffect(() => {
+    if(!props.post) {
+      const draft = getDraft(router.locale as string)
+      setDraft(draft)
+    }
+  }, [props.post, router.locale])
 
   return (
     <Container>
       <AppBar />
-      <PostEditor initial={post} />
+      {(props.post || draft !== undefined) && (
+        <PostEditor initial={props.post || draft as PostEditorFields | null} />
+      )}
     </Container>
   )
 }

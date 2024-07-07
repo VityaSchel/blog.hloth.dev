@@ -40,5 +40,6 @@
   "go_to_main_page": "Go back to home page",
   "page_not_found": "Page not found",
   "main_page": "Main page",
-  "description": "Personal blog about webdev insights, tutorials for my fellow developers, life stories from Georgia. Fun stuff, serious stuff, and everything in between."
+  "description": "Personal blog about webdev insights, tutorials for my fellow developers, life stories from Georgia. Fun stuff, serious stuff, and everything in between.",
+  "drafts": "Drafts"
 }

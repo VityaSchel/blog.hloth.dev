@@ -5,9 +5,11 @@ import type { Post } from '@/shared/model/post'
 import { Separator } from '@/shared/ui/separator'
 import { useRouter } from 'next/router'
 import { NoPostsYet } from '@/entities/no-posts-yet'
+import cx from 'classnames'
 
-export function Posts({ posts }: {
+export function Posts({ posts, drafts = false }: {
   posts: Post[]
+  drafts?: boolean
 }) {
   const [filteredPosts, setFilteredPosts] = React.useState(posts)
   const router = useRouter()
@@ -33,7 +35,7 @@ export function Posts({ posts }: {
   return (
     <>
       <a id='posts'></a>
-      <section className='mt-[60px]'>
+      <section className={cx({ 'mt-[60px]': !drafts })}>
         {filteredPosts.length ? (
           filteredPosts.map((post, i) => (
             <React.Fragment key={post.slug}>
@@ -41,6 +43,7 @@ export function Posts({ posts }: {
                 key={post.slug}
                 {...post}
                 first={i === 0}
+                draft={drafts}
               />
               {i !== filteredPosts.length - 1 && <Separator />}
             </React.Fragment>
