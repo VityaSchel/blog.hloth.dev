@@ -37,7 +37,7 @@ export function Post({ banner, category, slug, date, readingTime, content, ...pr
               </Link>
             )}
           </div>
-          <h1 className='font-display font-medium text-6xl leading-tight line-clamp-3' title={title}>
+          <h1 className='font-display font-medium text-3xl md:text-6xl leading-tight line-clamp-3' title={title}>
             <span className='font-caption italic font-normal'>{emphasized}</span>{regular}
           </h1>
           <Link className='flex gap-4 mt-auto items-center' href='https://hloth.dev'>
