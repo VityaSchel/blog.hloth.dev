@@ -52,7 +52,7 @@ export default async function handler(
   res.status(200).send({
     success: 1,
     file: {
-      url: path.resolve(publicStorageURL as string, filename + extension),
+      url: path.join(publicStorageURL as string, filename + extension),
       placeholder: (await getPlaiceholder(file)).base64
     }
   })
