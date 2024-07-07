@@ -11,6 +11,7 @@ import type { PostSchema } from '@/_app/db/schemas/post'
 import { useRouter } from 'next/router'
 import Page404 from '@/pages/404'
 import Head from 'next/head'
+import { formatTitle } from '@/shared/title'
 
 type BlogPageProps = {
   post: PostFullProps
@@ -37,9 +38,9 @@ export default function BlogPage(props: BlogPageProps) {
         next={props.nextPost ? { title: props.nextPost.title, path: '/blog/' + props.nextPost.slug } : undefined}
       />
       <Head>
-        <title>{post.title}</title>
+        <title>{formatTitle(post.title).title}</title>
         <meta name='description' content={post.excerpt} />
-        <meta property='og:title' content={post.title} />
+        <meta property='og:title' content={formatTitle(post.title).title} />
         <meta property='og:description' content={post.excerpt} />
         <meta property='og:site_name' content='hloth blog' />
         <meta property='og:type' content='article' />
@@ -58,7 +59,7 @@ export default function BlogPage(props: BlogPageProps) {
           {JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'Article',
-            'headline': post.title,
+            'headline': formatTitle(post.title).title,
             'description': post.excerpt,
             'image': {
               '@type': 'ImageObject',

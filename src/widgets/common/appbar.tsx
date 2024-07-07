@@ -2,6 +2,7 @@ import cx from 'classnames'
 import { LanguageSwitch } from '@/features/language-switch'
 import { ThemeSwitch } from '@/features/theme-switcher'
 import { Menu } from '@/features/menu'
+import { formatTitle } from '@/shared/title'
 
 export function AppBar({ previous, next }: {
   previous?: { title: string, path: string },
@@ -24,14 +25,14 @@ export function AppBar({ previous, next }: {
                     <line x1='10' y1='50' x2='30' y2='30' stroke='currentColor' strokeWidth='6' />
                   </svg>
                   
-                  {previous.title}
+                  {formatTitle(previous.title).title}
                 </a>
               </li>
             )}
             {next && (
               <li className='self-end'>
                 <a href={next.path} className='flex items-center gap-2'>
-                  {next.title}
+                  {formatTitle(next.title).title}
 
                   <svg width='20' viewBox='0 0 100 60' xmlns='http://www.w3.org/2000/svg'>
                     <line x1='10' y1='50' x2='90' y2='50' stroke='currentColor' strokeWidth='6' />

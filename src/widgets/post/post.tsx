@@ -1,3 +1,4 @@
+import React from 'react'
 import { Category } from '@/entities/category'
 import { ReadingTimer } from '@/entities/reading-timer'
 import type { PostFull } from '@/shared/model/post'
@@ -10,11 +11,18 @@ import { Separator } from '@/shared/ui/separator'
 import { ArticleContentRenderer } from '@/features/article-content-renderer'
 import { ShareButtons } from '@/features/share-buttons'
 import Link from 'next/link'
+import { formatTitle } from '@/shared/title'
 
 const RobotoMono = Roboto_Mono({ weight: ['400'], subsets: ['cyrillic', 'latin'] })
 
-export function Post({ banner, title, category, slug, date, readingTime, content }: PostFull) {
+export function Post({ banner, category, slug, date, readingTime, content, ...props }: PostFull) {
   const { t, i18n } = useTranslation()
+  const { title, emphasized, regular } = formatTitle(props.title)
+  const [isHlothBlogAdmin, setIsHlothBlogAdmin] = React.useState(false)
+
+  React.useEffect(() => {
+    setIsHlothBlogAdmin(window.localStorage.getItem('is-hloth-blog-admin') === 'true')
+  }, [])
   
   return (
     <article className='pt-16'>
@@ -23,9 +31,14 @@ export function Post({ banner, title, category, slug, date, readingTime, content
           <div className='flex gap-5 items-center'>
             <Category>{category}</Category>
             <ReadingTimer minutes={readingTime} />
+            {isHlothBlogAdmin && (
+              <Link href={'/blog/post?edit=' + slug} className='ml-2 p-2 hover:bg-alt transition-colors rounded-full' locale={i18n.language}>
+                <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'><path fill='currentColor' d='M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83l3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z'></path></svg>
+              </Link>
+            )}
           </div>
           <h1 className='font-display font-medium text-6xl leading-tight line-clamp-3' title={title}>
-            {title}
+            <span className='font-caption italic font-normal'>{emphasized}</span>{regular}
           </h1>
           <Link className='flex gap-4 mt-auto items-center' href='https://hloth.dev'>
             <Image 

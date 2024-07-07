@@ -19,7 +19,9 @@ export default function DraftsPage(props: HomePageProps) {
 
   return (
     <Container>
-      <AppBar />
+      <AppBar
+        previous={{ title: t('go_to_main_page'), path: '/' }}
+      />
       <h1 className='text-6xl mt-24 mb-6 font-semibold font-display'>🙈 {t('drafts')}</h1>
       <Separator />
       <Posts posts={posts} drafts />

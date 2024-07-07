@@ -24,7 +24,11 @@ export function ArticleEditor({ defaultValue, innerRef, disabled }: {
       return await editorRef.current!.save()
     },
     async load(data: OutputData) {
-      return await editorRef.current!.render(data)
+      try {
+        return await editorRef.current!.render(data)
+      } catch(e) {
+        console.warn('Failed to load editor data', e)
+      }
     }
   }), [editorRef])
 

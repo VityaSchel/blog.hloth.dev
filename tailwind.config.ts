@@ -17,6 +17,7 @@ const config: Config = {
       fontFamily: {
         'display': ['hloth blog display', 'hloth blog text', 'sans-serif'],
         'text': ['hloth blog text', 'sans-serif'],
+        'caption': ['hloth blog caption', 'hloth blog display', 'hloth blog text', 'sans-serif'],
       },
       colors: {
         text: 'var(--text)',

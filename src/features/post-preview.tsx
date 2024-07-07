@@ -4,16 +4,18 @@ import { useTranslation } from 'next-i18next'
 import { Category } from '@/entities/category'
 import type { Post } from '@/shared/model/post'
 import { ReadingTimer } from '@/entities/reading-timer'
+import { formatTitle } from '@/shared/title'
 
-export function PostPreview({ date, title, excerpt, slug, banner, category, first, readingTime, locale, draft }: Post & {
+export function PostPreview({ date, excerpt, slug, banner, category, first, readingTime, locale, draft, ...props }: Post & {
   first: boolean
   draft?: boolean
   locale?: string
 }) {
   const { i18n } = useTranslation()
+  const { title, emphasized, regular } = formatTitle(props.title)
 
   return (
-    <Link href={draft ? `/${locale}/blog/post?edit=${slug}` : `/blog/${slug}`} className='w-full block article-preview'>
+    <Link href={draft ? `/blog/post?edit=${slug}` : `/blog/${slug}`} className='w-full block article-preview' locale={draft ? locale : undefined}>
       <article className='flex flex-col md:flex-row -ml-4 -mr-4'>
         <time 
           dateTime={date.toISOString()} 
@@ -34,7 +36,9 @@ export function PostPreview({ date, title, excerpt, slug, banner, category, firs
           }).format(date)}
         </time>
         <div className='px-4 mt-2 md:mt-0 md:flex-[50%] md:max-w-[50%] lg:flex-[25%] lg:max-w-[25%] flex flex-col'>
-          <h2 className='text-3xl font-medium tracking-[-.03em]'>{title}</h2>
+          <h2 className='text-3xl font-medium tracking-[-.03em]' title={title}>
+            <span className='font-caption italic font-normal'>{emphasized}</span>{regular}
+          </h2>
           <p className='mt-4 md:mt-6 text-ellipsis line-clamp-6 font-text'>{excerpt}</p>
           <div className='mt-8 md:mt-auto flex gap-5 items-center'>
             <Category>{category}</Category>
