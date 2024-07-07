@@ -22,15 +22,17 @@ const HeaderRenderer = (block: OutputBlockData): React.ReactNode => {
 }
 
 const ImageRenderer = (block: OutputBlockData): React.ReactNode => {
-  const { file, caption, withBorder, stretched, withBackground } = block.data
+  const { file, caption, withBorder, withBackground } = block.data
+  const stretched = !withBackground
   return (
     <figure key={block.id}>
-      <div className={cx('rounded-lg overflow-clip w-full h-full', {
+      <div className={cx('rounded-lg overflow-clip w-full', {
         'border': withBorder,
-        'bg-white flex items-center justify-center p-4': withBackground
+        'bg-white flex items-center justify-center p-4 h-[500px]': withBackground,
+        'h-full': !withBackground
       })}>
         <div className={cx('relative', {
-          'shadow-xl w-fit f-fit': withBackground
+          'shadow-xl w-fit h-full': withBackground
         })} style={{ aspectRatio: file.width / file.height }}>
           <Image 
             src={file.url}
@@ -40,6 +42,7 @@ const ImageRenderer = (block: OutputBlockData): React.ReactNode => {
             fill={stretched}
             width={stretched ? undefined : file.width}
             height={stretched ? undefined : file.height}
+            quality={100}
           />
         </div>
       </div>

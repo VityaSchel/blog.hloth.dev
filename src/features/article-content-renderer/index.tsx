@@ -8,7 +8,7 @@ export function ArticleContentRenderer({ content }: {
 }) {
   return (
     <div className='flex justify-center w-full'>
-      <div className={cx('w-[680px] max-w-full [&>div]:w-full', styles.articleContent)}>
+      <div className={cx('w-[560px] max-w-full [&>div]:w-full', styles.articleContent)}>
         {renderEditorjsToHTML(content)}
       </div>
     </div>
