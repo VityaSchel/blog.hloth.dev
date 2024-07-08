@@ -48,6 +48,7 @@ export function Post({ banner, category, slug, date, readingTime, content, ...pr
               height={50}
               quality={100}
               className='rounded-full border border-text'
+              priority
             />
             <div className='flex flex-col'>
               <span className='font-display font-medium'>
@@ -68,6 +69,9 @@ export function Post({ banner, category, slug, date, readingTime, content, ...pr
             fill
             className='object-cover'
             draggable={false}
+            sizes='(max-width: 768px) 90vw, (max-width: 1168px) 36vw, 38vw'
+            priority
+            quality={100}
           />
         </div>
       </div>

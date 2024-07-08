@@ -53,10 +53,11 @@ export function PostPreview({ date, excerpt, slug, banner, category, first, read
               blurDataURL={banner.placeholder}
               alt={banner.alt}
               fill
-              // sizes='' // TODO
               priority={first}
+              quality={100}
               className='object-cover'
               draggable={false}
+              sizes='(max-width: 768px) 93vw, 38vw'
             />
           </div>
           <div className='flex items-center justify-center top-10 right-14 z-10 absolute w-[50px] h-[50px]'>

@@ -12,10 +12,12 @@ import { useRouter } from 'next/router'
 import Page404 from '@/pages/404'
 import Head from 'next/head'
 import { formatTitle } from '@/shared/title'
+import { PostAvailableInAltLanguage } from '@/widgets/post/post-available-in-alt-language'
 
 type BlogPageProps = {
-  post: PostFullProps
+  post: PostFullProps | null
   nextPost: { title: string, slug: string } | null
+  availableLocales: string[]
 }
 
 export default function BlogPage(props: BlogPageProps) {
@@ -29,7 +31,10 @@ export default function BlogPage(props: BlogPageProps) {
     )
   }
 
-  const post = { ...props.post, date: new Date(props.post.createdAt) }
+  const post = props.post && { ...props.post, date: new Date(props.post.createdAt) }
+
+  const title = post ? formatTitle(post.title).title : t('page_not_found')
+  const description = post ? post.excerpt : t('description')
 
   return (
     <Container>
@@ -38,51 +43,66 @@ export default function BlogPage(props: BlogPageProps) {
         next={props.nextPost ? { title: props.nextPost.title, path: '/blog/' + props.nextPost.slug } : undefined}
       />
       <Head>
-        <title>{formatTitle(post.title).title}</title>
-        <meta name='description' content={post.excerpt} />
-        <meta property='og:title' content={formatTitle(post.title).title} />
-        <meta property='og:description' content={post.excerpt} />
+        <title>{title}</title>
+        {post === null && <meta name='robots' content='noindex' />}
+        <meta name='description' content={description} />
+        <meta property='og:title' content={title} />
+        <meta property='og:description' content={description} />
         <meta property='og:site_name' content='hloth blog' />
         <meta property='og:type' content='article' />
-        <meta property='og:url' content={'https://blog.hloth.dev/' + locale + '/blog/' + post.slug} />
-        <meta property='og:image' content={post.banner.src} />
-        <meta property='og:image:width' content={String(post.banner.width)} />
-        <meta property='og:image:height' content={String(post.banner.height)} />
-        <meta property='og:image:alt' content={post.banner.alt} />
-        <meta property='og:locale' content={locale === 'ru' ? 'ru_RU' : 'en_US'} />
-        <meta property='og:locale:alternate' content={locale === 'ru' ? 'en_US' : 'ru_RU'} />
-        <meta property='article:published_time' content={post.date.toISOString()} />
-        <meta property='article:author' content={t('me') + ' (https://hloth.dev/me)'} />
-        <meta property='article:section' content={post.category} />
+        <meta property='og:url' content={'https://blog.hloth.dev/' + locale + '/blog/' + router.query.slug} />
+        {post && (<>
+          <meta property='og:image' content={post.banner.src} />
+          <meta property='og:image:width' content={String(post.banner.width)} />
+          <meta property='og:image:height' content={String(post.banner.height)} />
+          <meta property='og:image:alt' content={post.banner.alt} />
+          <meta property='og:locale' content={post.locale === 'ru' ? 'ru_RU' : 'en_US'} />
+          {props.availableLocales
+            .filter(l => l !== post.locale)
+            .map(locale => <meta property='og:locale:alternate' content={{ ru: 'ru_RU', en: 'en_US' }[locale]} key={locale} />)
+          }
+          {props.availableLocales.includes('ru') && <link rel='alternate' hrefLang='ru' href={'https://blog.hloth.dev/ru/blog/' + post.slug} />}
+          {props.availableLocales.includes('en') && <link rel='alternate' hrefLang='en' href={'https://blog.hloth.dev/en/blog/' + post.slug} />}
+          <link rel='alternate' hrefLang='x-default' href={'https://blog.hloth.dev/' + (
+            props.availableLocales.includes('en') ? 'en' : 'ru'
+          ) + '/blog/' + post.slug} />
+          <meta property='article:published_time' content={post.date.toISOString()} />
+          <meta property='article:author' content={t('me') + ' (https://hloth.dev/me)'} />
+          <meta property='article:section' content={post.category} />
 
-        <script type='application/ld+json'>
-          {JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Article',
-            'headline': formatTitle(post.title).title,
-            'description': post.excerpt,
-            'image': {
-              '@type': 'ImageObject',
-              'url': post.banner.src,
-              'width': post.banner.width,
-              'height': post.banner.height,
-              'caption': post.banner.alt
-            },
-            'author': {
-              '@type': 'Person',
-              'name': t('me'),
-              'url': 'https://hloth.dev/me',
-              'email': 'hi@hloth.dev',
-            },
-            'datePublished': post.date.toISOString(),
-            'mainEntityOfPage': {
-              '@type': 'WebPage',
-              '@id': 'https://blog.hloth.dev/' + locale + '/blog/' + post.slug
-            }
-          })}
-        </script>
+          <script type='application/ld+json'>
+            {JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Article',
+              'headline': formatTitle(post.title).title,
+              'description': post.excerpt,
+              'image': {
+                '@type': 'ImageObject',
+                'url': post.banner.src,
+                'width': post.banner.width,
+                'height': post.banner.height,
+                'caption': post.banner.alt
+              },
+              'author': {
+                '@type': 'Person',
+                'name': t('me'),
+                'url': 'https://hloth.dev/me',
+                'email': 'hi@hloth.dev',
+              },
+              'datePublished': post.date.toISOString(),
+              'mainEntityOfPage': {
+                '@type': 'WebPage',
+                '@id': 'https://blog.hloth.dev/' + locale + '/blog/' + post.slug
+              }
+            })}
+          </script>
+        </>)}
       </Head>
-      <Post {...post} />
+      {post === null ? (
+        <PostAvailableInAltLanguage />
+      ) : (
+        <Post {...post} />
+      )}
     </Container>
   )
 }
@@ -94,7 +114,7 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
     .project({ slug: 1, locale: 1 })
     .toArray() as Pick<PostSchema, 'slug' | 'locale'>[]
   return {
-    paths: postsSlugs.map(p => ({ params: { slug: p.slug }, locale: p.locale })),
+    paths: postsSlugs.map(p => ({ params: { slug: p.slug } })),
     fallback: true
   }
 }
@@ -103,24 +123,28 @@ export async function getStaticProps({ locale, defaultLocale, params }: GetStati
   const slug = params?.slug
   if(!slug) { return { notFound: true } }
   const db = await getDB()
-  let post = await db.collection<PostSchema>('posts')
+  const post = await db.collection<PostSchema>('posts')
     .findOne({ slug, draft: false, locale: locale as 'ru' | 'en' })
   if (post === null) { 
-    post = await db.collection<PostSchema>('posts')
+    const postInAltLanguage = await db.collection<PostSchema>('posts')
       .findOne({ slug, draft: false })
-    if(post === null) {
+    if (postInAltLanguage === null) {
       return { notFound: true } 
     }
   }
-  const nextPost = await db.collection<PostSchema>('posts')
+  const nextPost = post && await db.collection<PostSchema>('posts')
     .findOne({ createdAt: { $lt: post.createdAt }, locale: locale as 'ru' | 'en', draft: false }, { projection: { title: 1, slug: 1 } })
   return {
     props: {
       ...await serverSideTranslations(locale ?? defaultLocale ?? 'en'),
-      post: {
-        ..._.omit(post, ['_id', 'updatedAt', 'draft', 'views', 'createdAt', 'locale']),
+      post: post && {
+        ..._.omit(post, ['_id', 'updatedAt', 'draft', 'views', 'createdAt']),
         createdAt: post.createdAt.getTime()
       },
+      availableLocales: (await db.collection<PostSchema>('posts')
+        .find({ slug })
+        .project({ locale: 1 })
+        .toArray()).map(d => d.locale),
       nextPost: nextPost && {
         title: nextPost.title,
         slug: nextPost.slug

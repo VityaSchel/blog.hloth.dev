@@ -9,6 +9,7 @@ import _ from 'lodash'
 import type { GetServerSidePropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
+import Head from 'next/head'
 
 export default function BlogPage(props: { post?: PostFullProps }) {
   const [draft, setDraft] = React.useState<PostEditorFields | null | undefined>(undefined)
@@ -23,6 +24,9 @@ export default function BlogPage(props: { post?: PostFullProps }) {
 
   return (
     <Container>
+      <Head>
+        <meta name='robots' content='noindex' />
+      </Head>
       <AppBar />
       {(props.post || draft !== undefined) && (
         <PostEditor initial={props.post || draft as PostEditorFields | null} />

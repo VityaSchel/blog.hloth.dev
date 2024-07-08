@@ -8,6 +8,7 @@ import getDB from '@/_app/db/init'
 import type { PostSchema } from '@/_app/db/schemas/post'
 import { useTranslation } from 'next-i18next'
 import { Separator } from '@/shared/ui/separator'
+import Head from 'next/head'
 
 type HomePageProps = {
   posts: PostProps[]
@@ -19,6 +20,9 @@ export default function DraftsPage(props: HomePageProps) {
 
   return (
     <Container>
+      <Head>
+        <meta name='robots' content='noindex' />
+      </Head>
       <AppBar
         previous={{ title: t('go_to_main_page'), path: '/' }}
       />

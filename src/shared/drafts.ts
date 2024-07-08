@@ -31,7 +31,7 @@ export function getDraft(locale: string) {
   } else {
     const parsing = postFullSchema.safeParse(JSON.parse(postSerialized))
     if(parsing.success) {
-      return parsing.data
+      return parsing.data as typeof parsing.data & { locale: 'ru' | 'en' }
     } else {
       return null
     }
@@ -40,7 +40,7 @@ export function getDraft(locale: string) {
 
 export function saveDraft(post: any, locale: string) {
   postFullSchema.parse(post)
-  window.localStorage.setItem('hloth-blog-post-draft_' + locale, JSON.stringify(post))
+  window.localStorage.setItem('hloth-blog-post-draft_' + locale, JSON.stringify({ ...post, locale }))
 }
 
 export function clearDraft(locale: string) {

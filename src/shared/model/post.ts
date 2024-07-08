@@ -16,6 +16,7 @@ export type Post = {
   excerpt: string
   category: string
   readingTime: number
+  locale: 'ru' | 'en'
 }
 
 export type PostProps = Omit<Post, 'date'> & {

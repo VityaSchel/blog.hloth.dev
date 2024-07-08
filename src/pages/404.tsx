@@ -35,8 +35,8 @@ export default function Page404() {
         <meta property='og:locale:alternate' content={locale === 'ru' ? 'en_US' : 'ru_RU'} />
       </Head>
       <div className='flex flex-1 pt-8 md:pt-0 md:items-center justify-center'>
-        <div className='flex flex-col md:flex-row gap-12 h-full md:h-[300px]'>
-          <div className='h-full hidden md:w-fit [&>svg]:h-full [&>svg]:w-auto md:flex gap-2 mix-blend-exclusion'>
+        <div className='flex items-center md:items-start flex-col md:flex-row gap-6 lg:gap-12 h-full md:h-[200px] xl:h-[300px]'>
+          <div className='h-full hidden md:w-fit [&>svg]:h-full [&>svg]:w-auto lg:flex gap-2 mix-blend-exclusion'>
             {i18n.language === 'ru' ? <Ru404 /> : <En404 />}
             {i18n.language === 'ru' ? <En404 /> : <Ru404 />}
             <Jp404 />
@@ -46,13 +46,13 @@ export default function Page404() {
             autoPlay 
             loop 
             muted 
-            className='w-auto h-full aspect-[640/360] rounded-xl shadow-lg grayscale-animated bg-gray'
+            className='w-auto h-full aspect-[640/360] rounded-xl shadow-lg grayscale-animated bg-gray max-h-[300px] md:max-h-none'
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
             style={{ '--grayscale': hover ? 0 : 1 } as React.CSSProperties}
           />
 
-          <h1 className='font-display text-4xl font-medium text-page-not-found'>{t('page_not_found')}</h1>
+          <h1 className='font-display text-3xl xl:text-4xl font-medium text-page-not-found'>{t('page_not_found')}</h1>
         </div>
       </div>
     </Container>

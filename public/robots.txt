@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /api/
+Disallow: /blog/post
+Disallow: /en/blog/post
+Disallow: /ru/blog/post
+Disallow: /blog/drafts
+Disallow: /en/blog/drafts
+Disallow: /ru/blog/drafts
+
+Sitemap: https://blog.hloth.dev/sitemap.xml

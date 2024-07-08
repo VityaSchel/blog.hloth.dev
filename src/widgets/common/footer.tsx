@@ -22,7 +22,7 @@ export function Footer() {
   }, [])
 
   return (
-    <footer className='bg-text w-full text-inverted sticky z-0 bottom-0 p-6 md:p-12 font-display'>
+    <footer className='bg-text w-full footer-text sticky z-0 bottom-0 p-6 md:p-12 font-display'>
       <div className='flex flex-col md:flex-row md:items-end'>
         <div className='flex flex-col gap-3 md:gap-1.5 font-medium text-4xl md:text-3xl w-24 flex-[25%] max-w-[25%] pr-4'>
           {categories.map((category) => (

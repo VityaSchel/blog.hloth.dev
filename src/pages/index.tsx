@@ -26,6 +26,9 @@ export default function Home(props: HomePageProps) {
       <Head>
         <title>{t('main_page')}</title>
         <meta name='description' content={t('description')} />
+        <link rel='alternate' hrefLang='ru' href='https://blog.hloth.dev/ru' />
+        <link rel='alternate' hrefLang='en' href='https://blog.hloth.dev/en' />
+        <link rel='alternate' hrefLang='x-default' href='https://blog.hloth.dev/' />
         <meta property='og:title' content={t('main_page')} />
         <meta property='og:description' content={t('description')} />
         <meta property='og:site_name' content='hloth blog' />
@@ -107,7 +110,8 @@ export async function getStaticProps({ locale }: { locale: string }): Promise<Ge
         excerpt: p.excerpt,
         category: p.category,
         readingTime: p.readingTime,
-        banner: p.banner
+        banner: p.banner,
+        locale: p.locale,
       }))
     },
   }

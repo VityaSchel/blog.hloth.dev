@@ -41,5 +41,9 @@
   "page_not_found": "Page not found",
   "main_page": "Main page",
   "description": "Personal blog about webdev insights, tutorials for my fellow developers, life stories from Georgia. Fun stuff, serious stuff, and everything in between.",
-  "drafts": "Drafts"
+  "drafts": "Drafts",
+  "post_available_in_alt_language": {
+    "text": "This post is only available in",
+    "link": "Russian"
+  }
 }
