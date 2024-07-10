@@ -42,6 +42,7 @@
     "sass": "^1.77.6",
     "sharp": "^0.33.4",
     "uuid": "^10.0.0",
+    "web-push": "^3.6.7",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -52,6 +53,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/uuid": "^10.0.0",
+    "@types/web-push": "^3.6.3",
     "@typescript-eslint/eslint-plugin": "^7.15.0",
     "@typescript-eslint/parser": "^7.15.0",
     "eslint": "^8",

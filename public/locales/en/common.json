@@ -47,5 +47,12 @@
     "link": "Russian"
   },
   "offline": "No internet connection",
-  "push_switch": "Subscribe to push-notifications about new posts"
+  "push": {
+    "switch": "Subscribe to push-notifications about new posts",
+    "errors": {
+      "not_allowed": "Your browser does not allow push-notifications. Try enabling them in the browser or site settings.",
+      "unknown_subscribe": "An error occurred while subscribing to push-notifications.",
+      "unknown_unsubscribe": "An error occurred while unsubscribing from push-notifications."
+    }
+  }
 }

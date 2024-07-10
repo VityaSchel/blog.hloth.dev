@@ -1,5 +1,6 @@
 import getDB from '@/_app/db/init'
 import type { PostSchema } from '@/_app/db/schemas/post'
+import { announceNewPost } from '@/_app/push-notifications-sender'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { z } from 'zod'
 
@@ -46,7 +47,7 @@ export default async function handler(
       return
     }
     const db = await getDB()
-    await db.collection<PostSchema>('posts').updateOne({
+    const newPost = await db.collection<PostSchema>('posts').findOneAndUpdate({
       slug: body.data.slug,
       locale: body.data.locale
     }, {
@@ -73,7 +74,8 @@ export default async function handler(
         locale: body.data.locale
       }
     }, {
-      upsert: true
+      upsert: true,
+      returnDocument: 'after'
     })
     const blogPosts = await db.collection<PostSchema>('posts').find().toArray()
     blogPosts.forEach(async post => {
@@ -83,6 +85,7 @@ export default async function handler(
     await res.revalidate('/ru')
     await res.revalidate('/en')
     await res.revalidate('/')
+    announceNewPost(newPost!)
     res.status(200).json({ ok: true })
   } catch(e) {
     res.status(500).json({ ok: false, error: (e instanceof Error ? e.message : 'Internal server error') })
