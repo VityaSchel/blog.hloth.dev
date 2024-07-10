@@ -67,5 +67,16 @@ export default withNextPWA({
         cacheName: 'http-cache',
       },
     },
+    {
+      urlPattern: /\/no-connection-cat\.jpeg$/,
+      handler: 'CacheFirst',
+      options: {
+        cacheName: 'image-cache',
+        expiration: {
+          maxEntries: 1,
+          maxAgeSeconds: 60 * 60 * 24 * 30,
+        },
+      },
+    },
   ]
 })(nextConfig)
