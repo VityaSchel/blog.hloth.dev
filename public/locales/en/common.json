@@ -54,5 +54,11 @@
       "unknown_subscribe": "An error occurred while subscribing to push-notifications.",
       "unknown_unsubscribe": "An error occurred while unsubscribing from push-notifications."
     }
+  },
+  "paywall": {
+    "title": "Attached files & links",
+    "cta": "Please consider donating to support the blog",
+    "explanation": "Clicking the button below will open donation page in a new tab and reveal files and links. Donations are not mandatory, but highly appreciated.",
+    "button": "Donate"
   }
 }

@@ -48,7 +48,8 @@ export const i18n: import('@editorjs/editorjs').I18nConfig = {
       'Bold': 'Полужирный',
       'Italic': 'Курсив',
       'InlineCode': 'Моноширинный',
-      'Image': 'Картинка'
+      'Image': 'Картинка',
+      'Donation Paywall': 'Доступ за донат',
     },
 
     /**

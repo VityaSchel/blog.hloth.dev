@@ -3,6 +3,8 @@ import type { OutputBlockData, OutputData } from '@editorjs/editorjs'
 import Image from 'next/image'
 import { Highlight, themes } from 'prism-react-renderer'
 import cx from 'classnames'
+import { useTranslation } from 'next-i18next'
+import Link from 'next/link'
 
 const ParagraphRenderer = (block: OutputBlockData): React.ReactNode => {
   return (
@@ -91,6 +93,46 @@ const CodeRenderer = (block: OutputBlockData): React.ReactNode => {
   )
 }
 
+const PaywallRenderer = (block: OutputBlockData): React.ReactNode => {
+  const [shown, setShown] = React.useState(false)
+  const { t } = useTranslation()
+
+  return (
+    <>
+      <h6>{t('paywall.title')}</h6>
+      <div className={cx('rounded-lg relative w-full flex items-center overflow-clip mt-2 font-text', {
+        'bg-slate-600 min-h-[128px]': !shown,
+        'bg-alt': shown
+      })}>
+        {!shown && <div className='flex flex-col gap-1 items-center justify-center backdrop-blur-xl w-full h-full rounded-lg absolute top-0 left-0 p-4 z-[1]'>
+          <span className='font-bold text-white'>{t('paywall.cta')}</span>
+          <span className='text-xs leading-[1.2] text-center mb-2 text-slate-300 font-medium tracking-tight'>{t('paywall.explanation')}</span>
+          <Link 
+            href='https://hloth.dev/donate' 
+            target='_blank' 
+            rel='nofollow noreferrer' 
+            className='rounded-md bg-blue-600 !no-underline text-white font-bold px-4 py-2' 
+            onClick={() => setShown(true)}
+          >
+            {t('paywall.button')}
+          </Link>
+        </div>}
+        <ol className='flex flex-col gap-3 p-4 !ps-10 !m-0 w-full'>
+          {block.data.links.map((link: { url: string, title: string }, i: number) => (<>
+            <li key={i} className='pl-2 w-full'>
+              <div className='flex flex-col break-words w-full'>
+                <span className='text-alt text-base'>{link.title}</span>
+                <Link href={link.url} target='_blank' rel='noreferrer nofollow' className='text-sm font-mono font-medium'>{link.url}</Link>
+              </div>
+            </li>
+            {i !== block.data.links.length - 1 && <hr className='w-full h-[1px] bg-gray border-none' />}
+          </>))}
+        </ol>
+      </div>
+    </>
+  )
+}
+
 const ListRenderer = (block: OutputBlockData): React.ReactNode => {
   if(block.data.style === 'ordered') {
     return (
@@ -128,6 +170,8 @@ export function renderEditorjsToHTML(data: OutputData): React.ReactNode[] {
         return CodeRenderer(block)
       case 'list':
         return ListRenderer(block)
+      case 'paywall':
+        return PaywallRenderer(block)
       default:
         return null
     }

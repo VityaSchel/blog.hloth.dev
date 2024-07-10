@@ -14,6 +14,7 @@ import Quote from '@editorjs/quote'
 // import CheckList from '@editorjs/checklist'
 import Delimiter from '@editorjs/delimiter'
 import type { ToolConstructable, ToolSettings } from '@editorjs/editorjs'
+import DonationPaywallTool from '@/shared/editorjs-tools/donation-paywall'
 // import InlineCode from '@editorjs/inline-code'
 // import SimpleImage from '@editorjs/simple-image'
 
@@ -42,4 +43,5 @@ export const EDITOR_JS_TOOLS: Record<string, ToolConstructable | ToolSettings> =
   // inlineCode: InlineCode,
   // simpleImage: SimpleImage,
   // paragrapgh: Paragraph,
+  paywall: DonationPaywallTool
 }
