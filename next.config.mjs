@@ -41,9 +41,7 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  publicRuntimeConfig: {
-    modifiedDate: new Date().toISOString(),
-  },
+  poweredByHeader: false,
   // experimental: {
     
   //   turbo: {

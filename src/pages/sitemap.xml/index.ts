@@ -1,7 +1,6 @@
 import { getServerSideSitemapLegacy, type IAlternateRef, type ISitemapField } from 'next-sitemap'
 import type { GetServerSideProps } from 'next'
 import getDB from '@/_app/db/init'
-import getConfig from 'next/config'
 import type { PostSchema } from '@/_app/db/schemas/post'
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -18,11 +17,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       postsGrouped[post.slug] = { slug: post.slug, locales: [post.locale], updatedAt: post.updatedAt}
     }
   }
-  const { publicRuntimeConfig } = getConfig()
   const fields: ISitemapField[] = [
     {
       loc: 'https://blog.hloth.dev/',
-      lastmod: publicRuntimeConfig.modifiedDate,
       alternateRefs: [
         { hreflang: 'ru', href: 'https://blog.hloth.dev/ru/' },
         { hreflang: 'en', href: 'https://blog.hloth.dev/en/' }
@@ -36,6 +33,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       if (post.locale.includes('en')) {
         alternateRefs.push({ hreflang: 'en', href: 'https://blog.hloth.dev/en/blog/' + post.slug })
       }
+      alternateRefs.push({ hreflang: 'x-default', href: 'https://blog.hloth.dev/blog/' + post.slug })
       return {
         loc: 'https://blog.hloth.dev/blog/' + post.slug,
         lastmod: post.updatedAt.toISOString(),
