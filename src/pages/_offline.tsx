@@ -1,11 +1,17 @@
+import React from 'react'
 import { AppBar } from '@/widgets/common/appbar'
 import { Container } from '@/widgets/common/container'
 import Head from 'next/head'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { useRouter } from 'next/router'
 
 export default function SiteOfflinePage() {
-  const { locale } = useRouter()
+  const [locale, setLocale] = React.useState('en')
+
+  React.useEffect(() => {
+    const locale = window.location.pathname.match(/^\/([^/]+)/)?.[1]
+    console.log('Auto-detected', locale, 'locale')
+    setLocale(locale === 'ru' ? 'ru' : 'en')
+  }, [])
 
   return (
     <Container>
