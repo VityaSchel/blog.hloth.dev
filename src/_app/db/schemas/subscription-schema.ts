@@ -4,4 +4,6 @@ export type PushSubscriptionSchema = {
     p256dh: string
     auth: string
   }
+  ip: string | undefined
+  userAgent: string | undefined
 }

@@ -16,6 +16,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       res.status(400).json({ ok: false, error: 'Invalid body' })
       return
     }
+
+    const userAgent = req.headers['user-agent']
+    let ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+    if(ipAddress && Array.isArray(ipAddress)) {
+      ipAddress = ipAddress[0]
+    }
     
     const db = await getDB()
     await db.collection<PushSubscriptionSchema>('push_subscriptions').insertOne({
@@ -24,6 +30,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         p256dh: body.data.keys.p256dh,
         auth: body.data.keys.auth,
       },
+      ip: ipAddress,
+      userAgent: userAgent,
     })
     res.json({ ok: true })
   } else if(req.method === 'DELETE') {

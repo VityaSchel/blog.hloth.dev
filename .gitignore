@@ -40,3 +40,4 @@ public/fallback*
 public/sw.js
 public/workbox-*
 public/sw.js.map
+public/worker-development.js
