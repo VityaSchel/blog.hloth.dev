@@ -1,11 +1,11 @@
 import { AppBar } from '@/widgets/common/appbar'
 import { Container } from '@/widgets/common/container'
-import { useTranslation } from 'next-i18next'
 import Head from 'next/head'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useRouter } from 'next/router'
 
 export default function SiteOfflinePage() {
-  const { t } = useTranslation()
+  const { locale } = useRouter()
 
   return (
     <Container>
@@ -15,7 +15,7 @@ export default function SiteOfflinePage() {
       </Head>
       <div className='flex-1 flex flex-col gap-4 justify-center items-center'>
         <img src='/no-connection-cat.jpeg' alt='🐱' className='rounded-lg' width={354} height={329} />
-        <h1>{t('offline')}</h1>
+        <h1>{locale === 'ru' ? 'Нет соединения с интернетом' : 'No internet connection'}</h1>
       </div>
     </Container>
   )
