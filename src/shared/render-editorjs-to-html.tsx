@@ -115,7 +115,7 @@ const PaywallRenderer = (block: OutputBlockData): React.ReactNode => {
         'bg-alt': shown
       })}>
         {!shown && <div className='flex flex-col gap-1 items-center justify-center backdrop-blur-sm w-full h-full rounded-lg absolute top-0 left-0 p-4 z-[1]'>
-          <span className='font-bold text-white'>{t('paywall.cta')}</span>
+          <span className='font-bold text-white text-center'>{t('paywall.cta')}</span>
           <span className='text-xs leading-[1.2] text-center mb-2 text-slate-300 font-medium tracking-tight'>{t('paywall.explanation')}</span>
           <Link 
             href='https://hloth.dev/donate' 
