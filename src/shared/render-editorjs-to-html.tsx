@@ -28,11 +28,11 @@ const ImageRenderer = (block: OutputBlockData): React.ReactNode => {
     <figure key={block.id}>
       <div className={cx('rounded-lg overflow-clip w-full', {
         'border': withBorder,
-        'bg-white flex items-center justify-center p-4 h-[500px]': withBackground,
+        'bg-white flex items-center justify-center p-4 h-fit max-h-[500px]': withBackground,
         'h-full': !withBackground
       })}>
         <div className={cx('relative', {
-          'shadow-xl w-fit h-full': withBackground
+          'shadow-xl w-fit h-auto': withBackground
         })} style={{ aspectRatio: file.width / file.height }}>
           <Image 
             src={file.url}

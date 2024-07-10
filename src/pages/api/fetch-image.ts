@@ -3,6 +3,7 @@ import fs from 'fs/promises'
 import path from 'path'
 import { v4 as uuid } from 'uuid'
 import { getPlaiceholder } from 'plaiceholder'
+import sharp from 'sharp'
 
 const storagePath = process.env.STORAGE_PATH
 if(!storagePath) {
@@ -18,6 +19,8 @@ type PostUploadImageResponse = {
   file?: {
     url: string
     placeholder: string
+    width: number
+    height: number
   }
 }
 
@@ -49,11 +52,14 @@ export default async function handler(
   }
   const extension = '.' + mimeType
   await fs.writeFile(path.join(storagePath as string, filename + extension), file, 'binary')
+  const { width, height } = await sharp(file).metadata()
   res.status(200).send({
     success: 1,
     file: {
       url: publicStorageURL as string + filename + extension,
-      placeholder: (await getPlaiceholder(file)).base64
+      placeholder: (await getPlaiceholder(file)).base64,
+      width: width as number,
+      height: height as number
     }
   })
 }
