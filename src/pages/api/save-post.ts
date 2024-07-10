@@ -75,7 +75,13 @@ export default async function handler(
     }, {
       upsert: true
     })
-    await res.revalidate('/blog/' + body.data.slug)
+    const blogPosts = await db.collection<PostSchema>('posts').find().toArray()
+    blogPosts.forEach(async post => {
+      await res.revalidate('/ru/blog/' + post.slug)
+      await res.revalidate('/en/blog/' + post.slug)
+    })
+    await res.revalidate('/ru')
+    await res.revalidate('/en')
     await res.revalidate('/')
     res.status(200).json({ ok: true })
   } catch(e) {

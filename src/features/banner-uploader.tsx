@@ -59,11 +59,14 @@ export function BannerUploader({ value, onChange, alt, altOnChange, disabled, ba
   }, [value])
 
   return (
-    <button
+    <div
       className='rounded-[60px] relative aspect-[1.625/1] flex-[40%] max-w-[40%] overflow-clip'
-      onClick={handleUploadBanner}
-      disabled={disabled}
     >
+      <button 
+        className='bg-transparent w-full h-full absolute top-0 left-0 focus-visible:outline-2 rounded-[60px]'
+        disabled={disabled}
+        onClick={handleUploadBanner}
+      />
       <input
         type='file'
         accept='image/*'
@@ -96,6 +99,6 @@ export function BannerUploader({ value, onChange, alt, altOnChange, disabled, ba
         })}
         style={{ width: ((progress / 0.8) + 0.1) * 100 + '%' } as React.CSSProperties}
       />
-    </button>
+    </div>
   )
 }
