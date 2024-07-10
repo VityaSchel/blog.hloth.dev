@@ -65,7 +65,6 @@ export default withNextPWA({
       handler: 'NetworkOnly',
       options: {
         cacheName: 'http-cache',
-        networkTimeoutSeconds: 10,
       },
     },
   ]
