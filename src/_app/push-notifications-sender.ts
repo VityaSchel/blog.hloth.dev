@@ -43,7 +43,7 @@ export async function announceNewPost(post: PostSchema) {
           message: post.excerpt, 
           postedAt: post.createdAt.getTime(),
           image: post.banner.src,
-          url: `/${post.locale}/blog/${post.slug}`
+          url: `https://blog.hloth.dev/${post.locale}/blog/${post.slug}`
         } satisfies PushNewPostPayload)
       )
       sent++
