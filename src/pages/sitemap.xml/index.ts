@@ -23,6 +23,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     {
       loc: 'https://blog.hloth.dev/',
       lastmod: publicRuntimeConfig.modifiedDate,
+      alternateRefs: [
+        { hreflang: 'ru', href: 'https://blog.hloth.dev/ru/' },
+        { hreflang: 'en', href: 'https://blog.hloth.dev/en/' }
+      ]
     },
     ...posts.map(post => {
       const alternateRefs: IAlternateRef[] = []

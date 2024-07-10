@@ -26,6 +26,7 @@ export default function Home(props: HomePageProps) {
       <Head>
         <title>{t('main_page')}</title>
         <meta name='description' content={t('description')} />
+        <link rel='canonical' href={'https://blog.hloth.dev/' + locale} />
         <link rel='alternate' hrefLang='ru' href='https://blog.hloth.dev/ru' />
         <link rel='alternate' hrefLang='en' href='https://blog.hloth.dev/en' />
         <link rel='alternate' hrefLang='x-default' href='https://blog.hloth.dev/' />
