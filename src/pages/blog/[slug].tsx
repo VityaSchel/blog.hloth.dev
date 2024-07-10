@@ -9,7 +9,6 @@ import { useTranslation } from 'next-i18next'
 import getDB from '@/_app/db/init'
 import type { PostSchema } from '@/_app/db/schemas/post'
 import { useRouter } from 'next/router'
-import Page404 from '@/pages/404'
 import Head from 'next/head'
 import { formatTitle } from '@/shared/title'
 import { PostAvailableInAltLanguage } from '@/widgets/post/post-available-in-alt-language'
@@ -24,12 +23,6 @@ export default function BlogPage(props: BlogPageProps) {
   const router = useRouter()
   const { t } = useTranslation()
   const { locale } = useRouter()
-
-  if(router.isFallback) {
-    return (
-      <Page404 />
-    )
-  }
 
   const post = props.post && { ...props.post, date: new Date(props.post.createdAt) }
 
@@ -114,8 +107,8 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
     .project({ slug: 1, locale: 1 })
     .toArray() as Pick<PostSchema, 'slug' | 'locale'>[]
   return {
-    paths: postsSlugs.map(p => ({ params: { slug: p.slug } })),
-    fallback: true
+    paths: postsSlugs.map(p => [{ params: { slug: p.slug }, locale: 'ru' }, { params: { slug: p.slug }, locale: 'en' }]).flat(),
+    fallback: 'blocking'
   }
 }
 
