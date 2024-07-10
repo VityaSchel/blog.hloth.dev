@@ -97,14 +97,24 @@ const PaywallRenderer = (block: OutputBlockData): React.ReactNode => {
   const [shown, setShown] = React.useState(false)
   const { t } = useTranslation()
 
+  const mangle = (text: string) => {
+    const chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    const mangled = text.split('').map(() => {
+      const randChar = chars[Math.floor(Math.random() * chars.length)]
+      if (Math.random() > 0.5) return randChar.toUpperCase()
+      else return randChar
+    }).join('')
+    return mangled
+  }
+
   return (
-    <>
+    <React.Fragment key={block.id}>
       <h6>{t('paywall.title')}</h6>
       <div className={cx('rounded-lg relative w-full flex items-center overflow-clip mt-2 font-text', {
         'bg-slate-600 min-h-[128px]': !shown,
         'bg-alt': shown
       })}>
-        {!shown && <div className='flex flex-col gap-1 items-center justify-center backdrop-blur-xl w-full h-full rounded-lg absolute top-0 left-0 p-4 z-[1]'>
+        {!shown && <div className='flex flex-col gap-1 items-center justify-center backdrop-blur-lg w-full h-full rounded-lg absolute top-0 left-0 p-4 z-[1]'>
           <span className='font-bold text-white'>{t('paywall.cta')}</span>
           <span className='text-xs leading-[1.2] text-center mb-2 text-slate-300 font-medium tracking-tight'>{t('paywall.explanation')}</span>
           <Link 
@@ -122,14 +132,14 @@ const PaywallRenderer = (block: OutputBlockData): React.ReactNode => {
             <li key={i} className='pl-2 w-full'>
               <div className='flex flex-col break-words w-full'>
                 <span className='text-alt text-base'>{link.title}</span>
-                <Link href={link.url} target='_blank' rel='noreferrer nofollow' className='text-sm font-mono font-medium'>{link.url}</Link>
+                <Link href={shown ? link.url : mangle(link.url)} target='_blank' rel='noreferrer nofollow' className='text-sm font-mono font-medium'>{shown ? link.url : mangle(link.url)}</Link>
               </div>
             </li>
             {i !== block.data.links.length - 1 && <hr className='w-full h-[1px] bg-gray border-none' />}
           </>))}
         </ol>
       </div>
-    </>
+    </React.Fragment>
   )
 }
 
