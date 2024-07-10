@@ -114,7 +114,7 @@ const PaywallRenderer = (block: OutputBlockData): React.ReactNode => {
         'bg-slate-600 min-h-[128px]': !shown,
         'bg-alt': shown
       })}>
-        {!shown && <div className='flex flex-col gap-1 items-center justify-center backdrop-blur-lg w-full h-full rounded-lg absolute top-0 left-0 p-4 z-[1]'>
+        {!shown && <div className='flex flex-col gap-1 items-center justify-center backdrop-blur-md w-full h-full rounded-lg absolute top-0 left-0 p-4 z-[1]'>
           <span className='font-bold text-white'>{t('paywall.cta')}</span>
           <span className='text-xs leading-[1.2] text-center mb-2 text-slate-300 font-medium tracking-tight'>{t('paywall.explanation')}</span>
           <Link 
@@ -132,7 +132,11 @@ const PaywallRenderer = (block: OutputBlockData): React.ReactNode => {
             <li key={i} className='pl-2 w-full'>
               <div className='flex flex-col break-words w-full'>
                 <span className='text-alt text-base'>{link.title}</span>
-                <Link href={shown ? link.url : mangle(link.url)} target='_blank' rel='noreferrer nofollow' className='text-sm font-mono font-medium'>{shown ? link.url : mangle(link.url)}</Link>
+                {shown ? (
+                  <Link href={link.url} target='_blank' rel='noreferrer nofollow' className='text-sm font-mono font-medium'>{link.url}</Link>
+                ) : (
+                  <span className='underline text-sm font-mono font-medium'>{mangle(link.url)}</span>
+                )}
               </div>
             </li>
             {i !== block.data.links.length - 1 && <hr className='w-full h-[1px] bg-gray border-none' />}
