@@ -5,8 +5,8 @@ self.addEventListener('push', function (event) {
   event.waitUntil(
     registration.showNotification(data.title, {
       body: data.message,
-      icon: '/android-chrome-192x192.png',
-      badge: '/android-chrome-192x192.png',
+      icon: 'https://blog.hloth.dev/android-chrome-192x192.png',
+      badge: 'https://blog.hloth.dev/android-chrome-192x192.png',
       data: { url: data.url },
       image: data.image,
     })
