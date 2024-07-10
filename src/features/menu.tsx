@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { CloseMenuButton } from '@/entities/close-menu-button'
 import FocusTrap from 'focus-trap-react'
+import { PushNotificationsSwitch } from '@/features/push-notifications-switch'
 
 export function Menu() {
   const { t } = useTranslation('common')
@@ -51,7 +52,10 @@ export function Menu() {
             <Link href='https://hloth.dev/portfolio' className='hover:text-neutral-300 transition-all hover:tracking-wide'>
               {t('menu.my_portfolio')}
             </Link>
-            <div className='mt-auto flex items-center justify-between text-sm text-gray leading-none'>
+            <div className='mt-auto w-full'>
+              <PushNotificationsSwitch />
+            </div>
+            <div className='mt-4 flex items-center justify-between text-sm text-gray leading-none'>
               <span className='font-medium'>{t('menu.contact')}:</span>
               <span className='font-normal'>hi@hloth.dev</span>
             </div>

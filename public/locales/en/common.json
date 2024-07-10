@@ -45,5 +45,7 @@
   "post_available_in_alt_language": {
     "text": "This post is only available in",
     "link": "Russian"
-  }
+  },
+  "offline": "No internet connection",
+  "push_switch": "Subscribe to push-notifications about new posts"
 }

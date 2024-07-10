@@ -62,6 +62,12 @@ export default function BlogPage(props: BlogPageProps) {
           <meta property='article:published_time' content={post.date.toISOString()} />
           <meta property='article:author' content={t('me') + ' (https://hloth.dev/me)'} />
           <meta property='article:section' content={post.category} />
+          <meta name='twitter:card' content='summary' />
+          <meta name='twitter:url' content={`https://blog.hloth.dev/${post.locale}/blog/${post.slug}`} />
+          <meta name='twitter:title' content={title} />
+          <meta name='twitter:description' content={description} />
+          <meta name='twitter:image' content={post.banner.src} />
+          <meta name='twitter:creator' content='@hlothdev' />
 
           <script type='application/ld+json'>
             {JSON.stringify({

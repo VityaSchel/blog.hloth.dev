@@ -60,7 +60,7 @@ export function PostPreview({ date, excerpt, slug, banner, category, first, read
               sizes='(max-width: 768px) 93vw, 38vw'
             />
           </div>
-          <div className='flex items-center justify-center top-10 right-14 z-10 absolute w-[50px] h-[50px]'>
+          <div className='flex items-center justify-center top-10 right-14 z-[1] absolute w-[50px] h-[50px]'>
             <span className='bg-white w-0 h-0 transition-all rounded-full relative text-3xl open-indicator overflow-clip duration-300 shadow-md'>
               <span className='opacity-0 transition-opacity duration-[800ms] absolute top-2.5 right-2.5'>
                 <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'><path fill='#000000' d='M6 6v2h8.59L5 17.59L6.41 19L16 9.41V18h2V6z'></path></svg>
