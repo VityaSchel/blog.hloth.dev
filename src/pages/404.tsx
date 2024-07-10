@@ -42,6 +42,7 @@ export default function Page404() {
             <Jp404 />
           </div>
           <video 
+            playsInline
             src='/god-bless-america.mp4' 
             autoPlay 
             loop 
