@@ -2,8 +2,9 @@ import React from 'react'
 import Link from 'next/link'
 import type { ComponentProps } from 'react'
 import { useRouter } from 'next/router'
+import cx from 'classnames'
 
-export function FocusableFooterLink(props: ComponentProps<typeof Link>) {
+export function FocusableFooterLink({ category, ...props }: ComponentProps<typeof Link> & { category?: string }) {
   const linkRef = React.useRef<HTMLAnchorElement>(null)
   const router = useRouter()
 
@@ -46,6 +47,9 @@ export function FocusableFooterLink(props: ComponentProps<typeof Link>) {
       ref={linkRef}
       scroll={false}
       onClick={handleClick}
+      className={cx({
+        'text-[var(--footer-active)]': category && category === router.query.category
+      })}
     />
   )
 }

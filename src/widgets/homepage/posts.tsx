@@ -6,6 +6,7 @@ import { Separator } from '@/shared/ui/separator'
 import { useRouter } from 'next/router'
 import { NoPostsYet } from '@/entities/no-posts-yet'
 import cx from 'classnames'
+import Link from 'next/link'
 
 export function Posts({ posts, drafts = false }: {
   posts: Post[]
@@ -36,8 +37,8 @@ export function Posts({ posts, drafts = false }: {
     <>
       <a id='posts'></a>
       <section className={cx({ 'mt-[60px]': !drafts })}>
-        {filteredPosts.length ? (
-          filteredPosts.map((post, i) => (
+        {filteredPosts.length ? (<>
+          {filteredPosts.map((post, i) => (
             <React.Fragment key={post.slug}>
               <PostPreview
                 key={post.slug}
@@ -47,8 +48,19 @@ export function Posts({ posts, drafts = false }: {
               />
               {i !== filteredPosts.length - 1 && <Separator />}
             </React.Fragment>
-          ))
-        ) : (
+          ))}
+          {router.query.category && (
+            <div className='flex justify-center mt-24'>
+              <Link 
+                href='/#posts' 
+                className='text-base border rounded-full px-4 font-medium' 
+                scroll={false}
+              >
+                Показать всё
+              </Link>
+            </div>
+          )}
+        </>) : (
           <NoPostsYet />
         )}
       </section>

@@ -24,6 +24,7 @@ html {
   --text-alt: #121212;
   --text-gray: #4b5563;
   --text-gray: #a3a3a3;
+  --footer-active: #a3e635;
 }
 
 html[data-theme='dark'] {
@@ -39,6 +40,7 @@ html[data-theme='dark'] {
   --text-inverted-alt: #a18d69;
   --text-alt: var(--sandy-alt);
   --text-gray: #4b5563;
+  --footer-active: white;
 
   .footer-text {
     opacity: 1;

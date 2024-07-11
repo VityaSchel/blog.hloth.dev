@@ -28,6 +28,7 @@ export function Footer() {
           {categories.map((category) => (
             <FocusableFooterLink
               href={'/?category=' + category + '#posts'}
+              category={category}
               shallow={true}
               key={category}
               className='w-fit'
