@@ -17,9 +17,13 @@ function HlothBlog({ Component, pageProps }: AppProps) {
     window.addEventListener('resize', onResize)
     router.events.on('routeChangeComplete', onResize)
     onResize()
+    const interval = setInterval(() => {
+      onResize()
+    }, 100)
     return () => {
       window.removeEventListener('resize', onResize)
       router.events.off('routeChangeComplete', onResize)
+      clearInterval(interval)
     }
   }, [router])
 
