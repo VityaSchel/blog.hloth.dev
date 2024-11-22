@@ -31,7 +31,7 @@ export const EDITOR_JS_TOOLS: Record<string, ToolConstructable | ToolSettings> =
     config: {
       endpoints: {
         byFile: '/api/upload-media',
-        byUrl: '/api/fetch-image',
+        byUrl: '/api/fetch-media',
       },
       types: 'image/*, video/*'
     },
