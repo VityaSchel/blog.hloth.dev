@@ -54,6 +54,13 @@ const ImageRenderer = (block: OutputBlockData): React.ReactNode => {
   )
 }
 
+const VideoRenderer = (block: OutputBlockData): React.ReactNode => {
+  const { file } = block.data
+  return (
+    <video src={file.url} className='w-full' controls autoPlay={false} />
+  )
+}
+
 const QuoteRenderer = (block: OutputBlockData): React.ReactNode => {
   return (
     <blockquote key={block.id}>
@@ -175,7 +182,8 @@ export function renderEditorjsToHTML(data: OutputData): React.ReactNode[] {
       case 'paragraph':
         return ParagraphRenderer(block)
       case 'image':
-        return ImageRenderer(block)
+        if (block.data?.file?.url?.endsWith('.mp4')) return VideoRenderer(block)
+        else return ImageRenderer(block)
       case 'quote':
         return QuoteRenderer(block)
       case 'delimiter':
