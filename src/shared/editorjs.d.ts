@@ -8,9 +8,9 @@ declare module '@editorjs/list' {
   export = List;
 }
 
-declare module '@editorjs/warning' {
-  import Warning from '@editorjs/warning'
-  export = Warning;
+declare module '@editorjs/embed' {
+  import Embed from '@editorjs/embed'
+  export = Embed;
 }
 
 declare module '@eonasdan/editorjs-code' {

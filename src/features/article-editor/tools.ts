@@ -1,5 +1,5 @@
 // import Paragraph from '@editorjs/paragraph'
-// import Embed from '@editorjs/embed'
+import Embed from '@editorjs/embed'
 // import Table from '@editorjs/table'
 import List from '@editorjs/list'
 // import Warning from '@editorjs/warning'
@@ -19,7 +19,7 @@ import DonationPaywallTool from '@/shared/editorjs-tools/donation-paywall'
 // import SimpleImage from '@editorjs/simple-image'
 
 export const EDITOR_JS_TOOLS: Record<string, ToolConstructable | ToolSettings> = {
-  // embed: Embed,
+  embed: Embed,
   // table: Table,
   // marker: Marker,
   list: List,
@@ -30,9 +30,10 @@ export const EDITOR_JS_TOOLS: Record<string, ToolConstructable | ToolSettings> =
     class: Image,
     config: {
       endpoints: {
-        byFile: '/api/upload-image',
+        byFile: '/api/upload-media',
         byUrl: '/api/fetch-image',
       },
+      types: 'image/*, video/*'
     },
   },
   // raw: Raw,

@@ -14,19 +14,19 @@ if (!publicStorageURL) {
   throw new Error('PUBLIC_STORAGE_URL is not defined')
 }
 
-type PostUploadImageResponse = {
+type PostUploadMediaResponse = {
   success: number
   file?: {
     url: string
-    placeholder: string
-    width: number
-    height: number
+    placeholder?: string
+    width?: number
+    height?: number
   }
 }
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<PostUploadImageResponse>,
+  res: NextApiResponse<PostUploadMediaResponse>,
 ) {
   if (req.cookies['token'] !== process.env.ADMIN_TOKEN) {
     res.status(401).send({ success: 0 })
@@ -40,26 +40,39 @@ export default async function handler(
   const filename = uuid()
   const fileRequest = await fetch(req.body.url)
   const mimeType = fileRequest.headers.get('content-type')?.split('/')[1] ?? 'jpg'
-  if(!['jpg', 'jpeg', 'png', 'webp', 'gif'].includes(mimeType)) {
+  const imageMimeTypes = ['jpg', 'jpeg', 'png', 'webp', 'gif']
+  if (![...imageMimeTypes, 'mp4'].includes(mimeType)) {
     console.log('Unsupported mimetype', mimeType)
     res.status(415).json({ success: 0 })
     return
   }
   const file = Buffer.from(await fileRequest.arrayBuffer())
-  if(file.byteLength > 10 * 1024 * 1024) {
+  if(file.byteLength > 50 * 1024 * 1024) {
     res.status(413).json({ success: 0 })
     return
   }
   const extension = '.' + mimeType
-  await fs.writeFile(path.join(storagePath as string, filename + extension), file, 'binary')
-  const { width, height } = await sharp(file).metadata()
-  res.status(200).send({
-    success: 1,
-    file: {
-      url: publicStorageURL as string + filename + extension,
-      placeholder: (await getPlaiceholder(file)).base64,
-      width: width as number,
-      height: height as number
-    }
-  })
+  await fs.writeFile(path.join(storagePath as string, filename + extension), 
+    // @ts-expect-error TODO: ignore for now
+    file, 
+  'binary')
+  if (imageMimeTypes.includes(mimeType)) {
+    const { width, height } = await sharp(file).metadata()
+    res.status(200).send({
+      success: 1,
+      file: {
+        url: publicStorageURL as string + filename + extension,
+        placeholder: (await getPlaiceholder(file)).base64,
+        width: width as number,
+        height: height as number
+      }
+    })
+  } else {
+    res.status(200).send({
+      success: 1,
+      file: {
+        url: publicStorageURL as string + filename + extension
+      }
+    })
+  }
 }

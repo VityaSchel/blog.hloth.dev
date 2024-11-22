@@ -63,7 +63,7 @@ export function BannerUploader({ value, onChange, alt, altOnChange, disabled, ba
       className='rounded-[60px] relative aspect-[1.625/1] flex-[40%] max-w-[40%] overflow-clip'
     >
       <button 
-        className='bg-transparent w-full h-full absolute top-0 left-0 focus-visible:outline-2 rounded-[60px]'
+        className='bg-transparent w-full h-full absolute top-0 left-0 focus-visible:outline-2 rounded-[60px] z-10'
         disabled={disabled}
         onClick={handleUploadBanner}
       />
@@ -79,7 +79,7 @@ export function BannerUploader({ value, onChange, alt, altOnChange, disabled, ba
         <img src={banner} className='w-full h-full object-cover' />
         <input 
           type='text' 
-          className={cx('absolute bottom-2 left-14 right-14 shadow-lg rounded-md p-2 hover opacity-0 hover:opacity-100 transition-opacity border border-text focus:outline-none focus:opacity-100', {
+          className={cx('absolute bottom-2 left-14 right-14 shadow-lg rounded-md p-2 hover opacity-0 hover:opacity-100 transition-opacity border border-text focus:outline-none focus:opacity-100 z-10', {
             'opacity-100': bannerAltShow
           })}
           onClick={(event) => event.stopPropagation()}

@@ -22,20 +22,20 @@ if (!publicStorageURL) {
   throw new Error('PUBLIC_STORAGE_URL is not defined')
 }
 
-type PostUploadImageResponse = {
+type PostUploadMediaResponse = {
   success: number
   error?: string
   file?: {
     url: string
-    placeholder: string
-    width: number
-    height: number
+    placeholder?: string
+    width?: number
+    height?: number
   }
 }
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<PostUploadImageResponse>,
+  res: NextApiResponse<PostUploadMediaResponse>,
 ) {
   if (req.cookies['token'] !== process.env.ADMIN_TOKEN) {
     res.status(401).send({ success: 0 })
@@ -59,24 +59,34 @@ export default async function handler(
     return
   }
   const file = Object.values(files)[0]?.[0] as import('formidable').File
-  if(file.size > 10 * 1024 * 1024) {
+  if(file.size > 50 * 1024 * 1024) {
     res.status(413).json({ success: 0 })
     return
   }
   const buffer = await fs.readFile(file.filepath)
   const extension = path.extname(file.originalFilename ?? file.newFilename).toLowerCase()
-  const { width, height } = await sharp(buffer).metadata()
-  if(!width || !height) {
-    res.status(500).json({ success: 0, error: 'No width or height metadata' })
-    return
-  }
-  res.status(200).send({
-    success: 1,
-    file: {
-      url: publicStorageURL as string + filename + extension,
-      placeholder: (await getPlaiceholder(await fs.readFile(file.filepath))).base64,
-      width,
-      height
+  const imageMimeTypes = ['jpg', 'jpeg', 'png', 'webp', 'gif']
+  if (imageMimeTypes.includes(extension.slice(1))) {
+    const { width, height } = await sharp(buffer).metadata()
+    if(!width || !height) {
+      res.status(500).json({ success: 0, error: 'No width or height metadata' })
+      return
     }
-  })
+    res.status(200).send({
+      success: 1,
+      file: {
+        url: publicStorageURL as string + filename + extension,
+        placeholder: (await getPlaiceholder(await fs.readFile(file.filepath))).base64,
+        width,
+        height
+      }
+    })
+  } else {
+    res.status(200).send({
+      success: 1,
+      file: {
+        url: publicStorageURL as string + filename + extension
+      }
+    })
+  }
 }
