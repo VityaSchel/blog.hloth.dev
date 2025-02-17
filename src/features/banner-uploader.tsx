@@ -31,7 +31,7 @@ export function BannerUploader({ value, onChange, alt, altOnChange, disabled, ba
       formData.append('file', file)
       setProgress(0)
       const xhr = new XMLHttpRequest()
-      xhr.open('POST', '/api/upload-image')
+      xhr.open('POST', '/api/upload-media')
       xhr.upload.onprogress = (event) => {
         setProgress(event.loaded / event.total)
       }
