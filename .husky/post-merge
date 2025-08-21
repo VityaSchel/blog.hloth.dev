@@ -1,0 +1,1 @@
+find . -type f -name ".env*" -exec chmod 440 {} \; 2>/dev/null || true

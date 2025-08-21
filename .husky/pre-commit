@@ -1,0 +1,3 @@
+dotenvx ext precommit --log-level=warn
+bunx lint-staged
+svelte-kit sync || echo ''

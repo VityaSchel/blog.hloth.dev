@@ -1,0 +1,6 @@
+# Package Managers
+bun.lock
+
+# Miscellaneous
+/static/
+/drizzle/

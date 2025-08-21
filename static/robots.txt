@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /post
+Disallow: /drafts
+
+Sitemap: https://blog.hloth.dev/sitemap.xml

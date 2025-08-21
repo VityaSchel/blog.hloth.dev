@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512"><svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_5_3)">
+<rect width="512" height="512" fill="black"></rect>
+<path d="M276.76 455.68C233.752 455.68 197.912 434.176 181.016 399.872L175.384 448H126.744V64H187.16V211.968C206.616 185.344 238.872 168.448 277.272 168.448C348.952 168.448 399.64 226.816 399.64 310.784C399.64 396.288 348.952 455.68 276.76 455.68ZM263.448 404.48C307.48 404.48 337.688 366.08 337.688 310.784C337.688 257.024 307.48 219.648 263.448 219.648C218.904 219.648 187.16 256.512 187.16 309.248C187.16 365.056 218.904 404.48 263.448 404.48Z" fill="#D5C18E"></path>
+<rect x="25" y="25" width="462" height="12" fill="#D5C18E"></rect>
+<rect x="25" y="475" width="462" height="12" fill="#D5C18E"></rect>
+</g>
+<defs>
+<clipPath id="SvgjsClipPath1039">
+<rect width="512" height="512" fill="white"></rect>
+</clipPath>
+</defs>
+</svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
+@media (prefers-color-scheme: dark) { :root { filter: none; } }
+</style></svg>
