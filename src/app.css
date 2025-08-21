@@ -49,7 +49,6 @@ html {
 	--theme-switch-day: #000000;
 	--theme-switch-night: #2c4ebe;
 	--theme-switch-night-alt: #293760;
-	--text-inverted: #ffffff;
 	--text-alt: #121212;
 }
 
@@ -59,13 +58,7 @@ html[data-theme='dark'] {
 	--theme-switch-day: var(--color-sandy);
 	--theme-switch-night: #7f7445;
 	--theme-switch-night-alt: #7f7445;
-	--text-inverted: #000000;
-	--text-inverted-alt: #a18d69;
 	--text-alt: var(--sandy-alt);
-}
-
-.footer-text {
-	color: var(--text-inverted);
 }
 
 [data-theme='dark'] .footer-text:not(:has(:focus-visible)) {

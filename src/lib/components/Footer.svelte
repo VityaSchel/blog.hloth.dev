@@ -5,10 +5,10 @@
 
 <footer
 	class="
-		footer-text bottom-0 z-[-1] w-full bg-black p-6 font-display
+		footer-text bottom-0 z-[-1] w-full bg-black p-6 font-display text-white
 		not-[:has(:focus-visible)]:sticky
 		md:p-12
-		dark:bg-sandy
+		dark:bg-sandy dark:text-black
 	"
 >
 	<div
