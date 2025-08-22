@@ -11,6 +11,7 @@
 	import Paywall from '$lib/ui/Paywall.svelte';
 	import List from '$lib/ui/List.svelte';
 	import IsolatedIframe from '$lib/ui/IsolatedIframe.svelte';
+	import Warning from '$lib/ui/Warning.svelte';
 	import type { Content } from './blocks';
 
 	let { content }: { content: Content } = $props();
@@ -66,6 +67,14 @@
 					title="Embedded {block.data.service} frame"
 					caption={block.data.caption}
 				/>
+			{:else if block.type === 'warning'}
+				<Warning title={block.data.title} message={block.data.message} />
+			{:else}
+				<div
+					class="rounded-xl bg-red-700 px-3 py-2 font-mono font-semibold text-white"
+				>
+					Unknown block type: {(block as { type: string }).type}
+				</div>
 			{/if}
 		{/each}
 	</div>

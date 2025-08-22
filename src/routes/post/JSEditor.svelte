@@ -237,10 +237,10 @@
 				bind:value={
 					() => id,
 					(newValue) =>
-						newValue
+						(id = newValue
 							.toLowerCase()
 							.replaceAll(/[ _]/g, '-')
-							.replaceAll(/[^a-z0-9-]/g, '')
+							.replaceAll(/[^a-z0-9-]/g, ''))
 				}
 				placeholder={title
 					.toLowerCase()
@@ -288,7 +288,9 @@
 		<div class="flex w-[680px] max-w-full flex-col gap-2">
 			<span class="font-semibold">Excerpt:</span>
 			<textarea
-				bind:value={() => excerpt, (newValue) => newValue.replaceAll('\n', '')}
+				bind:value={
+					() => excerpt, (newValue) => (excerpt = newValue.replaceAll('\n', ''))
+				}
 				placeholder="Sum up in 260 characters..."
 				class="
 					text-text w-full resize-none rounded-lg bg-white px-3 py-2 font-text

@@ -57,10 +57,10 @@
 
 				uploading = true;
 				const formData = new FormData();
-				formData.append('file', file);
+				formData.append('image', file);
 				progress = 0;
 				const xhr = new XMLHttpRequest();
-				xhr.open('POST', '/api/media');
+				xhr.open('POST', '/api/media?remote=false&type=image');
 				xhr.upload.onprogress = (event) =>
 					(progress = event.loaded / event.total);
 				xhr.onload = () => {
@@ -68,9 +68,12 @@
 						if (xhr.status === 200) {
 							value = z
 								.object({
-									id: mediaFileIdSchema
+									success: z.literal(1),
+									file: z.object({
+										id: mediaFileIdSchema
+									})
 								})
-								.parse(JSON.parse(xhr.responseText)).id;
+								.parse(JSON.parse(xhr.responseText)).file.id;
 						} else {
 							img = null;
 							fileSelector.value = '';
@@ -95,9 +98,10 @@
 			class={[
 				`
 					hover border-text absolute right-14 bottom-2 left-14 z-10 rounded-md border
-					p-2 opacity-0 shadow-lg transition-opacity
+					bg-white p-2 opacity-0 shadow-lg transition-opacity
 					hover:opacity-100
 					focus:opacity-100 focus:outline-none
+					dark:bg-black-alt
 				`,
 				{
 					'opacity-100': forceShowAlt

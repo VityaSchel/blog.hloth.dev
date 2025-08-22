@@ -440,3 +440,12 @@ pre[class*='language-'] {
 .cdx-notify--error {
 	color: black;
 }
+
+.cdx-block.cdx-warning::before {
+	content: '☝️';
+	background: none;
+}
+
+.cdx-input {
+	overflow-wrap: break-word;
+}

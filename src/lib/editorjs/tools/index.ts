@@ -4,7 +4,7 @@ import Header from '@editorjs/header';
 import Delimiter from '@editorjs/delimiter';
 import List from '@editorjs/list';
 import Quote from '@editorjs/quote';
-// import Warning from '@editorjs/warning';
+import Warning from '@editorjs/warning';
 import Image from '@editorjs/image';
 import Video from '@hloth/editorjs-video';
 import Code from '@eonasdan/editorjs-code';
@@ -14,11 +14,16 @@ import DonationPaywallTool from './paywall';
 export const editorjsTools: Record<string, ToolConstructable | ToolSettings> = {
 	header: Header,
 	// paragraph (built-in)
-	// linkTool: LinkTool,
+	// linkTool: {
+	// 	class: LinkTool,
+	// 	config: {
+	// 		endpoint: '/api/link-preview'
+	// 	}
+	// },
 	delimiter: Delimiter,
 	list: List,
 	quote: Quote,
-	// warning: Warning,
+	warning: Warning,
 	image: {
 		class: Image,
 		config: {

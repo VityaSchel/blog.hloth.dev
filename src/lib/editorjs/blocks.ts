@@ -1,18 +1,6 @@
 import { imageSchema, videoSchema } from '$lib/media';
 import z from 'zod';
 
-export const embedBlockSchema = z.object({
-	type: z.literal('embed'),
-	data: z.object({
-		service: z.string(),
-		source: z.url(),
-		embed: z.url(),
-		width: z.number().int().min(1),
-		height: z.number().int().min(1),
-		caption: z.string().max(1024)
-	})
-});
-
 export const headerBlockSchema = z.object({
 	type: z.literal('header'),
 	data: z.object({
@@ -25,6 +13,60 @@ export const paragraphBlockSchema = z.object({
 	type: z.literal('paragraph'),
 	data: z.object({
 		text: z.string().max(64 * 1024)
+	})
+});
+
+// link
+
+export const delimiterBlockSchema = z.object({
+	type: z.literal('delimiter'),
+	data: z.object({})
+});
+
+export const listItemsSchema = z.array(
+	z.object({
+		content: z.string().max(8192),
+		meta: z.object({
+			checked: z.boolean().optional()
+		}),
+		get items() {
+			return listItemsSchema;
+		}
+	})
+);
+
+export type ListItems = z.infer<typeof listItemsSchema>;
+
+export const listBlockSchema = z.object({
+	type: z.literal('list'),
+	data: z.object({
+		style: z.enum(['ordered', 'unordered', 'checklist']),
+		items: listItemsSchema
+	})
+});
+
+// TODO: remove
+export const legacyListBlockSchema = z.object({
+	type: z.literal('list'),
+	data: z.object({
+		style: z.enum(['ordered', 'unordered', 'checklist']),
+		items: z.array(z.string().max(8192))
+	})
+});
+
+export const quoteBlockSchema = z.object({
+	type: z.literal('quote'),
+	data: z.object({
+		text: z.string().max(64 * 1024),
+		caption: z.string().max(1024)
+	})
+});
+
+export const warningBlockSchema = z.object({
+	type: z.literal('warning'),
+	data: z.object({
+		title: z.string().max(256),
+		message: z.string().max(2048)
 	})
 });
 
@@ -64,24 +106,23 @@ export const legacyMongoMediaBlockSchema = z.object({
 	})
 });
 
-export const quoteBlockSchema = z.object({
-	type: z.literal('quote'),
-	data: z.object({
-		text: z.string().max(64 * 1024),
-		caption: z.string().max(1024)
-	})
-});
-
-export const delimiterBlockSchema = z.object({
-	type: z.literal('delimiter'),
-	data: z.object({})
-});
-
 export const codeBlockSchema = z.object({
 	type: z.literal('code'),
 	data: z.object({
 		code: z.string().max(64 * 1024),
 		languageCode: z.string().max(128)
+	})
+});
+
+export const embedBlockSchema = z.object({
+	type: z.literal('embed'),
+	data: z.object({
+		service: z.string(),
+		source: z.url(),
+		embed: z.url(),
+		width: z.number().int().min(1),
+		height: z.number().int().min(1),
+		caption: z.string().max(1024)
 	})
 });
 
@@ -97,43 +138,13 @@ export const paywallBlockSchema = z.object({
 	})
 });
 
-export const listItemsSchema = z.array(
-	z.object({
-		content: z.string().max(8192),
-		meta: z.object({
-			checked: z.boolean().optional()
-		}),
-		get items() {
-			return listItemsSchema;
-		}
-	})
-);
-
-export type ListItems = z.infer<typeof listItemsSchema>;
-
-export const listBlockSchema = z.object({
-	type: z.literal('list'),
-	data: z.object({
-		style: z.enum(['ordered', 'unordered', 'checklist']),
-		items: listItemsSchema
-	})
-});
-
-// TODO: remove
-export const legacyListBlockSchema = z.object({
-	type: z.literal('list'),
-	data: z.object({
-		style: z.enum(['ordered', 'unordered', 'checklist']),
-		items: z.array(z.string().max(8192))
-	})
-});
-
 export const contentBlockSchema = z.discriminatedUnion('type', [
 	headerBlockSchema,
 	paragraphBlockSchema,
 	delimiterBlockSchema,
 	listBlockSchema,
 	quoteBlockSchema,
+	warningBlockSchema,
 	imageBlockSchema,
 	videoBlockSchema,
 	codeBlockSchema,
@@ -148,6 +159,7 @@ export const legacyContentBlockSchema = z.discriminatedUnion('type', [
 	delimiterBlockSchema,
 	legacyListBlockSchema,
 	quoteBlockSchema,
+	warningBlockSchema,
 	legacyMongoMediaBlockSchema,
 	codeBlockSchema,
 	paywallBlockSchema,
