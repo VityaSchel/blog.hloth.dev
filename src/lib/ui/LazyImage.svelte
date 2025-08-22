@@ -1,7 +1,4 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import { onMount } from 'svelte';
-
 	let {
 		alt,
 		placeholder,
@@ -19,9 +16,6 @@
 		rounded?: boolean;
 	} & import('svelte/elements').SvelteHTMLElements['img'] = $props();
 
-	let loaded = $state(false);
-
-	const showPlaceholder = $derived(placeholder && browser && !loaded);
 	const ar = $derived(
 		'aspectRatio' in props
 			? props.aspectRatio
@@ -32,11 +26,6 @@
 	const explicitSize = $derived('width' in props && 'height' in props);
 
 	let img: HTMLImageElement;
-	onMount(() => {
-		if (img.complete) {
-			loaded = true;
-		}
-	});
 </script>
 
 <svelte:head>
@@ -59,11 +48,9 @@
 			? '100%'
 			: 'auto'};"
 >
-	<!-- : `width: min(${props.width}px, 100%); height: min(${props.height}px, 100%);`} -->
 	<img
 		class={[
 			{
-				hidden: !showPlaceholder,
 				'overflow-clip rounded-lg': rounded
 			},
 			props.class,
@@ -75,7 +62,6 @@
 	<img
 		class={[
 			{
-				'opacity-0': showPlaceholder,
 				'overflow-clip rounded-lg': rounded
 			},
 			props.class,
@@ -83,7 +69,6 @@
 		]}
 		{alt}
 		{...props}
-		onload={() => (loaded = true)}
 		loading="lazy"
 		bind:this={img}
 	/>
