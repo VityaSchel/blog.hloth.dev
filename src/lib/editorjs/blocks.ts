@@ -1,6 +1,18 @@
 import { imageSchema, videoSchema } from '$lib/media';
 import z from 'zod';
 
+export const embedBlockSchema = z.object({
+	type: z.literal('embed'),
+	data: z.object({
+		service: z.string(),
+		source: z.url(),
+		embed: z.url(),
+		width: z.number().int().min(1),
+		height: z.number().int().min(1),
+		caption: z.string().max(1024)
+	})
+});
+
 export const headerBlockSchema = z.object({
 	type: z.literal('header'),
 	data: z.object({
@@ -122,7 +134,8 @@ export const contentBlockSchema = z.discriminatedUnion('type', [
 	delimiterBlockSchema,
 	codeBlockSchema,
 	paywallBlockSchema,
-	listBlockSchema
+	listBlockSchema,
+	embedBlockSchema
 ]);
 
 // TODO: remove
@@ -134,7 +147,8 @@ export const legacyContentBlockSchema = z.discriminatedUnion('type', [
 	delimiterBlockSchema,
 	codeBlockSchema,
 	paywallBlockSchema,
-	legacylistBlockSchema
+	legacylistBlockSchema,
+	embedBlockSchema
 ]);
 
 export const contentSchema = z.object({

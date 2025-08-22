@@ -10,6 +10,7 @@
 	import Code from '$lib/ui/Code.svelte';
 	import Paywall from '$lib/ui/Paywall.svelte';
 	import List from '$lib/ui/List.svelte';
+	import IsolatedIframe from '$lib/ui/IsolatedIframe.svelte';
 	import type { Content } from './blocks';
 
 	let { content }: { content: Content } = $props();
@@ -55,6 +56,14 @@
 				<List style={block.data.style} items={block.data.items} />
 			{:else if block.type === 'paywall'}
 				<Paywall links={block.data.links} />
+			{:else if block.type === 'embed'}
+				<IsolatedIframe
+					url={block.data.embed}
+					width={block.data.width}
+					height={block.data.height}
+					title="Embedded {block.data.service} frame"
+					caption={block.data.caption}
+				/>
 			{/if}
 		{/each}
 	</div>
