@@ -22,6 +22,9 @@
 	--font-text: 'Poppins', var(--font-caption);
 	--font-display: 'PP Mori', var(--font-text);
 	--tracking-tightest: -0.06em;
+	--font-mono:
+		Menlo, Consolas, DejaVu Sans Mono, ui-monospace, SFMono-Regular, Monaco,
+		Liberation Mono, Courier New, monospace;
 }
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
@@ -262,19 +265,6 @@ body.no-overscroll {
 	}
 }
 
-.backdrop-blur-sm {
-	-webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness)
-		var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale)
-		var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert)
-		var(--tw-backdrop-opacity) var(--tw-backdrop-saturate)
-		var(--tw-backdrop-sepia);
-	backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness)
-		var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale)
-		var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert)
-		var(--tw-backdrop-opacity) var(--tw-backdrop-saturate)
-		var(--tw-backdrop-sepia);
-}
-
 .banner-clip {
 	mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 567 349" xmlns="http://www.w3.org/2000/svg"><path d="M0 60C0 31.7157 0 17.5736 8.7868 8.7868C17.5736 0 31.7157 0 60 0H507C535.284 0 549.426 0 558.213 8.7868C567 17.5736 567 31.7157 567 60V289C567 317.284 567 331.426 558.213 340.213C549.426 349 535.284 349 507 349H60C31.7157 349 17.5736 349 8.7868 340.213C0 331.426 0 317.284 0 289V60Z"/></svg>');
 }
@@ -297,4 +287,8 @@ body.no-overscroll {
 
 .one-storey-a {
 	font-feature-settings: 'ss02' 1;
+}
+
+pre[class*="language-"] {
+	border-radius: 8px;
 }

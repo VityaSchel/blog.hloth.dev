@@ -81,22 +81,13 @@
 
 			code {
 				display: block;
-				border-radius: 8px;
-				padding: 28px 0px;
+				/* border-radius: 8px; */
+				/* padding: 28px 0px; */
 				font-size: 14px;
 				white-space: pre;
 				overflow: auto;
 				word-break: break-word;
-				font-family:
-					Menlo,
-					Consolas,
-					DejaVu Sans Mono,
-					ui-monospace,
-					SFMono-Regular,
-					Monaco,
-					'Liberation Mono',
-					'Courier New',
-					monospace;
+				font-family: var(--font-mono);
 
 				.token-line {
 					border: solid transparent;
