@@ -60,7 +60,7 @@
 				formData.append('image', file);
 				progress = 0;
 				const xhr = new XMLHttpRequest();
-				xhr.open('POST', '/api/media?remote=false&type=image');
+				xhr.open('POST', '/api/media?remote=false&type=image&crop=banner');
 				xhr.upload.onprogress = (event) =>
 					(progress = event.loaded / event.total);
 				xhr.onload = () => {

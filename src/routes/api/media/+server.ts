@@ -15,6 +15,7 @@ export async function POST({ url, locals, request }) {
 			throw error(403, 'Unauthorized');
 		}
 		const remote = url.searchParams.get('remote') === 'true';
+
 		const typeParsing = await z
 			.enum(['video', 'image'])
 			.safeParseAsync(url.searchParams.get('type'));
@@ -22,6 +23,16 @@ export async function POST({ url, locals, request }) {
 			throw error(400, 'Invalid media type in query');
 		}
 		const type = typeParsing.data;
+
+		const cropParsing = await z
+			.enum(['banner'])
+			.nullable()
+			.safeParseAsync(url.searchParams.get('crop'));
+		if (!cropParsing.success) {
+			throw error(400, 'Invalid crop argument in query');
+		}
+		const crop = cropParsing.data;
+
 		let content: Uint8Array;
 		let contentType: string;
 		try {
@@ -51,7 +62,7 @@ export async function POST({ url, locals, request }) {
 			video: ['mp4', 'webm']
 		};
 
-		const extension = contentType.split('/')[1];
+		let extension = contentType.split('/')[1];
 
 		if (!supportedMimeTypes[type].includes(extension)) {
 			throw error(415, 'Unsupported file type');
@@ -62,12 +73,35 @@ export async function POST({ url, locals, request }) {
 			throw error(413, 'File too large');
 		}
 
-		const id = crypto.randomUUID() + '.' + extension;
-		await fs.writeFile(path.join(STORAGE_PATH, id), content, 'binary');
-
 		let file;
 		if (type === 'image') {
-			const { width, height } = await sharp(content).metadata();
+			let img = await sharp(content).autoOrient();
+			const { width, height } = await img.metadata();
+			const aspectRatio = width / height;
+			if (!Number.isFinite(aspectRatio)) {
+				throw error(415, 'Invalid image');
+			}
+			if (crop === 'banner') {
+				let newWidth: number, newHeight: number;
+				const targetAspectRatio = 1625 / 1000;
+				if (aspectRatio > 1) {
+					newWidth = Math.min(width, 1625);
+					newHeight = Math.round(newWidth / targetAspectRatio);
+				} else if (aspectRatio < 1) {
+					newHeight = Math.min(height, 1000);
+					newWidth = Math.round(newHeight * targetAspectRatio);
+				} else {
+					newWidth = newHeight = width;
+				}
+				img = img.resize({
+					width: newWidth,
+					height: newHeight,
+					fit: 'cover',
+					position: 'center'
+				});
+			}
+			content = await img.webp({ quality: 80, force: true }).toBuffer();
+			extension = 'webp';
 			const placeholder = (await getPlaiceholder(Buffer.from(content))).base64;
 			file = {
 				placeholder,
@@ -75,6 +109,8 @@ export async function POST({ url, locals, request }) {
 				height
 			};
 		}
+		const id = crypto.randomUUID() + '.' + extension;
+		await fs.writeFile(path.join(STORAGE_PATH, id), content, 'binary');
 		await db.insert(mediaTable).values({
 			id,
 			...file

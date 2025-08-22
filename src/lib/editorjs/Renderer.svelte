@@ -2,7 +2,9 @@
 	import { sanitize } from '$lib/sanitizer';
 	import { getUrl } from '$lib/media';
 	import Heading from '$lib/ui/Heading.svelte';
+	import RichLink from '$lib/ui/RichLink.svelte';
 	import Paragraph from '$lib/ui/Paragraph.svelte';
+	import Warning from '$lib/ui/Warning.svelte';
 	import Video from '$lib/ui/Video.svelte';
 	import Image from '$lib/ui/Image.svelte';
 	import Quote from '$lib/ui/Quote.svelte';
@@ -11,7 +13,6 @@
 	import Paywall from '$lib/ui/Paywall.svelte';
 	import List from '$lib/ui/List.svelte';
 	import IsolatedIframe from '$lib/ui/IsolatedIframe.svelte';
-	import Warning from '$lib/ui/Warning.svelte';
 	import type { Content } from './blocks';
 
 	let { content }: { content: Content } = $props();
@@ -69,9 +70,19 @@
 				/>
 			{:else if block.type === 'warning'}
 				<Warning title={block.data.title} message={block.data.message} />
+			{:else if block.type === 'linkTool'}
+				<RichLink
+					title={block.data.meta.title}
+					href={block.data.link}
+					description={block.data.meta.description}
+					imageUrl={block.data.meta.image?.url}
+				/>
 			{:else}
 				<div
-					class="rounded-xl bg-red-700 px-3 py-2 font-mono font-semibold text-white"
+					class="
+						rounded-xl bg-red-700 px-3 py-2 font-mono font-semibold text-white
+						not-first:mt-2
+					"
 				>
 					Unknown block type: {(block as { type: string }).type}
 				</div>

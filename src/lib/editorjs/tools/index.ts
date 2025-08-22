@@ -1,6 +1,6 @@
 import type { ToolConstructable, ToolSettings } from '@editorjs/editorjs';
 import Header from '@editorjs/header';
-// import LinkTool from '@editorjs/link';
+import LinkTool from '@editorjs/link';
 import Delimiter from '@editorjs/delimiter';
 import List from '@editorjs/list';
 import Quote from '@editorjs/quote';
@@ -14,12 +14,12 @@ import DonationPaywallTool from './paywall';
 export const editorjsTools: Record<string, ToolConstructable | ToolSettings> = {
 	header: Header,
 	// paragraph (built-in)
-	// linkTool: {
-	// 	class: LinkTool,
-	// 	config: {
-	// 		endpoint: '/api/link-preview'
-	// 	}
-	// },
+	linkTool: {
+		class: LinkTool,
+		config: {
+			endpoint: '/api/link-preview'
+		}
+	},
 	delimiter: Delimiter,
 	list: List,
 	quote: Quote,

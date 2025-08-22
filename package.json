@@ -72,6 +72,7 @@
 		"@fontsource-variable/source-serif-4": "^5.2.8",
 		"@fontsource/poppins": "^5.2.6",
 		"@hloth/editorjs-video": "2.10.5",
+		"cheerio": "^1.1.2",
 		"drizzle-orm": "^0.40.0",
 		"editorjs-html": "^4.0.5",
 		"highlight.js": "^11.11.1",

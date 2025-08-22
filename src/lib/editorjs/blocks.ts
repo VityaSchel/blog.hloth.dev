@@ -16,7 +16,22 @@ export const paragraphBlockSchema = z.object({
 	})
 });
 
-// link
+export const linkToolBlockSchema = z.object({
+	type: z.literal('linkTool'),
+	data: z.object({
+		link: z.url().max(2048),
+		meta: z.object({
+			title: z.string().max(512).optional(),
+			site_name: z.string().max(256).optional(),
+			description: z.string().max(2048).optional(),
+			image: z
+				.object({
+					url: z.url().optional()
+				})
+				.optional()
+		})
+	})
+});
 
 export const delimiterBlockSchema = z.object({
 	type: z.literal('delimiter'),
@@ -141,6 +156,7 @@ export const paywallBlockSchema = z.object({
 export const contentBlockSchema = z.discriminatedUnion('type', [
 	headerBlockSchema,
 	paragraphBlockSchema,
+	linkToolBlockSchema,
 	delimiterBlockSchema,
 	listBlockSchema,
 	quoteBlockSchema,
@@ -156,6 +172,7 @@ export const contentBlockSchema = z.discriminatedUnion('type', [
 export const legacyContentBlockSchema = z.discriminatedUnion('type', [
 	headerBlockSchema,
 	paragraphBlockSchema,
+	linkToolBlockSchema,
 	delimiterBlockSchema,
 	legacyListBlockSchema,
 	quoteBlockSchema,

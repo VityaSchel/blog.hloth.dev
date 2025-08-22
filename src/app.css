@@ -423,7 +423,7 @@ pre[class*='language-'] {
 		padding-left: 0px;
 	}
 
-	a {
+	a:not(.rich-link) {
 		text-decoration: underline;
 	}
 
