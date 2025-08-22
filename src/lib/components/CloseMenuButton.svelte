@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { shameCorner } from '$lib/shame-corner.svelte';
-
 	let {
 		closing = $bindable(),
 		onClose
@@ -13,19 +11,11 @@
 <input tabindex={-1} aria-hidden="true" class="absolute h-0 w-0 opacity-0" />
 <button
 	aria-label="Close menu"
-	class={[
-		`
-			group flex cursor-pointer items-center transition-[width] will-change-[width]
-			focus:outline-0
-			focus-visible:bg-blue-400/20
-		`,
-		{
-			'w-0 ease-in-out': closing,
-			'duration-500': closing && !shameCorner.safari,
-			'duration-1500': closing && shameCorner.safari,
-			'w-full min-w-[50px]': !closing
-		}
-	]}
+	class="
+		group flex w-full min-w-[50px] cursor-pointer items-center duration-500
+		focus:outline-0
+		focus-visible:bg-blue-400/20
+	"
 	style="padding-inline-start: 32px; padding-inline-end: 32px;"
 	onclick={() => {
 		if (closing) return;

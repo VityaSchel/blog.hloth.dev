@@ -39,7 +39,7 @@
 		<div
 			class="
 				theme-switch-bg relative h-[2px] w-full overflow-clip transition-all
-				duration-75
+				duration-200
 				group-hover:h-6 group-hover:rounded-xl
 				group-focus-visible:h-6 group-focus-visible:rounded-xl
 			"
@@ -49,7 +49,7 @@
 			<div
 				class="
 					theme-switch-bg-open absolute top-0 left-0 h-full w-full opacity-0
-					transition-opacity duration-75
+					transition-opacity duration-200
 					group-hover:opacity-100
 					group-focus-visible:opacity-100
 				"

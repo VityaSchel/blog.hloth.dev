@@ -154,6 +154,7 @@ body.no-overscroll {
 .transition-blur {
 	backdrop-filter: blur(var(--blur));
 	transition: --blur 500ms ease-in-out;
+	will-change: backdrop-filter;
 }
 
 @property --blur {
