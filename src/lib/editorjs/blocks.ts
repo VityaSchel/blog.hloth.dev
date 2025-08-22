@@ -28,22 +28,24 @@ export const paragraphBlockSchema = z.object({
 	})
 });
 
-export const mediaBlockSchema = z.object({
+export const imageBlockSchema = z.object({
 	type: z.literal('image'),
-	data: z.discriminatedUnion('media', [
-		z.object({
-			media: z.literal('image'),
-			file: imageSchema,
-			alt: z.string().min(1).max(1024),
-			caption: z.string().max(1024),
-			withBorder: z.boolean(),
-			withBackground: z.boolean()
-		}),
-		z.object({
-			media: z.literal('video'),
-			file: videoSchema
-		})
-	])
+	data: z.object({
+		file: imageSchema,
+		alt: z.string().min(1).max(1024),
+		caption: z.string().max(1024),
+		withBorder: z.boolean(),
+		withBackground: z.boolean()
+	})
+});
+
+export const videoBlockSchema = z.object({
+	type: z.literal('video'),
+	data: z.object({
+		file: videoSchema,
+		caption: z.string().max(1024),
+		aspectRatio: z.number().positive()
+	})
 });
 
 // TODO: remove
@@ -118,7 +120,7 @@ export const listBlockSchema = z.object({
 });
 
 // TODO: remove
-export const legacylistBlockSchema = z.object({
+export const legacyListBlockSchema = z.object({
 	type: z.literal('list'),
 	data: z.object({
 		style: z.enum(['ordered', 'unordered', 'checklist']),
@@ -129,12 +131,13 @@ export const legacylistBlockSchema = z.object({
 export const contentBlockSchema = z.discriminatedUnion('type', [
 	headerBlockSchema,
 	paragraphBlockSchema,
-	mediaBlockSchema,
-	quoteBlockSchema,
 	delimiterBlockSchema,
+	listBlockSchema,
+	quoteBlockSchema,
+	imageBlockSchema,
+	videoBlockSchema,
 	codeBlockSchema,
 	paywallBlockSchema,
-	listBlockSchema,
 	embedBlockSchema
 ]);
 
@@ -142,12 +145,12 @@ export const contentBlockSchema = z.discriminatedUnion('type', [
 export const legacyContentBlockSchema = z.discriminatedUnion('type', [
 	headerBlockSchema,
 	paragraphBlockSchema,
-	legacyMongoMediaBlockSchema,
-	quoteBlockSchema,
 	delimiterBlockSchema,
+	legacyListBlockSchema,
+	quoteBlockSchema,
+	legacyMongoMediaBlockSchema,
 	codeBlockSchema,
 	paywallBlockSchema,
-	legacylistBlockSchema,
 	embedBlockSchema
 ]);
 

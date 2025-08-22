@@ -43,8 +43,8 @@
 		return {
 			time: initial.content.time,
 			version: initial.content.version,
-			blocks: initial.content.blocks.map((block) => {
-				return block.type === 'image'
+			blocks: initial.content.blocks.map((block) =>
+				['image', 'video'].includes(block.type)
 					? {
 							...block,
 							data: {
@@ -52,8 +52,8 @@
 								file: { ...block.data.file, url: getUrl(block.data.file.id) }
 							}
 						}
-					: block;
-			})
+					: block
+			)
 		};
 	});
 
@@ -72,16 +72,6 @@
 			return;
 		}
 		try {
-			const content = await editor.getData();
-			content.blocks.forEach((block) => {
-				if (block.type === 'image') {
-					block.data.media =
-						block.data.file.id.endsWith('mp4') ||
-						block.data.file.id.endsWith('webm')
-							? 'video'
-							: 'image';
-				}
-			});
 			const request = await fetch('/api/posts', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
@@ -92,7 +82,7 @@
 					readTime,
 					bannerId: banner,
 					bannerAlt,
-					content,
+					content: await editor.getData(),
 					excerpt,
 					visibility
 				})

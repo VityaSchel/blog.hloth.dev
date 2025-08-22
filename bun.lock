@@ -13,10 +13,12 @@
         "@editorjs/link": "^2.6.2",
         "@editorjs/list": "^2.0.8",
         "@editorjs/quote": "^2.7.6",
+        "@editorjs/warning": "^1.4.1",
         "@eonasdan/editorjs-code": "^3.0.4",
         "@fontsource-variable/montserrat": "^5.2.6",
         "@fontsource-variable/source-serif-4": "^5.2.8",
         "@fontsource/poppins": "^5.2.6",
+        "@hloth/editorjs-video": "2.10.5",
         "drizzle-orm": "^0.40.0",
         "editorjs-html": "^4.0.5",
         "highlight.js": "^11.11.1",
@@ -93,6 +95,8 @@
     "@editorjs/list": ["@editorjs/list@2.0.8", "", { "dependencies": { "@codexteam/icons": "^0.3.2" } }, "sha512-/EJNvpeJYa1YDtYa85ug9R3sbDyI5ZlMHQ2bIh5S9iPa19qXe45jk6kgcew+jMNQq3j4NS4Q6YeeFbU1QkNMWw=="],
 
     "@editorjs/quote": ["@editorjs/quote@2.7.6", "", { "dependencies": { "@codexteam/icons": "^0.3.2", "@editorjs/dom": "^0.0.5" } }, "sha512-D01KUMSDj2r+6Z+xjDkQqI+y6URpeHCvj0+P4pah+GtkG040lWjFb2H4pgHFXuol2cbfyAoraYSw85fuPheCvw=="],
+
+    "@editorjs/warning": ["@editorjs/warning@1.4.1", "", { "dependencies": { "@codexteam/icons": "^0.3.2", "@editorjs/editorjs": "^2.30.7" } }, "sha512-7A+irJ6gIh6li4DC7qw/NiWCThlBgtoPUeeIVdldVjoATAu+a1GjS+w/5L24ReacgQJNPVQPPCoMaS1nB83agw=="],
 
     "@emnapi/runtime": ["@emnapi/runtime@1.4.5", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-++LApOtY0pEEz1zrd9vy1/zXVaVJJ/EbAF3u0fXIzPJEDtnITsBGbbK0EkM72amhl/R5b+5xx0Y/QhcVOpuulg=="],
 
@@ -181,6 +185,8 @@
     "@fontsource-variable/source-serif-4": ["@fontsource-variable/source-serif-4@5.2.8", "", {}, "sha512-qj5xZxbKmucdY2t6Qp2RdFzgQoepl7FLukVOE527o9ueDSQ3M4nwoec5YyTn45iP2y8jCb8H3Se6JnhL7tlltA=="],
 
     "@fontsource/poppins": ["@fontsource/poppins@5.2.6", "", {}, "sha512-NFr0121+vWCfzLDVvSZOzwAjRUaNj6QHA9gtUh/KHHoWf1Qn23EkwVFs63XZ6UtF5K1b3UNmCx77YEMGgV7BOQ=="],
+
+    "@hloth/editorjs-video": ["@hloth/editorjs-video@2.10.5", "", { "dependencies": { "@codexteam/icons": "^0.3.0" } }, "sha512-d02hc9znadq3hnBlL/mCsvR80nolCWjSof7EtftBHFmKQhXRVToZtjw6l1pZ7NHEm1tjUzpmrytBVHRNi3A1rw=="],
 
     "@humanfs/core": ["@humanfs/core@0.19.1", "", {}, "sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA=="],
 

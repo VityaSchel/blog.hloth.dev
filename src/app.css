@@ -426,4 +426,17 @@ pre[class*='language-'] {
 	a {
 		text-decoration: underline;
 	}
+
+	video {
+		width: 100%;
+		max-height: 500px;
+	}
+}
+
+.ce-toolbar__actions--opened {
+	transform: translateY(-50%);
+}
+
+.cdx-notify--error {
+	color: black;
 }

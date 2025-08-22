@@ -107,19 +107,22 @@ export async function POST({ request }) {
 					height: media.height
 				})
 			});
-			content.blocks.push({
-				id: block.id,
-				type: 'image',
-				data:
-					media.type === 'video'
-						? {
-								media: 'video',
+			content.blocks.push(
+				media.type === 'video'
+					? {
+							id: block.id,
+							type: 'video',
+							data: {
+								caption: block.data.caption,
 								file: {
 									id: fileId
 								}
 							}
-						: {
-								media: 'image',
+						}
+					: {
+							id: block.id,
+							type: 'image',
+							data: {
 								caption: block.data.caption,
 								alt: block.data.caption || 'Image',
 								withBackground: block.data.withBackground,
@@ -131,7 +134,8 @@ export async function POST({ request }) {
 									placeholder: media.placeholder
 								}
 							}
-			});
+						}
+			);
 		} else if (block.type === 'list') {
 			content.blocks.push({
 				...block,

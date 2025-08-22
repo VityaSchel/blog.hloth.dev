@@ -30,17 +30,19 @@
 				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 				<Paragraph>{@html sanitize(block.data.text)}</Paragraph>
 			{:else if block.type === 'image'}
-				{#if block.data.media == 'video'}
-					<Video url={getUrl(block.data.file.id)} />
-				{:else}
-					<Image
-						file={block.data.file}
-						background={block.data.withBackground}
-						border={block.data.withBorder}
-						caption={block.data.caption}
-						alt={block.data.alt}
-					/>
-				{/if}
+				<Image
+					file={block.data.file}
+					background={block.data.withBackground}
+					border={block.data.withBorder}
+					caption={block.data.caption}
+					alt={block.data.alt}
+				/>
+			{:else if block.type === 'video'}
+				<Video
+					url={getUrl(block.data.file.id)}
+					caption={block.data.caption}
+					aspectRatio={block.data.aspectRatio}
+				/>
 			{:else if block.type === 'quote'}
 				<Quote caption={block.data.caption}>
 					{sanitize(block.data.text)}
