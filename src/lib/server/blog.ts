@@ -20,6 +20,7 @@ type Post = Pick<
 	| 'createdAt'
 	| 'updatedAt'
 	| 'content'
+	| 'locale'
 > & {
 	banner: Pick<
 		InferSelectModel<typeof mediaTable>,
@@ -62,6 +63,7 @@ async function fetchPosts<T extends boolean>({
 			views: true,
 			createdAt: true,
 			updatedAt: true,
+			locale: true,
 			...(content ? { content: true } : {})
 		},
 		limit

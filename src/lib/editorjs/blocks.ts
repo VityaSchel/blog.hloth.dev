@@ -105,6 +105,15 @@ export const listBlockSchema = z.object({
 	})
 });
 
+// TODO: remove
+export const legacylistBlockSchema = z.object({
+	type: z.literal('list'),
+	data: z.object({
+		style: z.enum(['ordered', 'unordered', 'checklist']),
+		items: z.array(z.string().max(8192))
+	})
+});
+
 export const contentBlockSchema = z.discriminatedUnion('type', [
 	headerBlockSchema,
 	paragraphBlockSchema,
@@ -125,7 +134,7 @@ export const legacyContentBlockSchema = z.discriminatedUnion('type', [
 	delimiterBlockSchema,
 	codeBlockSchema,
 	paywallBlockSchema,
-	listBlockSchema
+	legacylistBlockSchema
 ]);
 
 export const contentSchema = z.object({

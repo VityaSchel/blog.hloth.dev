@@ -29,7 +29,7 @@
 		}
 	]}
 	style="--blur: {open ? 20 : 0}px; transition-duration: {shameCorner.safari
-		? '2000ms'
+		? '1500ms'
 		: '500ms'};"
 	use:trapFocus
 	inert={!open}
@@ -48,10 +48,11 @@
 			`
 				menu-bg absolute right-0 flex h-full w-96 max-w-full flex-col bg-black py-8
 				font-display text-4xl font-bold text-white transition-transform ease-in-out
+				will-change-transform
 			`,
 			{
 				'duration-500': !shameCorner.safari,
-				'duration-2000': shameCorner.safari,
+				'duration-1500': shameCorner.safari,
 				'translate-x-full transform': !open,
 				'transform-none': open
 			}

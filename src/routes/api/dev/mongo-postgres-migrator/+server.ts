@@ -132,6 +132,18 @@ export async function POST({ request }) {
 								}
 							}
 			});
+		} else if (block.type === 'list') {
+			content.blocks.push({
+				...block,
+				data: {
+					...block.data,
+					items: block.data.items.map((i) => ({
+						meta: {},
+						content: i,
+						items: []
+					}))
+				}
+			});
 		} else {
 			content.blocks.push(block);
 		}

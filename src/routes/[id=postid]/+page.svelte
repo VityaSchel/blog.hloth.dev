@@ -77,6 +77,10 @@
 		<meta property="article:modified_time" content={updatedAt.toISOString()} />
 	{/if}
 	<meta
+		property="og:locale"
+		content={post.locale === 'ru' ? 'ru_RU' : 'en_US'}
+	/>
+	<meta
 		property="article:author"
 		content="Viktor Shchelochkov (https://hloth.dev/me)"
 	/>
@@ -135,7 +139,8 @@
 			</div>
 			<h1
 				class="
-					one-storey-a leading-tighter line-clamp-3 font-display text-3xl font-medium
+					one-storey-a leading-tighter line-clamp-3 font-display text-3xl
+					font-semibold tracking-tight
 					md:text-6xl
 				"
 				title={post.title}
@@ -186,18 +191,18 @@
 	<div class="flex w-full justify-center">
 		<div
 			class="
-				mt-16 flex w-[560px] flex-col justify-between gap-4
-				md:mt-8 md:flex-row md:items-center md:gap-2
+				mt-16 flex w-[560px] flex-col justify-between gap-2
+				md:mt-8 md:flex-row md:items-center
 			"
 		>
-			{#snippet dateRender(date: Date)}
+			{#snippet dateRender(label: string, date: Date)}
 				<div
 					class="
 						text-[#a3a3a3]
 						dark:text-[#4b5563]
 					"
 				>
-					<span class="font-display font-semibold">Published at:</span>
+					<span class="font-display font-semibold">{label}</span>
 					<span
 						title={Intl.DateTimeFormat('en-US', {
 							day: '2-digit',
@@ -219,9 +224,9 @@
 				</div>
 			{/snippet}
 
-			{@render dateRender(createdAt)}
+			{@render dateRender('Published at:', createdAt)}
 			{#if updatedAt !== null}
-				{@render dateRender(updatedAt)}
+				{@render dateRender('Updated at:', updatedAt)}
 			{/if}
 		</div>
 	</div>

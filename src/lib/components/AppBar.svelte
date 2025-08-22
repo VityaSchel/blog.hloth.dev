@@ -27,11 +27,11 @@
 
 <header class="flex w-full flex-col gap-[12px]">
 	{#if startEl || endEl}
-		<nav>
+		<nav class="mb-1">
 			<ul
 				class={[
 					`
-						flex flex-col
+						flex flex-col gap-x-4 gap-y-3 leading-5
 						md:flex-row
 					`,
 					{
@@ -72,7 +72,7 @@
 					</li>
 				{/if}
 				{#if endEl}
-					<li class="self-end">
+					<li class="self-end text-right">
 						<a href={endEl.path} class="flex items-center gap-2">
 							{formatTitle(endEl.title).title}
 

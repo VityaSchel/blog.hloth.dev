@@ -73,7 +73,7 @@
 				lg:max-w-[25%] lg:flex-[25%]
 			"
 		>
-			<h2 class="text-3xl font-medium tracking-[-.03em]" {title}>
+			<h2 class="font-display text-3xl font-semibold tracking-[-.03em]" {title}>
 				<span class="font-serif font-normal italic">{emphasized}</span>
 				{regular}
 			</h2>
@@ -97,7 +97,7 @@
 		</div>
 		<div
 			class="
-				relative mt-4 ml-auto aspect-[1.625/1] w-full px-4
+				relative mt-8 ml-auto aspect-[1.625/1] w-full px-4
 				md:mt-0 md:w-auto md:max-w-[41.67%] md:flex-[41.67%]
 			"
 		>
@@ -105,13 +105,13 @@
 				class="
 					banner-clip
 					md:banner-clip-lg
-					relative h-full w-full overflow-clip
+					relative aspect-[1.625/1] h-auto w-full overflow-clip
 				"
 			>
 				<LazyImage
 					src={getUrl(banner.id)}
 					placeholder={banner.placeholder}
-					aspectRatio={banner.width / banner.height}
+					fill
 					alt={bannerAlt}
 					priority={first}
 					class="object-cover"

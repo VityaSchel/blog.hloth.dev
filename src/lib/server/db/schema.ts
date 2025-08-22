@@ -19,6 +19,8 @@ export const categoryEnum = pgEnum('category', [
 
 export const statusEnum = pgEnum('status', ['hidden', 'unlisted', 'published']);
 
+export const localeEnum = pgEnum('locale', ['en', 'ru']);
+
 export const postsTable = pgTable('posts', {
 	id: text('id').primaryKey(),
 	title: text('title').notNull(),
@@ -32,6 +34,7 @@ export const postsTable = pgTable('posts', {
 	readTime: integer('read_time').notNull(),
 	views: integer('views').notNull().default(0),
 	visibility: statusEnum('status').notNull(),
+	locale: localeEnum('locale').notNull().default('en'),
 	createdAt: timestamp('created_at', {
 		withTimezone: true
 	})

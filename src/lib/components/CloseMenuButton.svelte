@@ -15,14 +15,14 @@
 	aria-label="Close menu"
 	class={[
 		`
-			group flex cursor-pointer items-center
+			group flex cursor-pointer items-center transition-[width] will-change-[width]
 			focus:outline-0
 			focus-visible:bg-blue-400/20
 		`,
 		{
 			'w-0 ease-in-out': closing,
 			'duration-500': closing && !shameCorner.safari,
-			'duration-2000': closing && shameCorner.safari,
+			'duration-1500': closing && shameCorner.safari,
 			'w-full min-w-[50px]': !closing
 		}
 	]}
@@ -37,7 +37,8 @@
 		class={[
 			'h-[2px] bg-white',
 			{
-				'w-0 transition-[width] duration-200 group-hf:w-full': !closing,
+				'w-0 transition-[width] duration-200 group-focus-visible:w-full pointer-fine:group-hover:w-full':
+					!closing,
 				'w-full min-w-0': closing
 			}
 		]}
