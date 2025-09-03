@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@source "../node_modules/pow-reaction/dist";
 
 @theme inline {
 	--color-cream: #f3f1e6;

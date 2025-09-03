@@ -8,6 +8,7 @@
 	import Renderer from '$lib/editorjs/Renderer.svelte';
 	import LazyImage from '$lib/ui/LazyImage.svelte';
 	import Separator from '$lib/ui/Separator.svelte';
+	import PostReactions from './PostReactions.svelte';
 
 	let { data } = $props();
 	const post = $derived(data.post);
@@ -20,6 +21,7 @@
 	const updatedAt = $derived(
 		post.createdAt === post.updatedAt ? null : new Date(post.updatedAt)
 	);
+	let reactions = $derived(data.post.reactions);
 
 	const articleJsonLd = $derived(
 		'<script type="application/ld+json">' +
@@ -188,10 +190,10 @@
 	</div>
 	<Separator size="lg" />
 	<Renderer content={data.post.content} />
-	<div class="flex w-full justify-center">
+	<div class="flex w-full flex-col items-center">
 		<div
 			class="
-				mt-16 flex w-[560px] flex-col justify-between gap-2
+				mt-16 flex w-full max-w-[560px] flex-col justify-between gap-2
 				md:mt-8 md:flex-row md:items-center
 			"
 		>
@@ -203,7 +205,8 @@
 					"
 				>
 					<span class="font-display font-semibold">{label}</span>
-					<span
+					<time
+						datetime={date.toISOString()}
 						title={Intl.DateTimeFormat('en-US', {
 							day: '2-digit',
 							month: '2-digit',
@@ -220,7 +223,7 @@
 								year: 'numeric'
 							})
 						}).format(date)}
-					</span>
+					</time>
 				</div>
 			{/snippet}
 
@@ -229,5 +232,6 @@
 				{@render dateRender('Updated at:', updatedAt)}
 			{/if}
 		</div>
+		<PostReactions bind:value={reactions} />
 	</div>
 </article>

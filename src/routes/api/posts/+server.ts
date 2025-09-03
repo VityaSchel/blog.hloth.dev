@@ -5,10 +5,11 @@ import { NODE_ENV } from '$env/static/private';
 import { db } from '$lib/server/db';
 import { contentSchema } from '$lib/editorjs/blocks';
 import { getUrl, mediaFileIdSchema } from '$lib/media';
-import { postsTable, statusEnum } from '$lib/server/db/schema';
+import { postsTable, reactionsTable, statusEnum } from '$lib/server/db/schema';
 import { categorySchema } from '$lib/categories';
 import { eq } from 'drizzle-orm';
 import { broadcastNewPostNotification } from '$lib/push-notifications/push.server';
+import { reactions, type Reaction } from '$lib/reactions';
 
 export async function POST({ locals, request }) {
 	if (!locals.admin) {
@@ -42,22 +43,11 @@ export async function POST({ locals, request }) {
 			visibility: true
 		}
 	});
-	await db
-		.insert(postsTable)
-		.values({
-			id: body.id,
-			title: body.title,
-			category: body.category,
-			readTime: body.readTime,
-			banner: body.bannerId,
-			bannerAlt: body.bannerAlt,
-			content: body.content,
-			excerpt: body.excerpt,
-			visibility: body.visibility
-		})
-		.onConflictDoUpdate({
-			target: postsTable.id,
-			set: {
+	await db.transaction(async (tx) => {
+		await tx
+			.insert(postsTable)
+			.values({
+				id: body.id,
 				title: body.title,
 				category: body.category,
 				readTime: body.readTime,
@@ -66,8 +56,32 @@ export async function POST({ locals, request }) {
 				content: body.content,
 				excerpt: body.excerpt,
 				visibility: body.visibility
-			}
-		});
+			})
+			.onConflictDoUpdate({
+				target: postsTable.id,
+				set: {
+					title: body.title,
+					category: body.category,
+					readTime: body.readTime,
+					banner: body.bannerId,
+					bannerAlt: body.bannerAlt,
+					content: body.content,
+					excerpt: body.excerpt,
+					visibility: body.visibility,
+					updatedAt: new Date()
+				}
+			});
+		await tx
+			.insert(reactionsTable)
+			.values({
+				postId: body.id,
+				...(Object.fromEntries(reactions.map((r) => [r, 0])) as Record<
+					Reaction,
+					number
+				>)
+			})
+			.onConflictDoNothing();
+	});
 	if (
 		body.visibility === 'published' &&
 		(!existingPost || existingPost.visibility != 'published')

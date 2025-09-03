@@ -2,6 +2,7 @@ import { db } from '$lib/server/db';
 import { mediaTable, postsTable } from '$lib/server/db/schema';
 import { error } from '@sveltejs/kit';
 import { desc, eq, sql, type InferSelectModel } from 'drizzle-orm';
+import type { Reaction } from '../reactions';
 
 type Conditions = Omit<
 	Parameters<typeof db.query.postsTable.findFirst>[0],
@@ -29,7 +30,7 @@ type Post = Pick<
 };
 
 type FetchedPost<Content extends boolean> = Content extends true
-	? Post
+	? Post & { reactions: Record<Reaction, number> }
 	: Omit<Post, 'content'>;
 
 async function fetchPosts<T extends boolean>({
@@ -51,7 +52,14 @@ async function fetchPosts<T extends boolean>({
 					width: true,
 					height: true
 				}
-			}
+			},
+			...(content && {
+				reactions: {
+					columns: {
+						postId: false
+					}
+				}
+			})
 		},
 		columns: {
 			id: true,
