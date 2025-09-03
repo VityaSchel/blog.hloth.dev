@@ -14,6 +14,6 @@ Credits to Milos Bojkovic for design inspiration. [Dribbble project link](https:
 
 Credits to Pangram Pangram Foundry for free-for-personal-use PP Mori font. [License](https://pangrampangram.com/pages/faq#font-licensing). Full license text is available under [static/pp-mori/license.pdf](./static/pp-mori/license.pdf).
 
-Credits to @editorjs authors and huge thanks to Svelte for being so good I spent several days rewriting this whole website (along with many other my projects) from React+Next.js to Svelte+SvelteKit.
+Credits to @editorjs authors and huge thanks to Svelte for being so good I spent several days rewriting this whole website (along with many other my projects) from React+Next.js to Svelte+SvelteKit. A special thank you to Anthony Fu for fantastic [shiki](https://github.com/shikijs/shiki)!
 
 Source code is licensed under [MIT](./LICENSE). Blog materials are licensed under [MIT](./LICENSE) unless stated otherwise.

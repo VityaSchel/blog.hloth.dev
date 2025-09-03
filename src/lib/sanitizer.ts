@@ -27,7 +27,9 @@ export const sanitizeHighlightedCode = (code: string) =>
 			em: [],
 			strike: [],
 			u: [],
-			span: ['class']
+			span: ['style', 'class'],
+			pre: ['style', 'class'],
+			code: ['style', 'class']
 		},
 		allowCommentTag: false,
 		css: false

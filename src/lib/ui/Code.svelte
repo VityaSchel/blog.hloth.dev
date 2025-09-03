@@ -1,40 +1,48 @@
 <script lang="ts">
-	import hljs from 'highlight.js';
-	import { sanitizeHighlightedCode } from '$lib/sanitizer';
-	import lightTheme from 'highlight.js/styles/github.min.css?inline';
-	import darkTheme from 'highlight.js/styles/github-dark.min.css?inline';
+	import { codeToHtml } from 'shiki';
 	import { getThemeContext } from '$lib/theme';
-
-	const context = getThemeContext();
+	import { sanitizeHighlightedCode } from '$lib/sanitizer';
 
 	let { language, code }: { language: string; code: string } = $props();
 
-	const highlightedCode = $derived.by(() => {
+	const context = getThemeContext();
+
+	let highlightedCode = $derived.by(async () => {
 		try {
-			return hljs.highlight(code, { language }).value;
+			return await codeToHtml(code, {
+				lang: language,
+				theme: context.theme === 'dark' ? 'github-dark' : 'github-light'
+			});
 		} catch (e) {
-			console.warn(e);
-			console.error(
-				`Unsupported language "${language}", falling back to plain text.`
-			);
-			return code;
+			console.error(`Language ${language} is not supported by shiki.`, e);
+			return null;
 		}
 	});
 </script>
 
-<svelte:head>
-	{#if context.theme === 'dark'}
-		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-		{@html '<style type="text/css">' + darkTheme + '</style>'}
-	{:else}
-		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-		{@html '<style type="text/css">' + lightTheme + '</style>'}
-	{/if}
-</svelte:head>
-
 <!-- eslint-disable svelte/no-at-html-tags -->
-<pre
-	class="language-{language} bg-white p-7 text-neutral-900 dark:bg-[#1e1e1e] dark:text-neutral-200"><code
-		class="language-{language}">{@html sanitizeHighlightedCode(
-			highlightedCode
-		)}</code></pre>
+<div class="code-container font-mono text-sm whitespace-pre-wrap">
+	{#snippet fallback()}
+		<pre
+			class="
+				bg-white text-neutral-900
+				dark:bg-[#1e1e1e] dark:text-neutral-200
+			">{@html sanitizeHighlightedCode(code)}</pre>
+	{/snippet}
+	{#await highlightedCode}
+		{@render fallback()}
+	{:then highlightedCode}
+		{#if highlightedCode === null}
+			{@render fallback()}
+		{:else}
+			{@html sanitizeHighlightedCode(highlightedCode)}
+		{/if}
+	{/await}
+</div>
+
+<style>
+	.code-container :global(pre) {
+		padding: 1rem;
+		border-radius: 12px;
+	}
+</style>

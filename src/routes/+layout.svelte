@@ -5,26 +5,14 @@
 	import Container from '$lib/components/Container.svelte';
 	import { Toaster } from 'svelte-sonner';
 	import Footer from '$lib/components/Footer.svelte';
-	import '@fontsource/poppins/100.css';
-	import '@fontsource/poppins/200.css';
-	import '@fontsource/poppins/300.css';
 	import '@fontsource/poppins/400.css';
 	import '@fontsource/poppins/500.css';
 	import '@fontsource/poppins/600.css';
-	import '@fontsource/poppins/700.css';
-	import '@fontsource/poppins/800.css';
-	import '@fontsource/poppins/900.css';
-	import '@fontsource/poppins/100-italic.css';
-	import '@fontsource/poppins/200-italic.css';
-	import '@fontsource/poppins/300-italic.css';
 	import '@fontsource/poppins/400-italic.css';
 	import '@fontsource/poppins/500-italic.css';
 	import '@fontsource/poppins/600-italic.css';
-	import '@fontsource/poppins/700-italic.css';
-	import '@fontsource/poppins/800-italic.css';
-	import '@fontsource/poppins/900-italic.css';
 	import '@fontsource-variable/source-serif-4/opsz.css';
-	import '@fontsource-variable/source-serif-4/opsz-italic.css';
+	import '@fontsource-variable/source-serif-4/wght-italic.css';
 	import '@fontsource-variable/montserrat/wght.css';
 	import '@fontsource-variable/montserrat/wght-italic.css';
 

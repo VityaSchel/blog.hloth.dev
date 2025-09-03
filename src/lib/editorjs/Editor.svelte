@@ -1,6 +1,10 @@
 <script lang="ts">
-	import EditorJS, { type OutputData } from '@editorjs/editorjs';
+	import {
+		type default as EditorJS,
+		type OutputData
+	} from '@editorjs/editorjs';
 	import { editorjsTools as tools } from '$lib/editorjs/tools';
+	import { onMount, untrack } from 'svelte';
 
 	let {
 		initial,
@@ -9,16 +13,32 @@
 
 	let ref: EditorJS | null = $state(null);
 
+	onMount(() => {
+		async function initializeEditor() {
+			const EditorJS = await import('@editorjs/editorjs').then(
+				(m) => m.default
+			);
+			const editor = new EditorJS({
+				holder,
+				tools,
+				placeholder: 'Write...',
+				minHeight: 300,
+				data: initial || undefined
+			});
+			ref = editor;
+		}
+		initializeEditor();
+		return () => untrack(() => ref)?.destroy();
+	});
+
 	$effect(() => {
-		const editor = new EditorJS({
-			holder,
-			tools,
-			placeholder: 'Write...',
-			minHeight: 300,
-			data: initial || undefined
+		const data = initial;
+		untrack(() => {
+			if (ref) {
+				ref.render(data || { blocks: [] });
+			}
 		});
-		ref = editor;
-		return () => editor.destroy();
+		return () => untrack(() => ref)?.destroy();
 	});
 
 	export function getData() {

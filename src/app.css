@@ -357,11 +357,11 @@ pre[class*='language-'] {
 		border-left: 2px solid var(--text);
 		padding-left: 30px;
 		margin: 32px 0;
+		font-family: var(--font-serif);
 
 		p {
-			font-family: var(--font-caption);
 			font-style: italic;
-			font-weight: 400;
+			font-weight: 500;
 			font-size: 31px;
 			font-feature-settings:
 				'liga' 1,
