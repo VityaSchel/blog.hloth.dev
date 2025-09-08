@@ -13,9 +13,9 @@
 	import Paywall from '$lib/ui/Paywall.svelte';
 	import List from '$lib/ui/List.svelte';
 	import IsolatedIframe from '$lib/ui/IsolatedIframe.svelte';
-	import type { Content } from './blocks';
+	import type { ContentPostSSR } from './blocks';
 
-	let { content }: { content: Content } = $props();
+	let { content }: { content: ContentPostSSR } = $props();
 </script>
 
 <div class="flex w-full justify-center">
@@ -55,6 +55,7 @@
 				<Code
 					language={block.data.languageCode.substring('language-'.length)}
 					code={block.data.code}
+					ssr={block.data.ssr}
 				/>
 			{:else if block.type === 'list'}
 				<List style={block.data.style} items={block.data.items} />

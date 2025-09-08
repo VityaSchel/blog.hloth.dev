@@ -301,7 +301,7 @@ pre[class*='language-'] {
 		margin: 16px 0;
 		overflow-wrap: break-word;
 		padding: 0;
-		line-height: 1.5;
+		line-height: 24px;
 	}
 
 	figure {

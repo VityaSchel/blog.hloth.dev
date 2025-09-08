@@ -1,7 +1,9 @@
+import type { ContentPostSSR } from '$lib/editorjs/blocks';
 import { getPost } from '$lib/server/blog';
 import { db } from '$lib/server/db';
 import { postsTable } from '$lib/server/db/schema';
 import { eq, and, inArray, desc, lt } from 'drizzle-orm';
+import { codeToHtml } from 'shiki';
 
 export async function load({ params, locals }) {
 	let visibilityCondition;
@@ -30,8 +32,28 @@ export async function load({ params, locals }) {
 		}
 	});
 
+	const content = post.content as ContentPostSSR;
+
+	for (const block of content.blocks) {
+		if (block.type === 'code') {
+			// TODO: remove when svelte async ssr ships
+			try {
+				block.data.ssr = await codeToHtml(block.data.code, {
+					lang: block.data.languageCode.substring('language-'.length),
+					theme: locals.theme === 'dark' ? 'github-dark' : 'github-light'
+				});
+			} catch (e) {
+				console.error(e);
+				// Skip
+			}
+		}
+	}
+
 	return {
-		post,
+		post: {
+			...post,
+			content: content
+		},
 		nextPost,
 		admin: locals.admin
 	};

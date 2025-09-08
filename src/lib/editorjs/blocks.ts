@@ -198,3 +198,12 @@ export const legacyContentSchema = z.object({
 
 export type ContentBlock = z.infer<typeof contentBlockSchema>;
 export type Content = z.infer<typeof contentSchema>;
+export type ContentPostSSR = Omit<Content, 'blocks'> & {
+	blocks: Array<
+		ContentBlock & { id: string } extends infer T
+			? T extends { type: 'code'; data: infer D }
+				? T & { data: D & { ssr?: string } }
+				: T
+			: never
+	>;
+};

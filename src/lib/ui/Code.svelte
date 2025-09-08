@@ -3,7 +3,11 @@
 	import { getThemeContext } from '$lib/theme';
 	import { sanitizeHighlightedCode } from '$lib/sanitizer';
 
-	let { language, code }: { language: string; code: string } = $props();
+	let {
+		language,
+		code,
+		ssr
+	}: { language: string; code: string; ssr?: string } = $props();
 
 	const context = getThemeContext();
 
@@ -41,11 +45,15 @@
 		Wrap lines
 	</label>
 	{#snippet fallback()}
-		<pre
-			class="
-				fallback bg-white text-neutral-900
-				dark:bg-[#1e1e1e] dark:text-neutral-200
-			">{@html sanitizeHighlightedCode(code)}</pre>
+		{#if ssr}
+			{@html sanitizeHighlightedCode(ssr)}
+		{:else}
+			<pre
+				class="
+					fallback bg-white text-neutral-900
+					dark:bg-[#1e1e1e] dark:text-neutral-200
+				">{@html sanitizeHighlightedCode(code)}</pre>
+		{/if}
 	{/snippet}
 	{#await highlightedCode}
 		{@render fallback()}
@@ -60,10 +68,6 @@
 
 <style>
 	.code-container :global {
-		&:has(.toggle-wrap:checked) {
-			white-space: pre-wrap;
-			word-break: break-word;
-		}
 		pre {
 			padding: 1.5rem 0 1rem 0;
 			border-radius: 12px;
@@ -71,6 +75,10 @@
 		}
 		pre.fallback {
 			padding: 1.5rem 1rem 1rem 1rem;
+		}
+		&:has(.toggle-wrap:checked) pre {
+			white-space: pre-wrap;
+			word-break: break-word;
 		}
 		&:not(:has(.toggle-wrap:checked)) pre {
 			overflow-x: auto;
