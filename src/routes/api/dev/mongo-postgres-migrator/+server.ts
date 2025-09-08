@@ -6,6 +6,24 @@ import { mediaTable, postsTable } from '$lib/server/db/schema';
 import { noNullCharacter } from '$lib/zod';
 import { error, json } from '@sveltejs/kit';
 import { z } from 'zod';
+import { createReactionsRowForPost } from '$lib/reactions/server';
+import path from 'path';
+import { $ } from 'bun';
+
+async function getAspectRatio(fileId: string) {
+	const file = path.join(process.cwd(), './static/tmp', fileId);
+	const response =
+		await $`ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 ${file}`
+			.text()
+			.then((r) => r.trim());
+	if (!/^\d+x\d+$/.test(response)) {
+		console.error('Invalid aspect ratio format:', JSON.stringify(response));
+		throw error(400, 'Invalid aspect ratio format');
+	}
+	const [w, h] = response.split('x').map(Number);
+	if (!w || !h) throw error(400, 'Aspect ratio height cannot be zero');
+	return w / h;
+}
 
 export async function POST({ request }) {
 	if (NODE_ENV !== 'development') {
@@ -107,35 +125,36 @@ export async function POST({ request }) {
 					height: media.height
 				})
 			});
-			content.blocks.push(
-				media.type === 'video'
-					? {
-							id: block.id,
-							type: 'video',
-							data: {
-								caption: block.data.caption,
-								file: {
-									id: fileId
-								}
-							}
+			if (media.type === 'video') {
+				content.blocks.push({
+					id: block.id,
+					type: 'video',
+					data: {
+						aspectRatio: await getAspectRatio(fileId),
+						caption: block.data.caption,
+						file: {
+							id: fileId
 						}
-					: {
-							id: block.id,
-							type: 'image',
-							data: {
-								caption: block.data.caption,
-								alt: block.data.caption || 'Image',
-								withBackground: block.data.withBackground,
-								withBorder: block.data.withBorder,
-								file: {
-									id: fileId,
-									width: media.width,
-									height: media.height,
-									placeholder: media.placeholder
-								}
-							}
+					}
+				});
+			} else {
+				content.blocks.push({
+					id: block.id,
+					type: 'image',
+					data: {
+						caption: block.data.caption,
+						alt: block.data.caption || 'Image',
+						withBackground: block.data.withBackground,
+						withBorder: block.data.withBorder,
+						file: {
+							id: fileId,
+							width: media.width,
+							height: media.height,
+							placeholder: media.placeholder
 						}
-			);
+					}
+				});
+			}
 		} else if (block.type === 'list') {
 			content.blocks.push({
 				...block,
@@ -152,8 +171,9 @@ export async function POST({ request }) {
 			content.blocks.push(block);
 		}
 	}
+	const postId = post.slug;
 	await db.insert(postsTable).values({
-		id: post.slug,
+		id: postId,
 		title: post.title,
 		category: post.category,
 		readTime: post.readingTime,
@@ -161,10 +181,11 @@ export async function POST({ request }) {
 		bannerAlt: post.banner.alt,
 		content: content,
 		excerpt: post.excerpt,
-		visibility: post.draft ? 'hidden' : 'published',
+		visibility: post.draft ? 'hidden' : 'unlisted',
 		createdAt: new Date(post.createdAt.$date),
 		updatedAt: new Date(post.updatedAt.$date),
 		views: post.views
 	});
-	return json({ ok: true });
+	await createReactionsRowForPost({ postId });
+	return json({ ok: true, id: postId });
 }

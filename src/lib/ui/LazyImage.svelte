@@ -35,9 +35,10 @@
 </svelte:head>
 <div
 	class={[
-		'relative',
+		'relative overflow-clip',
 		{
-			'max-h-[500px]': explicitSize
+			'max-h-[500px]': explicitSize,
+			'rounded-lg': rounded
 		}
 	]}
 	style="aspect-ratio: {ar ?? 'unset'}; width: {explicitSize
@@ -48,13 +49,14 @@
 			? '100%'
 			: 'auto'};"
 >
+	<!-- I was debating whether I should leave this bug but it was way too beatiful 😍 -->
 	<img
 		class={[
 			{
 				'overflow-clip rounded-lg': rounded
 			},
 			props.class,
-			'object-cover'
+			'object-cover blur-xl'
 		]}
 		src={placeholder}
 		{alt}

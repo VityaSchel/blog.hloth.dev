@@ -188,7 +188,7 @@
 			/>
 		</div>
 	</div>
-	<Separator size="lg" />
+	<Separator />
 	<Renderer content={data.post.content} />
 	<div class="flex w-full flex-col items-center">
 		<div

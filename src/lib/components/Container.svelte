@@ -18,7 +18,6 @@
 	{@render children()}
 	<div class="mt-auto">
 		<Separator
-			size="lg"
 			class="
 				mb-6
 				md:mb-9

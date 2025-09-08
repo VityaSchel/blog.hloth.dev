@@ -227,9 +227,9 @@
 			forceShowAlt={forceShowBannerAlt}
 		/>
 	</div>
-	<Separator size="lg" />
+	<Separator />
 	<Editor initial={content} bind:this={editor} disabled={submitting} />
-	<Separator size="lg" />
+	<Separator />
 	<div class="flex flex-col items-center gap-6">
 		<div class="relative flex w-[680px] max-w-full flex-col gap-2">
 			<span class="font-semibold">Slug:</span>

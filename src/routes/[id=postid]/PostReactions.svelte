@@ -18,7 +18,7 @@
 
 <div
 	class="
-		mt-16 flex w-full max-w-[560px] flex-wrap items-center gap-y-2
+		mt-16 flex w-full max-w-[560px] flex-wrap items-center gap-x-[2.75px] gap-y-2
 		md:mt-8
 	"
 >

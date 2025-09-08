@@ -8,7 +8,7 @@
 	import Video from '$lib/ui/Video.svelte';
 	import Image from '$lib/ui/Image.svelte';
 	import Quote from '$lib/ui/Quote.svelte';
-	import Delimiter from '$lib/ui/Separator.svelte';
+	import Separator from '$lib/ui/Separator.svelte';
 	import Code from '$lib/ui/Code.svelte';
 	import Paywall from '$lib/ui/Paywall.svelte';
 	import List from '$lib/ui/List.svelte';
@@ -50,7 +50,7 @@
 					{sanitize(block.data.text)}
 				</Quote>
 			{:else if block.type === 'delimiter'}
-				<Delimiter size="sm" />
+				<Separator variant="asterisk" />
 			{:else if block.type === 'code'}
 				<Code
 					language={block.data.languageCode.substring('language-'.length)}

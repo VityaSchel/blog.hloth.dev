@@ -82,3 +82,22 @@ export async function incrementReaction({
 		})
 		.then((r) => r[0]);
 }
+
+export async function createReactionsRowForPost({
+	postId,
+	tx = db
+}: {
+	postId: string;
+	tx?: typeof db | Parameters<Parameters<typeof db.transaction>[0]>[0];
+}) {
+	await tx
+		.insert(reactionsTable)
+		.values({
+			postId,
+			...(Object.fromEntries(reactions.map((r) => [r, 0])) as Record<
+				Reaction,
+				number
+			>)
+		})
+		.onConflictDoNothing();
+}

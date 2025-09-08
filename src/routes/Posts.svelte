@@ -52,7 +52,7 @@
 				first={i === 0}
 			/>
 			{#if i !== posts.length - 1}
-				<Separator size="lg" />
+				<Separator />
 			{/if}
 		{/each}
 		{#if category}

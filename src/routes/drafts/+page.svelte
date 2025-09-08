@@ -10,5 +10,5 @@
 <AppBar homepage />
 <PageMetadata title="drafts @ hloth blog" />
 <h1 class="mt-24 mb-6 font-display text-6xl font-semibold">🙈 Drafts</h1>
-<Separator size="lg" />
+<Separator />
 <Posts posts={data.posts} />
