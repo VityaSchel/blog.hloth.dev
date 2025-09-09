@@ -84,6 +84,15 @@
 		>
 			Licensed with <a
 				class="border-b-[1px]"
+				href="https://creativecommons.org/licenses/by/4.0/"
+				target="_blank"
+				rel="nofollow noreferrer noopener"
+			>
+				CC BY 4.0
+			</a>
+			&
+			<a
+				class="border-b-[1px]"
 				href="https://github.com/VityaSchel/blog.hloth.dev/tree/main/LICENSE"
 				target="_blank"
 				rel="nofollow noreferrer noopener"

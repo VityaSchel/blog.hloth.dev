@@ -8,7 +8,7 @@ My personal blog about web development stuff and my IRL stuff. No ads, no tracke
 
 Old React v18 + Next.js v14 version is available under [react18-nextjs14-2024](https://github.com/VityaSchel/blog.hloth.dev/tree/react18-nextjs14-2024) branch.
 
-## License & Credits
+## Credits
 
 Credits to Milos Bojkovic for design inspiration. [Dribbble project link](https://dribbble.com/shots/21592801-Blog-post-exploration).
 
@@ -16,4 +16,10 @@ Credits to Pangram Pangram Foundry for free-for-personal-use PP Mori font. [Lice
 
 Credits to @editorjs authors and huge thanks to Svelte for being so good I spent several days rewriting this whole website (along with many other my projects) from React+Next.js to Svelte+SvelteKit. A special thank you to Anthony Fu for fantastic [shiki](https://github.com/shikijs/shiki)!
 
-Source code is licensed under [MIT](./LICENSE). Blog materials are licensed under [MIT](./LICENSE) unless stated otherwise.
+## Donate
+
+[hloth.dev/donate](https://hloth.dev/donate)
+
+## License
+
+Source code is licensed under [MIT](./LICENSE). Blog materials are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) unless otherwise stated.
