@@ -125,6 +125,7 @@ export async function POST({ url, locals, request }) {
 		});
 	} catch (e) {
 		if (isHttpError(e)) {
+			console.error(e);
 			return json({ success: 0, error: e.body.message }, { status: e.status });
 		} else {
 			throw e;
