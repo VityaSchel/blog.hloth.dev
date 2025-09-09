@@ -12,6 +12,7 @@
 	}: {
 		posts: {
 			id: string;
+			locale: string;
 			title: string;
 			banner: Image;
 			bannerAlt: string;
@@ -32,6 +33,7 @@
 		{#each posts as post, i (i)}
 			{@const {
 				id,
+				locale,
 				banner,
 				bannerAlt,
 				title,
@@ -43,6 +45,7 @@
 			<PostPreview
 				{id}
 				{banner}
+				{locale}
 				{bannerAlt}
 				{title}
 				{excerpt}

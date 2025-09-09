@@ -56,7 +56,6 @@
 						reactions: z.record(reactionSchema, z.number().int().min(0))
 					})
 					.parse(await req.json());
-				console.log(reactions);
 				value = reactions;
 			}}
 		/>

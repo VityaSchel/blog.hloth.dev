@@ -175,6 +175,7 @@ export async function POST({ request }) {
 	await db.insert(postsTable).values({
 		id: postId,
 		title: post.title,
+		locale: post.locale === 'ru' ? 'ru' : 'en',
 		category: post.category,
 		readTime: post.readingTime,
 		banner: await uploadFile(post.banner),

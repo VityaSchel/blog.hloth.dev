@@ -10,6 +10,7 @@
 		first = false,
 		draft = false,
 		id,
+		locale,
 		banner,
 		bannerAlt,
 		title,
@@ -21,6 +22,7 @@
 		first?: boolean;
 		draft?: boolean;
 		id: string;
+		locale: string;
 		banner: Image;
 		bannerAlt: string;
 		title: string;
@@ -83,6 +85,18 @@
 					md:mt-6
 				"
 			>
+				{#if locale === 'ru'}
+					<span
+						class="
+							optical-sizing-force mr-0.5 mb-0.5 inline-block rounded-full bg-black
+							px-2 py-0.5 align-middle font-serif text-xs font-medium tracking-normal
+							text-white
+							dark:bg-golden-creamy dark:text-black
+						"
+					>
+						Read in Russian
+					</span>
+				{/if}
 				{excerpt}
 			</p>
 			<div

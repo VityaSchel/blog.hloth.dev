@@ -17,6 +17,7 @@ export const powReactions = Object.fromEntries(
 			reaction: emoji,
 			difficulty: {
 				windowMs: 1000 * 60 * 60 * 24,
+				minDifficulty: 8,
 				multiplier: 1,
 				async getEntries({ ip, since }) {
 					const entries = await db
