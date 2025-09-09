@@ -17,15 +17,16 @@
 	import BannerUploader from './BannerUploader.svelte';
 	import Editor from '$lib/editorjs/Editor.svelte';
 	import { getUrl } from '$lib/media';
+	import type { Content } from '$lib/editorjs/blocks';
 
 	let {
 		initial,
-		saveDraftsLocally = $bindable(),
-		existingPost
+		existingPost,
+		saveDraftsLocally = $bindable()
 	}: {
 		initial: PostDraftSchema | null;
-		saveDraftsLocally: boolean;
 		existingPost: boolean;
+		saveDraftsLocally: boolean;
 	} = $props();
 
 	let id: string = $derived(initial?.id ?? '');
@@ -37,6 +38,10 @@
 	let bannerAlt = $derived(initial?.bannerAlt ?? '');
 	let forceShowBannerAlt = $state(false);
 	let excerpt = $derived(initial?.excerpt ?? '');
+
+	let wordsCount: null | number = $state(null);
+	let mediaFiles: null | number = $state(null);
+	let embedBlocks: null | number = $state(null);
 
 	const content = $derived.by(() => {
 		if (!initial) return null;
@@ -167,7 +172,7 @@
 <article class="pt-16">
 	<div class="flex items-start justify-between">
 		<div class="flex max-w-[50%] flex-[50%] flex-col gap-8 self-stretch">
-			<div class="flex shrink-0 items-center gap-5">
+			<div class="flex shrink-0 items-center gap-2">
 				<button
 					onclick={() => categorySelector.showPicker()}
 					disabled={submitting}
@@ -189,13 +194,38 @@
 					</select>
 					<Category {category} />
 				</button>
-				<ReadTime bind:value={readTime} editable />
+				<ReadTime bind:value={readTime} editable class="mx-3" />
+				{#snippet badge(text: string)}
+					<span
+						class="
+							inline-block rounded-md bg-black px-2 font-serif text-sm text-white
+							dark:bg-sandy dark:text-black
+						"
+					>
+						{text}
+					</span>
+				{/snippet}
+				{#if wordsCount !== null}
+					{@render badge(`${wordsCount} word${wordsCount !== 1 ? 's' : ''}`)}
+				{/if}
+				{#if mediaFiles !== null}
+					{@render badge(`${mediaFiles} pic${embedBlocks !== 1 ? 's' : ''}`)}
+				{/if}
+				{#if embedBlocks !== null}
+					{@render badge(`${embedBlocks} embed${embedBlocks !== 1 ? 's' : ''}`)}
+				{/if}
+				{#if wordsCount !== null && mediaFiles !== null && embedBlocks !== null}
+					{@render badge(
+						`avg. ${Math.round(wordsCount / 220 + mediaFiles * (15 / 60) + embedBlocks * (30 / 60))} min`
+					)}
+				{/if}
 			</div>
 			<textarea
 				class={[
 					`
-						text-text line-clamp-3 h-full min-h-0 flex-1 resize-none bg-transparent
-						font-display text-6xl leading-tight font-medium
+						one-storey-a text-text leading-tighter line-clamp-3 h-full min-h-0 flex-1
+						resize-none bg-transparent font-display text-6xl font-semibold
+						tracking-tight
 						focus:outline-none
 					`
 				]}
@@ -228,7 +258,49 @@
 		/>
 	</div>
 	<Separator />
-	<Editor initial={content} bind:this={editor} disabled={submitting} />
+	<Editor
+		initial={content}
+		bind:this={editor}
+		disabled={submitting}
+		onChange={async () => {
+			const time = performance.now();
+			const data = await editor.getData();
+			const delta = performance.now() - time;
+			if (delta > 100) {
+				console.warn('EditorJS getData took', delta + 'ms');
+			}
+			wordsCount = (data as Content).blocks.reduce((wordsCount, block) => {
+				const countWords = (text: string) =>
+					text
+						.trim()
+						.replaceAll(/<[^>]+>/g, '')
+						.split(/\s+/).length;
+				let words: number = 0;
+				if (block.type === 'paragraph') {
+					words = countWords(block.data.text);
+				} else if (block.type === 'header') {
+					words = countWords(block.data.text);
+				} else if (block.type === 'list') {
+					const countWordsInList = (items: typeof block.data.items): number =>
+						items.reduce((total, { items: sublist, content }) => {
+							const listWords = countWords(content);
+							const sublistWords = countWordsInList(sublist || []);
+							return total + listWords + sublistWords;
+						}, 0);
+					words = countWordsInList(block.data.items);
+				} else if (block.type === 'quote') {
+					words = countWords(block.data.text);
+				}
+				return (wordsCount += words);
+			}, 0);
+			mediaFiles = (data as Content).blocks.filter((b) =>
+				['vidoe', 'image'].includes(b.type)
+			).length;
+			embedBlocks = (data as Content).blocks.filter((b) =>
+				['embed', 'code'].includes(b.type)
+			).length;
+		}}
+	/>
 	<Separator />
 	<div class="flex flex-col items-center gap-6">
 		<div class="relative flex w-[680px] max-w-full flex-col gap-2">

@@ -1,15 +1,17 @@
 <script lang="ts">
 	let {
 		editable = false,
-		value = $bindable()
+		value = $bindable(),
+		class: className
 	}: {
 		editable?: boolean;
 		value: number;
+		class?: import('svelte/elements').ClassValue;
 	} = $props();
 </script>
 
-{#snippet content()}
-	<span class="text-alt font-mono text-sm uppercase">
+{#snippet content(child: boolean = false)}
+	<span class={['text-alt font-mono text-sm uppercase', child && className]}>
 		{value} min read
 	</span>
 {/snippet}
@@ -30,9 +32,9 @@
 			window.addEventListener('mousemove', handleMouseMove);
 			window.addEventListener('mouseup', handleEndEditing);
 		}}
-		class="cursor-pointer py-0.5"
+		class={['cursor-pointer py-0.5', className]}
 	>
-		{@render content()}
+		{@render content(true)}
 	</button>
 {:else}
 	{@render content()}

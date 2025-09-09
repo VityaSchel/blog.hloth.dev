@@ -8,8 +8,13 @@
 
 	let {
 		initial,
-		disabled = false
-	}: { initial: OutputData | null; disabled?: boolean } = $props();
+		disabled = false,
+		onChange
+	}: {
+		initial: OutputData | null;
+		disabled?: boolean;
+		onChange?: () => unknown;
+	} = $props();
 
 	let ref: EditorJS | null = $state(null);
 
@@ -23,7 +28,9 @@
 				tools,
 				placeholder: 'Write...',
 				minHeight: 300,
-				data: initial || undefined
+				data: initial || undefined,
+				onChange,
+				onReady: () => onChange?.()
 			});
 			ref = editor;
 		}
