@@ -60,15 +60,6 @@ export const listBlockSchema = z.object({
 	})
 });
 
-// TODO: remove
-export const legacyListBlockSchema = z.object({
-	type: z.literal('list'),
-	data: z.object({
-		style: z.enum(['ordered', 'unordered', 'checklist']),
-		items: z.array(z.string().max(8192))
-	})
-});
-
 export const quoteBlockSchema = z.object({
 	type: z.literal('quote'),
 	data: z.object({
@@ -102,22 +93,6 @@ export const videoBlockSchema = z.object({
 		file: videoSchema,
 		caption: z.string().max(1024),
 		aspectRatio: z.number().positive()
-	})
-});
-
-// TODO: remove
-export const legacyMongoMediaBlockSchema = z.object({
-	type: z.literal('image'),
-	data: z.object({
-		file: z.object({
-			url: z.string(),
-			placeholder: z.string().optional(),
-			width: z.number().int().min(1).optional(),
-			height: z.number().int().min(1).optional()
-		}),
-		caption: z.string(),
-		withBorder: z.boolean(),
-		withBackground: z.boolean()
 	})
 });
 
@@ -168,31 +143,9 @@ export const contentBlockSchema = z.discriminatedUnion('type', [
 	embedBlockSchema
 ]);
 
-// TODO: remove
-export const legacyContentBlockSchema = z.discriminatedUnion('type', [
-	headerBlockSchema,
-	paragraphBlockSchema,
-	linkToolBlockSchema,
-	delimiterBlockSchema,
-	legacyListBlockSchema,
-	quoteBlockSchema,
-	warningBlockSchema,
-	legacyMongoMediaBlockSchema,
-	codeBlockSchema,
-	paywallBlockSchema,
-	embedBlockSchema
-]);
-
 export const contentSchema = z.object({
 	time: z.number().optional(),
 	blocks: z.array(contentBlockSchema.and(z.object({ id: z.string() }))),
-	version: z.string()
-});
-
-// TODO: remove
-export const legacyContentSchema = z.object({
-	time: z.number().optional(),
-	blocks: z.array(legacyContentBlockSchema.and(z.object({ id: z.string() }))),
 	version: z.string()
 });
 

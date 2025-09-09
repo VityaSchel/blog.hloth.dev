@@ -49,7 +49,7 @@
 			? '100%'
 			: 'auto'};"
 >
-	<!-- I was debating whether I should leave this bug but it was way too beatiful 😍 -->
+	<!-- I was debating whether I should leave this bug but it was way too beautiful 😍 -->
 	<img
 		class={[
 			{

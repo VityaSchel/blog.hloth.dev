@@ -35,7 +35,7 @@
 			ref = editor;
 		}
 		initializeEditor();
-		return () => untrack(() => ref)?.destroy();
+		return () => untrack(() => ref)?.destroy?.();
 	});
 
 	$effect(() => {
@@ -45,7 +45,7 @@
 				ref.render(data || { blocks: [] });
 			}
 		});
-		return () => untrack(() => ref)?.destroy();
+		return () => untrack(() => ref)?.destroy?.();
 	});
 
 	export function getData() {
