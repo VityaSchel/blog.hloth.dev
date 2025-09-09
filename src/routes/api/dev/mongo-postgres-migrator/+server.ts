@@ -1,4 +1,4 @@
-import { NODE_ENV } from '$env/static/private';
+import { NODE_ENV, STORAGE_PATH } from '$env/static/private';
 import { categorySchema } from '$lib/categories';
 import { legacyContentSchema, type Content } from '$lib/editorjs/blocks';
 import { db } from '$lib/server/db';
@@ -11,7 +11,7 @@ import path from 'path';
 import { $ } from 'bun';
 
 async function getAspectRatio(fileId: string) {
-	const file = path.join(process.cwd(), './static/tmp', fileId);
+	const file = path.join(STORAGE_PATH, fileId);
 	const response =
 		await $`ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 ${file}`
 			.text()
