@@ -26,7 +26,6 @@
 				flex flex-col items-center justify-center gap-4 rounded-lg bg-slate-600
 				px-16 py-8 text-center text-white
 			"
-			style="max-width: 100%; aspect-ratio: {width / height}; height: auto;"
 		>
 			<span class="font-display text-xl font-semibold tracking-wide">
 				To protect your privacy, embedded iframes are loaded upon your explicit
@@ -84,6 +83,7 @@
 			{height}
 			{title}
 			sandbox="allow-orientation-lock allow-presentation allow-scripts allow-same-origin"
+			allow="picture-in-picture; fullscreen; autoplay"
 			style="max-width: 100%; aspect-ratio: {width / height}; height: auto;"
 		></iframe>
 	{/if}

@@ -80,7 +80,7 @@
 		"jsonwebtoken": "^9.0.2",
 		"plaiceholder": "^3.0.0",
 		"postgres": "^3.4.5",
-		"pow-reaction": "1.0.10",
+		"pow-reaction": "1.0.11",
 		"sharp": "^0.34.3",
 		"super-sitemap": "^1.0.5",
 		"svelte-sonner": "^1.0.5",

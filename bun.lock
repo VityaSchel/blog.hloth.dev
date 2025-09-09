@@ -26,7 +26,7 @@
         "jsonwebtoken": "^9.0.2",
         "plaiceholder": "^3.0.0",
         "postgres": "^3.4.5",
-        "pow-reaction": "1.0.10",
+        "pow-reaction": "1.0.11",
         "sharp": "^0.34.3",
         "super-sitemap": "^1.0.5",
         "svelte-sonner": "^1.0.5",
@@ -897,7 +897,7 @@
 
     "postgres": ["postgres@3.4.7", "", {}, "sha512-Jtc2612XINuBjIl/QTWsV5UvE8UHuNblcO3vVADSrKsrc6RqGX6lOW1cEo3CM2v0XG4Nat8nI+YM7/f26VxXLw=="],
 
-    "pow-reaction": ["pow-reaction@1.0.10", "", { "dependencies": { "@noble/hashes": "^2.0.0", "@oslojs/jwt": "^0.3.0", "esm-env": "^1.2.2", "zod": "^4.1.5" }, "peerDependencies": { "@sveltejs/kit": "^2.36.3", "svelte": "^5.38.5" } }, "sha512-1WlF7hpCUf4sAiTMF4/m6/svhcQRpTVikFmB74DbHeHQEIm0R4felqqrSoXGdzI7Yd24L9fk+qpKZh983wYoKw=="],
+    "pow-reaction": ["pow-reaction@1.0.11", "", { "dependencies": { "@noble/hashes": "^2.0.0", "@oslojs/jwt": "^0.3.0", "esm-env": "^1.2.2", "zod": "^4.1.5" }, "peerDependencies": { "@sveltejs/kit": "^2.36.3", "svelte": "^5.38.5" } }, "sha512-tBpLoe+7U17WWNfhq9TWDTBCv/xrtkhKmN6RTw8DD9Z3Gbuw0IM0JkYdXI/zDNmyyoOZSiE6rSMDWM9weOuVIw=="],
 
     "prelude-ls": ["prelude-ls@1.2.1", "", {}, "sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g=="],
 

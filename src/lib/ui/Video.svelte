@@ -16,6 +16,7 @@
 		style="aspect-ratio: {aspectRatio};"
 		controls
 		autoPlay={false}
+		playsinline
 	></video>
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	<figcaption>{@html sanitize(caption)}</figcaption>

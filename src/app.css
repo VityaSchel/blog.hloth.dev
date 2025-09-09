@@ -313,6 +313,7 @@ pre[class*='language-'] {
 			color: var(--text-alt);
 			font-size: 13px;
 			margin-top: 16px;
+			overflow-wrap: break-word;
 		}
 	}
 
