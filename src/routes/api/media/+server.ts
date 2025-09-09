@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { error, isHttpError, json } from '@sveltejs/kit';
-import { NODE_ENV, STORAGE_PATH } from '$env/static/private';
+import { STORAGE_PATH } from '$env/static/private';
 import fs from 'fs/promises';
 import path from 'path';
 import { getPlaiceholder } from 'plaiceholder';
@@ -53,7 +53,7 @@ export async function POST({ url, locals, request }) {
 				contentType = file.type;
 			}
 		} catch (e) {
-			if (NODE_ENV === 'development') console.error(e);
+			console.error(e);
 			throw error(400, 'Invalid request');
 		}
 
