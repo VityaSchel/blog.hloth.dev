@@ -47,27 +47,15 @@
 		? props.height + 'px'
 		: 'fill' in props
 			? '100%'
-			: 'auto'};"
+			: 'auto'}; background-image: url('{placeholder}'); background-size: cover;"
 >
-	<!-- I was debating whether I should leave this bug but it was way too beautiful 😍 -->
 	<img
 		class={[
 			{
 				'overflow-clip rounded-lg': rounded
 			},
 			props.class,
-			'object-cover blur-xl'
-		]}
-		src={placeholder}
-		{alt}
-	/>
-	<img
-		class={[
-			{
-				'overflow-clip rounded-lg': rounded
-			},
-			props.class,
-			'object-contain'
+			'object-contain backdrop-blur-2xl'
 		]}
 		{alt}
 		{...props}
