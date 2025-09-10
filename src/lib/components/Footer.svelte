@@ -98,8 +98,10 @@
 					</a>
 				{/snippet}
 				This website collects data about errors using self-hosted Sentry instance.
-				{@render a('https://sentry.hloth.dev/', 'Privacy Policy')}. Licensed
-				with
+				{@render a(
+					'https://sentry.hloth.dev/privacy-policy',
+					'Privacy Policy'
+				)}. Licensed with
 				{@render a('https://creativecommons.org/licenses/by/4.0/', 'CC BY 4.0')}
 				&
 				{@render a(
