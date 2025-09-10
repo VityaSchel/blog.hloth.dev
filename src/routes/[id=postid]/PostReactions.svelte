@@ -1,13 +1,16 @@
 <script lang="ts">
 	import z from 'zod';
 	import { page } from '$app/state';
+	import { toast } from 'svelte-sonner';
 	import { ReactionButton } from 'pow-reaction';
 	import {
 		reactions,
 		reactionSchema,
 		type Reaction
 	} from '../../lib/reactions';
-	import { toast } from 'svelte-sonner';
+	import { getThemeContext } from '$lib/theme';
+
+	const context = getThemeContext();
 
 	let {
 		value = $bindable()
@@ -24,6 +27,12 @@
 >
 	{#snippet Reaction(emoji: Reaction)}
 		<ReactionButton
+			--reaction-button-text-color={context.theme === 'dark'
+				? 'rgba(212, 212, 212, 0.6)'
+				: 'rgba(0, 0, 0, 0.6)'}
+			--reaction-button-highlight-color={context.theme === 'dark'
+				? 'rgba(161, 161, 161, 0.3)'
+				: 'rgba(0, 0, 0, 0.1)'}
 			reaction={emoji}
 			value={value[emoji] ?? 0}
 			onclick={async () => {
