@@ -95,7 +95,11 @@
 			if (request.ok) {
 				saveDraftsLocally = false;
 				clearDraft();
-				goto(visibility === 'hidden' ? '/drafts' : '/' + id);
+				if (visibility === 'hidden') {
+					goto('/drafts');
+				} else {
+					goto(`/${id}`);
+				}
 			} else {
 				console.error(await request.text());
 				toast.error('Error saving post');
@@ -273,7 +277,7 @@
 				const countWords = (text: string) =>
 					text
 						.trim()
-						.replaceAll(/<[^>]+>/g, '')
+						.replace(/<[^>]+>/g, '')
 						.split(/\s+/).length;
 				let words: number = 0;
 				if (block.type === 'paragraph') {
@@ -311,13 +315,13 @@
 					(newValue) =>
 						(id = newValue
 							.toLowerCase()
-							.replaceAll(/[ _]/g, '-')
-							.replaceAll(/[^a-z0-9-]/g, ''))
+							.replace(/[ _]/g, '-')
+							.replace(/[^a-z0-9-]/g, ''))
 				}
 				placeholder={title
 					.toLowerCase()
-					.replaceAll(/[ _]/g, '-')
-					.replaceAll(/[^a-z0-9-]/g, '')}
+					.replace(/[ _]/g, '-')
+					.replace(/[^a-z0-9-]/g, '')}
 				class="
 					text-text w-full rounded-lg bg-white px-3 py-2 font-text text-base
 					font-normal
@@ -361,7 +365,7 @@
 			<span class="font-semibold">Excerpt:</span>
 			<textarea
 				bind:value={
-					() => excerpt, (newValue) => (excerpt = newValue.replaceAll('\n', ''))
+					() => excerpt, (newValue) => (excerpt = newValue.replace(/\n/g, ''))
 				}
 				placeholder="Sum up in 260 characters..."
 				class="

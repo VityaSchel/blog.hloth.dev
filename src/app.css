@@ -1,5 +1,4 @@
 @import 'tailwindcss';
-@source "../node_modules/pow-reaction/dist";
 
 @theme inline {
 	--color-cream: #f3f1e6;
@@ -9,6 +8,7 @@
 	--color-golden-creamy: #8e7a48;
 	--color-cream-alt: #e0d9c9;
 	--color-black-alt: #333333;
+	--color-inverted: #585858;
 	--color-inverted-alt: #2f2f2f;
 	--color-inverted-alt-dark: #978d62;
 	--color-active: #a3e635;
@@ -256,6 +256,8 @@ pre[class*='language-'] {
 }
 
 .article-content {
+	overflow-wrap: break-word;
+
 	h1,
 	h2,
 	h3,

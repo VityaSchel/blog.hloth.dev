@@ -4,7 +4,7 @@
 
 [Visit the website](https://blog.hloth.dev)
 
-My personal blog about web development stuff and my IRL stuff. No ads, no trackers, no metrics, no JavaScript, pure shitpost 😻
+My personal blog about web development stuff and my IRL stuff. No ads, no JavaScript required, pure shitpost 😻
 
 Old React v18 + Next.js v14 version is available under [react18-nextjs14-2024](https://github.com/VityaSchel/blog.hloth.dev/tree/react18-nextjs14-2024) branch.
 

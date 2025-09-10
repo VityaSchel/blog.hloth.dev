@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { categories, categoriesNames } from '$lib/categories';
 	import { page } from '$app/state';
 </script>
@@ -25,6 +25,7 @@
 			"
 		>
 			{#each categories as category (category)}
+				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 				<a
 					href={'/?category=' + category + '#posts'}
 					class={[
@@ -74,33 +75,40 @@
 			dark:bg-black
 		"
 	/>
-	<div class="mt-3 flex flex-wrap justify-between gap-x-2">
+	<div class="mt-3 flex flex-wrap justify-between gap-x-2 gap-y-1">
 		<span class="block font-medium">/2024/2025</span>
-		<span
+		<div
 			class="
-				block text-sm font-medium tracking-normal text-inverted-alt
+				flex flex-wrap items-center gap-x-1 text-[11px] leading-3 font-medium
+				tracking-normal text-inverted
+				md:text-right md:text-sm md:leading-normal
 				dark:text-inverted-alt-dark
+				tall-screen:text-sm tall-screen:leading-normal
 			"
 		>
-			Licensed with <a
-				class="border-b-[1px]"
-				href="https://creativecommons.org/licenses/by/4.0/"
-				target="_blank"
-				rel="nofollow noreferrer noopener"
-			>
-				CC BY 4.0
-			</a>
-			&
-			<a
-				class="border-b-[1px]"
-				href="https://github.com/VityaSchel/blog.hloth.dev/tree/main/LICENSE"
-				target="_blank"
-				rel="nofollow noreferrer noopener"
-			>
-				MIT
-			</a>
-			unless otherwise stated.
-		</span>
+			<span>
+				{#snippet a(link: string, text: string)}
+					<a
+						class="border-b-[1px]"
+						href={link}
+						target="_blank"
+						rel="nofollow noreferrer noopener"
+					>
+						{text}
+					</a>
+				{/snippet}
+				This website collects data about errors using self-hosted Sentry instance.
+				{@render a('https://sentry.hloth.dev/', 'Privacy Policy')}. Licensed
+				with
+				{@render a('https://creativecommons.org/licenses/by/4.0/', 'CC BY 4.0')}
+				&
+				{@render a(
+					'https://github.com/VityaSchel/blog.hloth.dev/tree/main/LICENSE',
+					'MIT'
+				)}
+				unless otherwise stated.
+			</span>
+		</div>
 	</div>
 </footer>
 

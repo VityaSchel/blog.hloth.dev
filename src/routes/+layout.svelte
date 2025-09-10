@@ -15,6 +15,7 @@
 	import '@fontsource-variable/source-serif-4/wght-italic.css';
 	import '@fontsource-variable/montserrat/wght.css';
 	import '@fontsource-variable/montserrat/wght-italic.css';
+	import { version } from '$app/environment';
 
 	let { children, data } = $props();
 
@@ -25,6 +26,9 @@
 	setThemeContext(context);
 </script>
 
+<svelte:head>
+	<meta name="blog-hloth-dev-version" content={version} />
+</svelte:head>
 <div class="relative z-0">
 	<Container>
 		{@render children?.()}
