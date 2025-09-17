@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	let {
 		alt,
 		placeholder,
@@ -16,6 +18,8 @@
 		rounded?: boolean;
 	} & import('svelte/elements').SvelteHTMLElements['img'] = $props();
 
+	let hasPlaceholder = $derived(false);
+
 	const ar = $derived(
 		'aspectRatio' in props
 			? props.aspectRatio
@@ -26,6 +30,18 @@
 	const explicitSize = $derived('width' in props && 'height' in props);
 
 	let img: HTMLImageElement;
+	onMount(() => {
+		if (img.complete) {
+			hasPlaceholder = false;
+		} else {
+			hasPlaceholder = true;
+			img.style.opacity = '0';
+			img.addEventListener('load', () => {
+				img.style.opacity = '1';
+				hasPlaceholder = false;
+			});
+		}
+	});
 </script>
 
 <svelte:head>
@@ -47,7 +63,9 @@
 		? props.height + 'px'
 		: 'fill' in props
 			? '100%'
-			: 'auto'}; background-image: url('{placeholder}'); background-size: cover;"
+			: 'auto'};{hasPlaceholder
+		? `background-image: url('${placeholder}'); `
+		: ''} background-size: cover;"
 >
 	<img
 		class={[
