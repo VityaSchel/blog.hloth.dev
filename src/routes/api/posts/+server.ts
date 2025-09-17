@@ -1,7 +1,6 @@
 import z from 'zod';
 import { error, json } from '@sveltejs/kit';
 import { noNullCharacter } from '$lib/zod';
-import { NODE_ENV } from '$env/static/private';
 import { db } from '$lib/server/db';
 import { contentSchema } from '$lib/editorjs/blocks';
 import { getUrl, mediaFileIdSchema } from '$lib/media';
@@ -29,7 +28,7 @@ export async function POST({ locals, request }) {
 		})
 		.safeParseAsync(await request.json());
 	if (!bodyParsing.success) {
-		if (NODE_ENV === 'development') console.error(bodyParsing.error);
+		console.error(bodyParsing.error);
 		throw error(400, 'Invalid request');
 	}
 	const body = bodyParsing.data;
