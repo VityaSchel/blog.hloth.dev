@@ -38,9 +38,9 @@ export async function GET({ url, locals }) {
 		let description: string | undefined;
 		let imageUrl: string | undefined;
 		const title = $('title').first().text();
+		const linkUrl = new URL(link);
 		const site_name =
-			$('meta[property="og:site_name"]').attr('content') ||
-			new URL(link).hostname;
+			$('meta[property="og:site_name"]').attr('content') || linkUrl.hostname;
 
 		const descriptionTag = $('meta[name="description"]').first();
 		if (descriptionTag) {
@@ -49,7 +49,14 @@ export async function GET({ url, locals }) {
 
 		const bannerTag = $('meta[property="og:image"]').first();
 		if (bannerTag) {
-			imageUrl = bannerTag.attr('content');
+			const bannerTagUrl = bannerTag.attr('content');
+			if (bannerTagUrl) {
+				try {
+					imageUrl = new URL(bannerTagUrl, linkUrl.origin).href;
+				} catch {
+					console.warn('Invalid image URL:', bannerTagUrl);
+				}
+			}
 		}
 
 		return json({
