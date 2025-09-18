@@ -12,7 +12,7 @@ export async function GET({ params }) {
 	return json(await getReactions({ postId }));
 }
 
-export async function POST({ params, request, getClientAddress }) {
+export async function POST({ params, request }) {
 	const postId = params.id;
 
 	const body = await z
@@ -28,7 +28,7 @@ export async function POST({ params, request, getClientAddress }) {
 	}
 	const { challenge, solutions } = body.data;
 
-	const ip = getClientAddress();
+	const ip = request.headers.get('x-forwarded-for');
 	if (!ip) {
 		return json({ success: false }, { status: 403 });
 	}
@@ -36,7 +36,7 @@ export async function POST({ params, request, getClientAddress }) {
 	const powReaction = powReactions[body.data.reaction];
 	const success = await powReaction.verifySolution(
 		{ challenge, solutions },
-		{ ip }
+		{ ip, pageId: params.id }
 	);
 	if (success) {
 		const reactions = await incrementReaction({

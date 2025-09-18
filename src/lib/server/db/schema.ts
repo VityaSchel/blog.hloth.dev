@@ -109,8 +109,7 @@ export const reactionChallengesTable = pgTable(
 	'reaction_challenges',
 	{
 		id: serial('id').primaryKey(),
-		emoji: text('emoji').notNull(),
-		ip: text('ip').notNull(),
+		clientId: text('client_id').notNull(),
 		createdAt: timestamp('created_at', {
 			withTimezone: true
 		})
@@ -118,11 +117,7 @@ export const reactionChallengesTable = pgTable(
 			.defaultNow()
 	},
 	(t) => [
-		index('reaction_challenges_ip_emoji_idx').on(
-			t.ip,
-			t.emoji,
-			t.createdAt.desc()
-		)
+		index('reaction_challenges_ip_emoji_idx').on(t.clientId, t.createdAt.desc())
 	]
 );
 

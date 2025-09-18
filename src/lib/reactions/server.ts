@@ -10,48 +10,48 @@ import { REACTIONS_JWT_SECRET } from '$env/static/private';
 import { reactions, type Reaction } from '$lib/reactions';
 
 export const powReactions = Object.fromEntries(
-	reactions.map((emoji) => [
-		emoji,
-		new PowReaction({
+	reactions.map((emoji) => {
+		const powReaction = new PowReaction<{ ip: string; pageId: string }>({
 			secret: new TextEncoder().encode(REACTIONS_JWT_SECRET),
 			reaction: emoji,
 			difficulty: {
 				windowMs: 1000 * 60 * 60 * 24,
 				minDifficulty: 8,
 				multiplier: 1,
-				async getEntries({ ip, since }) {
+				async getEntries({ clientId, since }) {
 					const entries = await db
 						.select({ count: count() })
 						.from(reactionChallengesTable)
 						.where(
 							and(
-								eq(reactionChallengesTable.ip, ip),
-								eq(reactionChallengesTable.emoji, emoji),
+								eq(reactionChallengesTable.clientId, clientId),
 								gte(reactionChallengesTable.createdAt, since)
 							)
 						)
 						.then((r) => Number(r[0]?.count ?? 0));
 					return entries;
 				},
-				async putEntry({ ip }) {
+				async putEntry({ clientId }) {
 					await db.insert(reactionChallengesTable).values({
-						emoji,
-						ip
+						clientId
 					});
 				}
 			},
 			ttl: 1000 * 60,
-			isRedeemed: async (id: string) => {
+			isRedeemed: async ({ challengeId }) => {
 				const row = await db.query.reactionChallengeSolutionsTable.findFirst({
-					where: eq(reactionChallengeSolutionsTable.id, id)
+					where: eq(reactionChallengeSolutionsTable.id, challengeId)
 				});
 				return !!row;
 			},
-			setRedeemed: async (id: string) => {
-				await db.insert(reactionChallengeSolutionsTable).values({ id });
+			setRedeemed: async ({ challengeId }) => {
+				await db
+					.insert(reactionChallengeSolutionsTable)
+					.values({ id: challengeId });
 			}
-		})
-	])
+		});
+		return [emoji, powReaction];
+	})
 );
 
 export async function getReactions({ postId }: { postId: string }) {
