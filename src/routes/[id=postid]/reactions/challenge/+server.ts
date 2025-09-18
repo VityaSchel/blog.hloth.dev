@@ -3,7 +3,7 @@ import { json } from '@sveltejs/kit';
 import { reactionSchema } from '$lib/reactions';
 import { powReactions } from '$lib/reactions/server';
 
-export async function POST({ request, getClientAddress, params }) {
+export async function POST({ request, params }) {
 	const body = await z
 		.object({
 			reaction: reactionSchema
@@ -14,7 +14,7 @@ export async function POST({ request, getClientAddress, params }) {
 		return json({ success: false }, { status: 400 });
 	}
 
-	const ip = getClientAddress();
+	const ip = request.headers.get('x-forwarded-for');
 	if (!ip) {
 		return json({ success: false }, { status: 403 });
 	}
