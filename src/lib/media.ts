@@ -26,5 +26,11 @@ export const videoSchema = z.object({
 export type Image = z.infer<typeof imageSchema>;
 export type Video = z.infer<typeof videoSchema>;
 
-export const getUrl = (id: string) =>
-	new URL(id, PUBLIC_STORAGE_URL).toString();
+export const getUrl = (id: string) => {
+	const url = new URL(id, new URL(PUBLIC_STORAGE_URL, 'http://dummy.local'));
+	if (url.hostname === 'dummy.local') {
+		return url.pathname;
+	} else {
+		return url.toString();
+	}
+};
