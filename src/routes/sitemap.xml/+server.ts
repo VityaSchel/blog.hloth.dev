@@ -3,7 +3,7 @@ import { error, type RequestHandler } from '@sveltejs/kit';
 import { getIds } from '$lib/server/blog';
 import { NODE_ENV } from '$env/static/private';
 
-export const GET: RequestHandler = async () => {
+export const GET: RequestHandler = async ({ url }) => {
 	let blogIds;
 	try {
 		blogIds = await getIds();
@@ -13,7 +13,7 @@ export const GET: RequestHandler = async () => {
 	}
 
 	return await sitemap.response({
-		origin: 'https://blog.hloth.dev',
+		origin: url.origin,
 		excludeRoutePatterns: ['^/drafts$', '^/post$', '^/login$'],
 		paramValues: {
 			'/[id=postid]': blogIds.map((post) => ({

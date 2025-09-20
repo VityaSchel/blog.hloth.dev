@@ -51,7 +51,7 @@
 			<a href="https://github.com/VityaSchel" class="link">GitHub</a>
 			<a href="https://instagram.com/vityaczech" class="link">Instagram</a>
 			<a href="https://www.linkedin.com/in/hloth/" class="link">Linkedin</a>
-			<a href="https://github.com/VityaSchel/blog.hloth.dev" class="link mt-3">
+			<a href="https://git.hloth.dev/hloth/blog.hloth.dev" class="link mt-3">
 				This website is open source
 			</a>
 		</div>

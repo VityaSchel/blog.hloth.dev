@@ -16,7 +16,7 @@ export async function POST({ request, params }) {
 
 	const ip = request.headers.get('x-forwarded-for');
 	if (!ip) {
-		return json({ success: false }, { status: 403 });
+		return json({ successx: false }, { status: 403 });
 	}
 
 	const powReaction = powReactions[body.data.reaction];

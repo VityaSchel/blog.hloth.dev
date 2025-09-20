@@ -9,6 +9,7 @@
 	import LazyImage from '$lib/ui/LazyImage.svelte';
 	import Separator from '$lib/ui/Separator.svelte';
 	import PostReactions from './PostReactions.svelte';
+	import { page } from '$app/state';
 
 	let { data } = $props();
 	const post = $derived(data.post);
@@ -47,7 +48,7 @@
 				dateModified: updatedAt ? updatedAt.toISOString() : undefined,
 				mainEntityOfPage: {
 					'@type': 'WebPage',
-					'@id': 'https://blog.hloth.dev/' + post.id
+					'@id': page.url.origin + '/' + post.id
 				}
 			}) +
 			'<' +

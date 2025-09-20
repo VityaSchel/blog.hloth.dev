@@ -17,13 +17,10 @@
 	<meta property="og:description" content={description} />
 	<meta property="og:site_name" content="hloth blog" />
 	<meta property="og:type" content="website" />
-	<meta property="og:url" content="https://blog.hloth.dev{page.url.pathname}" />
-	<meta property="og:image" content="https://blog.hloth.dev/banner.jpg" />
-	<meta property="og:image:width" content="https://blog.hloth.dev/banner.jpg" />
-	<meta
-		property="og:image:height"
-		content="https://blog.hloth.dev/banner.jpg"
-	/>
+	<meta property="og:url" content="{page.url.origin}{page.url.pathname}" />
+	<meta property="og:image" content="{page.url.origin}/banner.jpg" />
+	<meta property="og:image:width" content="{page.url.origin}/banner.jpg" />
+	<meta property="og:image:height" content="{page.url.origin}/banner.jpg" />
 	<meta property="og:image:alt" content="hloth blog" />
 	<meta property="og:locale" content="en_US" />
 </svelte:head>

@@ -2,7 +2,7 @@
 
 [![Screenshot](./screenshot.webp)](https://blog.hloth.dev)
 
-[Visit the website](https://blog.hloth.dev)
+[Visit the website](https://blog.hloth.dev) • Visit in Tor network: [blog.hlothdevzkti6suoksy7lcy7hmpxnr3msu5waokzaslsi2mnx5ouu4qd.onion](http://blog.hlothdevzkti6suoksy7lcy7hmpxnr3msu5waokzaslsi2mnx5ouu4qd.onion/)
 
 My personal blog about web development stuff and my IRL stuff. No ads, no JavaScript required, pure shitpost 😻
 
@@ -18,7 +18,7 @@ Credits to @editorjs authors and huge thanks to Svelte for being so good I spent
 
 ## Donate
 
-[hloth.dev/donate](https://hloth.dev/donate)
+[hloth.dev/donate](https://hloth.dev/donate) • Tor: [hlothdevzkti6suoksy7lcy7hmpxnr3msu5waokzaslsi2mnx5ouu4qd.onion/donate](http://hlothdevzkti6suoksy7lcy7hmpxnr3msu5waokzaslsi2mnx5ouu4qd.onion/donate)
 
 ## License
 

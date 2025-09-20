@@ -29,6 +29,13 @@ const config = {
 			instrumentation: {
 				server: true
 			}
+		},
+
+		csrf: {
+			trustedOrigins: [
+				'https://blog.hloth.dev',
+				'http://blog.hlothdevzkti6suoksy7lcy7hmpxnr3msu5waokzaslsi2mnx5ouu4qd.onion'
+			]
 		}
 	}
 };
