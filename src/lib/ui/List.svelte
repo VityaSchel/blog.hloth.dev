@@ -13,7 +13,7 @@
 
 {#snippet list(items: ListItems)}
 	<svelte:element this={style === 'ordered' ? 'ol' : 'ul'}>
-		{#each items as item, i (i)}
+		{#each items as item, i (`${i}. ${item.content}`)}
 			<li>
 				{#if style === 'checklist' && 'checked' in item.meta}
 					<input type="checkbox" checked={item.meta.checked} disabled />

@@ -30,7 +30,7 @@
 <a id="posts" href="#posts" aria-hidden="true" tabindex={-1}></a>
 <section class={{ 'mt-[60px]': !drafts }}>
 	{#if posts.length}
-		{#each posts as post, i (i)}
+		{#each posts as post, i (post.id)}
 			{@const {
 				id,
 				locale,

@@ -51,7 +51,7 @@
 				}
 			]}
 		>
-			{#each links as { url, title }, i (i)}
+			{#each links as { url, title }, i (`${i}. ${url}`)}
 				<li class="w-full pl-2">
 					<div class="flex w-full flex-col break-words">
 						<span class="text-alt text-base">{title}</span>

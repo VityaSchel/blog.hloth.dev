@@ -12,19 +12,21 @@
 	onMount(() => {
 		if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
 			navigator.serviceWorker.ready.then((reg) => {
-				reg.pushManager.getSubscription().then((sub) => {
-					if (
-						sub &&
-						!(
-							sub.expirationTime &&
-							Date.now() > sub.expirationTime - 5 * 60 * 1000
-						)
-					) {
-						subscription = sub;
-						subscribed = true;
-					}
-				});
-				registration = reg;
+				if ('getSubscription' in reg.pushManager) {
+					reg.pushManager.getSubscription().then((sub) => {
+						if (
+							sub &&
+							!(
+								sub.expirationTime &&
+								Date.now() > sub.expirationTime - 5 * 60 * 1000
+							)
+						) {
+							subscription = sub;
+							subscribed = true;
+						}
+					});
+					registration = reg;
+				}
 			});
 		}
 	});
