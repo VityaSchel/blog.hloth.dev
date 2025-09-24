@@ -8,17 +8,17 @@ My personal blog about web development stuff and my IRL stuff. No ads, no JavaSc
 
 Old React v18 + Next.js v14 version is available under [react18-nextjs14-2024](https://github.com/VityaSchel/blog.hloth.dev/tree/react18-nextjs14-2024) branch.
 
-## Credits
-
-Credits to Milos Bojkovic for design inspiration. [Dribbble project link](https://dribbble.com/shots/21592801-Blog-post-exploration).
-
-Credits to Pangram Pangram Foundry for free-for-personal-use PP Mori font. [License](https://pangrampangram.com/pages/faq#font-licensing). Full license text is available under [static/pp-mori/license.pdf](./static/pp-mori/license.pdf).
-
-Credits to @editorjs authors and huge thanks to Svelte for being so good I spent several days rewriting this whole website (along with many other my projects) from React+Next.js to Svelte+SvelteKit. A special thank you to Anthony Fu for fantastic [shiki](https://github.com/shikijs/shiki)!
-
 ## Donate
 
-[hloth.dev/donate](https://hloth.dev/donate) • Tor: [hlothdevzkti6suoksy7lcy7hmpxnr3msu5waokzaslsi2mnx5ouu4qd.onion/donate](http://hlothdevzkti6suoksy7lcy7hmpxnr3msu5waokzaslsi2mnx5ouu4qd.onion/donate)
+[hloth.dev/donate](https://hloth.dev/donate) · Tor: [hlothdevzkti6suoksy7lcy7hmpxnr3msu5waokzaslsi2mnx5ouu4qd.onion/donate](http://hlothdevzkti6suoksy7lcy7hmpxnr3msu5waokzaslsi2mnx5ouu4qd.onion/donate)
+
+## Acknowledgements
+
+- Design inspired by Milos Bojkovic. [Dribbble project link](https://dribbble.com/shots/21592801-Blog-post-exploration).
+- PP Mori font by Pangram Pangram Foundry (free for personal use). [License](./static/pp-mori/license.pdf).
+- Visual post editor by @editorjs authors.
+- [Svelte & SvelteKit](https://svelte.dev/) ❤️
+- A special THANK YOU to [Anthony Fu](https://antfu.me/) for fantastic [shiki](https://github.com/shikijs/shiki) code highlighter!
 
 ## License
 
