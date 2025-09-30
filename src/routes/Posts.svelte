@@ -64,7 +64,7 @@
 					href="/#posts"
 					class="rounded-full border px-4 text-base font-medium"
 				>
-					Показать всё
+					Show all
 				</a>
 			</div>
 		{/if}

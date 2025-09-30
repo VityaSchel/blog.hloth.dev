@@ -1,38 +1,19 @@
 <script lang="ts">
-	let {
-		closing = $bindable(),
-		onClose
-	}: {
-		closing: boolean;
-		onClose: () => void;
-	} = $props();
 </script>
 
 <input tabindex={-1} aria-hidden="true" class="absolute h-0 w-0 opacity-0" />
-<button
+<label
 	aria-label="Close menu"
 	class="
-		group flex w-full min-w-[50px] cursor-pointer items-center duration-500
+		group menu-arrow flex w-full min-w-[50px] cursor-pointer items-center
+		transition-none duration-500
 		focus:outline-0
 		focus-visible:bg-blue-400/20
 	"
 	style="padding-inline-start: 32px; padding-inline-end: 32px;"
-	onclick={() => {
-		if (closing) return;
-		closing = true;
-		onClose();
-	}}
+	for="menu-toggle"
 >
-	<span
-		class={[
-			'h-[2px] bg-white',
-			{
-				'w-0 transition-[width] duration-200 group-focus-visible:w-full pointer-fine:group-hover:w-full':
-					!closing,
-				'w-full min-w-0': closing
-			}
-		]}
-	></span>
+	<span class="arrow-line h-[2px] bg-white"></span>
 	<svg
 		width="50"
 		height="50"
@@ -65,4 +46,4 @@
 			stroke-width="4"
 		/>
 	</svg>
-</button>
+</label>

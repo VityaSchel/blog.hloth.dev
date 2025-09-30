@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { categories, categoriesNames } from '$lib/categories';
 	import { page } from '$app/state';
+	import { browser } from '$app/environment';
 </script>
 
 <footer
@@ -97,11 +98,15 @@
 						{text}
 					</a>
 				{/snippet}
-				This website collects data about errors using self-hosted Sentry instance.
-				{@render a(
-					'https://sentry.hloth.dev/privacy-policy',
-					'Privacy Policy'
-				)}. Licensed with
+				{#if browser}
+					This website collects data about errors using self-hosted Sentry
+					instance.
+					{@render a(
+						'https://sentry.hloth.dev/privacy-policy',
+						'Privacy Policy'
+					)}.
+				{/if}
+				Licensed with
 				{@render a('https://creativecommons.org/licenses/by/4.0/', 'CC BY 4.0')}
 				&
 				{@render a(
