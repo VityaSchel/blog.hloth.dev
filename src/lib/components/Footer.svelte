@@ -1,40 +1,27 @@
 <script lang="ts">
-	import { categories, categoriesNames } from '$lib/categories';
-	import { page } from '$app/state';
-	import { browser } from '$app/environment';
+	import { categories, categoriesNames } from "$lib/categories";
+	import { page } from "$app/state";
 </script>
 
 <footer
-	class="
-		footer-text bottom-0 z-[-1] w-full bg-black p-6 font-display text-white
-		not-[:has(:focus-visible)]:sticky
-		md:p-12
-		dark:bg-sandy dark:text-black
-	"
+	class="footer-text bottom-0 z-[-1] w-full bg-black p-6 font-display text-white
+		not-[:has(:focus-visible)]:sticky md:p-12 dark:bg-sandy dark:text-black"
 >
-	<div
-		class="
-			flex flex-col
-			md:flex-row md:items-end
-		"
-	>
+	<div class="flex flex-col md:flex-row md:items-end">
 		<div
-			class="
-				flex flex-col text-2xl font-semibold break-all
-				md:mt-0 md:gap-1.5 md:pr-36 md:text-3xl
-				tall-screen:mt-2 tall-screen:gap-3 tall-screen:text-4xl
-			"
+			class="flex flex-col text-2xl font-semibold break-all md:mt-0 md:gap-1.5
+				md:pr-36 md:text-3xl tall-screen:mt-2 tall-screen:gap-3
+				tall-screen:text-4xl"
 		>
 			{#each categories as category (category)}
-				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 				<a
-					href={'/?category=' + category + '#posts'}
+					href="/?category={category}#posts"
 					class={[
-						'w-fit',
+						"w-fit",
 						{
-							'text-active dark:text-active-dark':
-								category && category === page.url.searchParams.get('category')
-						}
+							"text-active dark:text-active-dark":
+								category && category === page.url.searchParams.get("category"),
+						},
 					]}
 				>
 					{categoriesNames[category]}
@@ -42,11 +29,8 @@
 			{/each}
 		</div>
 		<div
-			class="
-				mt-4 flex flex-1 flex-col gap-1 font-caption font-medium
-				md:mt-0 md:px-4 md:text-base
-				tall-screen:mt-8 tall-screen:text-xl
-			"
+			class="mt-4 flex flex-1 flex-col gap-1 font-caption font-medium md:mt-0
+				md:px-4 md:text-base tall-screen:mt-8 tall-screen:text-xl"
 		>
 			<span>My socials:</span>
 			<a href="https://github.com/VityaSchel" class="link">GitHub</a>
@@ -57,11 +41,9 @@
 			</a>
 		</div>
 		<div
-			class="
-				mt-4 flex flex-col gap-1 text-sm font-medium
-				md:mt-0 md:items-end md:justify-end md:text-right md:text-sm
-				tall-screen:mt-8 tall-screen:text-lg
-			"
+			class="mt-4 flex flex-col gap-1 text-sm font-medium md:mt-0 md:items-end
+				md:justify-end md:text-right md:text-sm tall-screen:mt-8
+				tall-screen:text-lg"
 		>
 			<span>Contact me:</span>
 			<a class="link" href="https://matrix.to/#/@hloth:hloth.dev">Matrix</a>
@@ -70,22 +52,15 @@
 		</div>
 	</div>
 	<hr
-		class="
-			mt-5 h-[2px] w-full border-none bg-white
-			sm:mt-[41px]
-			dark:bg-black
-		"
+		class="mt-5 h-[2px] w-full border-none bg-white sm:mt-[41px] dark:bg-black"
 	/>
 	<div class="mt-3 flex flex-wrap justify-between gap-x-2 gap-y-1">
 		<span class="block font-medium">/2024/2025</span>
 		<div
-			class="
-				flex flex-wrap items-center gap-x-1 text-[11px] leading-3 font-medium
-				tracking-normal text-inverted
-				md:text-right md:text-sm md:leading-normal
-				dark:text-inverted-alt-dark
-				tall-screen:text-sm tall-screen:leading-normal
-			"
+			class="flex flex-wrap items-center gap-x-1 text-[11px] leading-3
+				font-medium tracking-normal text-inverted md:text-right md:text-sm
+				md:leading-normal dark:text-inverted-alt-dark tall-screen:text-sm
+				tall-screen:leading-normal"
 		>
 			<span>
 				{#snippet a(link: string, text: string)}
@@ -98,20 +73,12 @@
 						{text}
 					</a>
 				{/snippet}
-				{#if browser}
-					This website collects data about errors using self-hosted Sentry
-					instance.
-					{@render a(
-						'https://sentry.hloth.dev/privacy-policy',
-						'Privacy Policy'
-					)}.
-				{/if}
 				Licensed with
-				{@render a('https://creativecommons.org/licenses/by/4.0/', 'CC BY 4.0')}
+				{@render a("https://creativecommons.org/licenses/by/4.0/", "CC BY 4.0")}
 				&
 				{@render a(
-					'https://github.com/VityaSchel/blog.hloth.dev/tree/main/LICENSE',
-					'MIT'
+					"https://github.com/VityaSchel/blog.hloth.dev/tree/main/LICENSE",
+					"MIT",
 				)}
 				unless otherwise stated.
 			</span>

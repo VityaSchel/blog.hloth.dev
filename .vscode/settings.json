@@ -20,7 +20,6 @@
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"editor.formatOnSave": true,
-	"eslint.validate": ["javascript", "typescript", "svelte"],
 	"svg.preview.background": "transparent",
 	"typescript.preferences.importModuleSpecifierEnding": "minimal",
 	"search.exclude": {

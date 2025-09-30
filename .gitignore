@@ -13,5 +13,3 @@ node_modules
 static/tmp
 
 .eslintcache
-# Sentry Config File
-.env.sentry-build-plugin
