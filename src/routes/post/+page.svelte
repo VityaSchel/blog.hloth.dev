@@ -1,51 +1,53 @@
 <script lang="ts">
+	import { enhance } from "$app/forms";
 	import AppBar from "$lib/components/AppBar.svelte";
-	import PageMetadata from "$lib/components/PageMetadata.svelte";
-	import { getDraft, type PostDraftSchema } from "$lib/local-drafts";
-	import { onMount } from "svelte";
-	import { toast } from "svelte-sonner";
+	import Button from "$lib/ui/Button.svelte";
+	import FormError from "$lib/ui/FormError.svelte";
 
-	let { data } = $props();
+	let { form }: import("./$types").PageProps = $props();
 
-	let initial: PostDraftSchema | null = $derived(null);
-	let initialLoaded = $state(false);
-	let saveDraftsLocally = $derived(!data.initial);
-
-	onMount(() => {
-		try {
-			if (data?.initial) {
-				initial = data.initial;
-			} else {
-				initial = getDraft();
-			}
-		} catch (error) {
-			console.error(error);
-			toast.error("Failed to load initial data");
-		} finally {
-			initialLoaded = true;
-		}
-	});
+	let submitting = $state(false);
 </script>
 
-<PageMetadata title="post @ hloth blog" />
-{#snippet label(text: string, tag: "span" | "noscript")}
-	<div
-		class="flex flex-1 items-center justify-center font-caption text-3xl font-bold"
-	>
-		<svelte:element this={tag}>{text}</svelte:element>
-	</div>
-{/snippet}
 <AppBar homepage />
-{#if initialLoaded}
-	{#await import('./PostEditor.svelte')}
-		{@render label("Loading...", "span")}
-	{:then { default: PostEditor }}
-		<PostEditor
-			{initial}
-			bind:saveDraftsLocally
-			existingPost={Boolean(data.initial)}
+<form
+	class="flex flex-1 flex-col items-center justify-center gap-5"
+	method="POST"
+	use:enhance={() => {
+		submitting = true;
+		return (e) => {
+			submitting = false;
+			e.update();
+		};
+	}}
+>
+	<h1
+		class="flex items-center justify-center px-2 font-display text-4xl
+			font-bold"
+	>
+		New post
+	</h1>
+	<div class="flex">
+		<span
+			class="flex items-center justify-center rounded-l-full border border-r-0
+				px-4 pr-1"
+		>
+			blog.hloth.dev/
+		</span>
+		<input
+			name="postId"
+			class="border border-black px-2 py-1 font-caption font-semibold
+				focus:outline-0 disabled:opacity-50 dark:border-sandy"
+			disabled={submitting}
+			placeholder="Post ID"
+			pattern="^[a-z0-9.-]+$"
+			required
 		/>
-	{/await}
-{:else}
-	{@render label("JavaScript is required for editor", "noscript")}
-{/if}
+		<Button type="submit" class="rounded-r-full pr-4" disabled={submitting}>
+			Submit
+		</Button>
+	</div>
+	{#if form?.error}
+		<FormError>{form.error}</FormError>
+	{/if}
+</form>

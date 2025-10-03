@@ -31,7 +31,6 @@ export async function POST({ locals, request }) {
 		throw error(400, "Invalid request");
 	}
 	const body = bodyParsing.data;
-	const forbiddenIds = ["post", "drafts", "login", "api"];
 	if (forbiddenIds.includes(body.id)) {
 		throw error(400, "Invalid post ID");
 	}

@@ -33,14 +33,16 @@
 		? { title: nextPost.title, path: "/" + nextPost.id }
 		: undefined}
 />
-<PostMetadata post={data.post} />
+<PostMetadata post={data.post} {bannerUrl} {createdAt} {updatedAt} />
 <article class="pt-16">
 	<div class="flex flex-col-reverse items-start justify-between md:flex-row">
 		<div class="flex flex-col gap-8 self-stretch md:max-w-[50%] md:flex-[50%]">
 			<div class="flex items-center gap-5">
 				<Category category={post.category} readonly />
 				<ReadTime value={post.readTime} />
-				<PostAdminTools />
+				{#if data.admin}
+					<PostAdminTools />
+				{/if}
 				<PageViews views={post.views} />
 			</div>
 			<PostTitle title={post.title} />

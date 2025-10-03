@@ -1,25 +1,26 @@
 <script lang="ts">
+	let {
+		onclick,
+	}: {
+		onclick: import("svelte/elements").SvelteHTMLElements["button"]["onclick"];
+	} = $props();
 </script>
 
-<input tabindex={-1} aria-hidden="true" class="absolute h-0 w-0 opacity-0" />
-<label
+<button
 	aria-label="Close menu"
-	class="
-		group menu-arrow flex w-full min-w-[50px] cursor-pointer items-center
-		transition-none duration-500
-		focus:outline-0
-		focus-visible:bg-blue-400/20
-	"
+	class="group menu-arrow flex w-full min-w-[50px] cursor-pointer items-center
+		transition-none duration-500 focus:outline-0 focus-visible:bg-blue-400/20"
 	style="padding-inline-start: 32px; padding-inline-end: 32px;"
-	for="menu-toggle"
+	{onclick}
 >
-	<span class="arrow-line h-[2px] bg-white"></span>
+	<span class="arrow-line h-[2px] bg-white" aria-hidden="true"></span>
 	<svg
 		width="50"
 		height="50"
 		viewBox="0 0 100 100"
 		xmlns="http://www.w3.org/2000/svg"
 		class="shrink-0"
+		aria-hidden="true"
 	>
 		<line
 			x1="0"
@@ -46,4 +47,4 @@
 			stroke-width="4"
 		/>
 	</svg>
-</label>
+</button>

@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme inline {
 	--color-cream: #f3f1e6;
@@ -15,14 +15,14 @@
 	--color-active-dark: white;
 	--breakpoint-xs: 24rem;
 	--font-default-sans-serif:
-		system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-		Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+		system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+		Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 	--font-default-serif:
-		'PT Serif', Cambria, Cochin, Georgia, 'Times New Roman', Times, serif;
-	--font-serif: 'Source Serif 4 Variable', var(--font-default-serif);
-	--font-caption: 'Montserrat Variable', var(--font-default-sans-serif);
-	--font-text: 'Poppins', var(--font-caption);
-	--font-display: 'PP Mori', var(--font-text);
+		"PT Serif", Cambria, Cochin, Georgia, "Times New Roman", Times, serif;
+	--font-serif: "Source Serif 4 Variable", var(--font-default-serif);
+	--font-caption: "Montserrat Variable", var(--font-default-sans-serif);
+	--font-text: "Poppins", var(--font-caption);
+	--font-display: "PP Mori", var(--font-text);
 	--tracking-tightest: -0.06em;
 	--font-mono:
 		Menlo, Consolas, DejaVu Sans Mono, ui-monospace, SFMono-Regular, Monaco,
@@ -57,7 +57,7 @@ html {
 	--text-alt: #121212;
 }
 
-html[data-theme='dark'] {
+html[data-theme="dark"] {
 	--bg: #000000;
 	--text: var(--color-sandy);
 	--theme-switch-day: var(--color-sandy);
@@ -66,7 +66,7 @@ html[data-theme='dark'] {
 	--text-alt: var(--sandy-alt);
 }
 
-[data-theme='dark'] .footer-text:not(:has(:focus-visible)) {
+[data-theme="dark"] .footer-text:not(:has(:focus-visible)) {
 	opacity: 1;
 	animation-name: footer-text-animation;
 	animation-timing-function: ease-in;
@@ -86,112 +86,14 @@ html[data-theme='dark'] {
 	}
 }
 
-.theme-switch-bg {
-	--smoothness: 2.5%;
-	background: linear-gradient(
-		to right,
-		var(--theme-switch-night),
-		var(--theme-switch-night) calc(8% - var(--smoothness) / 2),
-		var(--theme-switch-day) calc(8% + var(--smoothness) / 2),
-		var(--theme-switch-day) calc(25% - var(--smoothness) / 2),
-		var(--theme-switch-night) calc(25% + var(--smoothness) / 2),
-		var(--theme-switch-night) calc(33.33% - var(--smoothness) / 2),
-		var(--theme-switch-day) calc(33.33% + var(--smoothness) / 2),
-		var(--theme-switch-day) calc(50% - var(--smoothness) / 2),
-		var(--theme-switch-night) calc(50% + var(--smoothness) / 2)
-	);
-	background-size: 400% 100%;
-}
-
-.theme-switch-bg-open {
-	--smoothness: 5%;
-	background: linear-gradient(
-		to right,
-		var(--theme-switch-night-alt),
-		var(--theme-switch-night-alt) calc(8% - var(--smoothness) / 2),
-		var(--theme-switch-day) calc(8% + var(--smoothness) / 2),
-		var(--theme-switch-day) calc(25% - var(--smoothness) / 2),
-		var(--theme-switch-night-alt) calc(25% + var(--smoothness) / 2),
-		var(--theme-switch-night-alt) calc(33.33% - var(--smoothness) / 2),
-		var(--theme-switch-day) calc(33.33% + var(--smoothness) / 2),
-		var(--theme-switch-day) calc(50% - var(--smoothness) / 2),
-		var(--theme-switch-night-alt) calc(50% + var(--smoothness) / 2)
-	);
-	background-size: 400% 100%;
-}
-
-body.no-overscroll {
-	overscroll-behavior-y: none;
-}
-
-.bg-placeholder {
-	background-color: #e5e5f7;
-	opacity: 0.8;
-	background-image: radial-gradient(#444cf7 0.5px, #e5e5f7 0.5px);
-	background-size: 10px 10px;
-}
-
-.ce-block__content,
-.ce-toolbar__content {
-	max-width: calc(640px - 80px) !important;
-}
-
-.cdx-block {
-	max-width: 640px !important;
-}
-
-.ce-inline-toolbar {
-	color: #000000;
-}
-
-.ce-inline-toolbar__actions input {
-	background: #ffffff;
-	color: #000000;
-}
-
-.menu-open {
-	overflow: hidden;
-}
-
-.transition-blur {
-	backdrop-filter: blur(var(--blur));
-	transition: --blur 500ms ease-in-out;
-	will-change: backdrop-filter;
-}
-
 @property --blur {
-	syntax: '<length>';
+	syntax: "<length>";
 	initial-value: 0px;
 	inherits: true;
 }
 
-.menu-bg {
-	background-color: #000000;
-	background:
-		radial-gradient(
-			circle,
-			transparent 20%,
-			#000000 20%,
-			#000000 80%,
-			transparent 80%,
-			transparent
-		),
-		radial-gradient(
-				circle,
-				transparent 20%,
-				#000000 20%,
-				#000000 80%,
-				transparent 80%,
-				transparent
-			)
-			10px 10px,
-		linear-gradient(#2b2b2b 0.8px, transparent 0.8px) 0 -0.4px,
-		linear-gradient(90deg, #2b2b2b 0.8px, #000000 0.8px) -0.4px 0;
-	background-size:
-		20px 20px,
-		20px 20px,
-		10px 10px,
-		10px 10px;
+body:has(dialog[open]) {
+	overflow: hidden;
 }
 
 .article-preview {
@@ -239,19 +141,19 @@ body.no-overscroll {
 
 .optical-sizing-force {
 	font-optical-sizing: auto;
-	font-variation-settings: 'opsz' 1;
+	font-variation-settings: "opsz" 1;
 }
 
 .optical-sizing-none {
 	font-optical-sizing: none;
-	font-variation-settings: 'opsz' 0;
+	font-variation-settings: "opsz" 0;
 }
 
 .one-storey-a {
-	font-feature-settings: 'ss02' 1;
+	font-feature-settings: "ss02" 1;
 }
 
-pre[class*='language-'] {
+pre[class*="language-"] {
 	border-radius: 8px;
 }
 
@@ -368,22 +270,22 @@ pre[class*='language-'] {
 			font-weight: 500;
 			font-size: 31px;
 			font-feature-settings:
-				'liga' 1,
-				'clig' 1,
-				'calt' 1,
-				'dlig' 0;
+				"liga" 1,
+				"clig" 1,
+				"calt" 1,
+				"dlig" 0;
 			line-height: 1.15;
 			transform: scaleY(1.1);
 
 			&::before {
-				content: '“';
+				content: "“";
 				font-size: 36px;
 				vertical-align: middle;
 				margin-right: 4px;
 			}
 
 			&::after {
-				content: '”';
+				content: "”";
 				font-size: 36px;
 				vertical-align: bottom;
 				margin-left: 4px;
@@ -418,7 +320,7 @@ pre[class*='language-'] {
 
 	.cdx-list-unordered .cdx-list__item::before {
 		list-style-type: disc;
-		content: '•';
+		content: "•";
 		position: absolute;
 		left: 15px;
 		font-size: 20px;
@@ -447,10 +349,28 @@ pre[class*='language-'] {
 }
 
 .cdx-block.cdx-warning::before {
-	content: '☝️';
+	content: "☝️";
 	background: none;
 }
 
 .cdx-input {
 	overflow-wrap: break-word;
+}
+
+.ce-block__content,
+.ce-toolbar__content {
+	max-width: calc(640px - 80px) !important;
+}
+
+.cdx-block {
+	max-width: 640px !important;
+}
+
+.ce-inline-toolbar {
+	color: #000000;
+}
+
+.ce-inline-toolbar__actions input {
+	background: #ffffff;
+	color: #000000;
 }

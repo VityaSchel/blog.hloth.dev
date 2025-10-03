@@ -4,8 +4,14 @@
 
 	let {
 		post,
+		bannerUrl,
+		createdAt,
+		updatedAt,
 	}: {
 		post: Post;
+		bannerUrl: string;
+		createdAt: Date;
+		updatedAt: Date | null;
 	} = $props();
 
 	const articleJsonLd = $derived(
@@ -50,9 +56,9 @@
 	<meta property="og:type" content="article" />
 	<meta property="og:url" content="https://blog.hloth.dev/{post.id}" />
 	<meta property="og:image" content={bannerUrl} />
-	<meta property="og:image:width" content={String(banner.width)} />
-	<meta property="og:image:height" content={String(banner.height)} />
-	<meta property="og:image:alt" content={bannerAlt} />
+	<meta property="og:image:width" content={String(post.banner.width)} />
+	<meta property="og:image:height" content={String(post.banner.height)} />
+	<meta property="og:image:alt" content={post.bannerAlt} />
 	<meta property="article:published_time" content={createdAt.toISOString()} />
 	{#if updatedAt !== null}
 		<meta property="article:modified_time" content={updatedAt.toISOString()} />

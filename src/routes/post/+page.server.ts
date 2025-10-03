@@ -1,34 +1,43 @@
-import { db } from '$lib/server/db';
-import { postsTable } from '$lib/server/db/schema';
-import { error } from '@sveltejs/kit';
-import { eq } from 'drizzle-orm';
+import { error, fail, redirect } from "@sveltejs/kit";
+import { match } from "../../params/postid";
+import { reservedSlugs } from "$lib/post";
+import { isConflictId } from "$lib/server/blog";
 
-export async function load({ locals, url }) {
+export async function load({ locals }) {
 	if (!locals.admin) {
-		throw error(403, 'Unauthorized');
-	}
-
-	const id = url.searchParams.get('edit');
-	if (id) {
-		const post = await db.query.postsTable.findFirst({
-			where: eq(postsTable.id, id)
-		});
-		if (!post) {
-			throw error(404, 'Post not found');
-		}
-		return {
-			initial: {
-				id,
-				title: post.title,
-				category: post.category,
-				readTime: post.readTime,
-				banner: post.banner,
-				bannerAlt: post.bannerAlt,
-				excerpt: post.excerpt,
-				content: post.content
-			}
-		};
-	} else {
-		return { initial: null };
+		throw error(401, "Unauthorized");
 	}
 }
+
+export const actions = {
+	default: async ({ request, locals }) => {
+		if (!locals.admin) {
+			return fail(401, {
+				error: "Unauthorized",
+			});
+		}
+		const formData = await request.formData();
+		const postId = formData.get("postId");
+		if (!postId || typeof postId !== "string") {
+			return fail(400, {
+				error: "Post ID is required",
+			});
+		}
+		if (!match(postId)) {
+			return fail(400, {
+				error: "Post ID is invalid",
+			});
+		}
+		if (reservedSlugs.includes(postId)) {
+			return fail(400, {
+				error: "Post ID is reserved",
+			});
+		}
+		if (await isConflictId(postId)) {
+			return fail(409, {
+				error: "Post ID is already in use",
+			});
+		}
+		return redirect(303, "/" + postId);
+	},
+};

@@ -1,4 +1,5 @@
 import type { DbPost, DbMedia } from "$lib/server/db/schema";
+import type { Reaction } from "$lib/reactions";
 
 export type Post = Pick<
 	DbPost,
@@ -15,4 +16,8 @@ export type Post = Pick<
 	| "locale"
 > & {
 	banner: Pick<DbMedia, "id" | "placeholder" | "width" | "height">;
+} & {
+	reactions: Record<Reaction, number>;
 };
+
+export const reservedSlugs = ["login", "post", "drafts", "api", "sitemap.xml"];

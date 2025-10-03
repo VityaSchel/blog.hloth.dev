@@ -123,8 +123,14 @@ export async function incrementViews(postId: Post["id"]) {
 
 export async function getIds() {
 	return await db.query.postsTable.findMany({
-		where: eq(postsTable.visibility, "published"),
 		columns: { id: true, updatedAt: true },
 		orderBy: desc(postsTable.createdAt),
 	});
+}
+
+export async function isConflictId(postId: string) {
+	return !!(await db.query.postsTable.findFirst({
+		where: eq(postsTable.id, postId),
+		columns: { id: true },
+	}));
 }

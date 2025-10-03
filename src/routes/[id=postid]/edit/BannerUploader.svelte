@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { getUrl, mediaFileIdSchema } from '$lib/media';
-	import { z } from 'zod';
+	import { getUrl, mediaFileIdSchema } from "$lib/media";
+	import { z } from "zod";
 
 	let {
 		value = $bindable(),
 		alt = $bindable(),
 		disabled = false,
-		forceShowAlt = false
+		forceShowAlt = false,
 	}: {
 		value: string | null;
 		alt: string;
@@ -23,11 +23,8 @@
 </script>
 
 <div
-	class="
-		banner-clip
-		md:banner-clip-lg
-		relative aspect-[1.625/1] max-w-[40%] flex-[40%] overflow-clip
-	"
+	class="banner-clip md:banner-clip-lg relative aspect-[1.625/1] max-w-[40%]
+		flex-[40%] overflow-clip"
 >
 	<span
 		class="absolute top-6 right-6 z-1 rounded-md bg-black/50 px-1.5 text-white"
@@ -35,10 +32,8 @@
 		1625x1000
 	</span>
 	<button
-		class="
-			absolute top-0 left-0 z-10 h-full w-full cursor-pointer bg-transparent
-			focus-visible:outline-2
-		"
+		class="absolute top-0 left-0 z-10 h-full w-full cursor-pointer
+			bg-transparent focus-visible:outline-2"
 		{disabled}
 		onclick={() => fileSelector.click()}
 		aria-label="Upload banner image"
@@ -57,10 +52,10 @@
 
 				uploading = true;
 				const formData = new FormData();
-				formData.append('image', file);
+				formData.append("image", file);
 				progress = 0;
 				const xhr = new XMLHttpRequest();
-				xhr.open('POST', '/api/media?remote=false&type=image&crop=banner');
+				xhr.open("POST", "/api/media?remote=false&type=image&crop=banner");
 				xhr.upload.onprogress = (event) =>
 					(progress = event.loaded / event.total);
 				xhr.onload = () => {
@@ -70,16 +65,16 @@
 								.object({
 									success: z.literal(1),
 									file: z.object({
-										id: mediaFileIdSchema
-									})
+										id: mediaFileIdSchema,
+									}),
 								})
 								.parse(JSON.parse(xhr.responseText)).file.id;
 						} else {
 							img = null;
-							fileSelector.value = '';
+							fileSelector.value = "";
 						}
 					} catch (error) {
-						console.error('Error parsing response:', error);
+						console.error("Error parsing response:", error);
 					} finally {
 						uploading = false;
 					}
@@ -104,8 +99,8 @@
 					dark:bg-black-alt
 				`,
 				{
-					'opacity-100': forceShowAlt
-				}
+					"opacity-100": forceShowAlt,
+				},
 			]}
 			onclick={(e) => e.stopPropagation()}
 			placeholder="[alt]"
@@ -117,12 +112,21 @@
 	{/if}
 	<div
 		class={[
-			'absolute bottom-0 left-0 z-10 h-[4px] bg-blue-700 transition-opacity',
+			"absolute bottom-0 left-0 z-10 h-[4px] bg-blue-700 transition-opacity",
 			{
-				'opacity-1': uploading,
-				'opacity-0': !uploading
-			}
+				"opacity-1": uploading,
+				"opacity-0": !uploading,
+			},
 		]}
 		style="width: {(progress / 0.8 + 0.1) * 100}%"
 	></div>
 </div>
+
+<style>
+	.bg-placeholder {
+		background-color: #e5e5f7;
+		opacity: 0.8;
+		background-image: radial-gradient(#444cf7 0.5px, #e5e5f7 0.5px);
+		background-size: 10px 10px;
+	}
+</style>

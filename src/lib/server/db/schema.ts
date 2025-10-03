@@ -24,9 +24,18 @@ export const categoryEnum = pgEnum("category", [
 	"review",
 ]);
 
-export const statusEnum = pgEnum("status", ["hidden", "unlisted", "published"]);
-
 export const localeEnum = pgEnum("locale", ["en", "ru"]);
+
+export const draftsTable = pgTable("drafts", {
+	id: text("id").primaryKey(),
+	title: text("title"),
+	banner: text("banner").references(() => mediaTable.id),
+	bannerAlt: text("banner_alt"),
+	excerpt: text("excerpt"),
+	content: text("content"),
+	category: categoryEnum("category"),
+	readTime: integer("read_time"),
+});
 
 export const postsTable = pgTable("posts", {
 	id: text("id").primaryKey(),
@@ -40,7 +49,6 @@ export const postsTable = pgTable("posts", {
 	category: categoryEnum("category").notNull(),
 	readTime: integer("read_time").notNull(),
 	views: integer("views").notNull().default(0),
-	visibility: statusEnum("status").notNull(),
 	locale: localeEnum("locale").notNull().default("en"),
 	createdAt: timestamp("created_at", {
 		withTimezone: true,
@@ -115,7 +123,7 @@ export const reactionChallengesTable = pgTable(
 			.defaultNow(),
 	},
 	(t) => [
-		index("reaction_challenges_ip_emoji_idx").on(
+		index("reaction_challenges_client_id_created_at_idx").on(
 			t.clientId,
 			t.createdAt.desc(),
 		),
@@ -129,6 +137,7 @@ export const reactionChallengeSolutionsTable = pgTable(
 	},
 );
 
+export type DbDraft = InferSelectModel<typeof draftsTable>;
 export type DbPost = InferSelectModel<typeof postsTable>;
 export type DbMedia = InferSelectModel<typeof mediaTable>;
 export type DbPushSubscription = InferSelectModel<

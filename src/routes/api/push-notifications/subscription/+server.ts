@@ -1,9 +1,9 @@
-import z from 'zod';
-import { error, json } from '@sveltejs/kit';
-import { db } from '$lib/server/db';
-import { pushSubscriptionsTable } from '$lib/server/db/schema';
-import { eq } from 'drizzle-orm';
-import { noNullCharacter } from '$lib/zod';
+import z from "zod";
+import { error, json } from "@sveltejs/kit";
+import { db } from "$lib/server/db";
+import { pushSubscriptionsTable } from "$lib/server/db/schema";
+import { eq } from "drizzle-orm";
+import { noNullCharacter } from "$lib/zod";
 
 export async function POST({ request }) {
 	const body = await z
@@ -11,7 +11,7 @@ export async function POST({ request }) {
 			endpoint: z.url().refine(noNullCharacter),
 			keys: z.object({
 				p256dh: z.string().min(1).refine(noNullCharacter),
-				auth: z.string().min(1).refine(noNullCharacter)
+				auth: z.string().min(1).refine(noNullCharacter),
 			}),
 			expirationTime: z
 				.number()
@@ -19,18 +19,18 @@ export async function POST({ request }) {
 				.refine((t) => t > Date.now())
 				.transform((t) => new Date(t))
 				.nullable()
-				.default(null)
+				.default(null),
 		})
 		.safeParseAsync(await request.json());
 	if (!body.success) {
-		throw error(400, 'Invalid body');
+		throw error(400, "Invalid body");
 	}
 
 	await db.insert(pushSubscriptionsTable).values({
 		endpoint: body.data.endpoint,
 		p256dh: body.data.keys.p256dh,
 		auth: body.data.keys.auth,
-		expiresAt: body.data.expirationTime
+		expiresAt: body.data.expirationTime,
 	});
 
 	return json({ ok: true });
@@ -40,9 +40,9 @@ export async function DELETE({ url }) {
 	const endpoint = await z
 		.url()
 		.refine(noNullCharacter)
-		.safeParseAsync(url.searchParams.get('endpoint'));
+		.safeParseAsync(url.searchParams.get("endpoint"));
 	if (!endpoint.success) {
-		throw error(400, 'Invalid endpoint');
+		throw error(400, "Invalid endpoint");
 	}
 
 	await db

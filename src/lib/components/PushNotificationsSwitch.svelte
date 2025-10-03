@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import { PUBLIC_WEB_PUSH_KEY } from '$env/static/public';
-	import { onMount } from 'svelte';
+	import { browser } from "$app/environment";
+	import { PUBLIC_WEB_PUSH_KEY } from "$env/static/public";
+	import { onMount } from "svelte";
 
 	let subscribed = $state(false);
 	let subscription: PushSubscription | null = $state(null);
@@ -10,9 +10,9 @@
 	let error: null | string = $state(null);
 
 	onMount(() => {
-		if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+		if (typeof window !== "undefined" && "serviceWorker" in navigator) {
 			navigator.serviceWorker.ready.then((reg) => {
-				if ('getSubscription' in reg.pushManager) {
+				if ("getSubscription" in reg.pushManager) {
 					reg.pushManager.getSubscription().then((sub) => {
 						if (
 							sub &&
@@ -38,16 +38,16 @@
 		try {
 			const sub = await registration.pushManager.subscribe({
 				userVisibleOnly: true,
-				applicationServerKey: PUBLIC_WEB_PUSH_KEY
+				applicationServerKey: PUBLIC_WEB_PUSH_KEY,
 			});
 			const subData = sub.toJSON();
-			const response = await fetch('/api/push-notifications-subscription', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(subData)
+			const response = await fetch("/api/push-notifications/subscription", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(subData),
 			}).then(
 				(res) =>
-					res.json() as Promise<{ ok: true } | { ok: false; error: string }>
+					res.json() as Promise<{ ok: true } | { ok: false; error: string }>,
 			);
 			if (response.ok) {
 				subscription = sub;
@@ -57,10 +57,10 @@
 			}
 		} catch (e) {
 			console.error(e);
-			if (e instanceof Error && e.name === 'NotAllowedError') {
-				error = 'not_allowed';
+			if (e instanceof Error && e.name === "NotAllowedError") {
+				error = "not_allowed";
 			} else {
-				error = 'unknown_subscribe';
+				error = "unknown_subscribe";
 			}
 		} finally {
 			loading = false;
@@ -74,14 +74,14 @@
 		try {
 			await subscription.unsubscribe();
 			const response = await fetch(
-				'/api/push-notifications-subscription?' +
+				"/api/push-notifications/subscription?" +
 					new URLSearchParams({
-						endpoint: subscription.endpoint
+						endpoint: subscription.endpoint,
 					}),
-				{ method: 'DELETE' }
+				{ method: "DELETE" },
 			).then(
 				(res) =>
-					res.json() as Promise<{ ok: true } | { ok: false; error: string }>
+					res.json() as Promise<{ ok: true } | { ok: false; error: string }>,
 			);
 			if (response.ok) {
 				subscription = null;
@@ -91,7 +91,7 @@
 			}
 		} catch (e) {
 			console.error(e);
-			error = 'unknown_subscribe';
+			error = "unknown_subscribe";
 		} finally {
 			loading = false;
 		}
@@ -105,12 +105,12 @@
 			font-normal
 		"
 	>
-		{#if error === 'not_allowed'}
+		{#if error === "not_allowed"}
 			Your browser does not allow push-notifications. Try enabling them in the
 			browser or site settings.
-		{:else if error === 'unknown_subscribe'}
+		{:else if error === "unknown_subscribe"}
 			An error occurred while subscribing to push-notifications.
-		{:else if error === 'unknown_unsubscribe'}
+		{:else if error === "unknown_unsubscribe"}
 			An error occurred while unsubscribing from push-notifications.
 		{/if}
 	</div>
@@ -141,8 +141,8 @@
 						bg-amber-100/30 shadow-md transition-all duration-300
 					`,
 					{
-						'left-[calc(60%-4px)] bg-lime-500/90': subscribed
-					}
+						"left-[calc(60%-4px)] bg-lime-500/90": subscribed,
+					},
 				]}
 			>
 				{#if loading}
