@@ -22,7 +22,7 @@
 </script>
 
 <div class="flex w-full justify-center">
-	<div class="article-content w-[560px] max-w-full [&>div]:w-full">
+	<div class="article-content w-[680px] max-w-full [&>div]:w-full">
 		{#each root.children as node (node)}
 			{#if node.type === "heading"}
 				<Heading depth={node.depth} content={node.children} />
