@@ -1,19 +1,14 @@
 <script lang="ts">
-	import "@milkdown/crepe/theme/common/style.css";
-	import "@milkdown/crepe/theme/nord.css";
-	import { untrack } from "svelte";
-	import type { Attachment } from "svelte/attachments";
-	import { Crepe } from "@milkdown/crepe";
-	import type { Editor } from "@milkdown/kit/core";
-	import { replaceAll } from "@milkdown/kit/utils";
+	import "carta-md/default.css";
+	import "./carta-theme.css";
+	import { Carta, MarkdownEditor } from "carta-md";
+	import DOMPurify from "isomorphic-dompurify";
 
 	let {
-		editor = $bindable(),
 		content = $bindable(),
 		disabled,
 		statistics = $bindable(),
 	}: {
-		editor: Editor | null;
 		content: string;
 		disabled?: boolean;
 		statistics: {
@@ -23,45 +18,12 @@
 		} | null;
 	} = $props();
 
-	let editorContent = $state("");
-
-	const milkdown: Attachment = (root) => {
-		editor = null;
-		const crepe = new Crepe({
-			defaultValue: untrack(() => content || ""),
-			root,
-			features: {
-				[Crepe.Feature.Latex]: false,
-			},
-			featureConfigs: {
-				[Crepe.Feature.LinkTooltip]: {
-					inputPlaceholder: "Enter URL...",
-				},
-			},
-		});
-		crepe.on((on) => {
-			on.markdownUpdated((_, markdown) => {
-				editorContent = markdown;
-				content = markdown;
-				statistics = {
-					wordsCount: 0, // TODO: fix
-					mediaFiles: 0, // TODO: fix
-					embedBlocks: 0, // TODO: fix
-				};
-			});
-		});
-		crepe.create().then((instance) => (editor = instance));
-		return () => {
-			crepe?.destroy();
-			editor = null;
-		};
-	};
-
-	$effect(() => {
-		if (editor && content !== editorContent) {
-			console.log("replacing content");
-			editor.action(replaceAll(content));
-		}
+	const carta = new Carta({
+		sanitizer: DOMPurify.sanitize,
+		theme: {
+			light: "solarized-light",
+			dark: "dracula",
+		},
 	});
 </script>
 
@@ -72,6 +34,17 @@
 			{ "pointer-events-none opacity-75": disabled },
 		]}
 	>
-		<div {@attach milkdown}></div>
+		<MarkdownEditor {carta} bind:value={content} />
 	</div>
 </div>
+
+<style lang="postcss">
+	@reference "tailwindcss";
+
+	:global(.carta-font-code) {
+		font-family: var(--font-mono);
+		font-size: 1.1rem;
+		line-height: 1.1rem;
+		letter-spacing: normal;
+	}
+</style>

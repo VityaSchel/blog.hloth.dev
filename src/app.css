@@ -372,3 +372,20 @@ pre[class*="language-"] {
 	background: #ffffff;
 	color: #000000;
 }
+
+[data-theme="dark"],
+[data-theme="dark"] {
+	.carta-theme__default {
+		--border-color: var(--border-color-dark);
+		--selection-color: var(--selection-color-dark);
+		--focus-outline: var(--focus-outline-dark);
+		--hover-color: var(--hover-color-dark);
+		--caret-color: var(--caret-color-dark);
+		--text-color: var(--text-color-dark);
+	}
+
+	.shiki,
+	.shiki span {
+		color: var(--shiki-dark) !important;
+	}
+}

@@ -2,7 +2,6 @@
 	import { beforeNavigate, goto } from "$app/navigation";
 	import { enhance } from "$app/forms";
 	import { toast } from "svelte-sonner";
-	import { Editor } from "@milkdown/kit/core";
 	import hotkeys from "hotkeys-js";
 	import Category from "$lib/components/Category.svelte";
 	import ReadTime from "$lib/components/ReadTime.svelte";
@@ -39,7 +38,6 @@
 		embedBlocks: number;
 	} | null = $state(null);
 	let submitting = $state(false);
-	let editorInstance: Editor | null = $state(null);
 
 	const disabled = $derived(submitting);
 
@@ -123,12 +121,7 @@
 		<BannerUploader bind:value={banner} bind:alt={bannerAlt} {disabled} />
 	</div>
 	<Separator />
-	<ContentEditor
-		bind:editor={editorInstance}
-		bind:content
-		{disabled}
-		bind:statistics
-	/>
+	<ContentEditor bind:content {disabled} bind:statistics />
 	<Separator />
 	<form
 		class="flex flex-col items-center gap-6"
