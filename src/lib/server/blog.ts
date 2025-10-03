@@ -1,5 +1,5 @@
 import { db } from "$lib/server/db";
-import { postsTable } from "$lib/server/db/schema";
+import { draftsTable, postsTable, type DbDraft } from "$lib/server/db/schema";
 import { error } from "@sveltejs/kit";
 import { desc, eq, sql } from "drizzle-orm";
 import type { Reaction } from "../reactions";
@@ -128,9 +128,33 @@ export async function getIds() {
 	});
 }
 
-export async function isConflictId(postId: string) {
+export async function isExistingId({
+	postId,
+	drafts,
+}: {
+	postId: string;
+	drafts?: boolean;
+}) {
+	if (drafts) {
+		if (
+			await db.query.draftsTable.findFirst({
+				where: eq(draftsTable.id, postId),
+				columns: { id: true },
+			})
+		) {
+			return true;
+		}
+	}
 	return !!(await db.query.postsTable.findFirst({
 		where: eq(postsTable.id, postId),
 		columns: { id: true },
 	}));
+}
+
+export async function getDraft(id: string): Promise<DbDraft | null> {
+	return (
+		(await db.query.draftsTable.findFirst({
+			where: eq(draftsTable.id, id),
+		})) ?? null
+	);
 }

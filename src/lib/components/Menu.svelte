@@ -6,17 +6,17 @@
 </script>
 
 <button
-	class="menu-open-button inline-block w-[84px] cursor-pointer rounded-full
-		bg-black pt-[3px] pb-[2px] text-center text-[14px] tracking-[-.03em]
-		text-white dark:bg-white dark:text-black"
+	class="inline-block w-[84px] cursor-pointer rounded-full bg-black py-[3px]
+		text-center text-[14px] font-medium tracking-[-.03em] text-white
+		dark:bg-white dark:text-black"
 	onclick={() => menu.showModal()}
 >
 	Menu
 </button>
 <dialog
 	class="fixed top-0 z-[100] ml-auto flex h-dvh max-h-none max-w-screen bg-black
-		py-8 font-display text-4xl font-bold text-white transition-[width]
-		duration-500 ease-in-out will-change-[width]"
+		py-8 text-4xl font-bold text-white transition-[width] duration-500
+		ease-in-out will-change-[width]"
 	bind:this={menu}
 	closedby="any"
 >
@@ -27,10 +27,12 @@
 				<a
 					{href}
 					class="
-							px-8 py-2 transition-[letter-spacing,color]
+							px-8 py-2 font-display
+							tracking-tight
+							transition-[letter-spacing,color]
 							focus:outline-0
-							focus-visible:bg-blue-400/20
-							hf:tracking-wide hf:text-neutral-300
+							focus-visible:bg-blue-400/20 hf:tracking-wide
+							hf:text-neutral-300
 						"
 				>
 					{label}

@@ -32,15 +32,16 @@
 			class="flex items-center justify-center rounded-l-full border border-r-0
 				px-4 pr-1"
 		>
-			blog.hloth.dev/
+			blog.hloth.dev /
 		</span>
 		<input
 			name="postId"
-			class="border border-black px-2 py-1 font-caption font-semibold
+			class="border border-l-0 border-black px-2 py-1 pl-0 font-medium
 				focus:outline-0 disabled:opacity-50 dark:border-sandy"
 			disabled={submitting}
 			placeholder="Post ID"
 			pattern="^[a-z0-9.-]+$"
+			maxlength="128"
 			required
 		/>
 		<Button type="submit" class="rounded-r-full pr-4" disabled={submitting}>

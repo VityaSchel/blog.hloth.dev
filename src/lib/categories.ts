@@ -1,5 +1,4 @@
 import type { DbCategory } from "$lib/server/db/schema";
-import z from "zod";
 
 export const categories: DbCategory[] = [
 	"life_story",
@@ -18,5 +17,3 @@ export const categoriesNames: Record<CategoryValue, string> = {
 	announcement: "Announcement",
 	review: "Review",
 } as const;
-
-export const categorySchema = z.enum(categories);

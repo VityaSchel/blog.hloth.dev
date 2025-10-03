@@ -1,18 +1,20 @@
 <script lang="ts">
 	import { Editor, rootCtx, defaultValueCtx } from "@milkdown/kit/core";
+	import { listener, listenerCtx } from "@milkdown/kit/plugin/listener";
+	import { commonmark } from "@milkdown/preset-commonmark";
 	import { replaceAll } from "@milkdown/kit/utils";
 	import { nord } from "@milkdown/theme-nord";
-	import { commonmark } from "@milkdown/preset-commonmark";
 	import type { Attachment } from "svelte/attachments";
+	import { untrack } from "svelte";
 
 	let {
 		editor = $bindable(),
-		initial,
+		content = $bindable(),
 		disabled,
 		statistics = $bindable(),
 	}: {
 		editor: Editor | null;
-		initial: string | null;
+		content: string;
 		disabled?: boolean;
 		statistics: {
 			wordsCount: number;
@@ -21,29 +23,33 @@
 		} | null;
 	} = $props();
 
+	let editorContent = $state("");
+
 	const milkdown: Attachment = (root) => {
 		editor = null;
 		const MakeEditor = Editor.make()
 			.config((ctx) => {
 				ctx.set(rootCtx, root);
-				if (initial !== null) {
-					ctx.set(defaultValueCtx, initial);
-				}
+				untrack(() => {
+					if (content !== null) {
+						ctx.set(defaultValueCtx, content);
+					}
+				});
+				ctx.get(listenerCtx).markdownUpdated((_, markdown) => {
+					editorContent = markdown;
+					content = markdown;
+					statistics = {
+						wordsCount: 0, // TODO: fix
+						mediaFiles: 0, // TODO: fix
+						embedBlocks: 0, // TODO: fix
+					};
+				});
 			})
 			.config(nord)
 			.use(commonmark)
+			.use(listener)
 			.create();
-		MakeEditor.then((editor) => {
-			editor = editor;
-			editor.onStatusChange(() => {
-				// const data = editor.action(getMarkdown());
-				statistics = {
-					wordsCount: 0, // TODO: fix
-					mediaFiles: 0, // TODO: fix
-					embedBlocks: 0, // TODO: fix
-				};
-			});
-		});
+		MakeEditor.then((instance) => (editor = instance));
 		return () => {
 			editor?.destroy();
 			editor = null;
@@ -51,8 +57,9 @@
 	};
 
 	$effect(() => {
-		if (editor && initial !== null) {
-			editor.action(replaceAll(initial));
+		if (editor && content !== editorContent) {
+			console.log("replacing content");
+			editor.action(replaceAll(content));
 		}
 	});
 </script>

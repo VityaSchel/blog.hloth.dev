@@ -10,7 +10,7 @@
 		readonly,
 		disabled = false,
 	}: {
-		category: CategoryValue;
+		category: CategoryValue | null;
 		readonly?: boolean;
 		disabled?: boolean;
 	} = $props();
@@ -25,7 +25,11 @@
 			tracking-wide uppercase
 		"
 	>
-		{categoriesNames[category]}
+		{#if category === null}
+			Select Category
+		{:else}
+			{categoriesNames[category]}
+		{/if}
 	</span>
 {/snippet}
 {#if readonly}
@@ -40,9 +44,13 @@
 			bind:this={categorySelector}
 			class="pointer-events-none absolute w-32 opacity-0"
 			value={category}
-			onchange={(e) => (category = e.currentTarget.value as CategoryValue)}
+			onchange={(e) => {
+				const value = e.currentTarget.value as CategoryValue | "null";
+				category = value === "null" ? null : value;
+			}}
 			tabIndex={-1}
 		>
+			<option value="null"> Not selected </option>
 			{#each categories as category (category)}
 				<option value={category}>
 					{categoriesNames[category]}

@@ -26,8 +26,8 @@
 		<input
 			type="password"
 			name="password"
-			class="rounded-l-full border border-black px-4 py-1 font-caption
-				font-semibold focus:outline-0 disabled:opacity-50 dark:border-sandy"
+			class="rounded-l-full border border-black px-4 py-1 font-semibold
+				focus:outline-0 disabled:opacity-50 dark:border-sandy"
 			disabled={submitting}
 			placeholder="Admin password"
 			required

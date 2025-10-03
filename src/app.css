@@ -20,8 +20,7 @@
 	--font-default-serif:
 		"PT Serif", Cambria, Cochin, Georgia, "Times New Roman", Times, serif;
 	--font-serif: "Source Serif 4 Variable", var(--font-default-serif);
-	--font-caption: "Montserrat Variable", var(--font-default-sans-serif);
-	--font-text: "Poppins", var(--font-caption);
+	--font-text: var(--font-default-sans-serif);
 	--font-display: "PP Mori", var(--font-text);
 	--tracking-tightest: -0.06em;
 	--font-mono:
@@ -45,7 +44,6 @@
 	font-family: var(--font-text);
 	text-rendering: geometricPrecision;
 	-webkit-font-smoothing: antialiased;
-	letter-spacing: -0.03em;
 }
 
 html {

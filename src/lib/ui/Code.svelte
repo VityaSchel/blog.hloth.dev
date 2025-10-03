@@ -34,7 +34,7 @@
 	]}
 >
 	<label
-		class="absolute top-0.5 right-3 flex items-center gap-1 font-caption text-sm
+		class="absolute top-0.5 right-3 flex items-center gap-1 text-sm
 			font-semibold tracking-tight dark:accent-sandy"
 	>
 		<input type="checkbox" class="peer toggle-wrap h-3 w-3" />

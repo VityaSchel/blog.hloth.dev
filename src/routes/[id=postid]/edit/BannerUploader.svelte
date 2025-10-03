@@ -6,12 +6,10 @@
 		value = $bindable(),
 		alt = $bindable(),
 		disabled = false,
-		forceShowAlt = false,
 	}: {
 		value: string | null;
 		alt: string;
 		disabled?: boolean;
-		forceShowAlt?: boolean;
 	} = $props();
 
 	let img: string | null = $derived(value ? getUrl(value) : null);
@@ -98,9 +96,6 @@
 					focus:opacity-100 focus:outline-none
 					dark:bg-black-alt
 				`,
-				{
-					"opacity-100": forceShowAlt,
-				},
 			]}
 			onclick={(e) => e.stopPropagation()}
 			placeholder="[alt]"

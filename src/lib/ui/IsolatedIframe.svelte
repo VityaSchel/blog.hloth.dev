@@ -39,7 +39,7 @@
 				<button
 					class={[
 						`
-							rounded-full border px-4 py-1 font-caption font-semibold tracking-tight
+							rounded-full border px-4 py-1 font-semibold tracking-tight
 							text-black
 						`,
 						{

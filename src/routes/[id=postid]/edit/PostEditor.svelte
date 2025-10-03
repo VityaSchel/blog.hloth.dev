@@ -1,168 +1,100 @@
 <script lang="ts">
-	import { toast } from "svelte-sonner";
 	import { beforeNavigate, goto } from "$app/navigation";
-	import { type CategoryValue } from "$lib/categories";
-	import {
-		clearDraft,
-		saveDraft,
-		type PostDraftSchema,
-	} from "$lib/local-drafts";
-	import ReadTime from "$lib/components/ReadTime.svelte";
-	import Separator from "$lib/ui/Separator.svelte";
-	import Category from "$lib/components/Category.svelte";
-	import BannerUploader from "./BannerUploader.svelte";
+	import { enhance } from "$app/forms";
+	import { toast } from "svelte-sonner";
 	import { Editor } from "@milkdown/kit/core";
-	import { getMarkdown } from "@milkdown/kit/utils";
-	import SlugEditor from "./SlugEditor.svelte";
-	import ExcerptEditor from "./ExcerptEditor.svelte";
-	import ContentEditor from "./ContentEditor.svelte";
+	import hotkeys from "hotkeys-js";
+	import Category from "$lib/components/Category.svelte";
+	import ReadTime from "$lib/components/ReadTime.svelte";
 	import TitleEditor from "./TitleEditor.svelte";
 	import Me from "$lib/components/Me.svelte";
-	import PostButtons from "./PostButtons.svelte";
+	import BannerUploader from "./BannerUploader.svelte";
+	import ContentEditor from "./ContentEditor.svelte";
+	import ExcerptEditor from "./ExcerptEditor.svelte";
+	import Separator from "$lib/ui/Separator.svelte";
+	import PostButton from "./PostButton.svelte";
+	import FormError from "$lib/ui/FormError.svelte";
+	import type { Draft } from "$lib/post";
 
 	let {
-		initial,
-		existingPost,
-		saveDraftsLocally = $bindable(),
+		draft,
+		error = $bindable(),
 	}: {
-		initial: PostDraftSchema | null;
-		existingPost: boolean;
-		saveDraftsLocally: boolean;
+		draft: Draft;
+		error: string | null;
 	} = $props();
 
-	let id: string = $derived(initial?.id ?? "");
-	let idExists: null | boolean = $state(null);
-	let title: string = $derived(initial?.title ?? "");
-	let category: CategoryValue = $derived(initial?.category ?? "life_story");
-	let readTime: number = $derived(initial?.readTime ?? 0);
-	let banner: string | null = $derived(initial?.banner ?? null);
-	let bannerAlt = $derived(initial?.bannerAlt ?? "");
-	let forceShowBannerAlt = $state(false);
-	let excerpt = $derived(initial?.excerpt ?? "");
+	let title = $derived(draft.title ?? "");
+	let category = $derived(draft.category);
+	let readTime = $derived(draft.readTime ?? 0);
+	let banner = $derived(draft.banner);
+	let bannerAlt = $derived(draft.bannerAlt ?? "");
+	let excerpt = $derived(draft.excerpt ?? "");
+	let content = $derived(draft.content ?? "");
 
+	let unsavedChanges = $derived(false);
 	let statistics: {
 		wordsCount: number;
 		mediaFiles: number;
 		embedBlocks: number;
 	} | null = $state(null);
-
 	let submitting = $state(false);
+	let editorInstance: Editor | null = $state(null);
 
-	const handleSave = async (
-		visibility: "hidden" | "unlisted" | "published",
-	) => {
-		if (!banner || !editorInstance) return;
-		if (!bannerAlt) {
-			window.scrollTo({ top: 0, behavior: "smooth" });
-			forceShowBannerAlt = true;
-			return;
-		}
-		try {
-			const request = await fetch("/api/posts", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					id,
-					title,
-					category,
-					readTime,
-					bannerId: banner,
-					bannerAlt,
-					content: editorInstance.action(getMarkdown()),
-					excerpt,
-					visibility,
-				}),
-			});
-			if (request.ok) {
-				saveDraftsLocally = false;
-				clearDraft();
-				if (visibility === "hidden") {
-					goto("/drafts");
-				} else {
-					goto(`/${id}`);
-				}
-			} else {
-				console.error(await request.text());
-				toast.error("Error saving post");
-			}
-		} catch (error) {
-			console.error(error);
-			toast.error("Error during request to save post");
-		} finally {
-			submitting = false;
-		}
-	};
+	const disabled = $derived(submitting);
 
 	$effect(() => {
-		if (saveDraftsLocally) {
+		if (unsavedChanges) {
 			const onBeforeUnload = (e: BeforeUnloadEvent) => e.preventDefault();
 			window.addEventListener("beforeunload", onBeforeUnload);
 			return () => window.removeEventListener("beforeunload", onBeforeUnload);
 		}
 	});
 
-	const savePostDraft = async () => {
-		if (!editorInstance) return;
-		const draft = {
-			id,
-			title,
-			content: editorInstance.action(getMarkdown()),
-			excerpt,
-			category,
-			readTime,
-			banner,
-			bannerAlt,
-		};
-		try {
-			saveDraft(draft);
-		} catch (error) {
-			console.log("Draft:", draft);
-			console.error(error);
-			toast.error("Error saving draft");
-		}
-	};
-
-	$effect(() => {
-		if (saveDraftsLocally) {
-			const interval = setInterval(savePostDraft, 5000);
-			return () => clearInterval(interval);
-		}
-	});
-
-	beforeNavigate(() => {
-		if (saveDraftsLocally) {
-			savePostDraft();
-		}
-	});
-
-	$effect(() => {
-		if (!existingPost) {
-			idExists = null;
-			if (id !== "") {
-				fetch("/api/posts/" + id, {
-					method: "HEAD",
-				})
-					.then((req) => {
-						if (req.status === 200) idExists = true;
-						else if (req.status === 404) idExists = false;
-						else throw new Error("Unexpected response status: " + req.status);
-					})
-					.catch(() => {
-						toast.error("Error checking ID conflict");
-					});
+	beforeNavigate(({ cancel, type }) => {
+		if (unsavedChanges) {
+			cancel();
+			if (type !== "leave") {
+				toast.warning(
+					"You have unsaved changes. Press ⌘+S to save or Discard.",
+					{
+						duration: 4000,
+						action: {
+							label: "Discard",
+							onClick: () => {
+								if (confirm("Discard changes?")) {
+									unsavedChanges = false;
+									goto(location.href);
+								}
+							},
+						},
+					},
+				);
 			}
 		}
 	});
 
-	let editorInstance: Editor | null = $state(null);
-
-	const disabled = $derived(submitting);
+	let saveButton: HTMLButtonElement | undefined = $state();
+	$effect(() => {
+		if (saveButton && !submitting) {
+			const key = "command+s, ctrl+s";
+			const onPress = (e: KeyboardEvent) => {
+				console.log(e);
+				e.preventDefault();
+				saveButton?.click();
+			};
+			hotkeys(key, onPress);
+			return () => {
+				hotkeys.unbind(key, onPress);
+			};
+		}
+	});
 </script>
 
 <article class="pt-16">
 	<div class="flex items-start justify-between">
 		<div class="flex max-w-[50%] flex-[50%] flex-col gap-8 self-stretch">
-			<div class="flex shrink-0 items-center gap-2">
+			<div class="flex shrink-0 flex-wrap items-center gap-2">
 				<Category bind:category />
 				<ReadTime bind:value={readTime} editable class="mx-3" />
 				{#snippet badge(text: string)}
@@ -188,41 +120,75 @@
 			<TitleEditor bind:value={title} {disabled} />
 			<Me />
 		</div>
-		<BannerUploader
-			bind:value={banner}
-			bind:alt={bannerAlt}
-			{disabled}
-			forceShowAlt={forceShowBannerAlt}
-		/>
+		<BannerUploader bind:value={banner} bind:alt={bannerAlt} {disabled} />
 	</div>
 	<Separator />
 	<ContentEditor
 		bind:editor={editorInstance}
-		initial={initial?.content ?? null}
+		bind:content
 		{disabled}
 		bind:statistics
 	/>
 	<Separator />
-	<div class="flex flex-col items-center gap-6">
-		<SlugEditor
-			bind:value={id}
-			placeholder={title
-				.toLowerCase()
-				.replace(/[ _]/g, "-")
-				.replace(/[^a-z0-9-]/g, "")}
-			disabled={submitting || existingPost}
-			exists={idExists}
-		/>
+	<form
+		class="flex flex-col items-center gap-6"
+		method="POST"
+		use:enhance={() => {
+			submitting = true;
+			return (e) => {
+				if (e.result.type === "success") {
+					unsavedChanges = false;
+					toast.success("Post saved successfully!", {
+						id: "post-saved",
+					});
+				}
+				submitting = false;
+				e.update({
+					reset: false,
+				});
+			};
+		}}
+	>
+		{#if title}
+			<input type="hidden" name="title" value={title} />
+		{/if}
+		{#if category !== null}
+			<input type="hidden" name="category" value={category} />
+		{/if}
+		{#if readTime !== 0}
+			<input type="hidden" name="readTime" value={readTime} />
+		{/if}
+		{#if banner !== null}
+			<input type="hidden" name="banner" value={banner} />
+		{/if}
+		{#if bannerAlt}
+			<input type="hidden" name="bannerAlt" value={bannerAlt} />
+		{/if}
+		<input type="hidden" name="content" value={content} />
+		{#if excerpt}
+			<input type="hidden" name="excerpt" value={excerpt} />
+		{/if}
 		<ExcerptEditor bind:value={excerpt} {disabled} />
-		<PostButtons
-			disabled={!banner ||
-				!title ||
-				!excerpt ||
-				!id ||
-				submitting ||
-				readTime === 0 ||
-				(idExists !== false && !existingPost)}
-			onclick={handleSave}
-		/>
-	</div>
+		{#if error}
+			<FormError>{error}</FormError>
+		{/if}
+		<div class="flex w-[680px] max-w-full justify-between">
+			<PostButton
+				emoji="📝"
+				type="submit"
+				formaction="?/save"
+				bind:ref={saveButton}
+			>
+				Save
+			</PostButton>
+			<PostButton
+				emoji="🚀"
+				disabled={!banner || !title || !excerpt || submitting || readTime === 0}
+				type="submit"
+				formaction="?/post"
+			>
+				Post
+			</PostButton>
+		</div>
+	</form>
 </article>

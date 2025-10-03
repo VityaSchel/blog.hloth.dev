@@ -4,7 +4,7 @@
 </script>
 
 <footer
-	class="footer-text bottom-0 z-[-1] w-full bg-black p-6 font-display text-white
+	class="footer-text bottom-0 z-[-1] w-full bg-black p-6 text-white
 		not-[:has(:focus-visible)]:sticky md:p-12 dark:bg-sandy dark:text-black"
 >
 	<div class="flex flex-col md:flex-row md:items-end">
@@ -17,7 +17,7 @@
 				<a
 					href="/?category={category}#posts"
 					class={[
-						"w-fit",
+						"w-fit font-display",
 						{
 							"text-active dark:text-active-dark":
 								category && category === page.url.searchParams.get("category"),
@@ -29,10 +29,10 @@
 			{/each}
 		</div>
 		<div
-			class="mt-4 flex flex-1 flex-col gap-1 font-caption font-medium md:mt-0
-				md:px-4 md:text-base tall-screen:mt-8 tall-screen:text-xl"
+			class="mt-4 flex flex-1 flex-col gap-1 font-medium md:mt-0 md:px-4
+				md:text-base tall-screen:mt-8 tall-screen:text-xl"
 		>
-			<span>My socials:</span>
+			<span class="tracking-tight">My socials:</span>
 			<a href="https://github.com/VityaSchel" class="link">GitHub</a>
 			<a href="https://instagram.com/vityaczech" class="link">Instagram</a>
 			<a href="https://www.linkedin.com/in/hloth/" class="link">Linkedin</a>
@@ -45,7 +45,7 @@
 				md:justify-end md:text-right md:text-sm tall-screen:mt-8
 				tall-screen:text-lg"
 		>
-			<span>Contact me:</span>
+			<span class="tracking-tight">Contact me:</span>
 			<a class="link" href="https://matrix.to/#/@hloth:hloth.dev">Matrix</a>
 			<a class="link" href="mailto:hi@hloth.dev">hi@hloth.dev</a>
 			<a class="link" href="mailto:jobs@hloth.dev">jobs@hloth.dev</a>
@@ -55,7 +55,7 @@
 		class="mt-5 h-[2px] w-full border-none bg-white sm:mt-[41px] dark:bg-black"
 	/>
 	<div class="mt-3 flex flex-wrap justify-between gap-x-2 gap-y-1">
-		<span class="block font-medium">/2024/2025</span>
+		<span class="block font-display font-medium">/2024/2025</span>
 		<div
 			class="flex flex-wrap items-center gap-x-1 text-[11px] leading-3
 				font-medium tracking-normal text-inverted md:text-right md:text-sm
