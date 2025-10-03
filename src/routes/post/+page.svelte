@@ -1,9 +1,9 @@
 <script lang="ts">
-	import AppBar from '$lib/components/AppBar.svelte';
-	import PageMetadata from '$lib/components/PageMetadata.svelte';
-	import { getDraft, type PostDraftSchema } from '$lib/local-drafts';
-	import { onMount } from 'svelte';
-	import { toast } from 'svelte-sonner';
+	import AppBar from "$lib/components/AppBar.svelte";
+	import PageMetadata from "$lib/components/PageMetadata.svelte";
+	import { getDraft, type PostDraftSchema } from "$lib/local-drafts";
+	import { onMount } from "svelte";
+	import { toast } from "svelte-sonner";
 
 	let { data } = $props();
 
@@ -20,7 +20,7 @@
 			}
 		} catch (error) {
 			console.error(error);
-			toast.error('Failed to load initial data');
+			toast.error("Failed to load initial data");
 		} finally {
 			initialLoaded = true;
 		}
@@ -28,26 +28,24 @@
 </script>
 
 <PageMetadata title="post @ hloth blog" />
-{#snippet label(text: string, tag: 'span' | 'noscript')}
+{#snippet label(text: string, tag: "span" | "noscript")}
 	<div
-		class="
-			flex flex-1 items-center justify-center font-caption text-3xl font-bold
-		"
+		class="flex flex-1 items-center justify-center font-caption text-3xl font-bold"
 	>
 		<svelte:element this={tag}>{text}</svelte:element>
 	</div>
 {/snippet}
 <AppBar homepage />
 {#if initialLoaded}
-	{#await import('./JSEditor.svelte')}
-		{@render label('Loading...', 'span')}
-	{:then { default: JsEditor }}
-		<JsEditor
+	{#await import('./PostEditor.svelte')}
+		{@render label("Loading...", "span")}
+	{:then { default: PostEditor }}
+		<PostEditor
 			{initial}
 			bind:saveDraftsLocally
 			existingPost={Boolean(data.initial)}
 		/>
 	{/await}
 {:else}
-	{@render label('JavaScript is required for editor', 'noscript')}
+	{@render label("JavaScript is required for editor", "noscript")}
 {/if}

@@ -1,12 +1,11 @@
 <script lang="ts">
-	import { codeToHtml } from 'shiki';
-	import { getThemeContext } from '$lib/theme';
-	import { sanitizeHighlightedCode } from '$lib/sanitizer';
+	import { codeToHtml } from "shiki";
+	import { getThemeContext } from "$lib/theme";
 
 	let {
 		language,
 		code,
-		ssr
+		ssr,
 	}: { language: string; code: string; ssr?: string } = $props();
 
 	const context = getThemeContext();
@@ -15,7 +14,7 @@
 		try {
 			return await codeToHtml(code, {
 				lang: language,
-				theme: context.theme === 'dark' ? 'github-dark' : 'github-light'
+				theme: context.theme === "dark" ? "github-dark" : "github-light",
 			});
 		} catch (e) {
 			console.error(`Language ${language} is not supported by shiki.`, e);
@@ -27,32 +26,29 @@
 <!-- eslint-disable svelte/no-at-html-tags -->
 <div
 	class={[
-		'code-container relative font-mono text-sm',
+		"code-container relative font-mono text-sm",
 		{
 			nowrap: true,
-			wrap: false
-		}
+			wrap: false,
+		},
 	]}
 >
 	<label
-		class="
-			absolute top-0.5 right-3 flex items-center gap-1 font-caption text-sm
-			font-semibold tracking-tight
-			dark:accent-sandy
-		"
+		class="absolute top-0.5 right-3 flex items-center gap-1 font-caption text-sm
+			font-semibold tracking-tight dark:accent-sandy"
 	>
 		<input type="checkbox" class="peer toggle-wrap h-3 w-3" />
 		Wrap lines
 	</label>
 	{#snippet fallback()}
 		{#if ssr}
-			{@html sanitizeHighlightedCode(ssr)}
+			{ssr}
 		{:else}
 			<pre
 				class="
 					fallback bg-white text-neutral-900
 					dark:bg-[#1e1e1e] dark:text-neutral-200
-				">{@html sanitizeHighlightedCode(code)}</pre>
+				">{code}</pre>
 		{/if}
 	{/snippet}
 	{#await highlightedCode}
@@ -61,7 +57,7 @@
 		{#if highlightedCode === null}
 			{@render fallback()}
 		{:else}
-			{@html sanitizeHighlightedCode(highlightedCode)}
+			{highlightedCode}
 		{/if}
 	{/await}
 </div>
@@ -106,7 +102,7 @@
 			flex-shrink: 0;
 
 			&::after {
-				content: '';
+				content: "";
 				position: absolute;
 				top: 0;
 				left: 0;
@@ -123,7 +119,7 @@
 		&:has(.toggle-wrap:checked) .line {
 			word-break: break-all;
 		}
-		&:where([data-theme='dark'], [data-theme='dark'] *) .line::after {
+		&:where([data-theme="dark"], [data-theme="dark"] *) .line::after {
 			border-color: rgba(62, 62, 62, 0.35);
 		}
 	}

@@ -1,28 +1,25 @@
 <script lang="ts">
-	import { sanitize } from '$lib/sanitizer';
+	import PhrasingContent from "$lib/ui/PhrasingContent.svelte";
+	import { toString } from "mdast-util-to-string";
 
 	let {
-		level,
-		text
+		depth,
+		content,
 	}: {
-		level: number;
-		text: string;
+		depth: number;
+		content: import("mdast").PhrasingContent[];
 	} = $props();
 
-	let id = $derived(text.toLowerCase().replace(/\s/g, '-'));
+	let id = $derived(toString(content).toLowerCase().replace(/\s/g, "-"));
 </script>
 
-<svelte:element this={'h' + level} class="group">
-	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-	{@html sanitize(text)}
+<svelte:element this={"h" + depth} class="group">
+	<PhrasingContent {content} />
 	<a
 		{id}
 		href="#{id}"
-		class="
-			opacity-0 transition-opacity
-			group-hover:opacity-100
-			focus-visible:opacity-100
-		"
+		class="opacity-0 transition-opacity group-hover:opacity-100
+			focus-visible:opacity-100"
 		aria-label="Link to heading"
 	>
 		#

@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import { sanitize } from '$lib/sanitizer';
 
 	let {
@@ -9,7 +9,6 @@
 </script>
 
 <figure>
-	<!-- svelte-ignore a11y_media_has_caption -->
 	<video
 		src={url}
 		class="h-auto max-h-[500px] w-full"
@@ -18,6 +17,5 @@
 		autoPlay={false}
 		playsinline
 	></video>
-	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-	<figcaption>{@html sanitize(caption)}</figcaption>
-</figure>
+	<figcaption>{caption}</figcaption>
+</figure> -->

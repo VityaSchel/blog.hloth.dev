@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import { browser } from '$app/environment';
 	import { sanitize } from '$lib/sanitizer';
 
@@ -88,7 +88,6 @@
 		></iframe>
 	{/if}
 	<figcaption>
-		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-		{@html sanitize(caption)}
+		{caption}
 	</figcaption>
-</figure>
+</figure> -->

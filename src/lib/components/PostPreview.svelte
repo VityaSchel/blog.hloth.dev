@@ -1,10 +1,10 @@
 <script lang="ts">
-	import Category from "$lib/components/Category.svelte";
-	import type { Category as PostCategory } from "$lib/server/db/schema";
 	import { formatTitle } from "$lib/formatter";
+	import { getUrl, type Image } from "$lib/media";
+	import Category from "$lib/components/Category.svelte";
 	import ReadTimer from "$lib/components/ReadTime.svelte";
 	import LazyImage from "$lib/ui/LazyImage.svelte";
-	import { getUrl, type Image } from "$lib/media";
+	import type { CategoryValue } from "$lib/categories";
 
 	let {
 		first = false,
@@ -27,7 +27,7 @@
 		bannerAlt: string;
 		title: string;
 		excerpt: string;
-		category: PostCategory;
+		category: CategoryValue;
 		readTime: number;
 		date: Date;
 	} = $props();
@@ -85,7 +85,7 @@
 				{excerpt}
 			</p>
 			<div class="flex items-center gap-5 pt-8 md:mt-auto">
-				<Category {category} />
+				<Category {category} readonly />
 				<ReadTimer value={readTime} />
 			</div>
 		</div>

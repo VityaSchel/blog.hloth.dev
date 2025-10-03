@@ -1,11 +1,13 @@
 <script lang="ts">
+	import PhrasingContent from "$lib/ui/PhrasingContent.svelte";
+
 	let {
-		children
+		content,
 	}: {
-		children: import('svelte').Snippet;
+		content: import("mdast").PhrasingContent[];
 	} = $props();
 </script>
 
 <p>
-	{@render children()}
+	<PhrasingContent {content} />
 </p>

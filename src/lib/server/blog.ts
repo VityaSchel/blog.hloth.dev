@@ -1,42 +1,23 @@
-import { db } from '$lib/server/db';
-import { mediaTable, postsTable } from '$lib/server/db/schema';
-import { error } from '@sveltejs/kit';
-import { desc, eq, sql, type InferSelectModel } from 'drizzle-orm';
-import type { Reaction } from '../reactions';
+import { db } from "$lib/server/db";
+import { postsTable } from "$lib/server/db/schema";
+import { error } from "@sveltejs/kit";
+import { desc, eq, sql } from "drizzle-orm";
+import type { Reaction } from "../reactions";
+import type { Post } from "$lib/post";
 
 type Conditions = Omit<
 	Parameters<typeof db.query.postsTable.findFirst>[0],
-	'with' | 'columns'
+	"with" | "columns"
 >;
-
-type Post = Pick<
-	InferSelectModel<typeof postsTable>,
-	| 'id'
-	| 'title'
-	| 'bannerAlt'
-	| 'excerpt'
-	| 'category'
-	| 'readTime'
-	| 'views'
-	| 'createdAt'
-	| 'updatedAt'
-	| 'content'
-	| 'locale'
-> & {
-	banner: Pick<
-		InferSelectModel<typeof mediaTable>,
-		'id' | 'placeholder' | 'width' | 'height'
-	>;
-};
 
 type FetchedPost<Content extends boolean> = Content extends true
 	? Post & { reactions: Record<Reaction, number> }
-	: Omit<Post, 'content'>;
+	: Omit<Post, "content">;
 
 async function fetchPosts<T extends boolean>({
 	conditions,
 	content,
-	limit
+	limit,
 }: {
 	conditions: Conditions;
 	content: T;
@@ -50,16 +31,16 @@ async function fetchPosts<T extends boolean>({
 					id: true,
 					placeholder: true,
 					width: true,
-					height: true
-				}
+					height: true,
+				},
 			},
 			...(content && {
 				reactions: {
 					columns: {
-						postId: false
-					}
-				}
-			})
+						postId: false,
+					},
+				},
+			}),
 		},
 		columns: {
 			id: true,
@@ -72,34 +53,22 @@ async function fetchPosts<T extends boolean>({
 			createdAt: true,
 			updatedAt: true,
 			locale: true,
-			...(content ? { content: true } : {})
+			...(content ? { content: true } : {}),
 		},
-		limit
+		limit,
 	});
 	return posts as FetchedPost<T>[];
 }
 
-export async function getPost({
-	conditions,
-	incrementViews = false
-}: {
-	conditions: Conditions;
-	incrementViews?: boolean;
-}) {
+export async function getPost(conditions: Conditions): Promise<Post> {
 	const posts = await getPosts({
 		conditions,
 		content: true,
-		limit: 1
+		limit: 1,
 	});
 	const post = posts[0];
 	if (!post) {
-		throw error(404, 'Post not found');
-	}
-	if (incrementViews) {
-		await db
-			.update(postsTable)
-			.set({ views: sql`${postsTable.views} + 1` })
-			.where(eq(postsTable.id, post.id));
+		throw error(404, "Post not found");
 	}
 	return post;
 }
@@ -107,7 +76,7 @@ export async function getPost({
 export async function getPosts<T extends boolean>({
 	conditions,
 	content,
-	limit
+	limit,
 }: {
 	conditions: Conditions;
 	content: T;
@@ -123,10 +92,10 @@ export async function getPosts<T extends boolean>({
 
 			if (placeholder === null || width === null || height === null) {
 				console.error(
-					'Missing properties in post.banner for media file',
-					bannerId
+					"Missing properties in post.banner for media file",
+					bannerId,
 				);
-				throw error(500, 'Internal server error');
+				throw error(500, "Internal server error");
 			}
 
 			return {
@@ -135,20 +104,27 @@ export async function getPosts<T extends boolean>({
 					id: bannerId,
 					placeholder,
 					width,
-					height
+					height,
 				},
 				bannerAlt,
 				createdAt: post.createdAt.getTime(),
-				updatedAt: post.updatedAt.getTime()
+				updatedAt: post.updatedAt.getTime(),
 			};
-		}
+		},
 	);
+}
+
+export async function incrementViews(postId: Post["id"]) {
+	await db
+		.update(postsTable)
+		.set({ views: sql`${postsTable.views} + 1` })
+		.where(eq(postsTable.id, postId));
 }
 
 export async function getIds() {
 	return await db.query.postsTable.findMany({
-		where: eq(postsTable.visibility, 'published'),
+		where: eq(postsTable.visibility, "published"),
 		columns: { id: true, updatedAt: true },
-		orderBy: desc(postsTable.createdAt)
+		orderBy: desc(postsTable.createdAt),
 	});
 }

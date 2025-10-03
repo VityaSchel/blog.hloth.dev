@@ -1,20 +1,20 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import { getUrl, type Image } from '$lib/media';
 	import { sanitize } from '$lib/sanitizer';
 	import LazyImage from '$lib/ui/LazyImage.svelte';
 
 	let {
 		file,
-		caption,
 		alt,
-		border,
-		background
+		caption,
+		border = false,
+		background = false
 	}: {
 		file: Image;
-		caption: string;
 		alt: string;
-		border: boolean;
-		background: boolean;
+		caption?: string;
+		border?: boolean;
+		background?: boolean;
 	} = $props();
 
 	const stretched = $derived(!background);
@@ -47,8 +47,9 @@
 			rounded={!background}
 		/>
 	</div>
-	<figcaption>
-		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-		{@html sanitize(caption)}
-	</figcaption>
-</figure>
+	{#if caption}
+		<figcaption>
+			{caption}
+		</figcaption>
+	{/if}
+</figure> -->

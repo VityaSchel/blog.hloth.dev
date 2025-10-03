@@ -1,25 +1,29 @@
-<script lang="ts">
-	import type { ListItems } from '$lib/editorjs/blocks';
-	import { sanitize } from '$lib/sanitizer';
+<!-- <script lang="ts">
+	import { sanitize } from "$lib/sanitizer";
+
+	type ListItems = {
+		content: string;
+		meta: Record<string, unknown>;
+		items: ListItems[];
+	};
 
 	let {
 		items,
-		style
+		style,
 	}: {
 		items: ListItems;
-		style: 'unordered' | 'ordered' | 'checklist';
+		style: "unordered" | "ordered" | "checklist";
 	} = $props();
 </script>
 
 {#snippet list(items: ListItems)}
-	<svelte:element this={style === 'ordered' ? 'ol' : 'ul'}>
+	<svelte:element this={style === "ordered" ? "ol" : "ul"}>
 		{#each items as item, i (`${i}. ${item.content}`)}
 			<li>
-				{#if style === 'checklist' && 'checked' in item.meta}
+				{#if style === "checklist" && "checked" in item.meta}
 					<input type="checkbox" checked={item.meta.checked} disabled />
 				{/if}
-				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-				{@html sanitize(item.content)}
+				{item.content}
 				{#if item.items.length > 0}
 					{@render list(item.items)}
 				{/if}
@@ -27,4 +31,4 @@
 		{/each}
 	</svelte:element>
 {/snippet}
-{@render list(items)}
+{@render list(items)} -->
