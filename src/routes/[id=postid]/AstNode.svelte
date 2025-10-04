@@ -14,7 +14,7 @@
 	// import Quote from "$lib/ui/Quote.svelte";
 	import Separator from "$lib/ui/Separator.svelte";
 	import UnsupportedPlaceholder from "./UnsupportedPlaceholder.svelte";
-	// import Code from "$lib/ui/Code.svelte";
+	import Code from "$lib/ui/Code.svelte";
 	// import Paywall from "$lib/ui/Paywall.svelte";
 	import List from "$lib/ui/List.svelte";
 	// import IsolatedIframe from "$lib/ui/IsolatedIframe.svelte";
@@ -38,12 +38,9 @@
 				<Quote caption={node.} content={node.children} /> -->
 {:else if node.type === "thematicBreak"}
 	<Separator variant="asterisk" />
-	<!-- {:else if node.type === "code"}
-				<Code
-					language={node.lang.substring("language-".length)}
-					code={node.data.code}
-					ssr={node.data.ssr}
-				/> -->
+{:else if node.type === "code"}
+	<Code language={node.lang} code={node.value} ssr="" />
+	<!-- TODO: ssr code -->
 {:else if node.type === "list"}
 	<List
 		style={node.ordered ? "ordered" : "unordered"}

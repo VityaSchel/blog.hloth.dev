@@ -1,17 +1,19 @@
 <script lang="ts">
 	import { codeToHtml } from "shiki";
 	import { getThemeContext } from "$lib/theme";
+	import DOMPurify from "isomorphic-dompurify";
 
 	let {
 		language,
 		code,
 		ssr,
-	}: { language: string; code: string; ssr?: string } = $props();
+	}: { language?: string | null; code: string; ssr?: string } = $props();
 
 	const context = getThemeContext();
 
 	let highlightedCode = $derived.by(async () => {
 		try {
+			if (!language) return null;
 			return await codeToHtml(code, {
 				lang: language,
 				theme: context.theme === "dark" ? "github-dark" : "github-light",
@@ -21,12 +23,58 @@
 			return null;
 		}
 	});
+
+	export const sanitizeHighlightedCode = (code: string) => {
+		const sanitizer = DOMPurify();
+		sanitizer.addHook("uponSanitizeAttribute", (node, data) => {
+			const allowedAttrs: Record<string, string[]> = {
+				a: ["href", "target", "rel"],
+				span: ["class", "style"],
+				pre: ["class", "style", "tabindex"],
+				code: ["class", "style"],
+			};
+
+			const tagName = node.tagName.toLowerCase();
+			const allowed = allowedAttrs[tagName] || [];
+
+			if (!allowed.includes(data.attrName)) {
+				console.warn(
+					`Removed attribute ${data.attrName} from <${tagName}>`,
+					node,
+				);
+				data.keepAttr = false;
+			}
+		});
+		const result = sanitizer.sanitize(code, {
+			ALLOWED_TAGS: [
+				"body",
+				"a",
+				"br",
+				"i",
+				"b",
+				"strong",
+				"em",
+				"strike",
+				"u",
+				"span",
+				"pre",
+				"code",
+			],
+		});
+		if (sanitizer.removed.length > 0) {
+			console.warn(
+				"Sanitized code had removed elements/attributes:",
+				sanitizer.removed,
+			);
+		}
+		return result;
+	};
 </script>
 
 <!-- eslint-disable svelte/no-at-html-tags -->
 <div
 	class={[
-		"code-container relative font-mono text-sm",
+		"code-container relative my-2 font-mono text-sm",
 		{
 			nowrap: true,
 			wrap: false,
@@ -34,15 +82,15 @@
 	]}
 >
 	<label
-		class="absolute top-0.5 right-3 flex items-center gap-1 text-sm
-			font-semibold tracking-tight dark:accent-sandy"
+		class="absolute top-0.5 right-3 flex items-center gap-1 font-text text-sm
+			font-medium tracking-tight dark:accent-sandy"
 	>
 		<input type="checkbox" class="peer toggle-wrap h-3 w-3" />
 		Wrap lines
 	</label>
 	{#snippet fallback()}
 		{#if ssr}
-			{ssr}
+			{@html sanitizeHighlightedCode(ssr)}
 		{:else}
 			<pre
 				class="
@@ -57,7 +105,7 @@
 		{#if highlightedCode === null}
 			{@render fallback()}
 		{:else}
-			{highlightedCode}
+			{@html sanitizeHighlightedCode(highlightedCode)}
 		{/if}
 	{/await}
 </div>
@@ -87,7 +135,7 @@
 			flex-direction: column;
 		}
 		&:not(:has(.toggle-wrap:checked)) code {
-			width: max-content;
+			width: max(100%, max-content);
 		}
 		&:has(.toggle-wrap:checked) code {
 			white-space: pre-wrap;
