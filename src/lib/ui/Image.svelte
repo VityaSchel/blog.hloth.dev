@@ -1,55 +1,56 @@
-<!-- <script lang="ts">
-	import { getUrl, type Image } from '$lib/media';
-	import { sanitize } from '$lib/sanitizer';
-	import LazyImage from '$lib/ui/LazyImage.svelte';
+<script lang="ts">
+	import UnsupportedPlaceholder from "../../routes/[id=postid]/UnsupportedPlaceholder.svelte";
+
+	// import { getUrl, type Image } from "$lib/media";
+	import LazyImage from "$lib/ui/LazyImage.svelte";
 
 	let {
-		file,
-		alt,
-		caption,
-		border = false,
-		background = false
+		node,
 	}: {
-		file: Image;
-		alt: string;
-		caption?: string;
-		border?: boolean;
-		background?: boolean;
+		node: import("mdast").Image;
 	} = $props();
 
-	const stretched = $derived(!background);
+	const border = false;
+	const background = false;
+
+	const stretched = false; //$derived(!node.background);
 
 	const imgProps: { width: number; height: number } | { aspectRatio: number } =
 		$derived(
 			stretched
-				? { aspectRatio: file.width / file.height }
-				: { width: file.width, height: file.height }
+				? { aspectRatio: 0 /*file.width / file.height*/ }
+				: { width: /*file.width*/ 0, height: /*file.height*/ 0 },
 		);
 </script>
 
-<figure>
-	<div
-		class={[
-			'w-full',
-			{
-				border,
-				'flex h-fit max-h-[500px] items-center justify-center overflow-clip rounded-lg bg-white p-4':
-					background
-			}
-		]}
-	>
-		<LazyImage
-			src={getUrl(file.id)}
-			placeholder={file.placeholder}
-			{alt}
-			{...imgProps}
-			sizes={background ? undefined : '(max-width: 608px) 100vw, 560px'}
-			rounded={!background}
-		/>
-	</div>
-	{#if caption}
-		<figcaption>
-			{caption}
-		</figcaption>
-	{/if}
-</figure> -->
+{#if node.alt}
+	<figure>
+		<div
+			class={[
+				"w-full",
+				{
+					border,
+					"flex h-fit max-h-[500px] items-center justify-center overflow-clip rounded-lg bg-white p-4":
+						background,
+				},
+			]}
+		>
+			<!-- TODO: placeholder -->
+			<LazyImage
+				src={node.url}
+				placeholder=""
+				alt={node.alt}
+				sizes={background ? undefined : "(max-width: 608px) 100vw, 560px"}
+				rounded={!background}
+				{...imgProps}
+			/>
+		</div>
+		{#if node.title}
+			<figcaption>
+				{node.title}
+			</figcaption>
+		{/if}
+	</figure>
+{:else}
+	<UnsupportedPlaceholder>Image without alt!</UnsupportedPlaceholder>
+{/if}

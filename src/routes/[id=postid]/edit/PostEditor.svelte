@@ -15,6 +15,7 @@
 	import FormError from "$lib/ui/FormError.svelte";
 	import type { Draft } from "$lib/post";
 	import ModeSwitch from "./ModeSwitch.svelte";
+	import PostContent from "../PostContent.svelte";
 
 	let {
 		draft,
@@ -126,14 +127,18 @@
 	<div class="flex w-full justify-center">
 		<div class="w-[680px]">
 			<ModeSwitch bind:value={editorMode} />
-			<ContentEditor
-				bind:content
-				{disabled}
-				bind:statistics
-				onSave={() => {
-					saveButton?.click();
-				}}
-			/>
+			{#if editorMode === "edit"}
+				<ContentEditor
+					bind:content
+					{disabled}
+					bind:statistics
+					onSave={() => {
+						saveButton?.click();
+					}}
+				/>
+			{:else}
+				<PostContent {content} />
+			{/if}
 		</div>
 	</div>
 	<Separator />

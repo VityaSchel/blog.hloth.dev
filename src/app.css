@@ -199,8 +199,7 @@ pre[class*="language-"] {
 		margin-top: 0px;
 	}
 
-	p,
-	.ce-paragraph {
+	& > p {
 		margin: 16px 0;
 		overflow-wrap: break-word;
 		padding: 0;

@@ -1,34 +1,26 @@
-<!-- <script lang="ts">
-	import { sanitize } from "$lib/sanitizer";
-
-	type ListItems = {
-		content: string;
-		meta: Record<string, unknown>;
-		items: ListItems[];
-	};
+<script lang="ts">
+	import AstNode from "../../routes/[id=postid]/AstNode.svelte";
 
 	let {
-		items,
 		style,
+		start,
+		items,
 	}: {
-		items: ListItems;
-		style: "unordered" | "ordered" | "checklist";
+		items: import("mdast").ListItem[];
+		start?: number | null;
+		style: "unordered" | "ordered" /* | "checklist"*/;
 	} = $props();
 </script>
 
-{#snippet list(items: ListItems)}
-	<svelte:element this={style === "ordered" ? "ol" : "ul"}>
-		{#each items as item, i (`${i}. ${item.content}`)}
-			<li>
-				{#if style === "checklist" && "checked" in item.meta}
-					<input type="checkbox" checked={item.meta.checked} disabled />
-				{/if}
-				{item.content}
-				{#if item.items.length > 0}
-					{@render list(item.items)}
-				{/if}
-			</li>
-		{/each}
-	</svelte:element>
-{/snippet}
-{@render list(items)} -->
+<svelte:element this={style === "ordered" ? "ol" : "ul"} {start}>
+	{#each items as item (item)}
+		<li>
+			{#if item.checked !== undefined && item.checked !== null}
+				<input type="checkbox" checked={item.checked} disabled />
+			{/if}
+			{#each item.children as node (node)}
+				<AstNode {node} />
+			{/each}
+		</li>
+	{/each}
+</svelte:element>
