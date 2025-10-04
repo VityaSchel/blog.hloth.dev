@@ -9,6 +9,7 @@
 	import Me from "$lib/components/Me.svelte";
 	import BannerUploader from "./BannerUploader.svelte";
 	import ContentEditor from "./ContentEditor.svelte";
+	import DiffEditor from "./DiffEditor.svelte";
 	import ExcerptEditor from "./ExcerptEditor.svelte";
 	import Separator from "$lib/ui/Separator.svelte";
 	import PostButton from "./PostButton.svelte";
@@ -132,12 +133,17 @@
 					bind:content
 					{disabled}
 					bind:statistics
-					onSave={() => {
-						saveButton?.click();
-					}}
+					onSave={() => saveButton?.click()}
 				/>
-			{:else}
+			{:else if editorMode === "preview"}
 				<PostContent {content} />
+			{:else if editorMode === "diff"}
+				<DiffEditor
+					{content}
+					{disabled}
+					onSave={() => saveButton?.click()}
+					diff={draft.content ?? ""}
+				/>
 			{/if}
 		</div>
 	</div>

@@ -15,6 +15,10 @@
 		<input type="radio" name="editor-mode" value="preview" bind:group={value} />
 		Preview
 	</label>
+	<label class="cursor-pointer">
+		<input type="radio" name="editor-mode" value="diff" bind:group={value} />
+		Diff
+	</label>
 </div>
 
 <style lang="postcss">
