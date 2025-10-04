@@ -14,6 +14,7 @@
 	import PostButton from "./PostButton.svelte";
 	import FormError from "$lib/ui/FormError.svelte";
 	import type { Draft } from "$lib/post";
+	import ModeSwitch from "./ModeSwitch.svelte";
 
 	let {
 		draft,
@@ -38,6 +39,7 @@
 		embedBlocks: number;
 	} | null = $state(null);
 	let submitting = $state(false);
+	let editorMode = $state<"edit" | "preview">("edit");
 
 	const disabled = $derived(submitting);
 
@@ -121,7 +123,19 @@
 		<BannerUploader bind:value={banner} bind:alt={bannerAlt} {disabled} />
 	</div>
 	<Separator />
-	<ContentEditor bind:content {disabled} bind:statistics />
+	<div class="flex w-full justify-center">
+		<div class="w-[680px]">
+			<ModeSwitch bind:value={editorMode} />
+			<ContentEditor
+				bind:content
+				{disabled}
+				bind:statistics
+				onSave={() => {
+					saveButton?.click();
+				}}
+			/>
+		</div>
+	</div>
 	<Separator />
 	<form
 		class="flex flex-col items-center gap-6"
