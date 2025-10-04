@@ -71,7 +71,7 @@
 			},
 			fontSize: 16,
 		};
-		const isDiffEditor = untrack(() => !!diff);
+		const isDiffEditor = untrack(() => diff !== undefined);
 		if (isDiffEditor) {
 			const diffEditorConfig: monaco.editor.IDiffEditorConstructionOptions = {
 				...globalOptions,
@@ -79,13 +79,11 @@
 				automaticLayout: true,
 				...options,
 			};
-			console.log("Creating diff editor with diff", diffEditorConfig);
 			const diffEditor = monaco.editor.createDiffEditor(root, diffEditorConfig);
 			const diffModel = createDiffModel(untrack(() => diff!));
 			diffEditor.setModel(diffModel);
 			editor = diffEditor;
 		} else {
-			console.log("Creating code editor with content");
 			const codeEditorConfig: monaco.editor.IStandaloneEditorConstructionOptions =
 				{
 					...globalOptions,
@@ -95,19 +93,23 @@
 					...options,
 				};
 			const codeEditor = monaco.editor.create(root, codeEditorConfig);
-			codeEditor.onDidChangeModelContent(() => {
+
+			const onChange = () => {
 				const value = codeEditor.getValue();
 				editorContent = value;
 				content = value;
-			});
+			};
+			codeEditor.onDidChangeModelContent(onChange);
+			onChange();
+
 			const updateHeight = () => {
-				console.log("Updating editor height");
 				const contentHeight = Math.max(200, codeEditor.getContentHeight());
 				root.style.height = `${contentHeight}px`;
 				codeEditor.layout({ width: 680, height: contentHeight });
 			};
 			codeEditor.onDidContentSizeChange(updateHeight);
 			updateHeight();
+
 			codeEditor.addAction({
 				id: "save-on-cmd-s",
 				label: "Save to server",
@@ -118,6 +120,7 @@
 					onSave?.();
 				},
 			});
+
 			editor = codeEditor;
 		}
 		return () => {
@@ -125,7 +128,6 @@
 				console.warn("Editor is already undefined on dispose");
 				return;
 			}
-			console.log("Disposing editor");
 			editor.dispose();
 			editor = undefined;
 		};
@@ -144,7 +146,7 @@
 	$effect(() => {
 		if (editor) {
 			if ("onDidUpdateDiff" in editor) {
-				if (diff) {
+				if (diff !== undefined) {
 					editor.setModel(createDiffModel(diff));
 				}
 			} else {
@@ -167,8 +169,8 @@
 		class={[
 			"overflow-clip rounded-md",
 			{
-				"h-full": !diff,
-				"h-[600px]": diff,
+				"h-full": diff === undefined,
+				"h-[600px]": diff !== undefined,
 			},
 		]}
 	></div>

@@ -4,8 +4,9 @@
 	import PageMetadata from "$lib/components/PageMetadata.svelte";
 
 	let { data, form }: import("./$types").PageProps = $props();
-	let draft = $derived(data.draft);
 
+	let diff = $derived(data.diff);
+	let draft = $derived(data.draft);
 	let error = $derived(form?.error ?? null);
 </script>
 
@@ -21,5 +22,5 @@
 		</div>
 	{/if}
 {:then { default: PostEditor }}
-	<PostEditor {draft} bind:error />
+	<PostEditor {diff} {draft} bind:error />
 {/await}

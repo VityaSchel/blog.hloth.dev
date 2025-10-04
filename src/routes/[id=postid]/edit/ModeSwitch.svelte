@@ -6,7 +6,7 @@
 	} = $props();
 </script>
 
-<div class="sticky top-0 z-[10] flex w-full items-center bg-[var(--bg)]">
+<div class="sticky top-0 z-[100] flex w-full items-center bg-[var(--bg)]">
 	<label class="cursor-pointer">
 		<input type="radio" name="editor-mode" value="edit" bind:group={value} />
 		Edit

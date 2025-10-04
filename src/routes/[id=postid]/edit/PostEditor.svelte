@@ -17,24 +17,43 @@
 	import type { Draft } from "$lib/post";
 	import ModeSwitch from "./ModeSwitch.svelte";
 	import PostContent from "../PostContent.svelte";
+	import PageMetadata from "$lib/components/PageMetadata.svelte";
 
 	let {
 		draft,
+		diff,
 		error = $bindable(),
 	}: {
 		draft: Draft;
+		diff: string;
 		error: string | null;
 	} = $props();
 
-	let title = $derived(draft.title ?? "");
-	let category = $derived(draft.category);
-	let readTime = $derived(draft.readTime ?? 0);
-	let banner = $derived(draft.banner);
-	let bannerAlt = $derived(draft.bannerAlt ?? "");
-	let excerpt = $derived(draft.excerpt ?? "");
-	let content = $derived(draft.content ?? "");
+	const defaultTitle = $derived(draft.title ?? "");
+	let title = $derived(defaultTitle);
+	const defaultCategory = $derived(draft.category ?? null);
+	let category = $derived(defaultCategory);
+	const defaultReadTime = $derived(draft.readTime ?? 0);
+	let readTime = $derived(defaultReadTime);
+	const defaultBanner = $derived(draft.banner);
+	let banner = $derived(defaultBanner);
+	const defaultBannerAlt = $derived(draft.bannerAlt ?? "");
+	let bannerAlt = $derived(defaultBannerAlt);
+	const defaultExcerpt = $derived(draft.excerpt ?? "");
+	let excerpt = $derived(defaultExcerpt);
+	const defaultContent = $derived(draft.content ?? "");
+	let content = $derived(defaultContent);
 
-	let unsavedChanges = $derived(false);
+	let unsavedChanges = $derived(
+		title !== defaultTitle ||
+			category !== defaultCategory ||
+			readTime !== defaultReadTime ||
+			banner !== defaultBanner ||
+			bannerAlt !== defaultBannerAlt ||
+			excerpt !== defaultExcerpt ||
+			content !== defaultContent,
+	);
+
 	let statistics: {
 		wordsCount: number;
 		mediaFiles: number;
@@ -54,6 +73,7 @@
 	});
 
 	beforeNavigate(({ cancel, type }) => {
+		console.log({ unsavedChanges, type });
 		if (unsavedChanges) {
 			cancel();
 			if (type !== "leave") {
@@ -93,6 +113,9 @@
 	});
 </script>
 
+<PageMetadata
+	title={title ? (unsavedChanges ? "💾 " : "") + title : "post @ hloth blog"}
+/>
 <article class="pt-16">
 	<div class="flex items-start justify-between">
 		<div class="flex max-w-[50%] flex-[50%] flex-col gap-8 self-stretch">
@@ -142,7 +165,7 @@
 					{content}
 					{disabled}
 					onSave={() => saveButton?.click()}
-					diff={draft.content ?? ""}
+					{diff}
 				/>
 			{/if}
 		</div>
@@ -196,6 +219,7 @@
 				type="submit"
 				formaction="?/save"
 				bind:ref={saveButton}
+				disabled={!unsavedChanges || submitting}
 			>
 				Save
 			</PostButton>

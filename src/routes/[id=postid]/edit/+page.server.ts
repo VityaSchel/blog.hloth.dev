@@ -23,25 +23,33 @@ export async function load({ locals, params }) {
 		throw error(403, "Unauthorized");
 	}
 
-	const post = await db.query.draftsTable.findFirst({
+	const draftDb = await db.query.draftsTable.findFirst({
 		where: eq(draftsTable.id, params.id),
 	});
-	if (!post) {
+	if (!draftDb) {
 		throw error(404, "Post not found");
 	}
 
 	const draft: Draft = {
-		title: post.title,
-		category: post.category,
-		readTime: post.readTime,
-		banner: post.banner,
-		bannerAlt: post.bannerAlt,
-		excerpt: post.excerpt,
-		content: post.content,
+		title: draftDb.title,
+		category: draftDb.category,
+		readTime: draftDb.readTime,
+		banner: draftDb.banner,
+		bannerAlt: draftDb.bannerAlt,
+		excerpt: draftDb.excerpt,
+		content: draftDb.content,
 	};
+
+	const post = await db.query.postsTable.findFirst({
+		where: eq(postsTable.id, params.id),
+		columns: {
+			content: true,
+		},
+	});
 
 	return {
 		draft,
+		diff: post?.content ?? "",
 	};
 }
 
