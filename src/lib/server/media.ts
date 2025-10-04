@@ -21,12 +21,15 @@ export async function processImage({
 		let newWidth: number, newHeight: number;
 		const targetAspectRatio = 1625 / 1000;
 		if (aspectRatio > 1) {
+			// landscape
 			newWidth = Math.min(width, 1625);
 			newHeight = Math.round(newWidth / targetAspectRatio);
 		} else if (aspectRatio < 1) {
+			// portrait
 			newHeight = Math.min(height, 1000);
 			newWidth = Math.round(newHeight * targetAspectRatio);
 		} else {
+			// square
 			newWidth = newHeight = width;
 		}
 		img = img.resize({
@@ -39,9 +42,12 @@ export async function processImage({
 	content = await img.webp({ quality: 80, force: true }).toBuffer();
 	const placeholder = (await getPlaiceholder(Buffer.from(content))).base64;
 	return {
-		width,
-		height,
-		placeholder,
+		content,
+		meta: {
+			width,
+			height,
+			placeholder,
+		},
 	};
 }
 
@@ -57,9 +63,12 @@ export async function processVideo({ content }: { content: Uint8Array }) {
 	if (!videoTrack.Width || !videoTrack.Height)
 		throw new Error("Invalid video dimensions");
 	return {
-		width: videoTrack.Width,
-		height: videoTrack.Height,
-		placeholder: "",
+		content,
+		meta: {
+			width: videoTrack.Width,
+			height: videoTrack.Height,
+			placeholder: "",
+		},
 	};
 }
 

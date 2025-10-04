@@ -71,10 +71,13 @@ export async function POST({ url, locals, request }) {
 			throw error(413, "File too large");
 		}
 
-		let media: Pick<DbMedia, "width" | "height" | "placeholder">;
+		let result: {
+			meta: Pick<DbMedia, "width" | "height" | "placeholder">;
+			content: Uint8Array;
+		};
 		if (type === "image") {
 			try {
-				media = await processImage({ content, crop });
+				result = await processImage({ content, crop });
 				extension = "webp";
 			} catch (e) {
 				console.error(e);
@@ -82,24 +85,34 @@ export async function POST({ url, locals, request }) {
 			}
 		} else {
 			try {
-				media = await processVideo({ content });
+				result = await processVideo({ content });
 			} catch (e) {
 				console.error(e);
-				throw error(415, "Invalid image");
+				throw error(415, "Invalid video");
 			}
 		}
 		const id = crypto.randomUUID() + "." + extension;
-		await fs.writeFile(path.join(STORAGE_PATH, id), content, "binary");
-		await insertMedia({
-			...media,
-			id,
-		});
+		try {
+			await fs.writeFile(path.join(STORAGE_PATH, id), result.content, "binary");
+		} catch (e) {
+			console.error(e);
+			throw error(500, "Failed to store file");
+		}
+		try {
+			await insertMedia({
+				...result.meta,
+				id,
+			});
+		} catch (e) {
+			console.error(e);
+			throw error(500, "Failed to insert media to database");
+		}
 		return json({
 			success: 1,
 			file: {
 				id,
 				url: getUrl(id),
-				...media,
+				...result.meta,
 			},
 		});
 	} catch (e) {
@@ -107,6 +120,7 @@ export async function POST({ url, locals, request }) {
 			console.error(e);
 			return json({ success: 0, error: e.body.message }, { status: e.status });
 		} else {
+			console.error(e);
 			throw e;
 		}
 	}

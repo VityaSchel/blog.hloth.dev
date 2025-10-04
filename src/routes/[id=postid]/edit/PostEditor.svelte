@@ -73,7 +73,6 @@
 	});
 
 	beforeNavigate(({ cancel, type }) => {
-		console.log({ unsavedChanges, type });
 		if (unsavedChanges) {
 			cancel();
 			if (type !== "leave") {
@@ -101,7 +100,6 @@
 		if (saveButton && !submitting) {
 			const key = "command+s, ctrl+s";
 			const onPress = (e: KeyboardEvent) => {
-				console.log(e);
 				e.preventDefault();
 				saveButton?.click();
 			};
@@ -171,66 +169,68 @@
 		</div>
 	</div>
 	<Separator />
-	<form
-		class="flex flex-col items-center gap-6"
-		method="POST"
-		use:enhance={() => {
-			submitting = true;
-			return (e) => {
-				if (e.result.type === "success") {
-					unsavedChanges = false;
-					toast.success("Post saved successfully!", {
-						id: "post-saved",
+	<div class="flex w-full justify-center">
+		<form
+			class="flex w-[680px] max-w-full flex-col items-center gap-6"
+			method="POST"
+			use:enhance={() => {
+				submitting = true;
+				return (e) => {
+					if (e.result.type === "success") {
+						unsavedChanges = false;
+						toast.success("Post saved successfully!", {
+							id: "post-saved",
+						});
+					}
+					submitting = false;
+					e.update({
+						reset: false,
 					});
-				}
-				submitting = false;
-				e.update({
-					reset: false,
-				});
-			};
-		}}
-	>
-		{#if title}
-			<input type="hidden" name="title" value={title} />
-		{/if}
-		{#if category !== null}
-			<input type="hidden" name="category" value={category} />
-		{/if}
-		{#if readTime !== 0}
-			<input type="hidden" name="readTime" value={readTime} />
-		{/if}
-		{#if banner !== null}
-			<input type="hidden" name="banner" value={banner} />
-		{/if}
-		{#if bannerAlt}
-			<input type="hidden" name="bannerAlt" value={bannerAlt} />
-		{/if}
-		<input type="hidden" name="content" value={content} />
-		{#if excerpt}
-			<input type="hidden" name="excerpt" value={excerpt} />
-		{/if}
-		<ExcerptEditor bind:value={excerpt} {disabled} />
-		{#if error}
-			<FormError>{error}</FormError>
-		{/if}
-		<div class="flex w-[680px] max-w-full justify-between">
-			<PostButton
-				emoji="📝"
-				type="submit"
-				formaction="?/save"
-				bind:ref={saveButton}
-				disabled={!unsavedChanges || submitting}
-			>
-				Save
-			</PostButton>
-			<PostButton
-				emoji="🚀"
-				disabled={!banner || !title || !excerpt || submitting || readTime === 0}
-				type="submit"
-				formaction="?/post"
-			>
-				Post
-			</PostButton>
-		</div>
-	</form>
+				};
+			}}
+		>
+			{#if title}
+				<input type="hidden" name="title" value={title} />
+			{/if}
+			{#if category !== null}
+				<input type="hidden" name="category" value={category} />
+			{/if}
+			{#if readTime !== 0}
+				<input type="hidden" name="readTime" value={readTime} />
+			{/if}
+			{#if banner !== null}
+				<input type="hidden" name="bannerId" value={banner} />
+			{/if}
+			{#if bannerAlt}
+				<input type="hidden" name="bannerAlt" value={bannerAlt} />
+			{/if}
+			<input type="hidden" name="content" value={content} />
+			{#if excerpt}
+				<input type="hidden" name="excerpt" value={excerpt} />
+			{/if}
+			<ExcerptEditor bind:value={excerpt} {disabled} />
+			{#if error}
+				<FormError>{error}</FormError>
+			{/if}
+			<div class="flex w-full justify-between">
+				<PostButton
+					emoji="📝"
+					type="submit"
+					formaction="?/save"
+					bind:ref={saveButton}
+					disabled={!unsavedChanges || submitting}
+				>
+					Save
+				</PostButton>
+				<PostButton
+					emoji="🚀"
+					disabled={unsavedChanges || !title || !excerpt || submitting}
+					type="submit"
+					formaction="?/post"
+				>
+					Post
+				</PostButton>
+			</div>
+		</form>
+	</div>
 </article>

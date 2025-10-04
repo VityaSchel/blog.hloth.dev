@@ -40,7 +40,7 @@
 				src={node.url}
 				placeholder=""
 				alt={node.alt}
-				sizes={background ? undefined : "(max-width: 608px) 100vw, 560px"}
+				sizes={background ? undefined : "(max-width: 728px) 100vw, 680px"}
 				rounded={!background}
 				{...imgProps}
 			/>

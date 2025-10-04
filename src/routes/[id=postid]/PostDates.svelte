@@ -9,8 +9,8 @@
 </script>
 
 <div
-	class="mt-16 flex w-full max-w-[560px] flex-col justify-between gap-2 md:mt-8
-		md:flex-row md:items-center"
+	class="mt-16 flex w-full flex-col justify-between gap-2 md:mt-8 md:flex-row
+		md:items-center"
 >
 	{#snippet dateRender(label: string, date: Date)}
 		<div

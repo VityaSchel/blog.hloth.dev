@@ -66,8 +66,10 @@
 	</div>
 	<Separator />
 	<PostContent content={data.post.content} />
-	<div class="flex w-full flex-col items-center">
-		<PostDates {createdAt} {updatedAt} />
-		<PostReactions bind:value={reactions} />
+	<div class="flex w-full justify-center">
+		<div class="flex w-[680px] max-w-full flex-col">
+			<PostDates {createdAt} {updatedAt} />
+			<PostReactions bind:value={reactions} />
+		</div>
 	</div>
 </article>

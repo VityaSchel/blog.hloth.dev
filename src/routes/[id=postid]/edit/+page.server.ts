@@ -74,7 +74,7 @@ export const actions = {
 			);
 		if (!bodyParsing.success) {
 			return fail(400, {
-				error: z.treeifyError(bodyParsing.error).errors.join("\n"),
+				error: z.prettifyError(bodyParsing.error),
 			});
 		}
 		const body = bodyParsing.data;
@@ -111,7 +111,7 @@ export const actions = {
 				title: postTitleSchema,
 				category: postCategorySchema,
 				readTime: postReadTimeSchema,
-				bannerId: mediaFileIdSchema,
+				banner: mediaFileIdSchema,
 				bannerAlt: postBannerAltSchema,
 				content: postContentSchema,
 				excerpt: postExcerptSchema,
@@ -119,7 +119,7 @@ export const actions = {
 			.safeParseAsync(draft);
 		if (!draftParsing.success) {
 			return fail(400, {
-				error: z.treeifyError(draftParsing.error).errors.join("\n"),
+				error: z.prettifyError(draftParsing.error),
 			});
 		}
 		const post = draftParsing.data;
@@ -133,7 +133,7 @@ export const actions = {
 						title: post.title,
 						category: post.category,
 						readTime: post.readTime,
-						banner: post.bannerId,
+						banner: post.banner,
 						bannerAlt: post.bannerAlt,
 						content: post.content,
 						excerpt: post.excerpt,
@@ -146,7 +146,7 @@ export const actions = {
 					title: post.title,
 					category: post.category,
 					readTime: post.readTime,
-					banner: post.bannerId,
+					banner: post.banner,
 					bannerAlt: post.bannerAlt,
 					content: post.content,
 					excerpt: post.excerpt,
@@ -164,7 +164,7 @@ export const actions = {
 				title: post.title,
 				message: post.excerpt,
 				postedAt: Date.now(),
-				image: getUrl(post.bannerId),
+				image: getUrl(post.banner),
 				url: "https://blog.hloth.dev/" + postId,
 			});
 		}

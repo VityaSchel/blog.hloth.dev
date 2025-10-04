@@ -1,5 +1,5 @@
 {
-  "id": "f9b22332-72f2-4359-8c03-90ecebbae91a",
+  "id": "13a07d37-4dd7-443b-bc99-4e6dae28d6ab",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -356,6 +356,13 @@
           "notNull": true,
           "default": 0
         },
+        "🔥": {
+          "name": "🔥",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
         "👀": {
           "name": "👀",
           "type": "integer",
@@ -379,6 +386,13 @@
         },
         "🚀": {
           "name": "🚀",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "🎉": {
+          "name": "🎉",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,

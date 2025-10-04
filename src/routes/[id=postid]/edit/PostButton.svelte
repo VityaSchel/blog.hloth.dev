@@ -11,11 +11,12 @@
 
 <button
 	class="border-text rounded-full border bg-cream-alt px-6 py-2 text-xl
-		shadow-md not-disabled:cursor-pointer disabled:opacity-50 dark:bg-black-alt"
+		font-medium shadow-md not-disabled:cursor-pointer disabled:opacity-50
+		dark:bg-black-alt"
 	{...props}
 	bind:this={ref}
 >
 	{emoji}
-	&nbsp;&nbsp;
+	&nbsp;
 	{@render props.children?.()}
 </button>

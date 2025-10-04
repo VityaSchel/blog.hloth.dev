@@ -8,7 +8,7 @@
 	} = $props();
 </script>
 
-<div class="relative flex w-[680px] max-w-full flex-col gap-2">
+<div class="relative flex w-full flex-col gap-2">
 	<span class="font-semibold">Excerpt:</span>
 	<textarea
 		bind:value={

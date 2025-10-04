@@ -1,12 +1,12 @@
-import z from 'zod';
-import { json } from '@sveltejs/kit';
-import { reactionSchema } from '$lib/reactions';
-import { powReactions } from '$lib/reactions/server';
+import z from "zod";
+import { json } from "@sveltejs/kit";
+import { reactionSchema } from "$lib/reactions";
+import { powReactions } from "$lib/reactions/server";
 
-export async function POST({ request, params }) {
+export async function POST({ request, params, getClientAddress }) {
 	const body = await z
 		.object({
-			reaction: reactionSchema
+			reaction: reactionSchema,
 		})
 		.safeParseAsync(await request.json());
 
@@ -14,9 +14,9 @@ export async function POST({ request, params }) {
 		return json({ success: false }, { status: 400 });
 	}
 
-	const ip = request.headers.get('x-forwarded-for');
+	const ip = getClientAddress();
 	if (!ip) {
-		return json({ successx: false }, { status: 403 });
+		return json({ success: false }, { status: 403 });
 	}
 
 	const powReaction = powReactions[body.data.reaction];

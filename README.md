@@ -18,9 +18,31 @@ Old React v18 + Next.js v14 version is available under [react18-nextjs14-2024](h
 - PP Mori font by Pangram Pangram Foundry (free for personal use). [License](./static/pp-mori/license.pdf).
 - [Svelte & SvelteKit](https://svelte.dev/) ❤️
 - [Drizzle ORM & Drizzle Kit](https://orm.drizzle.team/) 😼
-- Thank you to all authors of these projects used in my blog: [TailwindCSS](https://tailwindcss.com/), [ESLint](https://eslint.org), [Prettier](https://prettier.io), [Husky](https://typicode.github.io/husky/), [dotenvx](https://dotenvx.com/), [Fontsource](https://fontsource.org/), [cheerio](https://cheerio.js.org/), [plaiceholder](https://plaiceholder.co/docs), [sharp](https://sharp.pixelplumbing.com/), [super-sitemap](https://github.com/jasongitmail/super-sitemap/), [svelte-sonner](https://svelte-sonner.vercel.app/), [xss](https://github.com/leizongmin/js-xss) and [zod](https://zod.dev/).
 - The one and only forever FLOSSy PostgreSQL and postgres JS driver.
-- [Monaco editor](https://microsoft.github.io/monaco-editor) markdown editor — previously I used editor.js and then milkdown.dev and then Carta
+- [Monaco editor](https://microsoft.github.io/monaco-editor) markdown editor — previously I used [editor.js](https://editorjs.io/), then [milkdown.dev](https://milkdown.dev) and then [Carta](https://beartocode.github.io/carta/)
+- Thank you to all authors of these projects used in my blog:
+  - [cheerio](https://cheerio.js.org/)
+  - [hotkeys.js](https://wangchujiang.com/hotkeys-js/)
+  - [dompurify](https://github.com/cure53/DOMPurify)
+  - [isomorphic-dompurify](https://github.com/kkomelin/isomorphic-dompurify)
+  - [ESLint](https://eslint.org)
+  - [Husky](https://typicode.github.io/husky/)
+  - [TailwindCSS](https://tailwindcss.com/)
+  - [Prettier](https://prettier.io)
+  - [dotenvx](https://dotenvx.com/)
+  - [Fontsource](https://fontsource.org/)
+  - [mediainfo.js](https://mediainfo.js.org/)
+  - [monaco-themes](https://github.com/brijeshb42/monaco-themes)
+  - [plaiceholder](https://plaiceholder.co/docs)
+  - [remark](https://github.com/remarkjs/remark)
+  - [unified](https://github.com/unifiedjs/unified)
+  - [unist](https://github.com/syntax-tree/unist)
+  - [mdast](https://github.com/syntax-tree/mdast)
+  - [super-sitemap](https://github.com/jasongitmail/super-sitemap/)
+  - [sharp](https://sharp.pixelplumbing.com/)
+  - [svelte-sonner](https://svelte-sonner.vercel.app/)
+  - [zod](https://zod.dev/)
+  - [web-push](https://github.com/web-push-libs/web-push)
 - A special THANK YOU to [Anthony Fu](https://antfu.me/) for fantastic [shiki](https://github.com/shikijs/shiki) code highlighter!
 
 ## License
