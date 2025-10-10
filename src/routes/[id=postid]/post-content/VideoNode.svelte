@@ -11,14 +11,14 @@
 
 	const { src, ar: aspectRatio } = z
 		.object({
-			src: z.url(),
+			src: z.string(),
 			ar: z.coerce.number().min(0).max(100).default(1),
 		})
 		.parse(node.attributes);
 </script>
 
-<Video {src} {aspectRatio}>
-	{#snippet caption()}
-		<PhrasingContent content={node.children} />
-	{/snippet}
-</Video>
+{#snippet caption()}
+	<PhrasingContent content={node.children} />
+{/snippet}
+<Video {src} {aspectRatio} caption={node.children.length ? caption : undefined}
+></Video>

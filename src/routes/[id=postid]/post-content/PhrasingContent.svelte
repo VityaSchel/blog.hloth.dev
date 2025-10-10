@@ -11,7 +11,8 @@
 		>{:else if node.type === "emphasis"}<em
 			><PhrasingContent content={node.children} /></em
 		>{:else if node.type === "break"}<br />{:else if node.type === "link"}<a
-			href={node.url}><PhrasingContent content={node.children} /></a
+			href={node.url}
+			title={node.title}><PhrasingContent content={node.children} /></a
 		>{:else if node.type === "inlineCode"}<code>{node.value}</code
 		>{:else if node.type === "delete"}<del
 			><PhrasingContent content={node.children} /></del
@@ -23,3 +24,9 @@
 			Unsupported block type: {node.type}
 		</RenderError>
 	{/if}{/each}
+
+<style>
+	a {
+		text-decoration: underline;
+	}
+</style>

@@ -3,6 +3,10 @@ function convertEditorJsToMarkdown() {
 	const stdinBuffer = fs.readFileSync(0);
 	const editorjs = JSON.parse(stdinBuffer.toString());
 
+	function escape(str: string) {
+		return String(str).replace(/"/g, "&quot;");
+	}
+
 	let output = "";
 	for (const block of editorjs.blocks) {
 		switch (block.type) {
@@ -46,17 +50,47 @@ function convertEditorJsToMarkdown() {
 				let caption = block.data.caption.replace(/<br\s*\/?>/gi, "\n").trim();
 				if (caption === "") caption = null;
 				const url = "/files/" + block.data.file.id;
-				output += `![${alt}](${url}${caption ? ` "${caption}"` : ""})\n\n`;
+				if (caption) {
+					caption = `[${caption}]`;
+				} else {
+					caption = "";
+				}
+				const args = [
+					`src="${escape(url)}"`,
+					`alt="${escape(alt)}"`,
+					`width=${escape(block.data.file.width)}`,
+					`height=${escape(block.data.file.height)}`,
+				];
+				output += `::img${caption}{${args.join(" ")}}\n\n`;
 				break;
 			}
-			case "embed":
-				output += "TODO: embed\n\n";
+			case "embed": {
+				const args = [
+					`url="${escape(block.data.embed)}"`,
+					`ar=${block.data.width / block.data.height}`,
+				];
+				if (block.data.service !== "youtube") {
+					args.push(`service="${escape(block.data.service)}"`);
+				}
+				let caption = "";
+				if (block.data.caption) {
+					caption = `[${block.data.caption.replaceAll(/]/g, "\\]")}]`;
+				}
+				output += `::embed${caption}{${args.join(" ")}}\n\n`;
 				break;
-			case "video":
-				// output += "TODO: video\n\n";
-				output += `![${block.data.caption || "Video"}](${"/files/" + block.data.file.id})\n\n`;
+			}
+			case "video": {
+				let caption = "";
+				if (block.data.caption) {
+					caption = `[${block.data.caption.replaceAll(/]/g, "\\]")}]`;
+				}
+				const args = [
+					`src="/files/${escape(block.data.file.id)}"`,
+					`ar=${block.data.aspectRatio}`,
+				];
+				output += `::video${caption}{${args.join(" ")}}\n\n`;
 				break;
-
+			}
 			default:
 				throw new Error(
 					`Unsupported block type: ${block.type}: ${JSON.stringify(block)}`,

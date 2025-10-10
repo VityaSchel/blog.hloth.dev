@@ -18,6 +18,7 @@
 	import ModeSwitch from "./ModeSwitch.svelte";
 	import PostContent from "../post-content/PostContent.svelte";
 	import PageMetadata from "$lib/components/PageMetadata.svelte";
+	import HighlightRenderErrors from "./HighlightRenderErrors.svelte";
 
 	let {
 		draft,
@@ -157,7 +158,9 @@
 					onSave={() => saveButton?.click()}
 				/>
 			{:else if editorMode === "preview"}
-				<PostContent {content} />
+				<HighlightRenderErrors>
+					<PostContent {content} />
+				</HighlightRenderErrors>
 			{:else if editorMode === "diff"}
 				<DiffEditor
 					{content}

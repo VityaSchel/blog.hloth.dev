@@ -13,7 +13,7 @@
 </script>
 
 <div class="flex w-full justify-center">
-	<div class="article-content w-full max-w-[680px]">
+	<div class="article-content w-full max-w-[680px] break-words">
 		{#each root.children as node (node)}
 			<AstNode {node} />
 		{/each}

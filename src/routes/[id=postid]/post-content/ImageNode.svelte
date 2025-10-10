@@ -18,7 +18,7 @@
 {:else}
 	{@const { width, height, alt, src, background, border } = z
 		.object({
-			src: z.url(),
+			src: z.string(),
 			alt: z.string().min(1, "alt is required"),
 			width: z.coerce.number().int(),
 			height: z.coerce.number().int(),
@@ -35,12 +35,19 @@
 	{#if !alt}
 		<RenderError>Image without alt is not allowed</RenderError>
 	{:else}
-		<Image {src} {width} {height} {alt} {background} {border}>
-			{#snippet caption()}
-				{#if node.children.length}
-					<PhrasingContent content={node.children} />
-				{/if}
-			{/snippet}
-		</Image>
+		{#snippet caption()}
+			{#if node.children.length}
+				<PhrasingContent content={node.children} />
+			{/if}
+		{/snippet}
+		<Image
+			{src}
+			{width}
+			{height}
+			{alt}
+			{background}
+			{border}
+			caption={node.children.length ? caption : undefined}
+		></Image>
 	{/if}
 {/if}

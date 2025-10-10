@@ -16,7 +16,7 @@
 		background?: boolean;
 		border?: boolean;
 		alt: string;
-		caption: import("svelte").Snippet;
+		caption?: import("svelte").Snippet;
 	} = $props();
 
 	const stretched = $derived(!background);

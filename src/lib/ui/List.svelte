@@ -24,3 +24,25 @@
 		</li>
 	{/each}
 </svelte:element>
+
+<style>
+	ul {
+		list-style-type: disc;
+	}
+
+	ol {
+		list-style-type: decimal;
+	}
+
+	ul,
+	ol {
+		padding-inline-start: 32px;
+		margin: 16px 0;
+		padding-top: 0px;
+		padding-bottom: 0px;
+		padding-inline-end: 0px;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+</style>
