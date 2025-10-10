@@ -12,6 +12,7 @@
 	import ImageNode from "./ImageNode.svelte";
 	import ListNode from "./ListNode.svelte";
 
+	import VideoNode from "./VideoNode.svelte";
 	import EmbedNode from "./EmbedNode.svelte";
 	// import RichLink from "$lib/ui/RichLink.svelte";
 	// import Warning from "$lib/ui/Warning.svelte";
@@ -31,13 +32,6 @@
 	<ParagraphNode {node} />
 {:else if node.type === "image"}
 	<ImageNode {node} />
-	<!-- TODO: add video -->
-	<!-- {:else if node.type === "video"}
-		<Video
-			url={getUrl(node.data.file.id)}
-			caption={node.data.caption}
-			aspectRatio={node.data.aspectRatio}
-		/> -->
 	<!--  TODO: add blockquote -->
 	<!-- {:else if node.type === "blockquote"}
 				<Quote caption={node.} content={node.children} /> -->
@@ -83,6 +77,8 @@
 			<EmbedNode {node} />
 		{:else if node.name === "img"}
 			<ImageNode {node} />
+		{:else if node.name === "video"}
+			<VideoNode {node} />
 		{:else}
 			<RenderError>Unknown directive: {node.name}</RenderError>
 		{/if}
