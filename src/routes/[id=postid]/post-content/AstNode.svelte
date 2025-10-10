@@ -18,9 +18,9 @@
 	import RenderError from "./RenderError.svelte";
 	// import Code from "$lib/ui/Code.svelte";
 	import CodeNode from "./CodeNode.svelte";
-	// import Paywall from "$lib/ui/Paywall.svelte";
 	import VideoNode from "./VideoNode.svelte";
 	import EmbedNode from "./EmbedNode.svelte";
+	import PaywallNode from "./PaywallNode.svelte";
 </script>
 
 {#if node.type === "heading"}
@@ -72,6 +72,8 @@
 			<ImageNode {node} />
 		{:else if node.name === "video"}
 			<VideoNode {node} />
+		{:else if node.name === "paywall"}
+			<PaywallNode {node} />
 		{:else}
 			<RenderError>Unknown directive: {node.name}</RenderError>
 		{/if}
