@@ -1,19 +1,17 @@
-<!-- <script lang="ts">
-	import { browser } from '$app/environment';
-	import { sanitize } from '$lib/sanitizer';
+<script lang="ts">
+	import { browser } from "$app/environment";
+	import PhrasingContent from "../../routes/[id=postid]/post-content/PhrasingContent.svelte";
 
 	let {
-		width,
-		height,
+		aspectRatio,
 		url,
 		title,
-		caption
+		caption,
 	}: {
-		width: number;
-		height: number;
+		aspectRatio: number;
 		url: string;
 		title: string;
-		caption: string;
+		caption?: import("mdast").PhrasingContent[];
 	} = $props();
 
 	let load = $state(false);
@@ -43,10 +41,10 @@
 							text-black
 						`,
 						{
-							'border-neutral-600 bg-neutral-500 text-neutral-800 opacity-80 grayscale-100':
+							"border-neutral-600 bg-neutral-500 text-neutral-800 opacity-80 grayscale-100":
 								!browser,
-							'cursor-pointer border-slate-700 bg-white': browser
-						}
+							"cursor-pointer border-slate-700 bg-white": browser,
+						},
 					]}
 					disabled={!browser}
 					onclick={() => (load = true)}
@@ -79,15 +77,15 @@
 		<iframe
 			src={url}
 			frameborder="0"
-			{width}
-			{height}
 			{title}
 			sandbox="allow-orientation-lock allow-presentation allow-scripts allow-same-origin"
 			allow="picture-in-picture; fullscreen; autoplay"
-			style="max-width: 100%; aspect-ratio: {width / height}; height: auto;"
+			style="width: 100%; aspect-ratio: {aspectRatio}; height: auto;"
 		></iframe>
 	{/if}
-	<figcaption>
-		{caption}
-	</figcaption>
-</figure> -->
+	{#if caption?.length}
+		<figcaption>
+			<PhrasingContent content={caption} />
+		</figcaption>
+	{/if}
+</figure>

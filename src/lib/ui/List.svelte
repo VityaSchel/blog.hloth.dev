@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AstNode from "../../routes/[id=postid]/AstNode.svelte";
+	import AstNode from "../../routes/[id=postid]/post-content/AstNode.svelte";
 
 	let {
 		style,

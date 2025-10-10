@@ -1,38 +1,43 @@
 <script lang="ts">
+	import z, { ZodError } from "zod";
+
 	let {
 		node,
 	}: {
 		node: import("mdast").RootContent;
 	} = $props();
 
-	import Heading from "$lib/ui/Heading.svelte";
+	import HeadingNode from "./HeadingNode.svelte";
+	import ParagraphNode from "./ParagraphNode.svelte";
+	import ImageNode from "./ImageNode.svelte";
+	import ListNode from "./ListNode.svelte";
+
+	import EmbedNode from "./EmbedNode.svelte";
 	// import RichLink from "$lib/ui/RichLink.svelte";
-	import Paragraph from "$lib/ui/Paragraph.svelte";
 	// import Warning from "$lib/ui/Warning.svelte";
 	// import Video from "$lib/ui/Video.svelte";
-	import Image from "$lib/ui/Image.svelte";
 	// import Quote from "$lib/ui/Quote.svelte";
 	import Separator from "$lib/ui/Separator.svelte";
-	import UnsupportedPlaceholder from "./UnsupportedPlaceholder.svelte";
+	import RenderError from "./RenderError.svelte";
 	import Code from "$lib/ui/Code.svelte";
 	// import Paywall from "$lib/ui/Paywall.svelte";
-	import List from "$lib/ui/List.svelte";
-	// import IsolatedIframe from "$lib/ui/IsolatedIframe.svelte";
+
+	$inspect(node);
 </script>
 
 {#if node.type === "heading"}
-	<Heading depth={node.depth} content={node.children} />
+	<HeadingNode {node} />
 {:else if node.type === "paragraph"}
-	<Paragraph content={node.children} />
+	<ParagraphNode {node} />
 {:else if node.type === "image"}
-	<Image {node} />
+	<ImageNode {node} />
 	<!-- TODO: add video -->
 	<!-- {:else if node.type === "video"}
-				<Video
-					url={getUrl(node.data.file.id)}
-					caption={node.data.caption}
-					aspectRatio={node.data.aspectRatio}
-				/> -->
+		<Video
+			url={getUrl(node.data.file.id)}
+			caption={node.data.caption}
+			aspectRatio={node.data.aspectRatio}
+		/> -->
 	<!--  TODO: add blockquote -->
 	<!-- {:else if node.type === "blockquote"}
 				<Quote caption={node.} content={node.children} /> -->
@@ -42,23 +47,13 @@
 	<Code language={node.lang} code={node.value} ssr="" />
 	<!-- TODO: ssr code -->
 {:else if node.type === "list"}
-	<List
-		style={node.ordered ? "ordered" : "unordered"}
-		start={node.start}
-		items={node.children}
-	/>
+	<ListNode {node} />
 	<!-- TODO: add paywall -->
 	<!-- {:else if node.type === "paywall"}
 		<Paywall links={node.data.links} /> -->
 	<!-- TODO: add embed -->
 	<!-- {:else if node.type === "embed"}
-		<IsolatedIframe
-			url={node.data.embed}
-			width={node.data.width}
-			height={node.data.height}
-			title="Embedded {node.data.service} frame"
-			caption={node.data.caption}
-		/> -->
+		 -->
 	<!-- TODO: add warning -->
 	<!-- {:else if node.type === "warning"}
 		<Warning title={node.data.title} message={node.data.message} /> -->
@@ -70,8 +65,30 @@
 			description={node.data.meta.description}
 			imageUrl={node.data.meta.image?.url}
 		/> -->
+{:else if node.type === "leafDirective"}
+	<svelte:boundary>
+		{#snippet failed(error)}
+			<RenderError>
+				at {node.name}
+				<br />{#if error instanceof ZodError}
+					{z.prettifyError(error)}
+				{:else if error instanceof Error}
+					{error.message}
+				{:else}
+					{String(error)}
+				{/if}
+			</RenderError>
+		{/snippet}
+		{#if node.name === "embed"}
+			<EmbedNode {node} />
+		{:else if node.name === "img"}
+			<ImageNode {node} />
+		{:else}
+			<RenderError>Unknown directive: {node.name}</RenderError>
+		{/if}
+	</svelte:boundary>
 {:else}
-	<UnsupportedPlaceholder>
+	<RenderError>
 		Unknown block type: {node.type}
-	</UnsupportedPlaceholder>
+	</RenderError>
 {/if}

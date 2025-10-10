@@ -1,20 +1,17 @@
 <script lang="ts">
-	import PhrasingContent from "$lib/ui/PhrasingContent.svelte";
-	import { toString } from "mdast-util-to-string";
-
 	let {
 		depth,
-		content,
+		children,
+		id,
 	}: {
 		depth: number;
-		content: import("mdast").PhrasingContent[];
+		children: import("svelte").Snippet;
+		id: string;
 	} = $props();
-
-	let id = $derived(toString(content).toLowerCase().replace(/\s/g, "-"));
 </script>
 
 <svelte:element this={"h" + depth} class="group">
-	<PhrasingContent {content} />
+	{@render children()}
 	<a
 		{id}
 		href="#{id}"

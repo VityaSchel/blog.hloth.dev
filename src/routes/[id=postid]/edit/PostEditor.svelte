@@ -16,7 +16,7 @@
 	import FormError from "$lib/ui/FormError.svelte";
 	import type { Draft } from "$lib/post";
 	import ModeSwitch from "./ModeSwitch.svelte";
-	import PostContent from "../PostContent.svelte";
+	import PostContent from "../post-content/PostContent.svelte";
 	import PageMetadata from "$lib/components/PageMetadata.svelte";
 
 	let {
@@ -147,7 +147,7 @@
 	</div>
 	<Separator />
 	<div class="flex w-full justify-center">
-		<div class="w-[680px]">
+		<div class="w-full max-w-[680px]">
 			<ModeSwitch bind:value={editorMode} />
 			{#if editorMode === "edit"}
 				<ContentEditor
@@ -171,7 +171,7 @@
 	<Separator />
 	<div class="flex w-full justify-center">
 		<form
-			class="flex w-[680px] max-w-full flex-col items-center gap-6"
+			class="flex w-full max-w-[680px] flex-col items-center gap-6"
 			method="POST"
 			use:enhance={() => {
 				submitting = true;
@@ -210,7 +210,7 @@
 			{/if}
 			<ExcerptEditor bind:value={excerpt} {disabled} />
 			{#if error}
-				<FormError>{error}</FormError>
+				<FormError class="w-full">{error}</FormError>
 			{/if}
 			<div class="flex w-full justify-between">
 				<PostButton

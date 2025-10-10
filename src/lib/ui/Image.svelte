@@ -1,56 +1,58 @@
 <script lang="ts">
-	import UnsupportedPlaceholder from "../../routes/[id=postid]/UnsupportedPlaceholder.svelte";
-
-	// import { getUrl, type Image } from "$lib/media";
 	import LazyImage from "$lib/ui/LazyImage.svelte";
 
 	let {
-		node,
+		src,
+		width,
+		height,
+		alt,
+		background,
+		border,
+		caption,
 	}: {
-		node: import("mdast").Image;
+		src: string;
+		width: number;
+		height: number;
+		background?: boolean;
+		border?: boolean;
+		alt: string;
+		caption: import("svelte").Snippet;
 	} = $props();
 
-	const border = false;
-	const background = false;
-
-	const stretched = false; //$derived(!node.background);
+	const stretched = $derived(!background);
 
 	const imgProps: { width: number; height: number } | { aspectRatio: number } =
 		$derived(
 			stretched
-				? { aspectRatio: 0 /*file.width / file.height*/ }
-				: { width: /*file.width*/ 0, height: /*file.height*/ 0 },
+				? { aspectRatio: width / height }
+				: { width: width, height: height },
 		);
 </script>
 
-{#if node.alt}
-	<figure>
-		<div
-			class={[
-				"w-full",
-				{
-					border,
-					"flex h-fit max-h-[500px] items-center justify-center overflow-clip rounded-lg bg-white p-4":
-						background,
-				},
-			]}
-		>
-			<!-- TODO: placeholder -->
-			<LazyImage
-				src={node.url}
-				placeholder=""
-				alt={node.alt}
-				sizes={background ? undefined : "(max-width: 728px) 100vw, 680px"}
-				rounded={!background}
-				{...imgProps}
-			/>
-		</div>
-		{#if node.title}
-			<figcaption>
-				{node.title}
-			</figcaption>
-		{/if}
-	</figure>
-{:else}
-	<UnsupportedPlaceholder>Image without alt!</UnsupportedPlaceholder>
-{/if}
+<figure>
+	<div
+		class={[
+			"w-full",
+			{
+				border,
+				[`flex h-fit max-h-[500px] items-center justify-center overflow-clip
+		rounded-lg bg-white p-4`]: background,
+			},
+		]}
+	>
+		<!-- TODO: placeholder -->
+		<LazyImage
+			{src}
+			placeholder=""
+			{alt}
+			sizes={background ? undefined : "(max-width: 728px) 100vw, 680px"}
+			rounded={!background}
+			{...imgProps}
+		/>
+	</div>
+	{#if caption}
+		<figcaption>
+			{@render caption()}
+		</figcaption>
+	{/if}
+</figure>

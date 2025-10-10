@@ -1,11 +1,20 @@
 <script lang="ts">
 	import { fade } from "svelte/transition";
 
-	let { children }: { children?: import("svelte").Snippet } = $props();
+	let {
+		children,
+		...props
+	}: {
+		children?: import("svelte").Snippet;
+	} & import("svelte/elements").SvelteHTMLElements["span"] = $props();
 </script>
 
 <span
-	class="w-full font-medium wrap-break-word whitespace-pre-wrap text-red-600"
+	{...props}
+	class={[
+		"font-medium wrap-break-word whitespace-pre-wrap text-red-600",
+		props.class,
+	]}
 	in:fade
 >
 	{@render children?.()}

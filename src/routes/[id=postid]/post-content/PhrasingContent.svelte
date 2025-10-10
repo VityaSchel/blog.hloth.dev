@@ -1,7 +1,7 @@
 <script lang="ts">
 	import PhrasingContent from "./PhrasingContent.svelte";
-	import Image from "$lib/ui/Image.svelte";
-	import UnsupportedPlaceholder from "../../routes/[id=postid]/UnsupportedPlaceholder.svelte";
+	import ImageNode from "./ImageNode.svelte";
+	import RenderError from "./RenderError.svelte";
 
 	let { content }: { content: import("mdast").PhrasingContent[] } = $props();
 </script>
@@ -15,12 +15,11 @@
 		>{:else if node.type === "inlineCode"}<code>{node.value}</code
 		>{:else if node.type === "delete"}<del
 			><PhrasingContent content={node.children} /></del
-		>{:else if node.type === "image"}<Image
+		>{:else if node.type === "image"}<ImageNode
 			{node}
 		/>{:else if node.type === "footnoteReference"}
-		<sup><a href="#footnote-{node.identifier}">{node.label}</a></sup
-		>{:else if ["linkReference", "imageReference", "html"].includes(node.type)}
-		<UnsupportedPlaceholder>
+		<sup><a href="#footnote-{node.identifier}">{node.label}</a></sup>{:else}
+		<RenderError>
 			Unsupported block type: {node.type}
-		</UnsupportedPlaceholder>
+		</RenderError>
 	{/if}{/each}

@@ -6,7 +6,7 @@
 	import ReadTime from "$lib/components/ReadTime.svelte";
 	import LazyImage from "$lib/ui/LazyImage.svelte";
 	import Separator from "$lib/ui/Separator.svelte";
-	import PostContent from "./PostContent.svelte";
+	import PostContent from "./post-content/PostContent.svelte";
 	import PostReactions from "./PostReactions.svelte";
 	import Me from "$lib/components/Me.svelte";
 	import PostMetadata from "./PostMetadata.svelte";
@@ -67,7 +67,7 @@
 	<Separator />
 	<PostContent content={data.post.content} />
 	<div class="flex w-full justify-center">
-		<div class="flex w-[680px] max-w-full flex-col">
+		<div class="flex w-full max-w-[680px] flex-col">
 			<PostDates {createdAt} {updatedAt} />
 			<PostReactions bind:value={reactions} />
 		</div>

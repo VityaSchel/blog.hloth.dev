@@ -1,30 +1,23 @@
-import { and, eq, desc, ne } from 'drizzle-orm';
-import { postsTable, type Category } from '$lib/server/db/schema';
-import { getPosts } from '$lib/server/blog';
+import { eq, desc } from "drizzle-orm";
+import { postsTable } from "$lib/server/db/schema";
+import { getPosts } from "$lib/server/blog";
+import type { CategoryValue } from "$lib/categories";
 
 export async function loadPosts({
 	category,
-	visibility
 }: {
-	category?: Category;
-	visibility?: 'public' | 'admin' | 'drafts';
+	category?: CategoryValue;
+	visibility?: "public" | "admin" | "drafts";
 }) {
 	const posts = await getPosts({
 		conditions: {
-			where: and(
-				eq(postsTable.visibility, 'published'),
+			where:
 				category !== undefined ? eq(postsTable.category, category) : undefined,
-				visibility === 'public'
-					? eq(postsTable.visibility, 'published')
-					: visibility === 'drafts'
-						? eq(postsTable.visibility, 'hidden')
-						: ne(postsTable.visibility, 'hidden')
-			),
-			orderBy: desc(postsTable.createdAt)
+			orderBy: desc(postsTable.createdAt),
 		},
-		content: false
+		content: false,
 	});
 	return {
-		posts
+		posts,
 	};
 }
