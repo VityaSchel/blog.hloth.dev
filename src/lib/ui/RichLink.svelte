@@ -3,7 +3,7 @@
 		title,
 		href,
 		description,
-		imageUrl
+		imageUrl,
 	}: {
 		title?: string;
 		href: string;
@@ -17,10 +17,8 @@
 		{href}
 		rel="noopener noreferrer nofollow"
 		target="_blank"
-		class="
-			box-shadow rich-link block rounded-md bg-white p-[25px]
-			dark:bg-black-alt
-		"
+		class="box-shadow rich-link block rounded-md bg-white p-[25px]
+			dark:bg-black-alt"
 	>
 		{#if imageUrl}
 			<img
@@ -30,16 +28,15 @@
 			/>
 		{/if}
 		<span
-			class="block flex-1 text-[17px] leading-[1.5em] font-semibold no-underline"
+			class="block flex-1 text-[17px] leading-[1.5em] font-semibold
+				no-underline"
 		>
 			{title}
 		</span>
 		<p class="line-clamp-3 font-text text-[15px]">{description}</p>
 		<span
-			class="
-				block h-[15px] text-[15px] leading-[1em] text-[#888]
-				dark:text-cream-alt
-			"
+			class="block h-[15px] text-[15px] leading-[1em] text-[#888]
+				dark:text-cream-alt"
 		>
 			{new URL(href).hostname}
 		</span>
