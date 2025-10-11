@@ -1,7 +1,7 @@
 <script lang="ts">
 	import PhrasingContent from "./PhrasingContent.svelte";
 	import ImageNode from "./ImageNode.svelte";
-	import RenderError from "./RenderError.svelte";
+	import AstNode from "./AstNode.svelte";
 
 	let { content }: { content: import("mdast").PhrasingContent[] } = $props();
 </script>
@@ -20,9 +20,7 @@
 			{node}
 		/>{:else if node.type === "footnoteReference"}
 		<sup><a href="#footnote-{node.identifier}">{node.label}</a></sup>{:else}
-		<RenderError>
-			Unknown phrasing content node type: {node.type}
-		</RenderError>
+		<AstNode {node} />
 	{/if}{/each}
 
 <style>

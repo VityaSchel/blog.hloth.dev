@@ -78,7 +78,7 @@
 	node: DirectivesNodeMap[T],
 )}
 	{@const directiveComponents = directivesComponents[directiveName]}
-	{#if directiveComponents && node.name in directiveComponents}
+	{#if directiveComponents}
 		{#if node.name === "author" && !allowAuthor}
 			<RenderError>Author directive is not allowed here.</RenderError>
 		{:else}
@@ -87,14 +87,21 @@
 				<Component {node} />
 			{:else}
 				<RenderError>
-					<!-- TODO: hint that it's in other directive -->
-					Unknown {directiveName}: {node.name}
+					{#if node.name in directivesComponents.containerDirective}
+						:::{node.name} is a container directive, not {directiveName}.
+					{:else if node.name in directivesComponents.leafDirective}
+						::{node.name} is a leaf directive, not {directiveName}.
+					{:else if node.name in directivesComponents.textDirective}
+						:{node.name} is a text directive, not {directiveName}.
+					{:else}
+						Unknown {directiveName}: {node.name}
+					{/if}
 				</RenderError>
 			{/if}
 		{/if}
 	{:else}
 		<RenderError>
-			Unknown directive type: {node.type}
+			Unknown directive type: {directiveName}
 		</RenderError>
 	{/if}
 {/snippet}
