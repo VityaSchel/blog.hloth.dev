@@ -3,7 +3,6 @@
 	import remarkParse from "remark-parse";
 	import remarkDirective from "remark-directive";
 	import AstNode from "./AstNode.svelte";
-	// import { getUrl } from "$lib/media";
 
 	let { content }: { content: string } = $props();
 

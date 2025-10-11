@@ -3,8 +3,10 @@
 
 	let {
 		node,
+		allowAuthor = false,
 	}: {
 		node: import("mdast").RootContent;
+		allowAuthor: boolean;
 	} = $props();
 
 	import HeadingNode from "./HeadingNode.svelte";
@@ -13,7 +15,6 @@
 	import ListNode from "./ListNode.svelte";
 	// import RichLink from "$lib/ui/RichLink.svelte";
 	// import Warning from "$lib/ui/Warning.svelte";
-	// import Quote from "$lib/ui/Quote.svelte";
 	import Separator from "$lib/ui/Separator.svelte";
 	import RenderError from "./RenderError.svelte";
 	// import Code from "$lib/ui/Code.svelte";
@@ -21,6 +22,8 @@
 	import VideoNode from "./VideoNode.svelte";
 	import EmbedNode from "./EmbedNode.svelte";
 	import PaywallNode from "./PaywallNode.svelte";
+	import QuoteNode from "./QuoteNode.svelte";
+	import BlockquoteAuthorNode from "./BlockquoteAuthorNode.svelte";
 </script>
 
 {#if node.type === "heading"}
@@ -29,18 +32,14 @@
 	<ParagraphNode {node} />
 {:else if node.type === "image"}
 	<ImageNode {node} />
-	<!--  TODO: add blockquote -->
-	<!-- {:else if node.type === "blockquote"}
-				<Quote caption={node.} content={node.children} /> -->
+{:else if node.type === "blockquote"}
+	<QuoteNode {node} />
 {:else if node.type === "thematicBreak"}
 	<Separator variant="asterisk" />
 {:else if node.type === "code"}
 	<CodeNode {node} />
 {:else if node.type === "list"}
 	<ListNode {node} />
-	<!-- TODO: add paywall -->
-	<!-- {:else if node.type === "paywall"}
-		<Paywall links={node.data.links} /> -->
 	<!-- TODO: add warning -->
 	<!-- {:else if node.type === "warning"}
 		<Warning title={node.data.title} message={node.data.message} /> -->
@@ -74,10 +73,18 @@
 			<VideoNode {node} />
 		{:else if node.name === "paywall"}
 			<PaywallNode {node} />
+		{:else if node.name === "author"}
+			{#if allowAuthor}
+				<BlockquoteAuthorNode {node} />
+			{:else}
+				<RenderError>Author directive is not allowed here</RenderError>
+			{/if}
 		{:else}
-			<RenderError>Unknown directive: {node.name}</RenderError>
+			<RenderError>Unknown leaf directive: {node.name}</RenderError>
 		{/if}
 	</svelte:boundary>
+{:else if node.type === "textDirective"}
+	<RenderError>Unknown text directive: {node.name}</RenderError>
 {:else}
 	<RenderError>
 		Unknown block type: {node.type}

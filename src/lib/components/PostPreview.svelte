@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { formatTitle } from "$lib/formatter";
-	import { getUrl, type Image } from "$lib/media";
+	import { type Image } from "$lib/media";
 	import Category from "$lib/components/Category.svelte";
 	import ReadTimer from "$lib/components/ReadTime.svelte";
 	import LazyImage from "$lib/ui/LazyImage.svelte";
@@ -98,7 +98,7 @@
 					w-full overflow-clip"
 			>
 				<LazyImage
-					src={getUrl(banner.id)}
+					src="/files/{banner.id}"
 					placeholder={banner.placeholder}
 					fill
 					alt={bannerAlt}

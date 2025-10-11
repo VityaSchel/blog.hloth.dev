@@ -11,7 +11,7 @@ import {
 	postReadTimeSchema,
 	postTitleSchema,
 } from "$lib/zod";
-import { getUrl, mediaFileIdSchema } from "$lib/media";
+import { mediaFileIdSchema } from "$lib/media";
 import { broadcastNewPostNotification } from "$lib/push-notifications/push.server";
 import { createReactionsRowForPost } from "$lib/reactions/server";
 import { getDraft, isExistingId } from "$lib/server/blog";
@@ -164,7 +164,7 @@ export const actions = {
 				title: post.title,
 				message: post.excerpt,
 				postedAt: Date.now(),
-				image: getUrl(post.banner),
+				image: `/files/${post.banner}`,
 				url: "https://blog.hloth.dev/" + postId,
 			});
 		}

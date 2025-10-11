@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getUrl, mediaFileIdSchema } from "$lib/media";
+	import { mediaFileIdSchema } from "$lib/media";
 	import { z } from "zod";
 
 	let {
@@ -12,7 +12,7 @@
 		disabled?: boolean;
 	} = $props();
 
-	let img: string | null = $derived(value ? getUrl(value) : null);
+	let img: string | null = $derived(value ? `/files/${value}` : null);
 
 	let progress = $state(0);
 	let uploading = $state(false);

@@ -1,16 +1,13 @@
 <script lang="ts">
 	let {
-		caption,
 		children,
 	}: {
-		caption: string;
 		children: import("svelte").Snippet;
 	} = $props();
 </script>
 
 <blockquote>
-	<p>{@render children()}</p>
-	<footer>— {caption}</footer>
+	{@render children()}
 </blockquote>
 
 <style>
@@ -20,7 +17,7 @@
 		margin: 32px 0;
 		font-family: var(--font-serif);
 
-		p {
+		:global(p) {
 			font-style: italic;
 			font-weight: 500;
 			font-size: 31px;
@@ -36,20 +33,15 @@
 				content: "“";
 				font-size: 36px;
 				vertical-align: middle;
-				margin-right: 4px;
+				margin-right: 6px;
 			}
 
 			&::after {
 				content: "”";
 				font-size: 36px;
 				vertical-align: bottom;
-				margin-left: 4px;
+				margin-left: 3px;
 			}
-		}
-
-		footer {
-			margin-top: 30px;
-			font-size: 18px;
 		}
 	}
 </style>

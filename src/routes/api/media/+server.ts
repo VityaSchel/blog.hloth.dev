@@ -4,7 +4,6 @@ import { STORAGE_PATH } from "$env/static/private";
 import fs from "fs/promises";
 import path from "path";
 import { type DbMedia } from "$lib/server/db/schema";
-import { getUrl } from "$lib/media";
 import { insertMedia, processImage, processVideo } from "$lib/server/media";
 
 export async function POST({ url, locals, request }) {
@@ -111,7 +110,7 @@ export async function POST({ url, locals, request }) {
 			success: 1,
 			file: {
 				id,
-				url: getUrl(id),
+				url: `/files/${id}`,
 				...result.meta,
 			},
 		});

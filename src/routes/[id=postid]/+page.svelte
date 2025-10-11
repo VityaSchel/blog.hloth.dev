@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { getUrl } from "$lib/media";
 	import AppBar from "$lib/components/AppBar.svelte";
 	import Category from "$lib/components/Category.svelte";
 	import PageViews from "$lib/components/PageViews.svelte";
@@ -19,7 +18,7 @@
 	const nextPost = $derived(data.nextPost);
 	const banner = $derived(data.post.banner);
 	const bannerAlt = $derived(data.post.bannerAlt);
-	const bannerUrl = $derived(getUrl(banner.id));
+	const bannerUrl = $derived(`/files/${banner.id}`);
 	const createdAt = $derived(new Date(post.createdAt));
 	const updatedAt = $derived(
 		post.createdAt === post.updatedAt ? null : new Date(post.updatedAt),

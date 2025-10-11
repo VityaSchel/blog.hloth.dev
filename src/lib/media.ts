@@ -1,4 +1,3 @@
-import { PUBLIC_STORAGE_URL } from "$env/static/public";
 import { noNullCharacter } from "$lib/zod";
 import { z } from "zod";
 
@@ -25,13 +24,3 @@ export const videoSchema = z.object({
 
 export type Image = z.infer<typeof imageSchema>;
 export type Video = z.infer<typeof videoSchema>;
-
-// TODO: replace
-export const getUrl = (id: string) => {
-	const url = new URL(id, new URL(PUBLIC_STORAGE_URL, "http://dummy.local"));
-	if (url.hostname === "dummy.local") {
-		return url.pathname;
-	} else {
-		return url.toString();
-	}
-};
