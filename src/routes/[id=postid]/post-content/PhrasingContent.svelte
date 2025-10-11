@@ -21,7 +21,7 @@
 		/>{:else if node.type === "footnoteReference"}
 		<sup><a href="#footnote-{node.identifier}">{node.label}</a></sup>{:else}
 		<RenderError>
-			Unsupported block type: {node.type}
+			Unknown phrasing content node type: {node.type}
 		</RenderError>
 	{/if}{/each}
 

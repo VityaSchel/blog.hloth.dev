@@ -73,7 +73,7 @@
 	};
 </script>
 
-{#snippet directiveRender<T extends Directives["type"]>(
+{#snippet renderDirective<T extends Directives["type"]>(
 	directiveName: T,
 	node: DirectivesNodeMap[T],
 )}
@@ -83,27 +83,40 @@
 			<RenderError>Author directive is not allowed here.</RenderError>
 		{:else}
 			{@const Component = directiveComponents[node.name]}
-			<Component {node} />
+			{#if Component}
+				<Component {node} />
+			{:else}
+				<RenderError>
+					<!-- TODO: hint that it's in other directive -->
+					Unknown {directiveName}: {node.name}
+				</RenderError>
+			{/if}
 		{/if}
 	{:else}
-		<!-- TODO: hint that it's in other directive -->
 		<RenderError>
 			Unknown directive type: {node.type}
 		</RenderError>
 	{/if}
 {/snippet}
 
-{#snippet componentRender<T extends keyof RootContentMap>(
+{#snippet renderComponent<T extends keyof RootContentMap>(
 	componentType: T,
 	node: RootContentMap[T],
 )}
 	{@const Component = components[componentType]}
 	<Component {node} />
 {/snippet}
+
 <svelte:boundary>
 	{#snippet failed(error)}
 		<RenderError>
-			at node.name
+			at
+			{#if ["containerDirective", "leafDirective", "textDirective"].includes(node.type)}
+				{@const directive = node as Directives}
+				{directive.name}
+			{:else}
+				{node.type}
+			{/if}
 			<br />{#if error instanceof ZodError}
 				{z.prettifyError(error)}
 			{:else if error instanceof Error}
@@ -114,19 +127,13 @@
 		</RenderError>
 	{/snippet}
 	{#if node.type in components}
-		{@render componentRender(node.type, node)}
+		{@render renderComponent(node.type, node)}
 	{:else if node.type in directivesComponents}
-		{#if node.type === "containerDirective"}
-			{@render directiveRender("containerDirective", node)}
-		{:else if node.type === "leafDirective"}
-			{@render directiveRender("leafDirective", node)}
-		{:else if node.type === "textDirective"}
-			{@render directiveRender("textDirective", node)}
-		{:else}
-			<RenderError>
-				Unknown directive node: {node.type}
-			</RenderError>
-		{/if}
+		{@const directiveNodeType = node.type as Directives["type"]}
+		{@render renderDirective(
+			directiveNodeType,
+			node as DirectivesNodeMap[typeof directiveNodeType],
+		)}
 	{:else}
 		<RenderError>Unknown block type: {node.type}</RenderError>
 	{/if}
