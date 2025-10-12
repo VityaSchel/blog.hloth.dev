@@ -9,7 +9,8 @@
 			"$components/*": ["src/components/*"],
 			"$layouts/*": ["src/layouts/*"],
 			"$assets/*": ["src/assets/*"],
-			"$styles/*": ["src/styles/*"]
+			"$styles/*": ["src/styles/*"],
+			"$consts": ["src/consts.ts"],
 		}
 	}
 }
