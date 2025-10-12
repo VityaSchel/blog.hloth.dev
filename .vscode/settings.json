@@ -1,0 +1,30 @@
+{
+	"editor.tabCompletion": "on",
+	"files.associations": {
+		"global.css": "tailwindcss"
+	},
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit"
+	},
+	"editor.quickSuggestions": {
+		"strings": "on"
+	},
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[svelte]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"editor.formatOnSave": true,
+	"svg.preview.background": "transparent",
+	"typescript.preferences.importModuleSpecifierEnding": "minimal",
+	"search.exclude": {
+		"**/node_modules": true,
+		"**/.husky/_": true,
+		"**/build": true
+	}
+}
