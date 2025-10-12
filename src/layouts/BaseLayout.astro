@@ -1,0 +1,30 @@
+---
+import BaseHead from "$components/BaseHead.astro";
+import Separator from "$components/ui/Separator.astro";
+import Footer from "$components/Footer.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "$consts";
+
+let { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead {title} {description} />
+	</head>
+	<body>
+		<div class="relative z-0">
+			<main
+				class="flex min-h-screen flex-col bg-cream px-6 pt-6 md:px-12 md:pt-9
+					dark:bg-black"
+			>
+				<slot />
+
+				<div class="mt-auto">
+					<Separator class="mb-6 md:mb-9" />
+				</div>
+			</main>
+			<Footer />
+		</div>
+	</body>
+</html>

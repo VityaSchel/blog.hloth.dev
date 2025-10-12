@@ -22,24 +22,21 @@ Made with the amazing [Astro](https://astro.build/) and Svelte!
 - [Astro](https://astro.build/) 🚀
 - [Svelte](https://svelte.dev/) ❤️
 - [Drizzle ORM & Drizzle Kit](https://orm.drizzle.team/) 😼
+- A special THANK YOU to [Anthony Fu](https://antfu.me/) for fantastic [shiki](https://github.com/shikijs/shiki) code highlighter!
+- And others! (full list of dependencies can be found in [package.json](./package.json))
   - [cheerio](https://cheerio.js.org/)
-  - [dompurify](https://github.com/cure53/DOMPurify)
   - [dotenvx](https://dotenvx.com/)
   - [ESLint](https://eslint.org)
   - [Fontsource](https://fontsource.org/)
   - [hotkeys.js](https://wangchujiang.com/hotkeys-js/)
   - [Husky](https://typicode.github.io/husky/)
-  - [isomorphic-dompurify](https://github.com/kkomelin/isomorphic-dompurify)
   - [mdast](https://github.com/syntax-tree/mdast)
   - [mediainfo.js](https://mediainfo.js.org/)
   - [Prettier](https://prettier.io)
   - [remark](https://github.com/remarkjs/remark)
   - [TailwindCSS](https://tailwindcss.com/)
-  - [unified](https://github.com/unifiedjs/unified)
-  - [unist](https://github.com/syntax-tree/unist)
   - [web-push](https://github.com/web-push-libs/web-push)
   - [zod](https://zod.dev/)
-- A special THANK YOU to [Anthony Fu](https://antfu.me/) for fantastic [shiki](https://github.com/shikijs/shiki) code highlighter!
 
 ## License
 

@@ -1,155 +1,208 @@
-/*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
-  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
-  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
- */
+@import "tailwindcss";
+
+@theme inline {
+	--color-cream: #f3f1e6;
+	--color-golden: #f1c470;
+	--color-sandy: #d5c18e;
+	--color-sandy-alt: #a89870;
+	--color-golden-creamy: #8e7a48;
+	--color-cream-alt: #e0d9c9;
+	--color-black-alt: #333333;
+	--color-inverted: #585858;
+	--color-inverted-alt: #2f2f2f;
+	--color-inverted-alt-dark: #978d62;
+	--color-active: #a3e635;
+	--color-active-dark: white;
+	--breakpoint-xs: 24rem;
+	--font-default-sans-serif:
+		system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+		Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+	--font-default-serif:
+		"PT Serif", Cambria, Cochin, Georgia, "Times New Roman", Times, serif;
+	--font-serif: "Source Serif 4 Variable", var(--font-default-serif);
+	--font-text: var(--font-default-sans-serif);
+	--font-display: "PP Mori", var(--font-text);
+	--tracking-tightest: -0.06em;
+	--font-mono:
+		Menlo, Consolas, DejaVu Sans Mono, ui-monospace, SFMono-Regular, Monaco,
+		Liberation Mono, Courier New, monospace;
+}
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@custom-variant hf (&:where(&:hover, &:focus-visible));
+
+@custom-variant tall-screen {
+	@media screen and (min-height: 670px) and (width < 768px) {
+		@slot;
+	}
+}
 
 :root {
-	--accent: #2337ff;
-	--accent-dark: #000d8a;
-	--black: 15, 18, 25;
-	--gray: 96, 115, 159;
-	--gray-light: 229, 233, 240;
-	--gray-dark: 34, 41, 57;
-	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
-	--box-shadow:
-		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%), 0 16px 32px
-		rgba(var(--gray), 33%);
+	background-color: var(--bg);
+	color: var(--text);
+	font-family: var(--font-text);
+	text-rendering: geometricPrecision;
+	-webkit-font-smoothing: antialiased;
 }
-@font-face {
-	font-family: "Atkinson";
-	src: url("/fonts/atkinson-regular.woff") format("woff");
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
+
+html {
+	--bg: var(--color-cream);
+	--text: #000000;
+	--theme-switch-day: #000000;
+	--theme-switch-night: #2c4ebe;
+	--theme-switch-night-alt: #293760;
+	--text-alt: #121212;
 }
-@font-face {
-	font-family: "Atkinson";
-	src: url("/fonts/atkinson-bold.woff") format("woff");
-	font-weight: 700;
-	font-style: normal;
-	font-display: swap;
+
+html[data-theme="dark"] {
+	--bg: #000000;
+	--text: var(--color-sandy);
+	--theme-switch-day: var(--color-sandy);
+	--theme-switch-night: #7f7445;
+	--theme-switch-night-alt: #7f7445;
+	--text-alt: var(--sandy-alt);
 }
-body {
-	font-family: "Atkinson", sans-serif;
-	margin: 0;
-	padding: 0;
-	text-align: left;
-	background: linear-gradient(var(--gray-gradient)) no-repeat;
-	background-size: 100% 600px;
-	word-wrap: break-word;
-	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark));
-	font-size: 20px;
-	line-height: 1.7;
+
+[data-theme="dark"] .footer-text:not(:has(:focus-visible)) {
+	opacity: 1;
+	animation-name: footer-text-animation;
+	animation-timing-function: ease-in;
+	animation-duration: 1ms;
+	animation-direction: alternate;
+	animation-fill-mode: backwards;
+	animation-timeline: scroll(root);
+	animation-range: calc(var(--page-height) - 50vh) var(--page-height);
+	box-shadow: inset 0 0vh 0px 0px rgba(0, 0, 0, 0);
 }
-main {
-	width: 720px;
-	max-width: calc(100% - 2em);
-	margin: auto;
-	padding: 3em 1em;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	margin: 0 0 0.5rem 0;
-	color: rgb(var(--black));
-	line-height: 1.2;
-}
-h1 {
-	font-size: 3.052em;
-}
-h2 {
-	font-size: 2.441em;
-}
-h3 {
-	font-size: 1.953em;
-}
-h4 {
-	font-size: 1.563em;
-}
-h5 {
-	font-size: 1.25em;
-}
-strong,
-b {
-	font-weight: 700;
-}
-a {
-	color: var(--accent);
-}
-a:hover {
-	color: var(--accent);
-}
-p {
-	margin-bottom: 1em;
-}
-.prose p {
-	margin-bottom: 2em;
-}
-textarea {
-	width: 100%;
-	font-size: 16px;
-}
-input {
-	font-size: 16px;
-}
-table {
-	width: 100%;
-}
-img {
-	max-width: 100%;
-	height: auto;
-	border-radius: 8px;
-}
-code {
-	padding: 2px 5px;
-	background-color: rgb(var(--gray-light));
-	border-radius: 2px;
-}
-pre {
-	padding: 1.5em;
-	border-radius: 8px;
-}
-pre > code {
-	all: unset;
-}
-blockquote {
-	border-left: 4px solid var(--accent);
-	padding: 0 0 0 20px;
-	margin: 0px;
-	font-size: 1.333em;
-}
-hr {
-	border: none;
-	border-top: 1px solid rgb(var(--gray-light));
-}
-@media (max-width: 720px) {
-	body {
-		font-size: 18px;
-	}
-	main {
-		padding: 1em;
+
+.headline {
+	width: 100% !important;
+
+	path {
+		fill: var(--text);
 	}
 }
 
-.sr-only {
-	border: 0;
-	padding: 0;
-	margin: 0;
-	position: absolute !important;
-	height: 1px;
-	width: 1px;
+@property --blur {
+	syntax: "<length>";
+	initial-value: 0px;
+	inherits: true;
+}
+
+body:has(dialog[open]) {
 	overflow: hidden;
-	/* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
-	clip: rect(1px 1px 1px 1px);
-	/* maybe deprecated but we need to support legacy browsers */
-	clip: rect(1px, 1px, 1px, 1px);
-	/* modern browsers, clip-path works inwards from each corner */
-	clip-path: inset(50%);
-	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
-	white-space: nowrap;
+}
+
+.article-preview {
+	img {
+		transition: transform 0.3s;
+	}
+
+	&:hover {
+		img {
+			transform: scale(1.05);
+		}
+
+		.open-indicator {
+			width: 50px;
+			height: 50px;
+
+			> span {
+				opacity: 1;
+			}
+		}
+	}
+}
+
+@keyframes footer-text-animation {
+	from {
+		opacity: 0.2;
+		box-shadow: inset 0 60vh 20px 0px rgba(0, 0, 0, 0.25);
+	}
+
+	to {
+		opacity: 1;
+		box-shadow: inset 0 0vh 0px 0px rgba(0, 0, 0, 0);
+	}
+}
+
+.banner-clip {
+	mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 567 349" xmlns="http://www.w3.org/2000/svg"><path d="M0 60C0 31.7157 0 17.5736 8.7868 8.7868C17.5736 0 31.7157 0 60 0H507C535.284 0 549.426 0 558.213 8.7868C567 17.5736 567 31.7157 567 60V289C567 317.284 567 331.426 558.213 340.213C549.426 349 535.284 349 507 349H60C31.7157 349 17.5736 349 8.7868 340.213C0 331.426 0 317.284 0 289V60Z"/></svg>');
+}
+
+.md\:banner-clip-lg {
+	@media (width >= 48rem) {
+		mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 567 349" xmlns="http://www.w3.org/2000/svg"><path d="M0 96C0 62.3968 0 45.5953 6.53961 32.7606C12.292 21.4708 21.4708 12.292 32.7606 6.53961C45.5953 0 62.3969 0 96 0H471C504.603 0 521.405 0 534.239 6.53961C545.529 12.292 554.708 21.4708 560.46 32.7606C567 45.5953 567 62.3968 567 96V253C567 286.603 567 303.405 560.46 316.239C554.708 327.529 545.529 336.708 534.239 342.46C521.405 349 504.603 349 471 349H96C62.3969 349 45.5953 349 32.7606 342.46C21.4708 336.708 12.292 327.529 6.53961 316.239C0 303.405 0 286.603 0 253V96Z"/></svg>');
+	}
+}
+
+.optical-sizing-force {
+	font-optical-sizing: auto;
+	font-variation-settings: "opsz" 1;
+}
+
+.optical-sizing-none {
+	font-optical-sizing: none;
+	font-variation-settings: "opsz" 0;
+}
+
+.one-storey-a {
+	font-feature-settings: "ss02" 1;
+}
+
+pre[class*="language-"] {
+	border-radius: 8px;
+}
+
+.article-content {
+	figure {
+		padding: 16px 0;
+		display: block;
+
+		figcaption {
+			color: var(--text-alt);
+			font-size: 13px;
+			margin-top: 16px;
+			overflow-wrap: break-word;
+		}
+	}
+
+	code {
+		display: block;
+		/* border-radius: 8px; */
+		/* padding: 28px 0px; */
+		font-size: 14px;
+		white-space: pre;
+		overflow: auto;
+		word-break: break-word;
+		font-family: var(--font-mono);
+
+		.token-line {
+			border: solid transparent;
+			border-width: 2px 0px 2px 0px;
+			background-color: inherit;
+
+			& > span:first-child {
+				width: 28px + 28px;
+				display: inline-block;
+				user-select: none;
+				color: #878787;
+				transition: color 50ms;
+				pointer-events: none;
+				position: sticky;
+				left: 0;
+				background-color: inherit;
+				padding-left: 28px;
+			}
+
+			&:hover {
+				border-color: rgba(62, 62, 62, 0.35);
+
+				& > span:first-child {
+					color: white;
+				}
+			}
+		}
+	}
 }

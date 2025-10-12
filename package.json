@@ -21,6 +21,7 @@
     "@astrojs/rss": "^4.0.12",
     "@astrojs/sitemap": "^3.6.0",
     "@astrojs/svelte": "^7.2.0",
+    "@fontsource-variable/source-serif-4": "^5.2.9",
     "@tailwindcss/vite": "^4.1.14",
     "@unpic/astro": "^1.0.1",
     "astro": "^5.14.4",
