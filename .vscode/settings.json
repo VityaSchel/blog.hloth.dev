@@ -26,5 +26,11 @@
 		"**/node_modules": true,
 		"**/.husky/_": true,
 		"**/build": true
+	},
+	"yaml.schemas": {
+		"./.astro/collections/blog.schema.json": [
+			"${workspaceFolder}/src/content/blog/**/*.md",
+			"file:///Users/hloth/Documents/blog.hloth.dev-new/src/content/blog/markdown-style-guide/index.md"
+		]
 	}
 }

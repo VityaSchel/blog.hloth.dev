@@ -1,0 +1,30 @@
+---
+import { getCollection } from "astro:content";
+import type { CATEGORIES } from "../consts";
+
+interface Props {
+	categorySlug: (typeof CATEGORIES)[number]["id"];
+}
+const { categorySlug } = Astro.props;
+
+const posts = await getCollection("blog", ({ data }) => {
+	return data.category === categorySlug;
+});
+
+const sorted = posts.sort(
+	(a, b) => b.data.createdAt.valueOf() - a.data.createdAt.valueOf(),
+);
+---
+
+<main>
+	{
+		sorted.map((post) => (
+			<li>
+				<a href={`/${post.id}`}>
+					<h2>{post.data.title}</h2>
+					<time>{post.data.createdAt.toLocaleDateString()}</time>
+				</a>
+			</li>
+		))
+	}
+</main>

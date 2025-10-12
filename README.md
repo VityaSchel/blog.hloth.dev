@@ -1,62 +1,46 @@
-# Astro Starter Kit: Blog
+# [hloth blog](https://blog.hloth.dev)
 
-```sh
-bun create astro@latest -- --template blog
-```
+[TODO: insert screenshot]
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+[Visit the website](https://blog.hloth.dev) · Tor: [blog.hlothdevzkti6suoksy7lcy7hmpxnr3msu5waokzaslsi2mnx5ouu4qd.onion](http://blog.hlothdevzkti6suoksy7lcy7hmpxnr3msu5waokzaslsi2mnx5ouu4qd.onion/)
 
-Features:
+My personal blog about web development stuff and my IRL stuff. No ads, no JavaScript required, pure shitpost 😻
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
+Made with the amazing [Astro](https://astro.build/) and Svelte!
 
-## 🚀 Project Structure
+- Previously used SvelteKit + Drizzle ORM + PostgreSQL + TailwindCSS + Bun: [svelte5.39-sveltekit-2.43-2025](../tree/svelte5.39-sveltekit-2.43-2025) branch
+- 2024-2025: Old React + Next.js is available under [react18-nextjs14-2024](../tree/react18-nextjs14-2024) branch
 
-Inside of your Astro project, you'll see the following folders and files:
+## Donate
 
-```text
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
-```
+[hloth.dev/donate](https://hloth.dev/donate) · Tor: [hlothdevzkti6suoksy7lcy7hmpxnr3msu5waokzaslsi2mnx5ouu4qd.onion/donate](http://hlothdevzkti6suoksy7lcy7hmpxnr3msu5waokzaslsi2mnx5ouu4qd.onion/donate)
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Acknowledgements
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+- Design inspired by Milos Bojkovic. [Dribbble project link](https://dribbble.com/shots/21592801-Blog-post-exploration).
+- PP Mori font by Pangram Pangram Foundry (free for personal use). [License](./static/pp-mori/license.pdf).
+- [Astro](https://astro.build/) 🚀
+- [Svelte](https://svelte.dev/) ❤️
+- [Drizzle ORM & Drizzle Kit](https://orm.drizzle.team/) 😼
+  - [cheerio](https://cheerio.js.org/)
+  - [dompurify](https://github.com/cure53/DOMPurify)
+  - [dotenvx](https://dotenvx.com/)
+  - [ESLint](https://eslint.org)
+  - [Fontsource](https://fontsource.org/)
+  - [hotkeys.js](https://wangchujiang.com/hotkeys-js/)
+  - [Husky](https://typicode.github.io/husky/)
+  - [isomorphic-dompurify](https://github.com/kkomelin/isomorphic-dompurify)
+  - [mdast](https://github.com/syntax-tree/mdast)
+  - [mediainfo.js](https://mediainfo.js.org/)
+  - [Prettier](https://prettier.io)
+  - [remark](https://github.com/remarkjs/remark)
+  - [TailwindCSS](https://tailwindcss.com/)
+  - [unified](https://github.com/unifiedjs/unified)
+  - [unist](https://github.com/syntax-tree/unist)
+  - [web-push](https://github.com/web-push-libs/web-push)
+  - [zod](https://zod.dev/)
+- A special THANK YOU to [Anthony Fu](https://antfu.me/) for fantastic [shiki](https://github.com/shikijs/shiki) code highlighter!
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+## License
 
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+Source code is licensed under [MIT](./LICENSE). Blog materials are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) unless otherwise stated.

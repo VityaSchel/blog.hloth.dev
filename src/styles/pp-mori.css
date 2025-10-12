@@ -1,0 +1,81 @@
+/* License: https://blog.hloth.dev/fonts/PP-Mori/license.pdf */
+
+@font-face {
+	font-family: "PP Mori";
+	font-style: normal;
+	font-weight: 200;
+	src: url("/fonts/PP-Mori/PPMori-Extralight.otf") format("opentype");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "PP Mori";
+	font-style: normal;
+	font-weight: 400;
+	src: url("/fonts/PP-Mori/PPMori-Regular.otf") format("opentype");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "PP Mori";
+	font-style: normal;
+	font-weight: 500;
+	src: url("/fonts/PP-Mori/PPMori-Medium.woff2") format("woff2");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "PP Mori";
+	font-style: normal;
+	font-weight: 600;
+	src: url("/fonts/PP-Mori/PPMori-SemiBold.otf") format("opentype");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "PP Mori";
+	font-style: normal;
+	font-weight: 700;
+	src: url("/fonts/PP-Mori/PPMori-Bold.woff2") format("woff2");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "PP Mori";
+	font-style: italic;
+	font-weight: 200;
+	src: url("/fonts/PP-Mori/PPMori-ExtralightItalic.otf") format("opentype");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "PP Mori";
+	font-style: italic;
+	font-weight: 400;
+	src: url("/fonts/PP-Mori/PPMori-RegularItalic.otf") format("opentype");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "PP Mori";
+	font-style: italic;
+	font-weight: 500;
+	src: url("/fonts/PP-Mori/PPMori-MediumItalic.woff2") format("woff2");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "PP Mori";
+	font-style: italic;
+	font-weight: 600;
+	src: url("/fonts/PP-Mori/PPMori-SemiBoldItalic.otf") format("opentype");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "PP Mori";
+	font-style: italic;
+	font-weight: 700;
+	src: url("/fonts/PP-Mori/PPMori-BoldItalic.woff2") format("woff2");
+	font-display: swap;
+}
