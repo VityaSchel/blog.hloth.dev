@@ -1,12 +1,16 @@
-import prettier from "eslint-config-prettier";
 import { fileURLToPath } from "node:url";
 import { includeIgnoreFile } from "@eslint/compat";
-import js from "@eslint/js";
-import { defineConfig } from "eslint/config";
 import globals from "globals";
+
+import { defineConfig } from "eslint/config";
+import prettier from "eslint-config-prettier";
+
+import js from "@eslint/js";
 import ts from "typescript-eslint";
-import eslintPluginAstro from "eslint-plugin-astro";
+import astro from "eslint-plugin-astro";
+import svelte from "eslint-plugin-svelte";
 import markdown from "@eslint/markdown";
+
 import frontmatterSchema from "eslint-plugin-markdown-frontmatter-schema";
 import blogPostSchema from "./.astro/collections/blog.schema.json" with { type: "json" };
 
@@ -29,8 +33,9 @@ export default defineConfig(
 		...js.configs.recommended,
 	},
 	...ts.configs.recommended,
+	...svelte.configs.recommended,
 	prettier,
-	...eslintPluginAstro.configs.recommended.map((config) => ({
+	...astro.configs.recommended.map((config) => ({
 		...config,
 		files: config.files || ["**/*.astro"],
 	})),
@@ -59,6 +64,17 @@ export default defineConfig(
 					defaultSchema: blogPostSchema,
 				},
 			],
+		},
+	},
+	{
+		files: ["**/*.svelte", "**/*.svelte.ts", "**/*.svelte.js"],
+		languageOptions: {
+			parserOptions: {
+				projectService: true,
+				extraFileExtensions: [".svelte"],
+				parser: ts.parser,
+				// svelteConfig,
+			},
 		},
 	},
 );

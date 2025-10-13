@@ -1,0 +1,16 @@
+---
+interface Props {
+	href: string;
+	label: string;
+}
+let { href, label } = Astro.props;
+---
+
+<a
+	{href}
+	class="px-8 py-2 font-display tracking-tight transition-[letter-spacing,color]
+		focus:outline-0 focus-visible:bg-blue-400/20 hf:tracking-wide
+		hf:text-neutral-300"
+>
+	{label}
+</a>

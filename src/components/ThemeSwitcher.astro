@@ -1,0 +1,68 @@
+---
+let bgX = (new Date().getHours() / 24) * 33.333 + "%";
+---
+
+<button class="group h-6 w-full cursor-pointer rounded-full" type="submit">
+	<div
+		class="theme-switch-bg relative h-[2px] w-full overflow-clip transition-all
+			duration-200 group-hover:h-6 group-hover:rounded-xl
+			group-focus-visible:h-6 group-focus-visible:rounded-xl"
+		style={"background-position-x: " + bgX}
+	>
+		<div
+			class="theme-switch-bg-open absolute top-0 left-0 h-full w-full opacity-0
+				transition-opacity duration-200 group-hover:opacity-100
+				group-focus-visible:opacity-100"
+			style={"background-position-x: " + bgX}
+		>
+			<span
+				class="absolute top-1/2 left-1/2 block -translate-x-1/2 -translate-y-1/2
+					font-display text-sm font-medium text-cream dark:text-black"
+			>
+				<!-- {#if context.theme === "dark"}
+					Switch theme to light
+				{:else}
+					Switch theme to dark
+				{/if} -->
+				<!-- TODO: switch theme -->
+				Switch theme
+			</span>
+		</div>
+	</div>
+</button>
+
+<style>
+	.theme-switch-bg {
+		--smoothness: 2.5%;
+		background: linear-gradient(
+			to right,
+			var(--theme-switch-night),
+			var(--theme-switch-night) calc(8% - var(--smoothness) / 2),
+			var(--theme-switch-day) calc(8% + var(--smoothness) / 2),
+			var(--theme-switch-day) calc(25% - var(--smoothness) / 2),
+			var(--theme-switch-night) calc(25% + var(--smoothness) / 2),
+			var(--theme-switch-night) calc(33.33% - var(--smoothness) / 2),
+			var(--theme-switch-day) calc(33.33% + var(--smoothness) / 2),
+			var(--theme-switch-day) calc(50% - var(--smoothness) / 2),
+			var(--theme-switch-night) calc(50% + var(--smoothness) / 2)
+		);
+		background-size: 400% 100%;
+	}
+
+	.theme-switch-bg-open {
+		--smoothness: 5%;
+		background: linear-gradient(
+			to right,
+			var(--theme-switch-night-alt),
+			var(--theme-switch-night-alt) calc(8% - var(--smoothness) / 2),
+			var(--theme-switch-day) calc(8% + var(--smoothness) / 2),
+			var(--theme-switch-day) calc(25% - var(--smoothness) / 2),
+			var(--theme-switch-night-alt) calc(25% + var(--smoothness) / 2),
+			var(--theme-switch-night-alt) calc(33.33% - var(--smoothness) / 2),
+			var(--theme-switch-day) calc(33.33% + var(--smoothness) / 2),
+			var(--theme-switch-day) calc(50% - var(--smoothness) / 2),
+			var(--theme-switch-night-alt) calc(50% + var(--smoothness) / 2)
+		);
+		background-size: 400% 100%;
+	}
+</style>
