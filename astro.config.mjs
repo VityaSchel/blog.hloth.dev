@@ -8,8 +8,10 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
+	prefetch: true,
 	site: "https://blog.hloth.dev",
 	integrations: [sitemap(), svelte()],
+	output: "static",
 	image: {
 		service: imageService({
 			placeholder: "blurhash",

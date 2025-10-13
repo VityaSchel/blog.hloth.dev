@@ -1,9 +1,11 @@
 ---
 import { getCollection } from "astro:content";
-import type { CATEGORIES } from "$consts";
+import type { CategoryId } from "$consts";
+import BaseLayout from "$layouts/BaseLayout.astro";
+import PostsLayout from "$layouts/PostsLayout.astro";
 
 interface Props {
-	categorySlug: (typeof CATEGORIES)[number]["id"];
+	categorySlug: CategoryId;
 }
 const { categorySlug } = Astro.props;
 
@@ -16,15 +18,6 @@ const sorted = posts.sort(
 );
 ---
 
-<main>
-	{
-		sorted.map((post) => (
-			<li>
-				<a href={`/${post.id}`}>
-					<h2>{post.data.title}</h2>
-					<time>{post.data.createdAt.toLocaleDateString()}</time>
-				</a>
-			</li>
-		))
-	}
-</main>
+<BaseLayout>
+	<PostsLayout posts={sorted} />
+</BaseLayout>

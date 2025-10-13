@@ -1,0 +1,40 @@
+---
+import HlothBlogSvg from "$components/HlothBlogSvg.astro";
+import AppBar from "$components/AppBar.astro";
+import type { CollectionEntry } from "astro:content";
+import PostPreview from "$components/PostPreview.astro";
+
+interface Props {
+	posts: CollectionEntry<"blog">[];
+}
+
+let { posts } = Astro.props;
+---
+
+<AppBar homepage />
+<HlothBlogSvg />
+<a id="posts" href="#posts" aria-hidden="true" tabindex={-1}></a>
+<section class="mt-[60px]">
+	{
+		posts.length ? (
+			<ul class="list-none">
+				{posts.map(({ id, data }) => (
+					<li>
+						<PostPreview {id} post={data} />
+					</li>
+				))}
+			</ul>
+		) : (
+			<div class="flex h-64 w-full flex-col items-center justify-center gap-4 text-[24.5px]">
+				<span class="font-text tracking-normal">No posts yet</span>
+				<img src="/no.gif" alt="🙂‍↔️" />
+				<a
+					href="/#posts"
+					class="rounded-full border px-4 text-base font-medium"
+				>
+					Show all posts
+				</a>
+			</div>
+		)
+	}
+</section>

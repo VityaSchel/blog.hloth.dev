@@ -1,0 +1,16 @@
+---
+import { type CategoryId, CATEGORIES } from "$consts";
+
+interface Props {
+	category: CategoryId;
+}
+
+let { category } = Astro.props;
+---
+
+<span
+	class="border-text w-fit rounded-md border px-3 py-1.5 font-mono text-xs
+		tracking-wide uppercase"
+>
+	{CATEGORIES[category].name}
+</span>
