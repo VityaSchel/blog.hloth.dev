@@ -23,17 +23,15 @@ Made with the amazing [Astro](https://astro.build/) and Svelte!
 - [Svelte](https://svelte.dev/) ❤️
 - [Drizzle ORM & Drizzle Kit](https://orm.drizzle.team/) 😼
 - A special THANK YOU to [Anthony Fu](https://antfu.me/) for fantastic [shiki](https://github.com/shikijs/shiki) code highlighter!
-- And others! (full list of dependencies can be found in [package.json](./package.json))
+- And others!
   - [cheerio](https://cheerio.js.org/)
   - [dotenvx](https://dotenvx.com/)
   - [ESLint](https://eslint.org)
   - [Fontsource](https://fontsource.org/)
-  - [hotkeys.js](https://wangchujiang.com/hotkeys-js/)
   - [Husky](https://typicode.github.io/husky/)
-  - [mdast](https://github.com/syntax-tree/mdast)
   - [mediainfo.js](https://mediainfo.js.org/)
   - [Prettier](https://prettier.io)
-  - [remark](https://github.com/remarkjs/remark)
+  - [remark](https://remark.js.org/)
   - [TailwindCSS](https://tailwindcss.com/)
   - [web-push](https://github.com/web-push-libs/web-push)
   - [zod](https://zod.dev/)
