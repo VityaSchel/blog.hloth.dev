@@ -1,0 +1,51 @@
+---
+import type { ComponentProps } from "astro/types";
+import { Picture } from "astro:assets";
+
+type Props = ComponentProps<typeof Picture> & {
+	banner?: boolean;
+};
+
+let { banner, ...props } = Astro.props;
+---
+
+<div
+	class:list={[
+		{
+			// "max-h-[500px]": explicitSize,
+			// "rounded-lg": rounded,
+			"banner-clip overflow-clip aspect-[1.625/1] relative h-auto w-full":
+				banner,
+		},
+	]}
+>
+	<!-- @ts-expect-error fucking astro  -->
+	<Picture
+		class:list={[
+			{
+				// "overflow-clip rounded-lg": rounded,
+				// "object-contain": !banner,
+				"object-cover h-full": banner,
+			},
+			"backdrop-blur-2xl",
+		]}
+		densities={[1, 2]}
+		formats={["avif", "webp"]}
+		loading={props.priority ? "eager" : "lazy"}
+		pictureAttributes={{
+			style: "mask: inherit",
+		}}
+		{...props}
+	/>
+	<!-- {alt} -->
+</div>
+<!-- 
+<style lang="postcss">
+	@reference "tailwindcss";
+	img {
+		@apply absolute top-0 left-0 h-full w-full;
+	}
+	img.contain {
+		@apply max-h-full max-w-full;
+	}
+</style> -->

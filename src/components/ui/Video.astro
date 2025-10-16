@@ -1,0 +1,32 @@
+---
+import { getVideoDimensions } from "$lib/video-metadata-retriever";
+
+interface Props {
+	src: string;
+	children: Element;
+}
+
+let { src } = Astro.props;
+
+let { width, height } = await getVideoDimensions(src);
+const aspectRatio = width / height;
+---
+
+<figure class="max-w-full">
+	<video
+		{src}
+		class:list={[
+			"mx-auto max-h-[500px]",
+			{
+				"h-auto w-full": aspectRatio > 1,
+				"h-full w-auto": aspectRatio <= 1,
+			},
+		]}
+		controls
+		autoplay={false}
+		playsinline
+		style={`aspect-ratio: ${aspectRatio};`}></video>
+	<figcaption>
+		<slot />
+	</figcaption>
+</figure>

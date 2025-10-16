@@ -1,0 +1,39 @@
+---
+import IsolatedIframe from "$components/IsolatedIframe.svelte";
+
+interface Props {
+	url: string;
+	service?: string;
+	ar?: number;
+}
+
+let { url, service, ar = 16 / 9 } = Astro.props;
+
+if (!service) {
+	const serviceUrl = new URL(url);
+	if (
+		serviceUrl.hostname === "www.youtube.com" ||
+		serviceUrl.hostname === "youtu.be"
+	) {
+		return "YouTube";
+	} else if (
+		serviceUrl.hostname === "twitter.com" ||
+		serviceUrl.hostname === "www.twitter.com" ||
+		serviceUrl.hostname === "x.com" ||
+		serviceUrl.hostname === "www.x.com"
+	) {
+		return "Twitter";
+	} else {
+		throw new Error("Service argument must be provided for this URL");
+	}
+}
+---
+
+<IsolatedIframe
+	{url}
+	aspectRatio={ar}
+	title={`Embedded ${service} frame`}
+	client:visible
+>
+	<slot />
+</IsolatedIframe>

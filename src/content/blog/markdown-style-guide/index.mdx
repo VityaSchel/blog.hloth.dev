@@ -1,5 +1,5 @@
 ---
-title: "Markdown Style Guide"
+title: "*Markdown* Style Guide"
 excerpt: "Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro."
 createdAt: "2025-10-12T16:07:22+00:00"
 banner: "./blog-placeholder-1.jpg"
@@ -8,7 +8,28 @@ category: "tutorial"
 readTime: 5
 ---
 
+import Image from "$ui/Image.astro";
+import RichLink from "$ui/RichLink.astro";
+import Embed from "$ui/Embed.astro";
+import Video from "$ui/Video.astro";
+import Attachments from "$ui/Attachments.astro";
+import Callout from "$ui/Callout.astro";
+
 Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro.
+
+<RichLink href="https://example.org" />
+
+<Embed url="https://example.org" service="Example" />
+
+import testVideo from "./test.mp4";
+
+<Video src={testVideo}>Test</Video>
+
+<Attachments>test</Attachments>
+
+<Callout emoji="☝️🤓">
+	This is a callout box. You can use it to highlight important information.
+</Callout>
 
 ## Headings
 
@@ -42,6 +63,10 @@ Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sap
 
 ### Output
 
+import placeholder1 from "./blog-placeholder-1.jpg";
+
+<Image src={placeholder1} alt="123" />
+
 ## Blockquotes
 
 The blockquote element represents content that is quoted from another source, optionally with a citation which must be within a `footer` or `cite` element, and optionally with in-line changes such as annotations and abbreviations.
@@ -72,6 +97,8 @@ The blockquote element represents content that is quoted from another source, op
 #### Output
 
 > Don't communicate by sharing memory, share memory by communicating.
+>
+> — <cite>Rob Pike[^1]</cite>
 
 [^1]: The above quote is excerpted from Rob Pike's [talk](https://www.youtube.com/watch?v=PAAkCSZUG1c) during Gopherfest, November 18, 2015.
 
@@ -103,7 +130,7 @@ we can use 3 backticks ``` in new line and write snippet and close with 3 backti
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Example HTML5 Document</title>
+    <title>Example HTML5 Document DocumentDocumentDocumentDocumentDocumentDocumentDocumentDocumentDocumentDocument</title>
   </head>
   <body>
     <p>Test</p>
@@ -125,6 +152,12 @@ we can use 3 backticks ``` in new line and write snippet and close with 3 backti
     <p>Test</p>
   </body>
 </html>
+```
+
+```
+test no language
+no
+language
 ```
 
 ## List Types
@@ -200,3 +233,13 @@ Press <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>Delete</kbd> to end the session.
 
 Most <mark>salamanders</mark> are nocturnal, and hunt for insects, worms, and other small creatures.
 ```
+
+<abbr title="Graphics Interchange Format">GIF</abbr> is a bitmap image format.
+
+H<sub>2</sub>O
+
+X<sup>n</sup> + Y<sup>n</sup> = Z<sup>n</sup>
+
+Press <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>Delete</kbd> to end the session.
+
+Most <mark>salamanders</mark> are nocturnal, and hunt for insects, worms, and other small creatures.

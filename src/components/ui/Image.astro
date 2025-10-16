@@ -1,0 +1,35 @@
+---
+import type { Picture } from "astro:assets";
+import LazyImage from "./LazyImage.astro";
+import type { ComponentProps } from "astro/types";
+
+type Props = ComponentProps<typeof Picture>;
+
+const { ...props } = Astro.props;
+---
+
+<figure>
+	<div
+		class:list={[
+			"w-full",
+			{
+				// border,
+				// [`flex h-fit max-h-[500px] items-center justify-center overflow-clip
+				// rounded-lg bg-white p-4`]: background,
+			},
+		]}
+	>
+		<!-- TODO: placeholder -->
+		<LazyImage {...props} />
+		<!-- sizes={background ? undefined : "(max-width: 728px) 100vw, 680px"} -->
+		<!-- {...imgProps} -->
+		<!-- rounded={!background} -->
+	</div>
+	<!-- {
+		caption && (
+			<figcaption>
+				<slot />
+			</figcaption>
+		)
+	} -->
+</figure>

@@ -1,0 +1,22 @@
+---
+import { formatTitle } from "$lib/title-formatter";
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+
+const formattedTitle = formatTitle(title);
+---
+
+<h1
+	class="one-storey-a leading-tighter line-clamp-3 font-display text-3xl
+		font-semibold tracking-tight md:text-6xl"
+	{title}
+>
+	<span class="optical-sizing-none font-serif font-semibold italic">
+		{formattedTitle.emphasized}
+	</span>
+	{formattedTitle.regular}
+</h1>

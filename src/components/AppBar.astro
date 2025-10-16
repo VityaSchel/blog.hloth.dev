@@ -1,11 +1,11 @@
 ---
-import { formatTitle } from "src/title-formatter";
+import { formatTitle } from "$lib/title-formatter";
 import ThemeSwitcher from "$components/ThemeSwitcher.astro";
 import Menu from "$components/menu/Menu.astro";
 
 type Link = { path: string; title: string };
 interface Props {
-	homepage: boolean;
+	homepage?: boolean;
 	previous?: Link;
 	next?: Link;
 }

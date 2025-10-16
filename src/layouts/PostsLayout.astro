@@ -11,16 +11,16 @@ interface Props {
 let { posts } = Astro.props;
 ---
 
-<AppBar homepage />
+<AppBar />
 <HlothBlogSvg />
 <a id="posts" href="#posts" aria-hidden="true" tabindex={-1}></a>
 <section class="mt-[60px]">
 	{
 		posts.length ? (
 			<ul class="list-none">
-				{posts.map(({ id, data }) => (
+				{posts.map(({ id, data }, i) => (
 					<li>
-						<PostPreview {id} post={data} />
+						<PostPreview {id} post={data} first={i === 0} />
 					</li>
 				))}
 			</ul>

@@ -1,0 +1,61 @@
+---
+import { getRichLinkPreview } from "$lib/rich-link-preview-generator";
+
+interface Props {
+	href: string;
+}
+
+let { href } = Astro.props;
+
+const preview = await getRichLinkPreview(href);
+---
+
+<div class="py-[0.4em]">
+	<a
+		{href}
+		rel="noopener noreferrer nofollow"
+		target="_blank"
+		class="box-shadow rich-link block rounded-md bg-white p-[25px]
+			dark:bg-black-alt"
+	>
+		{
+			preview?.imageUrl && (
+				<img
+					src={preview.imageUrl}
+					alt="Website banner"
+					class="float-right aspect-square w-[65px] rounded-[3px] object-cover"
+				/>
+			)
+		}
+		<span
+			class="block flex-1 text-[17px] leading-[1.5em] font-semibold
+				no-underline"
+		>
+			{preview?.title ?? new URL(href).hostname}
+		</span>
+		{
+			preview?.description && (
+				<p class="line-clamp-3 font-text text-[15px]">{preview.description}</p>
+			)
+		}
+		{
+			preview?.title && (
+				<span
+					class="block h-[15px] text-[15px] leading-[1em] text-[#888]
+				dark:text-cream-alt"
+				>
+					{new URL(href).hostname}
+				</span>
+			)
+		}
+	</a>
+</div>
+
+<style>
+	.box-shadow {
+		box-shadow: 0 1px 3px #0000001a;
+		&:hover {
+			box-shadow: 0 0 3px #00000029;
+		}
+	}
+</style>

@@ -1,5 +1,5 @@
 {
-	"extends": "astro/tsconfigs/strictest",
+	"extends": "astro/tsconfigs/strict",
 	"include": [".astro/types.d.ts", "**/*"],
 	"exclude": ["dist"],
 	"compilerOptions": {
@@ -8,9 +8,14 @@
 		"paths": {
 			"$components/*": ["src/components/*"],
 			"$layouts/*": ["src/layouts/*"],
-			"$assets/*": ["src/assets/*"],
+			"$assets/*": ["src/lib/assets/*"],
 			"$styles/*": ["src/styles/*"],
-			"$consts": ["src/consts.ts"],
+			"$consts": ["src/lib/consts.ts"],
+			"$lib/*": ["src/lib/*"],
+			"$ui/*": ["src/components/ui/*"]
 		}
+	},
+	"mdx": {
+		"checkMdx": true
 	}
 }
