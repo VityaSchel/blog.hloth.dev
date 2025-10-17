@@ -1,5 +1,5 @@
 ---
-import ReadTime from "$components/ReadTime.astro";
+import ReadTime from "$components/post/ReadTime.astro";
 import Category from "$ui/Category.astro";
 import type { InferEntrySchema } from "astro:content";
 import type { CollectionEntry } from "astro:content";
@@ -60,7 +60,7 @@ const { emphasized, regular } = formatTitle(title);
 				lg:max-w-[25%] lg:flex-[25%]"
 		>
 			<h2 class="font-display text-3xl font-semibold tracking-[-.03em]" {title}>
-				<span class="font-serif font-normal italic">{emphasized}</span>
+				<span class="font-serif font-medium italic">{emphasized}</span>
 				{regular}
 			</h2>
 			<p class="mt-4 line-clamp-6 font-text text-ellipsis md:mt-6">

@@ -1,15 +1,16 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
-import BlogPost from "$layouts/BlogPost.astro";
+import AppBar from "$components/AppBar.astro";
+import BlogPost from "$layouts/BlogPostLayout.astro";
+import Me from "$components/post/Me.astro";
+import ReadTime from "$components/post/ReadTime.astro";
+import PageViews from "$components/post/PageViews.astro";
+import PostTitle from "$components/post/PostTitle.astro";
+import PostDate from "$components/post/PostDate.astro";
+import PostReactions from "$components/post/PostReactions.astro";
 import Category from "$ui/Category.astro";
-import ReadTime from "$components/ReadTime.astro";
 import Separator from "$ui/Separator.astro";
-import PostDate from "$layouts/PostDate.astro";
-import PostReactions from "$components/PostReactions.astro";
-import PageViews from "$components/PageViews.astro";
-import PostTitle from "$components/PostTitle.astro";
-import Me from "$components/Me.astro";
-import LazyImage from "$components/ui/LazyImage.astro";
+import LazyImage from "$ui/LazyImage.astro";
 
 export async function getStaticPaths() {
 	const posts = await getCollection("blog");
@@ -22,9 +23,27 @@ type Props = CollectionEntry<"blog">;
 
 const post = Astro.props;
 const { Content } = await render(post);
+
+const nextPost = await getCollection(
+	"blog",
+	({ data }) => data.createdAt.valueOf() <= post.data.createdAt.valueOf(),
+)
+	.then((posts) =>
+		posts.sort(
+			(a, b) => b.data.createdAt.valueOf() - a.data.createdAt.valueOf(),
+		),
+	)
+	.then((posts) => posts.find(({ id }) => id !== post.id));
 ---
 
 <BlogPost {...post.data}>
+	<AppBar
+		homepage
+		next={nextPost && {
+			path: nextPost.id,
+			title: nextPost.data.title,
+		}}
+	/>
 	<article class="pt-16">
 		<div class="flex flex-col-reverse items-start justify-between md:flex-row">
 			<div

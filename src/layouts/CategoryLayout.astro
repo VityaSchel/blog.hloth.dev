@@ -9,15 +9,16 @@ interface Props {
 }
 const { categorySlug } = Astro.props;
 
-const posts = await getCollection("blog", ({ data }) => {
-	return data.category === categorySlug;
-});
+const posts = await getCollection(
+	"blog",
+	({ data }) => data.category === categorySlug,
+);
 
 const sorted = posts.sort(
 	(a, b) => b.data.createdAt.valueOf() - a.data.createdAt.valueOf(),
 );
 ---
 
-<BaseLayout>
+<BaseLayout activeCategory={categorySlug}>
 	<PostsLayout posts={sorted} />
 </BaseLayout>

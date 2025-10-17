@@ -1,8 +1,9 @@
 ---
-import HlothBlogSvg from "$components/HlothBlogSvg.astro";
 import AppBar from "$components/AppBar.astro";
+import Separator from "$components/ui/Separator.astro";
+import PostPreview from "$components/post/PostPreview.astro";
+import HlothBlogSvg from "$components/HlothBlogSvg.astro";
 import type { CollectionEntry } from "astro:content";
-import PostPreview from "$components/PostPreview.astro";
 
 interface Props {
 	posts: CollectionEntry<"blog">[];
@@ -19,9 +20,12 @@ let { posts } = Astro.props;
 		posts.length ? (
 			<ul class="list-none">
 				{posts.map(({ id, data }, i) => (
-					<li>
-						<PostPreview {id} post={data} first={i === 0} />
-					</li>
+					<>
+						<li>
+							<PostPreview {id} post={data} first={i === 0} />
+						</li>
+						{i !== posts.length - 1 && <Separator />}
+					</>
 				))}
 			</ul>
 		) : (

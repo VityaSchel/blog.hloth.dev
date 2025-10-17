@@ -1,6 +1,5 @@
 <script lang="ts">
-	// import { browser } from "$app/environment";
-	// import { PUBLIC_WEB_PUSH_KEY } from "$env/static/public";
+	import { PUBLIC_WEB_PUSH_KEY } from "astro:env/client";
 	import { onMount } from "svelte";
 
 	let subscribed = $state(false);
@@ -38,10 +37,10 @@
 		try {
 			const sub = await registration.pushManager.subscribe({
 				userVisibleOnly: true,
-				applicationServerKey: 'TODO: "PUBLIC_WEB_PUSH_KEY"',
+				applicationServerKey: PUBLIC_WEB_PUSH_KEY,
 			});
 			const subData = sub.toJSON();
-			const response = await fetch("/api/push-notifications/subscription", {
+			const response = await fetch("/api/push-notifications/subscriptions", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(subData),

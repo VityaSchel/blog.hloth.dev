@@ -1,6 +1,6 @@
 // @ts-check
 
-import { defineConfig } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
 import mdx from "@astrojs/mdx";
@@ -15,9 +15,7 @@ export default defineConfig({
 	site: "https://blog.hloth.dev",
 	integrations: [sitemap(), svelte(), mdx()],
 	output: "static",
-	image: {
-		
-	},
+	image: {},
 	markdown: {
 		shikiConfig: {
 			themes: {
@@ -47,5 +45,13 @@ export default defineConfig({
 	},
 	vite: {
 		plugins: [tailwindcss()],
+	},
+	env: {
+		schema: {
+			PUBLIC_WEB_PUSH_KEY: envField.string({
+				access: "public",
+				context: "client",
+			}),
+		},
 	},
 });

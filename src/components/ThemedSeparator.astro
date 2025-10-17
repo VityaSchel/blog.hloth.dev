@@ -1,0 +1,50 @@
+<script>
+	function onLoad() {
+		const el = document.querySelector("#theme-switch-bg");
+		if (el instanceof HTMLElement) {
+			el.classList.add("theme-switch-bg-dynamic");
+			const bgX = (new Date().getHours() / 24) * 33.333 + "%";
+			el.style.setProperty("--bg-x", bgX);
+		}
+	}
+
+	document.addEventListener("astro:page-load", onLoad);
+	document.addEventListener("load", onLoad);
+	onLoad();
+</script>
+
+<div class="h-[2px] w-full rounded-full theme-switch-bg">
+	<div class="relative h-[2px] w-full overflow-clip" id="theme-switch-bg"></div>
+</div>
+
+<style>
+	.theme-switch-bg {
+		background-color: var(--theme-switch-day);
+	}
+	.theme-switch-bg-dynamic {
+		--smoothness: 2.5%;
+		background: linear-gradient(
+			to right,
+			var(--theme-switch-night),
+			var(--theme-switch-night) calc(8% - var(--smoothness) / 2),
+			var(--theme-switch-day) calc(8% + var(--smoothness) / 2),
+			var(--theme-switch-day) calc(25% - var(--smoothness) / 2),
+			var(--theme-switch-night) calc(25% + var(--smoothness) / 2),
+			var(--theme-switch-night) calc(33.33% - var(--smoothness) / 2),
+			var(--theme-switch-day) calc(33.33% + var(--smoothness) / 2),
+			var(--theme-switch-day) calc(50% - var(--smoothness) / 2),
+			var(--theme-switch-night) calc(50% + var(--smoothness) / 2)
+		);
+		background-size: 400% 100%;
+		background-position-x: var(--bg-x);
+		animation: fade-in 1s ease-in-out;
+	}
+	@keyframes fade-in {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+</style>

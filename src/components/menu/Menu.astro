@@ -1,12 +1,31 @@
 ---
 import MenuLink from "./MenuLink.astro";
 import CloseMenuButton from "./CloseMenuButton.astro";
+import PushNotificationsSwitch from "./PushNotificationsSwitch.svelte";
 ---
+
+<script>
+	const openMenuButton = document.querySelector(
+		"button#blog-hloth-dev-menu-open",
+	);
+	console.log(openMenuButton);
+	if (openMenuButton instanceof HTMLButtonElement) {
+		openMenuButton.addEventListener("click", () => {
+			const dialog = document.querySelector("dialog#blog-hloth-dev-menu");
+			if (dialog instanceof HTMLDialogElement) {
+				dialog.showModal();
+			}
+		});
+	}
+</script>
 
 <button
 	class="inline-block w-[84px] cursor-pointer rounded-full bg-black py-[3px]
 		text-center text-[14px] font-medium tracking-[-.03em] text-white
 		dark:bg-white dark:text-black"
+	command="show-modal"
+	commandfor="blog-hloth-dev-menu"
+	id="blog-hloth-dev-menu-open"
 >
 	Menu
 </button>
@@ -15,6 +34,7 @@ import CloseMenuButton from "./CloseMenuButton.astro";
 		py-8 text-4xl font-bold text-white transition-[width] duration-500
 		ease-in-out will-change-[width]"
 	closedby="any"
+	id="blog-hloth-dev-menu"
 >
 	<div class="flex h-full w-full min-w-0 flex-col overflow-clip">
 		<CloseMenuButton />
@@ -22,8 +42,7 @@ import CloseMenuButton from "./CloseMenuButton.astro";
 			<MenuLink label="About Me" href="https://hloth.dev/me" />
 			<MenuLink label="My Portfolio" href="https://hloth.dev/portfolio" />
 			<div class="mt-auto w-full px-8">
-				<!-- <PushNotificationsSwitch /> -->
-				<!-- TODO: svelte -->
+				<PushNotificationsSwitch client:load />
 			</div>
 			<div
 				class="mt-4 flex flex-wrap items-center justify-between gap-2 px-8
@@ -43,7 +62,7 @@ import CloseMenuButton from "./CloseMenuButton.astro";
 		width: 0;
 		visibility: hidden;
 		transition:
-			width 500ms ease-in-out,
+			width 500ms cubic-bezier(0.16, 1, 0.3, 1),
 			visibility 500ms ease-in-out,
 			display 500ms ease-in-out allow-discrete,
 			overlay 500ms ease-in-out allow-discrete;
