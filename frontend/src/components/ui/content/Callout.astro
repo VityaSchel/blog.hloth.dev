@@ -1,19 +1,31 @@
 ---
+import Emoji from "$emoji";
+import type { EmojiCode } from "$lib/emojis";
+
 interface Props {
 	emoji: string;
+	icon: EmojiCode;
 	children: Element;
 }
-let { emoji } = Astro.props;
+let { emoji, icon } = Astro.props;
 ---
 
 <div
 	class="flex items-start gap-2 rounded-[10px] bg-cream-alt dark:bg-golden-creamy text-[var(--text)] dark:text-white p-3 my-4"
 >
-	<span
-		class="flex min-w-6 shrink-0 items-center justify-center pt-1 text-base"
-	>
-		{emoji}
-	</span>
+	{
+		emoji ? (
+			<span class="flex min-w-6 shrink-0 items-center justify-center pt-1 text-base">
+				{emoji}
+			</span>
+		) : (
+			icon && (
+				<span class="mt-1">
+					<Emoji code={icon} width={24} height={24} />
+				</span>
+			)
+		)
+	}
 	<div
 		class="callout-content min-w-0 flex-1 px-0.5 pt-[5px] pb-[3px] break-words"
 	>

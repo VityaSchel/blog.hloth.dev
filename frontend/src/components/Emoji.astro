@@ -1,0 +1,26 @@
+---
+import Silly from "$emoji/silly.webp";
+import type { EmojiCode } from "$lib/emojis";
+import { Image } from "astro:assets";
+
+interface Props {
+	code: EmojiCode;
+	width?: number;
+	height?: number;
+}
+
+let { width = 32, height = 32, code } = Astro.props;
+
+const emojiMap: Record<EmojiCode, ImageMetadata> = {
+	silly: Silly,
+};
+---
+
+<Image
+	{width}
+	{height}
+	densities={[1, 2]}
+	src={emojiMap[code]}
+	alt="Silly Ket"
+	class="bg-stone-300 rounded-full text-[0px]"
+/>
