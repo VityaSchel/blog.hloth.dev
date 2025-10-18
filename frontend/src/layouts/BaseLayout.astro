@@ -3,8 +3,7 @@ import BaseHead from "$components/BaseHead.astro";
 import Separator from "$ui/Separator.astro";
 import Footer from "$components/Footer.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "$consts";
-import { Toaster } from "svelte-sonner";
-// import "svelte-sonner/dist/styles.css";
+import CustomToaster from "$components/CustomToaster.svelte";
 
 interface Props {
 	title?: string;
@@ -25,7 +24,7 @@ let {
 		<BaseHead {title} {description} />
 	</head>
 	<body>
-		<Toaster client:only="svelte" />
+		<CustomToaster client:only="svelte" />
 		<div class="relative z-0">
 			<main
 				class="flex min-h-screen flex-col bg-cream px-6 pt-6 md:px-12 md:pt-9

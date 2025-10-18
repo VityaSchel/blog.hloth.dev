@@ -40,45 +40,58 @@
 					reaction={emoji}
 					value={value[emoji] ?? 0}
 					onclick={async () => {
-						console.log("Reacting with", emoji);
-						toast.success("Thanks for your reaction!");
-						const req = await fetch(
-							new URL(`posts/${postId}/reactions/challenge`, API_URL),
-							{
-								method: "POST",
-								headers: { "Content-Type": "application/json" },
-								body: JSON.stringify({ reaction: emoji }),
-							},
-						);
-						if (!req.ok) {
-							// TODO: use sonner
-							alert("An error occurred, please try again later.");
-							console.error(await req.text());
-							throw new Error("Failed to get challenge");
+						try {
+							const req = await fetch(
+								new URL(`posts/${postId}/reactions/challenge`, API_URL),
+								{
+									method: "POST",
+									headers: { "Content-Type": "application/json" },
+									body: JSON.stringify({ reaction: emoji }),
+								},
+							);
+							if (!req.ok) {
+								throw new Error(
+									"Failed to get challenge: " + (await req.text()),
+								);
+							}
+							return z
+								.object({ challenge: z.string() })
+								.parse(await req.json());
+						} catch (error) {
+							toast.error("An error occurred, please try again later.");
+							throw error;
 						}
-						return z.object({ challenge: z.string() }).parse(await req.json());
 					}}
 					onreact={async ({ challenge, solutions }) => {
-						const req = await fetch(
-							new URL(`posts/${postId}/reactions`, API_URL),
-							{
-								method: "POST",
-								headers: { "Content-Type": "application/json" },
-								body: JSON.stringify({ challenge, solutions, reaction: emoji }),
-							},
-						);
-						if (!req.ok) {
-							alert("An error occurred, please try again later.");
-							console.error(await req.text());
-							throw new Error("Failed to submit reaction");
+						try {
+							const req = await fetch(
+								new URL(`posts/${postId}/reactions`, API_URL),
+								{
+									method: "POST",
+									headers: { "Content-Type": "application/json" },
+									body: JSON.stringify({
+										challenge,
+										solutions,
+										reaction: emoji,
+									}),
+								},
+							);
+							if (!req.ok) {
+								toast.error("An error occurred, please try again later.");
+								console.error(await req.text());
+								throw new Error("Failed to submit reaction");
+							}
+							const { reactions } = z
+								.object({
+									ok: z.literal(true),
+									reactions: z.record(reactionSchema, z.number().int().min(0)),
+								})
+								.parse(await req.json());
+							query = Promise.resolve(reactions);
+						} catch (error) {
+							toast.error("An error occurred, please try again later.");
+							throw error;
 						}
-						const { reactions } = z
-							.object({
-								ok: z.literal(true),
-								reactions: z.record(reactionSchema, z.number().int().min(0)),
-							})
-							.parse(await req.json());
-						query = Promise.resolve(reactions);
 					}}
 				/>
 			</div>

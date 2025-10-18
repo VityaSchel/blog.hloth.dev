@@ -154,15 +154,15 @@ body:has(dialog[open]) {
 	}
 
 	h1 {
-		@apply mb-4 mt-9 text-4xl;
+		@apply mt-9 mb-4 text-4xl;
 	}
 
 	h2 {
-		@apply mb-3 mt-7 text-3xl;
+		@apply mt-7 mb-3 text-3xl;
 	}
 
 	h3 {
-		@apply mb-2 mt-6 text-2xl;
+		@apply mt-6 mb-2 text-2xl;
 	}
 
 	h4 {
@@ -188,7 +188,7 @@ body:has(dialog[open]) {
 		@apply w-full border-none;
 
 		&:not(&.asterisk) {
-			@apply dark:bg-sandy my-[60px] h-[2px] bg-black;
+			@apply my-[60px] h-[2px] bg-black dark:bg-sandy;
 		}
 
 		&.asterisk {
@@ -349,5 +349,24 @@ body:has(dialog[open]) {
 		border: solid 1px light-dark(#d1d9e0b3, #3d444db3);
 		border-radius: 6px;
 		box-shadow: inset 0 -1px 0 light-dark(#d1d9e0b3, #3d444db3);
+	}
+}
+
+li[data-sonner-toast] {
+	--border-radius: 100px;
+
+	&[data-styled="true"] {
+		padding: 6px 11px;
+
+		[data-icon] {
+			width: 32px;
+			height: 32px;
+			margin-right: 0;
+
+			svg {
+				width: 100%;
+				height: 100%;
+			}
+		}
 	}
 }
