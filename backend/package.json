@@ -4,9 +4,14 @@
 	"version": "1.0.0",
 	"author": "Viktor Shchelochkov <hi@hloth.dev> (https://hloth.dev)",
 	"license": "MIT",
+	"module": "src/index.ts",
+	"main": "src/index.ts",
 	"scripts": {
-		"dev": "dotenvx run -f .env.development --log-level warn -- bun --bun src/index.ts",
-		"start": "dotenvx run -f .env.production --log-level warn -- bun --bun src/index.ts"
+		"dev": "bun --env-file .env.development --watch src/index.ts",
+		"start": "bun --env-file .env.production src/index.ts",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate:dev": "bun --env-file .env.development drizzle-kit migrate",
+		"db:migrate:prod": "bun --env-file .env.production drizzle-kit migrate"
 	},
 	"lint-staged": {
 		"*.{js,ts}": [
@@ -15,8 +20,12 @@
 		]
 	},
 	"dependencies": {
+		"@elysiajs/cors": "^1.4.0",
+		"blog.hloth.dev-shared": "../shared",
+		"drizzle-orm": "^0.44.6",
 		"elysia": "^1.4.10",
-		"pow-reaction": "^1.0.17",
+		"pg": "^8.16.3",
+		"pow-reaction": "1.0.18",
 		"typescript": "^5.9.3",
 		"web-push": "^3.6.7",
 		"zod": "^4.1.12"
@@ -24,7 +33,8 @@
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",
 		"@eslint/js": "^9.37.0",
-		"@types/bun": "^1.2.23",
+		"@types/bun": "^1.3.0",
+		"drizzle-kit": "^0.31.5",
 		"eslint": "^9.37.0",
 		"eslint-config-prettier": "^10.1.8",
 		"lint-staged": "^16.2.3",

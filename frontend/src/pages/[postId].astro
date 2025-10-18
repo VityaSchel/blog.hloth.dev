@@ -7,7 +7,7 @@ import ReadTime from "$components/post/ReadTime.astro";
 import PageViews from "$components/post/PageViews.astro";
 import PostTitle from "$components/post/PostTitle.astro";
 import PostDate from "$components/post/PostDate.astro";
-import PostReactions from "$components/post/PostReactions.astro";
+import PostReactions from "$components/post/PostReactions.svelte";
 import Category from "$ui/Category.astro";
 import Separator from "$ui/Separator.astro";
 import LazyImage from "$ui/LazyImage.astro";
@@ -93,7 +93,7 @@ const nextPost = await getCollection(
 						)
 					}
 				</div>
-				<PostReactions />
+				<PostReactions postId={post.id} client:only="svelte" />
 			</div>
 		</div>
 	</article>

@@ -4,6 +4,9 @@
   "version": "1.0.0",
   "author": "Viktor Shchelochkov <hi@hloth.dev> (https://hloth.dev)",
   "license": "MIT",
+  "scripts": {
+    "prepare": "husky"
+  },
   "devDependencies": {
     "husky": "^9.1.7"
   }

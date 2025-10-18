@@ -45,10 +45,17 @@ export default defineConfig({
 	},
 	vite: {
 		plugins: [tailwindcss()],
+		optimizeDeps: {
+			exclude: ["pow-reaction"],
+		},
 	},
 	env: {
 		schema: {
 			PUBLIC_WEB_PUSH_KEY: envField.string({
+				access: "public",
+				context: "client",
+			}),
+			API_URL: envField.string({
 				access: "public",
 				context: "client",
 			}),

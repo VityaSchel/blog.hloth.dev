@@ -11,3 +11,7 @@ node_modules/
 .idea/
 
 .eslintcache
+
+# fuck dotenvx
+.env*
+!.env.example

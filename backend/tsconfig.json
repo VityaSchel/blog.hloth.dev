@@ -28,7 +28,11 @@
 
 		"baseUrl": ".",
 		"paths": {
-			"$reactions": ["../reactions/index.ts"]
+			"$db": ["src/db/index.ts"],
+			"$db/*": ["src/db/*"],
+			"$utils": ["src/utils.ts"],
+			"$reactions": ["src/post-reactions.ts"],
+			"$views": ["src/post-views.ts"]
 		}
 	}
 }

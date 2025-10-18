@@ -5,12 +5,10 @@
   "author": "Viktor Shchelochkov <hi@hloth.dev> (https://hloth.dev)",
   "license": "MIT",
   "scripts": {
-    "prepare": "husky",
-    "dev": "dotenvx run -f .env.development --log-level warn -- bun --bun astro dev",
-    "build": "dotenvx run -f .env.production --log-level warn -- bun --bun astro build",
-    "preview": "dotenvx run -f .env.development --log-level warn -- sh -c 'bun --bun astro build && bun --bun astro preview'",
-    "astro": "astro",
-    "web-push-keys:generate": "web-push generate-vapid-keys"
+    "dev": "bun --env-file .env.development --bun astro dev",
+    "build": "bun --env-file .env.production --bun astro build",
+    "preview": "bun --env-file .env.production --bun astro build && bun --bun astro preview",
+    "astro": "astro"
   },
   "lint-staged": {
     "*.{js,ts,svelte,astro}": [
@@ -26,8 +24,10 @@
     "@fontsource-variable/source-serif-4": "^5.2.9",
     "@tailwindcss/vite": "^4.1.14",
     "astro": "^5.14.4",
+    "blog.hloth.dev-shared": "../shared",
     "cheerio": "^1.1.2",
     "mediainfo.js": "^0.3.6",
+    "pow-reaction": "^1.0.17",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-slug": "^6.0.0",
     "remark": "^15.0.1",

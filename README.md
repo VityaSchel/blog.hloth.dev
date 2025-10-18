@@ -25,7 +25,6 @@ Made with the amazing [Astro](https://astro.build/) and Svelte!
 - A special THANK YOU to [Anthony Fu](https://antfu.me/) for fantastic [shiki](https://github.com/shikijs/shiki) code highlighter!
 - And others!
   - [cheerio](https://cheerio.js.org/)
-  - [dotenvx](https://dotenvx.com/)
   - [ESLint](https://eslint.org)
   - [Fontsource](https://fontsource.org/)
   - [Husky](https://typicode.github.io/husky/)
