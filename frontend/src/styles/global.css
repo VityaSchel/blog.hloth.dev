@@ -207,6 +207,26 @@ body:has(dialog[open]) {
 		}
 	}
 
+	code:not(:where(pre code)) {
+		font-family: var(--font-mono);
+		font-size: 0.9rem;
+		padding: 1px 4px;
+		border-radius: 0.3rem;
+		white-space: pre-wrap;
+
+		border: 0.5px solid rgb(from hsl(30 3.3% 11.8%) r g b/.25);
+		background-color: rgb(from hsl(50 9% 73.7%) r g b/.05);
+		color: hsl(0 58.6% 34.1%);
+	}
+
+	@media (prefers-color-scheme: dark) {
+		code:not(:where(pre code)) {
+			color: hsl(0 98.4% 75.1%);
+			border: 0.5px solid rgb(from hsl(51 16.5% 84.5%) r g b/.25);
+			background-color: rgb(from hsl(60 2.5% 23.3%) r g b/.5);
+		}
+	}
+
 	pre {
 		display: block;
 		font-size: 14px;

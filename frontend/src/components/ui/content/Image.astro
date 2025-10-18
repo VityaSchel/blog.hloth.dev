@@ -5,7 +5,7 @@ import type { ComponentProps } from "astro/types";
 
 type Props = ComponentProps<typeof Picture>;
 
-const { ...props } = Astro.props;
+const props = Astro.props;
 ---
 
 <figure>
@@ -25,11 +25,11 @@ const { ...props } = Astro.props;
 		<!-- {...imgProps} -->
 		<!-- rounded={!background} -->
 	</div>
-	<!-- {
-		caption && (
+	{
+		Astro.slots.default && (
 			<figcaption>
 				<slot />
 			</figcaption>
 		)
-	} -->
+	}
 </figure>
