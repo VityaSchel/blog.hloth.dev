@@ -6,10 +6,11 @@ export function getIp(context: Context): string | undefined {
 		return;
 	}
 
-	const ip = reverseProxyIp ?? undefined;
+	let ip = reverseProxyIp ?? undefined;
 
 	if (!ip && process.env.NODE_ENV === "development") {
-		console.warn("Could not determine IP address");
+		console.warn("Could not determine IP address, falling back to 127.0.0.1");
+		ip = "127.0.0.1";
 	}
 
 	return ip;

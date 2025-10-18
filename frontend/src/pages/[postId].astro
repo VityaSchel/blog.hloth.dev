@@ -4,7 +4,7 @@ import AppBar from "$components/AppBar.astro";
 import BlogPost from "$layouts/BlogPostLayout.astro";
 import Me from "$components/post/Me.astro";
 import ReadTime from "$components/post/ReadTime.astro";
-import PageViews from "$components/post/PageViews.astro";
+import PageViews from "$components/post/PageViews.svelte";
 import PostTitle from "$components/post/PostTitle.astro";
 import PostDate from "$components/post/PostDate.astro";
 import PostReactions from "$components/post/PostReactions.svelte";
@@ -52,7 +52,7 @@ const nextPost = await getCollection(
 				<div class="flex items-center gap-5">
 					<Category category={post.data.category} />
 					<ReadTime value={post.data.readTime} />
-					<PageViews />
+					<PageViews postId={post.id} client:only="svelte" />
 				</div>
 				<PostTitle title={post.data.title} />
 				<Me />

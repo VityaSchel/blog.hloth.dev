@@ -25,10 +25,10 @@ export const postViewsRouter = new Elysia({
 		hasher.update(JSON.stringify(payload));
 		const clientId = hasher.digest("hex");
 
-		void incrementViews({
+		const newValue = await incrementViews({
 			postId,
 			clientId,
 		});
 
-		return { ok: true };
+		return { ok: true, value: newValue };
 	});
