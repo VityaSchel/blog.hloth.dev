@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@custom-variant hf (&:where(&:hover, &:focus-visible));
+
+@custom-variant tall-screen {
+	@media screen and (min-height: 670px) and (width < 768px) {
+		@slot;
+	}
+}
+
 @theme inline {
 	--color-cream: #f3f1e6;
 	--color-golden: #f1c470;
@@ -28,14 +36,6 @@
 		Liberation Mono, Courier New, monospace;
 }
 
-@custom-variant hf (&:where(&:hover, &:focus-visible));
-
-@custom-variant tall-screen {
-	@media screen and (min-height: 670px) and (width < 768px) {
-		@slot;
-	}
-}
-
 :root {
 	background-color: var(--bg);
 	color: var(--text);
@@ -43,9 +43,7 @@
 	text-rendering: geometricPrecision;
 	-webkit-font-smoothing: antialiased;
 	color-scheme: light dark;
-}
 
-html {
 	--bg: var(--color-cream);
 	--text: #000000;
 	--theme-switch-day: #000000;
@@ -55,18 +53,7 @@ html {
 }
 
 @media (prefers-color-scheme: dark) {
-	.astro-code,
-	.astro-code span {
-		color: var(--shiki-dark) !important;
-		background-color: var(--shiki-dark-bg) !important;
-		font-style: var(--shiki-dark-font-style) !important;
-		font-weight: var(--shiki-dark-font-weight) !important;
-		text-decoration: var(--shiki-dark-text-decoration) !important;
-	}
-}
-
-@media (prefers-color-scheme: dark) {
-	html {
+	:root {
 		--bg: #000000;
 		--text: var(--color-sandy);
 		--theme-switch-day: var(--color-sandy);
@@ -84,17 +71,24 @@ html {
 		animation-range: calc(var(--page-height) - 50vh) var(--page-height);
 		box-shadow: inset 0 0vh 0px 0px rgba(0, 0, 0, 0);
 	}
-}
+	@keyframes footer-text-animation {
+		from {
+			opacity: 0.2;
+			box-shadow: inset 0 60vh 20px 0px rgba(0, 0, 0, 0.25);
+		}
 
-@keyframes footer-text-animation {
-	from {
-		opacity: 0.2;
-		box-shadow: inset 0 60vh 20px 0px rgba(0, 0, 0, 0.25);
+		to {
+			opacity: 1;
+			box-shadow: inset 0 0vh 0px 0px rgba(0, 0, 0, 0);
+		}
 	}
-
-	to {
-		opacity: 1;
-		box-shadow: inset 0 0vh 0px 0px rgba(0, 0, 0, 0);
+	.astro-code,
+	.astro-code span {
+		color: var(--shiki-dark) !important;
+		background-color: var(--shiki-dark-bg) !important;
+		font-style: var(--shiki-dark-font-style) !important;
+		font-weight: var(--shiki-dark-font-weight) !important;
+		text-decoration: var(--shiki-dark-text-decoration) !important;
 	}
 }
 
@@ -111,6 +105,7 @@ body:has(dialog[open]) {
 .banner-clip {
 	mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 567 349" xmlns="http://www.w3.org/2000/svg"><path d="M0 60C0 31.7157 0 17.5736 8.7868 8.7868C17.5736 0 31.7157 0 60 0H507C535.284 0 549.426 0 558.213 8.7868C567 17.5736 567 31.7157 567 60V289C567 317.284 567 331.426 558.213 340.213C549.426 349 535.284 349 507 349H60C31.7157 349 17.5736 349 8.7868 340.213C0 331.426 0 317.284 0 289V60Z"/></svg>');
 }
+
 @media (width >= 48rem) {
 	.banner-clip {
 		mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 567 349" xmlns="http://www.w3.org/2000/svg"><path d="M0 96C0 62.3968 0 45.5953 6.53961 32.7606C12.292 21.4708 21.4708 12.292 32.7606 6.53961C45.5953 0 62.3969 0 96 0H471C504.603 0 521.405 0 534.239 6.53961C545.529 12.292 554.708 21.4708 560.46 32.7606C567 45.5953 567 62.3968 567 96V253C567 286.603 567 303.405 560.46 316.239C554.708 327.529 545.529 336.708 534.239 342.46C521.405 349 504.603 349 471 349H96C62.3969 349 45.5953 349 32.7606 342.46C21.4708 336.708 12.292 327.529 6.53961 316.239C0 303.405 0 286.603 0 253V96Z"/></svg>');
@@ -159,15 +154,15 @@ body:has(dialog[open]) {
 	}
 
 	h1 {
-		@apply mt-9 mb-4 text-4xl;
+		@apply mb-4 mt-9 text-4xl;
 	}
 
 	h2 {
-		@apply mt-7 mb-3 text-3xl;
+		@apply mb-3 mt-7 text-3xl;
 	}
 
 	h3 {
-		@apply mt-6 mb-2 text-2xl;
+		@apply mb-2 mt-6 text-2xl;
 	}
 
 	h4 {
@@ -193,7 +188,7 @@ body:has(dialog[open]) {
 		@apply w-full border-none;
 
 		&:not(&.asterisk) {
-			@apply my-[60px] h-[2px] bg-black dark:bg-sandy;
+			@apply dark:bg-sandy my-[60px] h-[2px] bg-black;
 		}
 
 		&.asterisk {

@@ -9,5 +9,16 @@
 		{
 			"path": "backend"
 		}
-	]
+	],
+	"settings": {
+		"yaml.schemas": {
+			"./.astro/collections/blog.schema.json": [
+				"frontend/src/content/blog/**/*.md"
+			]
+		},
+		"svg.preview.background": "transparent",
+		"files.associations": {
+			"global.css": "tailwindcss"
+		}
+	}
 }

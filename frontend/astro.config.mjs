@@ -7,7 +7,7 @@ import mdx from "@astrojs/mdx";
 import tailwindcss from "@tailwindcss/vite";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import { rehypeHeadingGroup } from "src/lib/plugins/heading-group";
+import { rehypeHeadingGroup } from "./src/lib/plugins/heading-group";
 
 // https://astro.build/config
 export default defineConfig({

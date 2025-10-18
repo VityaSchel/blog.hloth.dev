@@ -8,6 +8,7 @@
 		type Reaction,
 	} from "blog.hloth.dev-shared";
 	import { fade, slide } from "svelte/transition";
+	import { toast } from "svelte-sonner";
 
 	let {
 		postId,
@@ -39,6 +40,8 @@
 					reaction={emoji}
 					value={value[emoji] ?? 0}
 					onclick={async () => {
+						console.log("Reacting with", emoji);
+						toast.success("Thanks for your reaction!");
 						const req = await fetch(
 							new URL(`posts/${postId}/reactions/challenge`, API_URL),
 							{
