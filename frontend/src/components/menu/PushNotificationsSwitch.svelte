@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PUBLIC_WEB_PUSH_KEY } from "astro:env/client";
+	import { API_URL, PUBLIC_WEB_PUSH_KEY } from "astro:env/client";
 	import { onMount } from "svelte";
 
 	let subscribed = $state(false);
@@ -40,7 +40,7 @@
 				applicationServerKey: PUBLIC_WEB_PUSH_KEY,
 			});
 			const subData = sub.toJSON();
-			const response = await fetch("/api/push-notifications/subscriptions", {
+			const response = await fetch(new URL("notifications/web-push", API_URL), {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(subData),
@@ -73,10 +73,7 @@
 		try {
 			await subscription.unsubscribe();
 			const response = await fetch(
-				"/api/push-notifications/subscription?" +
-					new URLSearchParams({
-						endpoint: subscription.endpoint,
-					}),
+				new URL(`notifications/web-push/${subscription.endpoint}`, API_URL),
 				{ method: "DELETE" },
 			).then(
 				(res) =>
