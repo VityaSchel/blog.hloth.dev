@@ -8,21 +8,66 @@ import FallbackImage from "$assets/banner.jpg";
 import { SITE_TITLE } from "$consts";
 import { ClientRouter } from "astro:transitions";
 
-interface Props {
+type Props = {
 	title: string;
 	description: string;
-	image?: ImageMetadata;
-}
+	image?: {
+		src: ImageMetadata;
+		alt: string;
+	};
+	locale?: "en" | "ru";
+	article?: {
+		createdAt: Date;
+		updatedAt?: Date;
+		category: string;
+	};
+};
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = FallbackImage } = Astro.props;
+const {
+	title,
+	description,
+	locale,
+	image = { src: FallbackImage, alt: "hloth blog" },
+	article,
+} = Astro.props;
+
+const articleJsonLd = article && {
+	"@context": "https://schema.org",
+	"@type": "Article",
+	headline: title,
+	description: description,
+	image: image && {
+		"@type": "ImageObject",
+		url: image,
+		width: image.src.width,
+		height: image.src.height,
+		caption: image.alt,
+	},
+	author: {
+		"@type": "Person",
+		name: "Viktor Shchelochkov",
+		url: "https://hloth.dev/me",
+		email: "hi@hloth.dev",
+	},
+	datePublished: article.createdAt.toISOString(),
+	dateModified: article.updatedAt ? article.updatedAt.toISOString() : undefined,
+	mainEntityOfPage: {
+		"@type": "WebPage",
+		"@id": Astro.url,
+	},
+};
 ---
 
-<!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="hloth blog" />
+<link rel="manifest" href="/site.webmanifest" />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link
 	rel="alternate"
@@ -31,26 +76,56 @@ const { title, description, image = FallbackImage } = Astro.props;
 	href={new URL("rss.xml", Astro.site)}
 />
 
-<!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
-<!-- Primary Meta Tags -->
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
+<meta property="og:type" content={article ? "article" : "website"} />
+{
+	article && (
+		<>
+			<meta
+				property="article:published_time"
+				content={article.createdAt.toISOString()}
+			/>
+			{article.updatedAt !== undefined && (
+				<meta
+					property="article:modified_time"
+					content={article.updatedAt.toISOString()}
+				/>
+			)}
+			<meta property="article:author" content="https://hloth.dev/me" />
+			<meta property="article:section" content={article.category} />
+		</>
+	)
+}
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
+<meta property="og:site_name" content={SITE_TITLE} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image.src, Astro.url)} />
+<meta property="og:image" content={new URL(image.src.src, Astro.url)} />
+<meta property="og:image:width" content={String(image.src.width)} />
+<meta property="og:image:height" content={String(image.src.height)} />
+<meta property="og:image:alt" content={image.alt} />
+<meta property="og:locale" content={locale === "ru" ? "ru_RU" : "en_US"} />
 
-<!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={Astro.url} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image.src, Astro.url)} />
+<meta property="twitter:image" content={new URL(image.src.src, Astro.url)} />
+<meta property="twitter:creator" content="@hlothdev" />
+
+{
+	articleJsonLd && (
+		<script
+			type="application/ld+json"
+			set:html={JSON.stringify(articleJsonLd)}
+			is:inline
+		/>
+	)
+}
 
 <ClientRouter />

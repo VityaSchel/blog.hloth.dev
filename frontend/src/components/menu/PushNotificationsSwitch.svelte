@@ -73,7 +73,10 @@
 		try {
 			await subscription.unsubscribe();
 			const response = await fetch(
-				new URL(`notifications/web-push/${subscription.endpoint}`, API_URL),
+				new URL(
+					`notifications/web-push/${encodeURIComponent(subscription.endpoint)}`,
+					API_URL,
+				),
 				{ method: "DELETE" },
 			).then(
 				(res) =>

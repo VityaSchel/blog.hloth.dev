@@ -1,9 +1,10 @@
 ---
 import BaseLayout from "$layouts/BaseLayout.astro";
 import AppBar from "$components/AppBar.astro";
+import { SITE_TITLE } from "$consts";
 ---
 
-<BaseLayout>
+<BaseLayout title={`Page Not Found @ ${SITE_TITLE}`}>
 	<AppBar homepage />
 	<div class="flex flex-1 items-center justify-center">
 		<div class="relative flex items-center justify-center text-center">

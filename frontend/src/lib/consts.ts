@@ -12,10 +12,21 @@ export const CATEGORIES_IDS = [
 
 export type CategoryId = (typeof CATEGORIES_IDS)[number];
 
-export const CATEGORIES: Record<CategoryId, { page: string; name: string }> = {
-	life_story: { page: "life-stories", name: "Life Story" },
-	tutorial: { page: "tutorials", name: "Tutorial" },
-	project: { page: "projects", name: "Project" },
-	announcement: { page: "announcements", name: "Announcement" },
-	review: { page: "reviews", name: "Review" },
+export const CATEGORIES: Record<
+	CategoryId,
+	{ page: string; name: string; plural: string }
+> = {
+	life_story: {
+		page: "life-stories",
+		name: "Life Story",
+		plural: "Life Stories",
+	},
+	tutorial: { page: "tutorials", name: "Tutorial", plural: "Tutorials" },
+	project: { page: "projects", name: "Project", plural: "Projects" },
+	announcement: {
+		page: "announcements",
+		name: "Announcement",
+		plural: "Announcements",
+	},
+	review: { page: "reviews", name: "Review", plural: "Reviews" },
 } as const;

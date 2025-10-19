@@ -5,23 +5,36 @@ import Footer from "$components/Footer.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "$consts";
 import CustomToaster from "$components/CustomToaster.astro";
 
-interface Props {
+type Props = {
 	title?: string;
 	description?: string;
 	activeCategory?: string;
-}
+	image?: {
+		src: ImageMetadata;
+		alt: string;
+	};
+	locale?: "en" | "ru";
+	article?: {
+		createdAt: Date;
+		updatedAt?: Date;
+		category: string;
+	};
+};
 
 let {
 	title = SITE_TITLE,
 	description = SITE_DESCRIPTION,
 	activeCategory,
+	image,
+	locale,
+	article,
 } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead {title} {description} />
+		<BaseHead {title} {description} {image} {locale} {article} />
 	</head>
 	<body>
 		<CustomToaster />

@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import type { CategoryId } from "$consts";
+import { CATEGORIES, SITE_TITLE, type CategoryId } from "$consts";
 import BaseLayout from "$layouts/BaseLayout.astro";
 import PostsLayout from "$layouts/PostsLayout.astro";
 
@@ -19,6 +19,9 @@ const sorted = posts.sort(
 );
 ---
 
-<BaseLayout activeCategory={categorySlug}>
+<BaseLayout
+	title={`${CATEGORIES[categorySlug].plural} @ ${SITE_TITLE}`}
+	activeCategory={categorySlug}
+>
 	<PostsLayout posts={sorted} />
 </BaseLayout>
