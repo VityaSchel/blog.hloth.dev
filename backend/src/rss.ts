@@ -2,7 +2,10 @@ import * as cheerio from "cheerio";
 
 export type Post = { id: string; title: string; description: string; image: { url: string } };
 
+let postsCached: Post[] | null = null;
+
 export async function getPosts(): Promise<Post[]> {
+	if (postsCached) return postsCached;
 	const req = await fetch(new URL("rss.xml", process.env.ORIGIN));
 	if (req.status !== 200) {
 		throw new Error(`Failed to fetch RSS feed: ${req.status}`);
@@ -25,5 +28,6 @@ export async function getPosts(): Promise<Post[]> {
 				url: $("enclosure", item).attr("url")!,
 			},
 		}));
-	return items.reverse();
+	postsCached = items.reverse();
+	return postsCached;
 }

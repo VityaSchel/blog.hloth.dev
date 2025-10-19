@@ -3,6 +3,7 @@ import Elysia from "elysia";
 import { reactionSchema } from "blog.hloth.dev-shared";
 import { powReactions } from "src/post-reactions";
 import { getIp } from "$utils";
+import { doesPostExist } from "src/post-middleware";
 
 export const postReactionsChallengeRouter = new Elysia({
 	prefix: "/posts/:id/reactions/challenge",
@@ -11,10 +12,16 @@ export const postReactionsChallengeRouter = new Elysia({
 	async (context) => {
 		const { body, params, set } = context;
 
+		const postId = params.id;
 		const ip = getIp(context);
 		if (!ip) {
 			set.status = 403;
 			return { ok: false };
+		}
+
+		if (!(await doesPostExist(postId))) {
+			set.status = 404;
+			return { ok: false, error: "Post not found" };
 		}
 
 		const powReaction = powReactions[body.reaction];
@@ -23,7 +30,7 @@ export const postReactionsChallengeRouter = new Elysia({
 			return { ok: false };
 		}
 
-		const challenge = await powReaction.getChallenge({ ip, pageId: params.id });
+		const challenge = await powReaction.getChallenge({ ip, pageId: postId });
 		return { challenge };
 	},
 	{

@@ -1,0 +1,13 @@
+---
+interface Props {
+	class?: import("astro/types").HTMLAttributes<"a">["class:list"];
+}
+let { class: className } = Astro.props;
+---
+
+<a
+	href="/#posts"
+	class:list={["rounded-full border px-4 text-base font-medium", className]}
+>
+	Show all posts
+</a>

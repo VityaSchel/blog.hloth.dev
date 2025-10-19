@@ -23,5 +23,5 @@ const sorted = posts.sort(
 	title={`${CATEGORIES[categorySlug].plural} @ ${SITE_TITLE}`}
 	activeCategory={categorySlug}
 >
-	<PostsLayout posts={sorted} />
+	<PostsLayout posts={sorted} category />
 </BaseLayout>

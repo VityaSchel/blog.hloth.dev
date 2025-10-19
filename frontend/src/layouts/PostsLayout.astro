@@ -4,12 +4,14 @@ import Separator from "$ui/Separator.astro";
 import PostPreview from "$components/post/PostPreview.astro";
 import HlothBlogSvg from "$components/HlothBlogSvg.astro";
 import type { CollectionEntry } from "astro:content";
+import ShowAllPostsButton from "$components/ui/ShowAllPostsButton.astro";
 
 interface Props {
 	posts: CollectionEntry<"blog">[];
+	category?: boolean;
 }
 
-let { posts } = Astro.props;
+let { posts, category = false } = Astro.props;
 ---
 
 <AppBar />
@@ -40,24 +42,14 @@ let { posts } = Astro.props;
 			<div class="flex h-64 w-full flex-col items-center justify-center gap-4 text-[24.5px]">
 				<span class="font-text tracking-normal">No posts yet</span>
 				<img src="/no.gif" alt="🙂‍↔️" />
-				<a
-					href="/#posts"
-					class="rounded-full border px-4 text-base font-medium"
-				>
-					Show all posts
-				</a>
+				{category && <ShowAllPostsButton />}
 			</div>
 		)
 	}
 </section>
 
 {
-	Boolean(posts.length) && (
-		<a
-			href="/#posts"
-			class="rounded-full border px-4 text-base font-medium shrink-0 mt-12 self-center"
-		>
-			Show all posts
-		</a>
+	Boolean(posts.length) && category && (
+		<ShowAllPostsButton class="shrink-0 mt-12 self-center" />
 	)
 }
