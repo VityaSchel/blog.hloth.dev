@@ -8,7 +8,7 @@ category: "tutorial"
 readTime: 5
 ---
 
-import testVideo from "./test.mp4?url";
+import testVideo from "./test.mp4";
 import Image from "$ui/content/Image.astro";
 import RichLink from "$ui/content/RichLink.astro";
 import Embed from "$ui/content/Embed.astro";
@@ -98,7 +98,9 @@ Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sap
 
 import placeholder1 from "./blog-placeholder-1.jpg";
 
-<Image src={placeholder1} alt="123">Caption</Image>
+<Image src={placeholder1} alt="123">
+	Caption
+</Image>
 
 ## Blockquotes
 

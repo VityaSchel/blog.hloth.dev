@@ -1,9 +1,18 @@
 import path from "path";
 import mediaInfoFactory from "mediainfo.js";
+import { fileURLToPath } from "url";
 
 export async function getVideoDimensions(filePath: string) {
-	const content = Bun.file(path.resolve("." + filePath));
-	if (!(await content.exists())) throw new Error("File not found");
+	const root = path.resolve(
+		path.join(fileURLToPath(import.meta.url), "../../../"),
+	);
+	const base = path.resolve(
+		path.join(root, import.meta.env.PROD ? "./dist/" : "./"),
+	);
+	const resolvedPath = path.resolve(path.join(base, filePath));
+	const content = Bun.file(resolvedPath);
+	if (!(await content.exists()))
+		throw new Error("File not found: " + resolvedPath + " " + import.meta.url);
 	const mediainfo = await mediaInfoFactory();
 	const result = await mediainfo.analyzeData(content.size, (size, offset) =>
 		content.slice(offset, offset + size).bytes(),
