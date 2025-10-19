@@ -15,6 +15,13 @@
       "when": 1760778287745,
       "tag": "0001_magical_raider",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1760865895690,
+      "tag": "0002_black_cerebro",
+      "breakpoints": true
     }
   ]
 }

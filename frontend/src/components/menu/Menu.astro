@@ -8,7 +8,6 @@ import PushNotificationsSwitch from "./PushNotificationsSwitch.svelte";
 	const openMenuButton = document.querySelector(
 		"button#blog-hloth-dev-menu-open",
 	);
-	console.log(openMenuButton);
 	if (openMenuButton instanceof HTMLButtonElement) {
 		openMenuButton.addEventListener("click", () => {
 			const dialog = document.querySelector("dialog#blog-hloth-dev-menu");

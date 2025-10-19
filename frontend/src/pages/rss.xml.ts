@@ -18,7 +18,6 @@ export const GET: APIRoute = async ({ site }) => {
 		const mediaUrl = new URL(mediaPath, base ?? "https://blog.hloth.dev");
 		const mediaMeta = await fetch(mediaUrl);
 		const contentLength = await mediaMeta.bytes().then((b) => b.length);
-		console.log(contentLength);
 		items.push({
 			title: post.data.title,
 			description: post.data.excerpt,
