@@ -11,6 +11,7 @@ let { href, label } = Astro.props;
 	class="px-8 py-2 font-display tracking-tight transition-[letter-spacing,color]
 		focus:outline-0 focus-visible:bg-blue-400/20 hf:tracking-wide
 		hf:text-neutral-300"
+	aria-label={label}
 >
 	{label}
 </a>

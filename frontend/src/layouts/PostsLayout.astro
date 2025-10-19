@@ -14,7 +14,15 @@ let { posts } = Astro.props;
 
 <AppBar />
 <HlothBlogSvg />
-<a id="posts" href="#posts" aria-hidden="true" tabindex={-1}></a>
+<a
+	id="posts"
+	href="#posts"
+	aria-hidden="true"
+	tabindex={-1}
+	class="invisible"
+	aria-label="Posts"
+>
+</a>
 <section class="mt-[60px]">
 	{
 		posts.length ? (
@@ -42,3 +50,14 @@ let { posts } = Astro.props;
 		)
 	}
 </section>
+
+{
+	Boolean(posts.length) && (
+		<a
+			href="/#posts"
+			class="rounded-full border px-4 text-base font-medium shrink-0 mt-12 self-center"
+		>
+			Show all posts
+		</a>
+	)
+}

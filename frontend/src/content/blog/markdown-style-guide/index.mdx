@@ -8,6 +8,7 @@ category: "tutorial"
 readTime: 5
 ---
 
+import testVideo from "./test.mp4?url";
 import Image from "$ui/content/Image.astro";
 import RichLink from "$ui/content/RichLink.astro";
 import Embed from "$ui/content/Embed.astro";
@@ -20,8 +21,6 @@ Here is a sample of some basic Markdown syntax that can be used when writing Mar
 <RichLink href="https://example.org" />
 
 <Embed url="https://example.org" service="Example" />
-
-import testVideo from "./test.mp4";
 
 <Video src={testVideo}>Test</Video>
 

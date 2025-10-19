@@ -68,4 +68,10 @@ export default defineConfig(
 			"prefer-const": "error",
 		},
 	},
+	{
+		files: ["**/*.mdx"],
+		rules: {
+			"@typescript-eslint/no-unused-vars": "off",
+		},
+	},
 );
