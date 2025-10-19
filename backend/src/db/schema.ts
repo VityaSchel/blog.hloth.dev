@@ -14,7 +14,7 @@ import { reactions, type Reaction } from "blog.hloth.dev-shared";
 export const pushSubscriptionsTable = pgTable(
 	"push_subscriptions",
 	{
-		endpoint: text("endpoint").primaryKey(),
+		endpoint: text("endpoint").unique().primaryKey(),
 		p256dh: text("p256dh").notNull(),
 		auth: text("auth").notNull(),
 		expiresAt: timestamp("expires_at", {
@@ -25,14 +25,14 @@ export const pushSubscriptionsTable = pgTable(
 );
 
 export const reactionsTable = pgTable("reactions", {
-	postId: text("post_id").notNull().unique(),
+	postId: text("post_id").notNull().unique().primaryKey(),
 	...(Object.fromEntries(reactions.map((r) => [r, integer(r).notNull().default(0)])) as {
 		[k in Reaction]: NotNull<PgIntegerBuilderInitial<k>>;
 	}),
 });
 
 export const newPostNotificationsTable = pgTable("new_post_notifications", {
-	postId: text("post_id").notNull(),
+	postId: text("post_id").notNull().unique().primaryKey(),
 	sent: integer("sent").notNull().default(0),
 });
 

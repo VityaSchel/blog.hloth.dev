@@ -1,5 +1,6 @@
 // @ts-check
 
+import path from "path";
 import { defineConfig, envField } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
@@ -7,13 +8,21 @@ import mdx from "@astrojs/mdx";
 import tailwindcss from "@tailwindcss/vite";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import { rehypeHeadingGroup } from "./src/plugins/heading-groupgroupp
+import { rehypeHeadingGroup } from "./src/plugins/heading-group";
+import serviceWorker from "src/plugins/astro-sw";
 
 // https://astro.build/config
 export default defineConfig({
 	prefetch: true,
 	site: "https://blog.hloth.dev",
-	integrations: [sitemap(), svelte(), mdx()],
+	integrations: [
+		sitemap(),
+		svelte(),
+		mdx(),
+		serviceWorker({
+			path: path.resolve(path.join(__dirname, "src/sw.ts")),
+		}),
+	],
 	output: "static",
 	image: {},
 	markdown: {
@@ -48,11 +57,6 @@ export default defineConfig({
 		optimizeDeps: {
 			exclude: ["pow-reaction"],
 		},
-		build: {
-			rollupOptions: {
-				sw
-			}
-		}
 	},
 	env: {
 		schema: {

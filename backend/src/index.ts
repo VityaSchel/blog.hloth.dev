@@ -6,6 +6,8 @@ import { postReactionsRouter } from "./routes/posts/[id]/reactions";
 import { postReactionsChallengeRouter } from "./routes/posts/[id]/reactions/challenge";
 import { postViewsRouter } from "./routes/posts/[id]/views";
 import { checkNewPosts } from "src/broadcast-notification/new-post";
+import { pushNotificationsRouter } from "src/routes/notifications/web-push";
+import { pushNotificationSubscriptionRouter } from "src/routes/notifications/web-push/[id]";
 
 const app = new Elysia()
 	.use(
@@ -54,7 +56,9 @@ const app = new Elysia()
 	.use(postRouter)
 	.use(postReactionsRouter)
 	.use(postReactionsChallengeRouter)
-	.use(postViewsRouter);
+	.use(postViewsRouter)
+	.use(pushNotificationsRouter)
+	.use(pushNotificationSubscriptionRouter);
 // https://github.com/elysiajs/elysia/issues/138
 app.listen(process.env.PORT ?? 3000, ({ hostname, port }: Bun.Server<void>) => {
 	console.log(`Server running at http://${hostname}:${port}`);

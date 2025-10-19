@@ -26,7 +26,6 @@
     "astro": "^5.14.4",
     "blog.hloth.dev-shared": "../shared",
     "cheerio": "^1.1.2",
-    "dedent": "^1.7.0",
     "mediainfo.js": "^0.3.6",
     "pow-reaction": "^1.0.17",
     "rehype-autolink-headings": "^7.1.0",
