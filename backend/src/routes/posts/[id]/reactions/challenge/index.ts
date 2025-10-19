@@ -1,7 +1,7 @@
 import z from "zod";
 import Elysia from "elysia";
 import { reactionSchema } from "blog.hloth.dev-shared";
-import { powReactions } from "../../../../post-reactions";
+import { powReactions } from "src/post-reactions";
 import { getIp } from "$utils";
 
 export const postReactionsChallengeRouter = new Elysia({

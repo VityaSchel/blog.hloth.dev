@@ -7,6 +7,7 @@ import {
 	serial,
 	index,
 	type PgIntegerBuilderInitial,
+	primaryKey,
 } from "drizzle-orm/pg-core";
 import { reactions, type Reaction } from "blog.hloth.dev-shared";
 
@@ -29,6 +30,20 @@ export const reactionsTable = pgTable("reactions", {
 		[k in Reaction]: NotNull<PgIntegerBuilderInitial<k>>;
 	}),
 });
+
+export const newPostNotificationsTable = pgTable("new_post_notifications", {
+	postId: text("post_id").notNull(),
+	sent: integer("sent").notNull().default(0),
+});
+
+export const sentNotificationsTable = pgTable(
+	"sent_notifications",
+	{
+		endpoint: text("endpoint").notNull(),
+		postId: text("post_id").notNull(),
+	},
+	(t) => [primaryKey({ columns: [t.endpoint, t.postId] })],
+);
 
 export const reactionChallengesTable = pgTable(
 	"reaction_challenges",

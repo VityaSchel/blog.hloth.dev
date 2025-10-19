@@ -1,10 +1,11 @@
 import Elysia from "elysia";
 import { cors } from "@elysiajs/cors";
-import { postsRouter } from "src/posts";
-import { postRouter } from "src/posts/[id]";
-import { postReactionsRouter } from "src/posts/[id]/reactions";
-import { postReactionsChallengeRouter } from "src/posts/[id]/reactions/challenge";
-import { postViewsRouter } from "src/posts/[id]/views";
+import { postsRouter } from "./routes/posts";
+import { postRouter } from "./routes/posts/[id]";
+import { postReactionsRouter } from "./routes/posts/[id]/reactions";
+import { postReactionsChallengeRouter } from "./routes/posts/[id]/reactions/challenge";
+import { postViewsRouter } from "./routes/posts/[id]/views";
+import { checkNewPosts } from "src/broadcast-notification/new-post";
 
 const app = new Elysia()
 	.use(
@@ -58,3 +59,5 @@ const app = new Elysia()
 app.listen(process.env.PORT ?? 3000, ({ hostname, port }: Bun.Server<void>) => {
 	console.log(`Server running at http://${hostname}:${port}`);
 });
+
+void checkNewPosts();

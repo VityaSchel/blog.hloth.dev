@@ -1,6 +1,6 @@
 import z from "zod";
 import Elysia from "elysia";
-import { getReactions, incrementReaction, powReactions } from "../../../post-reactions";
+import { getReactions, incrementReaction, powReactions } from "src/post-reactions";
 import { reactionSchema } from "blog.hloth.dev-shared";
 import { getIp } from "$utils";
 
