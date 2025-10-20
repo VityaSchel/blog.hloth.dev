@@ -1,0 +1,82 @@
+---
+import Me from "$components/post/Me.astro";
+import PostDate from "$components/post/PostDate.astro";
+import Separator from "$components/ui/Separator.astro";
+import BaseLayout from "$layouts/BaseLayout.astro";
+import PostReactions from "$components/post/PostReactions.svelte";
+import type { CollectionEntry } from "astro:content";
+
+type Props = (
+	| CollectionEntry<"drafts">["data"]
+	| CollectionEntry<"blog">["data"]
+) & {
+	id: string;
+};
+
+const {
+	id,
+	title,
+	excerpt,
+	banner,
+	bannerAlt,
+	locale,
+	createdAt,
+	updatedAt,
+	category,
+} = Astro.props;
+---
+
+<BaseLayout
+	{title}
+	description={excerpt}
+	image={banner && bannerAlt ? { src: banner, alt: bannerAlt } : undefined}
+	{locale}
+	article={createdAt !== undefined && category !== undefined
+		? { createdAt, updatedAt, category }
+		: undefined}
+>
+	<slot name="appbar" />
+	<article class="pt-8">
+		<div class="flex flex-col-reverse items-start justify-between md:flex-row">
+			<div
+				class="flex flex-col gap-8 self-stretch md:max-w-[50%] md:flex-[50%]"
+			>
+				<div class="flex items-center gap-5">
+					<slot name="about-top" />
+				</div>
+				<slot name="about-title" />
+				<Me />
+			</div>
+			<div
+				class="banner-clip relative mb-8
+					w-full overflow-clip md:mb-0 md:w-auto md:max-w-[40%] md:flex-[40%]"
+			>
+				<slot name="banner" />
+			</div>
+		</div>
+		<Separator />
+		<div class="flex w-[100cqw] justify-center -ml-6 md:-ml-12">
+			<div class="article-content w-full break-words">
+				<slot />
+			</div>
+		</div>
+		{
+			createdAt !== undefined && (
+				<div class="flex w-full justify-center">
+					<div class="flex w-full max-w-[680px] flex-col">
+						<div
+							class="mt-16 flex w-full flex-col justify-between gap-2 md:mt-8
+						md:flex-row md:items-center"
+						>
+							<PostDate date={createdAt}>Published at:</PostDate>
+							{updatedAt !== undefined && (
+								<PostDate date={updatedAt}>Updated at:</PostDate>
+							)}
+						</div>
+						<PostReactions postId={id} client:only="svelte" />
+					</div>
+				</div>
+			)
+		}
+	</article>
+</BaseLayout>

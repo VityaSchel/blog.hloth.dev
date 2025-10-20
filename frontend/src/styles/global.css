@@ -43,7 +43,7 @@
 	text-rendering: geometricPrecision;
 	-webkit-font-smoothing: antialiased;
 	color-scheme: light dark;
-
+	container-type: inline-size;
 	--bg: var(--color-cream);
 	--text: #000000;
 	--theme-switch-day: #000000;
@@ -126,7 +126,26 @@ body:has(dialog[open]) {
 	font-feature-settings: "ss02" 1;
 }
 
+@media (width >= 48rem) {
+	.article-content {
+		--m: 3rem;
+	}
+}
+
+@media (width < 48rem) {
+	.article-content {
+		--m: 1.5em;
+	}
+}
+
 .article-content {
+	--w: 680px;
+
+	& > *:not(.full-bleed) {
+		margin-inline: max(var(--m), 50cqw - var(--w) / 2) !important;
+		/* max-width: 680px; */
+	}
+
 	figure {
 		padding: 16px 0;
 		display: block;
@@ -356,7 +375,7 @@ body:has(dialog[open]) {
 hr {
 	@apply w-full border-none;
 
-	&:not(&.asterisks) {
+	&:not(.asterisks):not(:where(footer hr)) {
 		@apply my-[60px] h-[2px] bg-black dark:bg-sandy;
 	}
 

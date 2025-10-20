@@ -1,13 +1,11 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import AppBar from "$components/AppBar.astro";
-import DraftPostLayout from "$layouts/DraftPostLayout.astro";
-import Me from "$components/post/Me.astro";
 import ReadTime from "$components/post/ReadTime.astro";
 import PostTitle from "$components/post/PostTitle.astro";
 import Category from "$ui/Category.astro";
-import Separator from "$ui/Separator.astro";
 import LazyImage from "$ui/LazyImage.astro";
+import PostPageLayout from "$layouts/PostPageLayout.astro";
 
 export async function getStaticPaths() {
 	if (import.meta.env.PROD) return [];
@@ -23,56 +21,41 @@ const draft = Astro.props;
 const { Content } = await render(draft);
 ---
 
-<DraftPostLayout {...draft.data}>
-	<AppBar homepage />
-	<article class="pt-16">
-		<div class="flex flex-col-reverse items-start justify-between md:flex-row">
-			<div
-				class="flex flex-col gap-8 self-stretch md:max-w-[50%] md:flex-[50%]"
-			>
-				<div class="flex items-center gap-5">
-					{
-						draft.data.category !== undefined && (
-							<Category category={draft.data.category} />
-						)
-					}
-					{
-						draft.data.readTime !== undefined && (
-							<ReadTime value={draft.data.readTime} />
-						)
-					}
-				</div>
-				{draft.data.title && <PostTitle title={draft.data.title} />}
-				<Me />
-			</div>
-			<div
-				class="banner-clip relative mb-8
-					w-full overflow-clip md:mb-0 md:w-auto md:max-w-[40%] md:flex-[40%]"
-			>
-				{
-					draft.data.banner &&
-						(draft.data.bannerAlt ? (
-							<LazyImage
-								src={draft.data.banner}
-								alt={draft.data.bannerAlt}
-								layout="fixed"
-								fit="fill"
-								draggable={false}
-								sizes="(max-width: 768px) 90vw, (max-width: 1168px) 36vw, 38vw"
-								priority
-								banner
-							/>
-						) : (
-							<span>Alt is required</span>
-						))
-				}
-			</div>
-		</div>
-		<Separator />
-		<div class="flex w-full justify-center">
-			<div class="article-content w-full max-w-[680px] break-words">
-				<Content />
-			</div>
-		</div>
-	</article>
-</DraftPostLayout>
+<PostPageLayout id={draft.id} {...draft.data}>
+	<AppBar homepage slot="appbar" />
+	<Fragment slot="about-top">
+		{
+			draft.data.category !== undefined && (
+				<Category category={draft.data.category} />
+			)
+		}
+		{
+			draft.data.readTime !== undefined && (
+				<ReadTime value={draft.data.readTime} />
+			)
+		}
+	</Fragment>
+	<Fragment slot="about-title">
+		{draft.data.title && <PostTitle title={draft.data.title} />}
+	</Fragment>
+	<Fragment slot="banner">
+		{
+			draft.data.banner &&
+				(draft.data.bannerAlt ? (
+					<LazyImage
+						src={draft.data.banner}
+						alt={draft.data.bannerAlt}
+						layout="fixed"
+						fit="fill"
+						draggable={false}
+						sizes="(max-width: 768px) 90vw, (max-width: 1168px) 36vw, 38vw"
+						priority
+						banner
+					/>
+				) : (
+					<span>Alt is required</span>
+				))
+		}
+	</Fragment>
+	<Content />
+</PostPageLayout>

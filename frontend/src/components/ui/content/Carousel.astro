@@ -1,0 +1,25 @@
+<div
+	class="full-bleed w-[100cqw] overflow-x-auto overflow-y-hidden flex h-[500px] carousel-items gap-6"
+>
+	<slot />
+</div>
+
+<style>
+	.full-bleed {
+		--full-bleed-padding: max(var(--m), 50cqw - var(--w) / 2);
+		padding-inline-start: var(--full-bleed-padding);
+		padding-inline-end: calc(var(--m) + var(--w));
+		scrollbar-width: thin;
+	}
+
+	.full-bleed.carousel-items {
+		scroll-snap-type: x mandatory;
+		scroll-padding-inline: var(--full-bleed-padding);
+		scroll-snap-stop: always;
+	}
+	.full-bleed.carousel-items > :global(*) {
+		scroll-snap-align: start;
+		flex: none;
+		height: 100%;
+	}
+</style>
