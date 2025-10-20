@@ -371,7 +371,7 @@ body:has(dialog[open]) {
 		box-shadow: inset 0 -1px 0 light-dark(#d1d9e0b3, #3d444db3);
 	}
 
-	a {
+	a:not(.rich-link) {
 		text-decoration: underline;
 	}
 }

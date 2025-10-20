@@ -2,23 +2,23 @@
 /**
  * Example usage:
  *
- * <RichLink href="https://example.com" />
+ * <RichLink url="https://example.com" />
  */
 
 import { getRichLinkPreview } from "$lib/rich-link-preview-generator";
 
 interface Props {
-	href: string;
+	url: string;
 }
 
-let { href } = Astro.props;
+let { url } = Astro.props;
 
-const preview = await getRichLinkPreview(href);
+const preview = await getRichLinkPreview(url);
 ---
 
-<div class="py-[0.4em]">
+<div class="py-[0.4em] rich-link">
 	<a
-		{href}
+		href={url}
 		rel="noopener noreferrer nofollow"
 		target="_blank"
 		class="box-shadow rich-link block rounded-md bg-white p-[25px]
@@ -29,15 +29,15 @@ const preview = await getRichLinkPreview(href);
 				<img
 					src={preview.imageUrl}
 					alt="Website banner"
-					class="float-right aspect-square w-[65px] rounded-[3px] object-cover"
+					class="float-right aspect-square w-[65px] rounded-[3px] object-cover ml-2"
 				/>
 			)
 		}
 		<span
 			class="block flex-1 text-[17px] leading-[1.5em] font-semibold
-				no-underline"
+				no-underline wrap-break-word"
 		>
-			{preview?.title ?? new URL(href).hostname}
+			{preview?.title ?? new URL(url).hostname}
 		</span>
 		{
 			preview?.description && (
@@ -50,7 +50,7 @@ const preview = await getRichLinkPreview(href);
 					class="block h-[15px] text-[15px] leading-[1em] text-[#888]
 				dark:text-cream-alt"
 				>
-					{new URL(href).hostname}
+					{new URL(url).hostname}
 				</span>
 			)
 		}
