@@ -13,25 +13,32 @@ import type { Picture } from "astro:assets";
 import LazyImage from "$ui/LazyImage.astro";
 import type { ComponentProps } from "astro/types";
 
-type Props = ComponentProps<typeof Picture>;
+type Props = ComponentProps<typeof Picture> & {
+	background?: boolean;
+	// border?: boolean;
+};
 
-const props = Astro.props;
+const { background, ...props } = Astro.props;
 ---
 
 <figure>
 	<div
 		class:list={[
-			"w-full flex items-center justify-center ",
+			"w-full flex items-center justify-center",
 			{
 				// border,
-				// [`flex h-fit max-h-[500px] items-center justify-center overflow-clip
-				// rounded-lg bg-white p-4`]: background,
+				[`flex h-fit max-h-[500px] items-center justify-center overflow-clip
+				rounded-lg bg-white p-4`]: background,
 			},
 		]}
 	>
 		<!-- TODO: placeholder -->
 		<!-- height={props.height ? Math.min(Number(props.height), 500) : 500} -->
-		<LazyImage {...props} />
+		<LazyImage
+			height={background ? 500 : props.height}
+			class={props.class ?? (background ? "" : undefined)}
+			{...props}
+		/>
 		<!-- sizes={background ? undefined : "(max-width: 728px) 100vw, 680px"} -->
 		<!-- {...imgProps} -->
 		<!-- rounded={!background} -->
