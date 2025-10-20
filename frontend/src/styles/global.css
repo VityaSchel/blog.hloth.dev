@@ -184,29 +184,6 @@ body:has(dialog[open]) {
 		line-height: 24px;
 	}
 
-	hr {
-		@apply w-full border-none;
-
-		&:not(&.asterisks) {
-			@apply my-[60px] h-[2px] bg-black dark:bg-sandy;
-		}
-
-		&.asterisks {
-			@apply relative h-16;
-			&::before {
-				display: block;
-				position: absolute;
-				content: "***";
-				font-size: 30px;
-				letter-spacing: 0.2em;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%, -50%);
-				height: 32px;
-			}
-		}
-	}
-
 	code:not(:where(pre code)) {
 		font-family: var(--font-mono);
 		font-size: 0.9rem;
@@ -373,6 +350,29 @@ body:has(dialog[open]) {
 
 	a:not(.rich-link) {
 		text-decoration: underline;
+	}
+}
+
+hr {
+	@apply w-full border-none;
+
+	&:not(&.asterisks) {
+		@apply my-[60px] h-[2px] bg-black dark:bg-sandy;
+	}
+
+	&.asterisks {
+		@apply relative h-16;
+		&::before {
+			display: block;
+			position: absolute;
+			content: "***";
+			font-size: 30px;
+			letter-spacing: 0.2em;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			height: 32px;
+		}
 	}
 }
 
