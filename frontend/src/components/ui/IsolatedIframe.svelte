@@ -28,6 +28,7 @@
 				flex flex-col items-center justify-center gap-4 rounded-lg bg-slate-600
 				px-16 py-8 text-center text-white
 			"
+			style="aspect-ratio: {aspectRatio};"
 		>
 			<span class="font-display text-xl font-semibold tracking-wide">
 				To protect your privacy, embedded iframes are loaded upon your explicit

@@ -14,22 +14,23 @@ interface Props {
 	ar?: number;
 }
 
-let { url, service, ar = 16 / 9 } = Astro.props;
+let { url, service: serviceVar, ar = 16 / 9 } = Astro.props;
 
+let service = serviceVar;
 if (!service) {
 	const serviceUrl = new URL(url);
 	if (
 		serviceUrl.hostname === "www.youtube.com" ||
 		serviceUrl.hostname === "youtu.be"
 	) {
-		return "YouTube";
+		service = "YouTube";
 	} else if (
 		serviceUrl.hostname === "twitter.com" ||
 		serviceUrl.hostname === "www.twitter.com" ||
 		serviceUrl.hostname === "x.com" ||
 		serviceUrl.hostname === "www.x.com"
 	) {
-		return "Twitter";
+		service = "Twitter";
 	} else {
 		throw new Error("Service argument must be provided for this URL");
 	}

@@ -11,10 +11,12 @@ import { getVideoDimensions } from "$lib/video-metadata-retriever";
 
 interface Props {
 	src: string;
-	children: Element;
+	children?: Element;
+	autoplay?: boolean;
+	controls?: boolean;
 }
 
-let { src } = Astro.props;
+let { src, autoplay = false, controls } = Astro.props;
 
 let { width, height } = await getVideoDimensions(src);
 const aspectRatio = width / height;
@@ -30,8 +32,10 @@ const aspectRatio = width / height;
 				"h-full w-auto": aspectRatio <= 1,
 			},
 		]}
-		controls
-		autoplay={false}
+		controls={controls ?? !autoplay}
+		loop={controls === undefined ? autoplay : !controls}
+		muted={autoplay}
+		autoplay={autoplay}
 		playsinline
 		style={`aspect-ratio: ${aspectRatio};`}></video>
 	<figcaption>
