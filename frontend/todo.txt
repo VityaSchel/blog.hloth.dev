@@ -1,3 +1,2 @@
 - placeholder
 - images carousel
-- image max height

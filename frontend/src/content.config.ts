@@ -18,4 +18,22 @@ const blog = defineCollection({
 		}),
 });
 
-export const collections = { blog };
+const drafts = defineCollection({
+	loader: glob({ base: "./src/content/drafts", pattern: "**/*.{md,mdx}" }),
+	schema: ({ image }) =>
+		z.object({
+			title: z.string().optional(),
+			excerpt: z.string().optional(),
+			category: z
+				.enum([CATEGORIES_IDS[0]!, ...CATEGORIES_IDS.slice(1)])
+				.optional(),
+			readTime: z.number().min(1).max(90).optional(),
+			banner: image().optional(),
+			bannerAlt: z.string().min(1).optional(),
+			createdAt: z.coerce.date().optional(),
+			updatedAt: z.coerce.date().optional(),
+			locale: z.enum(["en", "ru"]).default("en"),
+		}),
+});
+
+export const collections = { blog, drafts };

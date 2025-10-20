@@ -17,6 +17,9 @@ import { remarkStyledHrs } from "src/plugins/remark-styled-hrs";
 export default defineConfig({
 	prefetch: true,
 	site: "https://blog.hloth.dev",
+	experimental: {
+		contentIntellisense: true,
+	},
 	integrations: [
 		sitemap(),
 		svelte(),
