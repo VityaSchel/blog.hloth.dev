@@ -370,6 +370,10 @@ body:has(dialog[open]) {
 		border-radius: 6px;
 		box-shadow: inset 0 -1px 0 light-dark(#d1d9e0b3, #3d444db3);
 	}
+
+	a {
+		text-decoration: underline;
+	}
 }
 
 li[data-sonner-toast] {

@@ -1,2 +1,3 @@
 - placeholder
-- audit
+- images carousel
+- image max height

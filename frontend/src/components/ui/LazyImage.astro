@@ -4,14 +4,21 @@ import { Picture } from "astro:assets";
 
 type Props = ComponentProps<typeof Picture> & {
 	banner?: boolean;
+	content?: boolean;
 };
 
-let { banner, class: className = "rounded-lg", ...props } = Astro.props;
+let {
+	banner,
+	class: className = "rounded-lg",
+	content,
+	...props
+} = Astro.props;
 ---
 
 <div
 	class:list={[
 		{
+			"max-h-[inherit]": content,
 			"banner-clip overflow-clip aspect-[1.625/1] relative h-auto w-full":
 				banner,
 		},
@@ -21,6 +28,7 @@ let { banner, class: className = "rounded-lg", ...props } = Astro.props;
 	<Picture
 		class:list={[
 			{
+				"object-contain h-full": content,
 				"object-cover h-full": banner,
 			},
 			"backdrop-blur-2xl",

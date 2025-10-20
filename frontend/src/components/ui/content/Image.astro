@@ -21,7 +21,7 @@ const props = Astro.props;
 <figure>
 	<div
 		class:list={[
-			"w-full",
+			"w-full flex items-center justify-center ",
 			{
 				// border,
 				// [`flex h-fit max-h-[500px] items-center justify-center overflow-clip
@@ -30,6 +30,7 @@ const props = Astro.props;
 		]}
 	>
 		<!-- TODO: placeholder -->
+		<!-- height={props.height ? Math.min(Number(props.height), 500) : 500} -->
 		<LazyImage {...props} />
 		<!-- sizes={background ? undefined : "(max-width: 728px) 100vw, 680px"} -->
 		<!-- {...imgProps} -->
