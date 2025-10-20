@@ -14,9 +14,10 @@ interface Props {
 	children?: Element;
 	autoplay?: boolean;
 	controls?: boolean;
+	alt?: string;
 }
 
-let { src, autoplay = false, controls } = Astro.props;
+let { src, autoplay = false, controls, alt } = Astro.props;
 
 let { width, height } = await getVideoDimensions(src);
 const aspectRatio = width / height;
@@ -28,8 +29,8 @@ const aspectRatio = width / height;
 		class:list={[
 			"mx-auto max-h-[500px]",
 			{
-				"h-auto w-full": aspectRatio > 1,
-				"h-full w-auto": aspectRatio <= 1,
+				"h-auto w-full": aspectRatio > 680 / 500,
+				"h-full w-auto": aspectRatio <= 680 / 500,
 			},
 		]}
 		controls={controls ?? !autoplay}
@@ -37,6 +38,7 @@ const aspectRatio = width / height;
 		muted={autoplay}
 		autoplay={autoplay}
 		playsinline
+		aria-label={alt}
 		style={`aspect-ratio: ${aspectRatio};`}></video>
 	<figcaption>
 		<slot />
