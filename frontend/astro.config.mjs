@@ -8,8 +8,10 @@ import mdx from "@astrojs/mdx";
 import tailwindcss from "@tailwindcss/vite";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import { rehypeHeadingGroup } from "./src/plugins/heading-group";
+import { rehypeHeadingGroup } from "./src/plugins/rehype-heading-group";
+import { rehypeStyledHrs } from "./src/plugins/rehype-styled-hrs";
 import serviceWorker from "src/plugins/astro-sw";
+import { remarkStyledHrs } from "src/plugins/remark-styled-hrs";
 
 // https://astro.build/config
 export default defineConfig({
@@ -32,6 +34,7 @@ export default defineConfig({
 				dark: "dark-plus",
 			},
 		},
+		remarkPlugins: [remarkStyledHrs],
 		rehypePlugins: [
 			rehypeHeadingGroup,
 			rehypeSlug,
@@ -50,6 +53,7 @@ export default defineConfig({
 					},
 				},
 			],
+			rehypeStyledHrs,
 		],
 	},
 	vite: {

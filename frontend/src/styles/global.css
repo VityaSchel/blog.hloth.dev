@@ -187,11 +187,11 @@ body:has(dialog[open]) {
 	hr {
 		@apply w-full border-none;
 
-		&:not(&.asterisk) {
+		&:not(&.asterisks) {
 			@apply my-[60px] h-[2px] bg-black dark:bg-sandy;
 		}
 
-		&.asterisk {
+		&.asterisks {
 			@apply relative h-16;
 			&::before {
 				display: block;

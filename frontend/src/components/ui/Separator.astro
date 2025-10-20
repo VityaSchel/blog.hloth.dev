@@ -3,7 +3,7 @@ let {
 	variant = "line",
 	class: className,
 }: {
-	variant?: "line" | "asterisk";
+	variant?: "line" | "asterisks";
 	class?: import("astro/types").HTMLAttributes<"hr">["class:list"];
 } = Astro.props;
 ---
@@ -11,24 +11,7 @@ let {
 <hr
 	class:list={[
 		"w-full border-none",
-		{
-			"asterisk relative h-16": variant === "asterisk",
-			"my-[60px] h-[2px] bg-black dark:bg-sandy": variant === "line",
-		},
 		className,
+		{ asterisks: variant === "asterisks" },
 	]}
 />
-
-<style>
-	.asterisk::before {
-		display: block;
-		position: absolute;
-		content: "***";
-		font-size: 30px;
-		letter-spacing: 0.2em;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		height: 32px;
-	}
-</style>
