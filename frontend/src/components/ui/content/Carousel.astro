@@ -1,5 +1,5 @@
 <div
-	class="full-bleed w-[100cqw] overflow-x-auto overflow-y-hidden flex h-[500px] carousel-items gap-6"
+	class="full-bleed w-[100cqw] overflow-x-auto overflow-y-hidden flex carousel-items gap-6"
 >
 	<slot />
 </div>
@@ -7,8 +7,8 @@
 <style>
 	.full-bleed {
 		--full-bleed-padding: max(var(--m), 50cqw - var(--w) / 2);
-		padding-inline-start: var(--full-bleed-padding);
-		padding-inline-end: min(50cqw, calc(var(--m) + var(--w)));
+		padding-inline: var(--full-bleed-padding);
+		/* padding-inline-end: min(50cqw, calc(var(--m) + var(--w))); */
 		scrollbar-width: thin;
 	}
 
@@ -21,5 +21,16 @@
 		scroll-snap-align: start;
 		flex: none;
 		height: 100%;
+		margin: 0;
+	}
+	.full-bleed.carousel-items > :global(figure > *:first-child) {
+		min-height: 0;
+	}
+	.full-bleed.carousel-items > :global(figure picture img) {
+		max-width: var(--content-width);
+		max-height: 500px;
+	}
+	.full-bleed.carousel-items :global(.img-container) {
+		max-height: 500px;
 	}
 </style>

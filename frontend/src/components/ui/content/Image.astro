@@ -24,7 +24,7 @@ const { background, ...props } = Astro.props;
 <figure>
 	<div
 		class:list={[
-			"w-full flex items-center justify-center in-[.full-bleed]:w-auto in-[.full-bleed]:h-full in-[.full-bleed]:justify-start",
+			"w-full flex items-center justify-center in-[.full-bleed]:w-auto in-[.full-bleed]:flex-1 in-[.full-bleed]:justify-start",
 			{
 				// border,
 				[`flex h-fit max-h-[500px] items-center justify-center overflow-clip
@@ -51,3 +51,9 @@ const { background, ...props } = Astro.props;
 		)
 	}
 </figure>
+
+<style>
+	figcaption {
+		flex-shrink: 0;
+	}
+</style>

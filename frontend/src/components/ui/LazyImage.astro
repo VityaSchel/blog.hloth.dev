@@ -1,6 +1,6 @@
 ---
 import type { ComponentProps } from "astro/types";
-import { Picture } from "astro:assets";
+import { Picture, getImage } from "astro:assets";
 
 type Props = ComponentProps<typeof Picture> & {
 	banner?: boolean;
@@ -13,17 +13,22 @@ let {
 	content,
 	...props
 } = Astro.props;
+
+const img = await getImage({ src: props.src, format: "jpeg" });
 ---
 
 <div
 	class:list={[
-		"img-container in-[.full-bleed]:w-auto in-[.full-bleed]:h-full",
+		"img-container in-[.full-bleed]:w-[var(--content-width)] in-[.full-bleed]:h-full",
 		{
 			"max-h-[inherit]": content,
 			"banner-clip overflow-clip aspect-[1.625/1] relative h-auto w-full":
 				banner,
 		},
 	]}
+	style={img.options.width !== undefined && img.options.height !== undefined
+		? `aspect-ratio: ${img.options.width / img.options.height};`
+		: undefined}
 >
 	<!-- @ts-expect-error fucking astro  -->
 	<Picture
