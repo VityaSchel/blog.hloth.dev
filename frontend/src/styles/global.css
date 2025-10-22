@@ -144,11 +144,13 @@ body:has(dialog[open]) {
 	& > *:not(.full-bleed) {
 		margin-inline: max(var(--m), 50cqw - var(--w) / 2) !important;
 		/* max-width: 680px; */
+		display: block;
 	}
 
 	figure {
 		padding: 16px 0;
 		display: block;
+		margin: inherit;
 
 		figcaption {
 			color: var(--text-alt);
@@ -373,7 +375,7 @@ body:has(dialog[open]) {
 }
 
 hr {
-	@apply w-full border-none;
+	@apply border-none;
 
 	&:not(.asterisks):not(:where(footer hr)) {
 		@apply my-[60px] h-[2px] bg-black dark:bg-sandy;

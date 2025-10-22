@@ -71,26 +71,31 @@
 		if (registration === null || subscription === null) return;
 		loading = true;
 		try {
+			const endpoint = subscription.endpoint;
 			await subscription.unsubscribe();
-			const response = await fetch(
-				new URL(
-					`notifications/web-push/${encodeURIComponent(subscription.endpoint)}`,
-					API_URL,
-				),
-				{ method: "DELETE" },
-			).then(
-				(res) =>
-					res.json() as Promise<{ ok: true } | { ok: false; error: string }>,
-			);
-			if (response.ok) {
-				subscription = null;
-				subscribed = false;
-			} else {
-				throw new Error(response.error);
+			subscription = null;
+			subscribed = false;
+			try {
+				const response = await fetch(
+					new URL(
+						`notifications/web-push/${encodeURIComponent(endpoint)}`,
+						API_URL,
+					),
+					{ method: "DELETE" },
+				).then(
+					(res) =>
+						res.json() as Promise<{ ok: true } | { ok: false; error: string }>,
+				);
+				if (!response.ok) {
+					throw new Error(response.error);
+				}
+			} catch (e) {
+				console.error(e);
+				error = "unknown_unsubscribe_success";
 			}
 		} catch (e) {
 			console.error(e);
-			error = "unknown_subscribe";
+			error = "unknown_unsubscribe";
 		} finally {
 			loading = false;
 		}
@@ -111,6 +116,9 @@
 			An error occurred while subscribing to push-notifications.
 		{:else if error === "unknown_unsubscribe"}
 			An error occurred while unsubscribing from push-notifications.
+		{:else if error === "unknown_unsubscribe_success"}
+			An error occurred while unsubscribing but you have been unsubscribed
+			nonetheless.
 		{/if}
 	</div>
 {/if}

@@ -12,12 +12,8 @@ export const GET: APIRoute = async ({ site }) => {
 			? `http://localhost:${process.env.PORT ?? 4321}`
 			: (site?.origin ?? null);
 	for (const post of posts) {
-		const mediaPath = await getImage({ src: post.data.banner }).then(
-			(r) => r.src,
-		);
-		const mediaUrl = new URL(mediaPath, base ?? "https://blog.hloth.dev");
-		const mediaMeta = await fetch(mediaUrl);
-		const contentLength = await mediaMeta.bytes().then((b) => b.length);
+		const banner = await getImage({ src: post.data.banner });
+		const bannerUrl = new URL(banner.src, base ?? "https://blog.hloth.dev");
 		items.push({
 			title: post.data.title,
 			description: post.data.excerpt,
@@ -27,9 +23,10 @@ export const GET: APIRoute = async ({ site }) => {
 			categories: [post.data.category],
 			// content: post.body,
 			enclosure: {
-				length: contentLength,
-				type: mediaUrl.href,
-				url: mediaUrl.href,
+				// https://www.rssboard.org/rss-profile#element-channel-item-enclosure:~:text=When%20an%20enclosure%27s%20size%20cannot%20be%20determined%2C%20a%20publisher%20SHOULD%20use%20a%20length%20of%200
+				length: 0,
+				type: "image/" + post.data.banner.format,
+				url: bannerUrl.href,
 			},
 			customData: `<post-id>${post.id}</post-id>`,
 			link: `/${post.id}`,

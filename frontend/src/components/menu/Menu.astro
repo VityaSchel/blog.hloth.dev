@@ -5,17 +5,23 @@ import PushNotificationsSwitch from "./PushNotificationsSwitch.svelte";
 ---
 
 <script>
-	const openMenuButton = document.querySelector(
-		"button#blog-hloth-dev-menu-open",
-	);
-	if (openMenuButton instanceof HTMLButtonElement) {
-		openMenuButton.addEventListener("click", () => {
-			const dialog = document.querySelector("dialog#blog-hloth-dev-menu");
-			if (dialog instanceof HTMLDialogElement) {
-				dialog.showModal();
-			}
-		});
+	function onLoad() {
+		const openMenuButton = document.querySelector(
+			"button#blog-hloth-dev-menu-open",
+		);
+		if (openMenuButton instanceof HTMLButtonElement) {
+			openMenuButton.addEventListener("click", () => {
+				const dialog = document.querySelector("dialog#blog-hloth-dev-menu");
+				if (dialog instanceof HTMLDialogElement) {
+					dialog.showModal();
+				}
+			});
+		}
 	}
+
+	document.addEventListener("astro:page-load", onLoad);
+	document.addEventListener("load", onLoad);
+	onLoad();
 </script>
 
 <button
@@ -39,7 +45,7 @@ import PushNotificationsSwitch from "./PushNotificationsSwitch.svelte";
 		<CloseMenuButton />
 		<div class="flex w-96 flex-1 flex-col">
 			<MenuLink label="About Me" href="https://hloth.dev/me" />
-			<MenuLink label="My Portfolio" href="https://hloth.dev/portfolio" />
+			<MenuLink label="My Portfolio" href="https://hloth.dev/" />
 			<div class="mt-auto w-full px-8">
 				<PushNotificationsSwitch client:idle />
 			</div>
@@ -108,7 +114,7 @@ import PushNotificationsSwitch from "./PushNotificationsSwitch.svelte";
 	dialog::backdrop {
 		height: 100%;
 		backdrop-filter: blur(var(--blur));
-		transition: --blur 500ms ease-in-out;
+		transition: --blur 500ms cubic-bezier(0.16, 1, 0.3, 1);
 		--blur: 0px;
 	}
 

@@ -8,7 +8,7 @@
 	.full-bleed {
 		--full-bleed-padding: max(var(--m), 50cqw - var(--w) / 2);
 		padding-inline-start: var(--full-bleed-padding);
-		padding-inline-end: calc(var(--m) + var(--w));
+		padding-inline-end: min(50cqw, calc(var(--m) + var(--w)));
 		scrollbar-width: thin;
 	}
 
