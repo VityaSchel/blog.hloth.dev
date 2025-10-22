@@ -9,19 +9,26 @@ import { checkNewPosts } from "src/broadcast-notification/new-post";
 import { pushNotificationsRouter } from "src/routes/notifications/web-push";
 import { pushNotificationSubscriptionRouter } from "src/routes/notifications/web-push/[id]";
 
+const ORIGIN = process.env.ORIGIN;
+if (!ORIGIN) {
+	throw new Error("ORIGIN environment variable is not set");
+}
+
 const app = new Elysia()
 	.use(
 		cors({
-			origin: process.env.ORIGIN,
+			origin: ORIGIN,
 		}),
 	)
-	.onBeforeHandle(({ headers, set }) => {
+	.onBeforeHandle(({ headers, set, request }) => {
 		const origin = headers["origin"];
-		if (!origin) {
-			set.status = 400;
-			return { ok: false, error: "Origin header is required" };
+		if (request.method !== "GET" && request.method !== "HEAD") {
+			if (!origin) {
+				set.status = 400;
+				return { ok: false, error: "Origin header is required" };
+			}
 		}
-		if (origin !== process.env.ORIGIN) {
+		if (origin !== undefined && origin !== ORIGIN) {
 			set.status = 403;
 			return { ok: false, error: "Cross-site requests are not allowed" };
 		}
