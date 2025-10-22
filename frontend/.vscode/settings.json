@@ -17,6 +17,8 @@
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"editor.formatOnSave": true,
+	"editor.indentSize": "tabSize",
+	"editor.insertSpaces": false,
 	"typescript.preferences.importModuleSpecifierEnding": "minimal",
 	"search.exclude": {
 		"**/node_modules": true,

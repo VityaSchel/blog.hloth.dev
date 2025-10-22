@@ -16,7 +16,7 @@
 
 <div
 	class={[
-		"mt-2 overflow-clip rounded-lg",
+		"mt-2 overflow-clip rounded-lg paywall",
 		{
 			"grid grid-cols-1 grid-rows-1": browser,
 			"flex flex-col": !browser,
@@ -92,3 +92,9 @@
 		{/if}
 	</div>
 </div>
+
+<style>
+	.paywall {
+		margin-inline: inherit;
+	}
+</style>
