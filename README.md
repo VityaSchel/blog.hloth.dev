@@ -35,6 +35,12 @@ Made with the amazing [Astro](https://astro.build/) and Svelte!
   - [web-push](https://github.com/web-push-libs/web-push)
   - [zod](https://zod.dev/)
 
+## Issues
+
+List of known issues and a place to report new ones:
+
+[git.hloth.dev/hloth/blog.hloth.dev/issues](https://git.hloth.dev/hloth/blog.hloth.dev/issues)
+
 ## License
 
 Source code is licensed under [MIT](./LICENSE). Blog materials are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) unless otherwise stated.

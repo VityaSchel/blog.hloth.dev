@@ -1,4 +1,0 @@
-- images lqip
-- no ai
-- instant view
-- safari does not work with av1

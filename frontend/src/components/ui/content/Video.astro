@@ -11,13 +11,14 @@ import { getVideoDimensions } from "$lib/video-metadata-retriever";
 
 interface Props {
 	src: string;
+	srcHevc?: string;
 	children?: Element;
 	autoplay?: boolean;
 	controls?: boolean;
 	alt?: string;
 }
 
-let { src, autoplay = false, controls, alt } = Astro.props;
+let { src, srcHevc, autoplay = false, controls, alt } = Astro.props;
 
 let { width, height } = await getVideoDimensions(src);
 const aspectRatio = width / height;
@@ -25,7 +26,6 @@ const aspectRatio = width / height;
 
 <figure class="max-w-full">
 	<video
-		{src}
 		class:list={[
 			"mx-auto max-h-[500px]",
 			{
@@ -41,8 +41,22 @@ const aspectRatio = width / height;
 		aria-label={alt}
 		style={`aspect-ratio: ${aspectRatio};`}
 	>
+		{
+			srcHevc !== undefined && (
+				<>
+					<source src={srcHevc} type="video/mp4; codecs=hvc1" />
+					<source src={srcHevc} type="video/mp4; codecs=hev1.1.6.L93.B0" />
+				</>
+			)
+		}
+		<source src={src} />
+		{alt ?? "Your browser does not support the video tag."}
 	</video>
-	<figcaption>
-		<slot />
-	</figcaption>
+	{
+		Astro.slots.default && (
+			<figcaption>
+				<slot />
+			</figcaption>
+		)
+	}
 </figure>
