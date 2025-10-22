@@ -7,6 +7,8 @@ import PageViews from "$components/post/PageViews.svelte";
 import PostTitle from "$components/post/PostTitle.astro";
 import Category from "$ui/Category.astro";
 import LazyImage from "$ui/LazyImage.astro";
+import ReadNext from "$components/ReadNext.astro";
+import { mapCollectionEntryToNavPostLink } from "$lib/nav-post-link";
 
 export async function getStaticPaths() {
 	const posts = await getCollection("blog");
@@ -20,9 +22,20 @@ type Props = CollectionEntry<"blog">;
 const post = Astro.props;
 const { Content } = await render(post);
 
-const nextPost = await getCollection(
+const newerPost = await getCollection(
 	"blog",
-	({ data }) => data.createdAt.valueOf() <= post.data.createdAt.valueOf(),
+	({ data }) => data.createdAt.valueOf() >= post.data.createdAt.valueOf(),
+)
+	.then((posts) =>
+		posts.sort(
+			(a, b) => a.data.createdAt.valueOf() - b.data.createdAt.valueOf(),
+		),
+	)
+	.then((posts) => posts.find(({ id }) => id !== post.id));
+
+const olderPost = await getCollection(
+	"blog",
+	({ data }) => data.createdAt.valueOf() < post.data.createdAt.valueOf(),
 )
 	.then((posts) =>
 		posts.sort(
@@ -35,10 +48,7 @@ const nextPost = await getCollection(
 <PostPageLayout id={post.id} {...post.data}>
 	<AppBar
 		homepage
-		next={nextPost && {
-			path: nextPost.id,
-			title: nextPost.data.title,
-		}}
+		next={mapCollectionEntryToNavPostLink(olderPost)}
 		slot="appbar"
 	/>
 	<Fragment slot="about-top">
@@ -63,4 +73,5 @@ const nextPost = await getCollection(
 		<!-- placeholder={banner.placeholder} -->
 	</Fragment>
 	<Content />
+	<ReadNext previous={newerPost} next={olderPost} slot="readNext" />
 </PostPageLayout>

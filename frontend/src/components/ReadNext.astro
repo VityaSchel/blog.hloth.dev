@@ -1,0 +1,24 @@
+---
+import DualNav from "$components/DualNav.astro";
+import Separator from "$components/ui/Separator.astro";
+import {
+	mapCollectionEntryToNavPostLink,
+	type NavPostLink,
+} from "$lib/nav-post-link";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+	previous?: CollectionEntry<"blog">;
+	next?: CollectionEntry<"blog">;
+}
+let { previous, next } = Astro.props;
+
+const startEl: NavPostLink | undefined =
+	mapCollectionEntryToNavPostLink(previous);
+const endEl: NavPostLink | undefined = mapCollectionEntryToNavPostLink(next);
+---
+
+<div class="flex w-full flex-col gap-[12px] mb-6 md:mb-9">
+	<Separator class="mb-3!" />
+	<DualNav {startEl} {endEl} />
+</div>

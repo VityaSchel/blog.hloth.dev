@@ -1,7 +1,7 @@
 ---
-import { formatTitle } from "$lib/title-formatter";
 import ThemedSeparator from "$ui/ThemedSeparator.astro";
 import Menu from "$components/menu/Menu.astro";
+import DualNav from "$components/DualNav.astro";
 
 type Link = { path: string; title: string };
 interface Props {
@@ -18,83 +18,7 @@ const endEl: Link | undefined = next;
 ---
 
 <header class="flex w-full flex-col gap-[12px]">
-	{
-		(startEl || endEl) && (
-			<nav class="mb-1">
-				<ul
-					class:list={[
-						`flex flex-col gap-x-4 gap-y-3 leading-5 md:flex-row`,
-						{
-							"justify-start": !endEl,
-							"justify-end": !startEl,
-							"justify-between": startEl && endEl,
-						},
-					]}
-				>
-					{startEl && (
-						<li>
-							<a href={startEl.path} class="flex items-center gap-2">
-								<svg
-									width="20"
-									viewBox="0 0 100 60"
-									xmlns="http://www.w3.org/2000/svg"
-								>
-									<line
-										x1="10"
-										y1="50"
-										x2="90"
-										y2="50"
-										stroke="currentColor"
-										stroke-width="6"
-									/>
-									<line
-										x1="10"
-										y1="50"
-										x2="30"
-										y2="30"
-										stroke="currentColor"
-										stroke-width="6"
-									/>
-								</svg>
-
-								{formatTitle(startEl.title).title}
-							</a>
-						</li>
-					)}
-					{endEl && (
-						<li class="self-end text-right">
-							<a href={endEl.path} class="flex items-center gap-2">
-								{formatTitle(endEl.title).title}
-
-								<svg
-									width="20"
-									viewBox="0 0 100 60"
-									xmlns="http://www.w3.org/2000/svg"
-								>
-									<line
-										x1="10"
-										y1="50"
-										x2="90"
-										y2="50"
-										stroke="currentColor"
-										stroke-width="6"
-									/>
-									<line
-										x1="70"
-										y1="30"
-										x2="90"
-										y2="50"
-										stroke="currentColor"
-										stroke-width="6"
-									/>
-								</svg>
-							</a>
-						</li>
-					)}
-				</ul>
-			</nav>
-		)
-	}
+	<DualNav {startEl} {endEl} />
 	<ThemedSeparator />
 	<div
 		class="mt-1 flex w-full items-center justify-end

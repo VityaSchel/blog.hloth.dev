@@ -1,0 +1,31 @@
+---
+import { formatTitle } from "$lib/title-formatter";
+import type { NavPostLink } from "$lib/nav-post-link";
+
+interface Props {
+	el: NavPostLink;
+	type: "start" | "end";
+}
+let { el, type } = Astro.props;
+
+const title = formatTitle(el.title).title;
+
+const ru =
+	"optical-sizing-force mr-0.5 mb-0.5 inline-block rounded-full bg-black px-2 py-0.5 align-middle font-serif text-xs font-medium tracking-normal text-white dark:bg-golden-creamy dark:text-black align-middle";
+---
+
+<li class:list={{ "self-end text-right": type === "end" }}>
+	<a href={el.path} class="flex items-center gap-2">
+		{type === "end" && title}
+		{el.ru && type === "end" && <span class={ru}>RU</span>}
+		<svg width="20" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+			<path
+				stroke="currentColor"
+				stroke-width="6"
+				d={type === "start" ? "M10 50h80m-80 0 20-20" : "M10 50h80M70 30l20 20"}
+			></path>
+		</svg>
+		{type === "start" && title}
+		{el.ru && type === "start" && <span class={ru}>RU</span>}
+	</a>
+</li>

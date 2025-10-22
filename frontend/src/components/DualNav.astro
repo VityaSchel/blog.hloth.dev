@@ -1,0 +1,36 @@
+---
+import DualNavPostNameLink from "$components/DualNavPostNameLink.astro";
+import type { NavPostLink } from "$lib/nav-post-link";
+
+interface Props {
+	startEl?: NavPostLink;
+	endEl?: NavPostLink;
+}
+let { startEl, endEl } = Astro.props;
+---
+
+{
+	(startEl || endEl) && (
+		<nav class="mb-1">
+			<ul
+				class:list={[
+					`flex flex-col gap-x-4 gap-y-3 leading-5 md:flex-row`,
+					{
+						"justify-start": !endEl,
+						"justify-end": !startEl,
+						"justify-between": startEl && endEl,
+					},
+				]}
+			>
+				{startEl && <DualNavPostNameLink el={startEl} type="start" />}
+				{endEl && <DualNavPostNameLink el={endEl} type="end" />}
+			</ul>
+		</nav>
+	)
+}
+
+<style>
+	svg {
+		flex-shrink: 0;
+	}
+</style>

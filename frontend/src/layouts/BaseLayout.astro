@@ -44,7 +44,13 @@ let {
 					<slot />
 
 					<div class="mt-auto">
-						<Separator class="mb-6 md:mb-9" />
+						{
+							Astro.slots.pageEnd ? (
+								<slot name="pageEnd" />
+							) : (
+								<Separator class="mb-6 md:mb-9" />
+							)
+						}
 					</div>
 				</main>
 			</div>
