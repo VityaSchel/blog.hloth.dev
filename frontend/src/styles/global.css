@@ -145,6 +145,9 @@ body:has(dialog[open]) {
 	& > *:not(.full-bleed) {
 		margin-inline: max(var(--m), 50cqw - var(--w) / 2) !important;
 		/* max-width: 680px; */
+	}
+
+	& > a {
 		display: block;
 	}
 

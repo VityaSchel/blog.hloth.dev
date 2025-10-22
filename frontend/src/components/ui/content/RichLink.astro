@@ -22,12 +22,12 @@ const preview = await getRichLinkPreview(url);
 		rel="noopener noreferrer nofollow"
 		target="_blank"
 		class="box-shadow rich-link block rounded-md bg-white p-[25px]
-			dark:bg-black-alt"
+			dark:bg-black-alt has-[img]:min-h-[115px]"
 	>
 		{
-			preview?.imageUrl && (
+			preview?.imageSrc && (
 				<img
-					src={preview.imageUrl}
+					src={preview.imageSrc}
 					alt="Website banner"
 					class="float-right aspect-square w-[65px] rounded-[3px] object-cover ml-2"
 				/>
@@ -47,7 +47,7 @@ const preview = await getRichLinkPreview(url);
 		{
 			preview?.title && (
 				<span
-					class="block h-[15px] text-[15px] leading-[1em] text-[#888]
+					class="block leading-tight text-[15px] text-[#888]
 				dark:text-cream-alt"
 				>
 					{new URL(url).hostname}

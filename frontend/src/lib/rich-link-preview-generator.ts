@@ -29,7 +29,7 @@ export async function getRichLinkPreview(url: string) {
 		}
 
 		let description: string | undefined;
-		let imageUrl: string | undefined;
+		let imageSrc: string | undefined;
 		const title = $("title").first().text();
 		const linkUrl = new URL(link);
 		const siteName =
@@ -45,7 +45,12 @@ export async function getRichLinkPreview(url: string) {
 			const bannerTagUrl = bannerTag.attr("content");
 			if (bannerTagUrl) {
 				try {
-					imageUrl = new URL(bannerTagUrl, linkUrl.origin).href;
+					const imageUrl = new URL(bannerTagUrl, linkUrl.origin).href;
+					const image = await fetch(imageUrl);
+					if (image.status !== 200) {
+						throw new Error("Image not found");
+					}
+					imageSrc = imageUrl;
 				} catch {
 					console.warn("Invalid image URL:", bannerTagUrl);
 				}
@@ -56,7 +61,7 @@ export async function getRichLinkPreview(url: string) {
 			title,
 			siteName,
 			description,
-			imageUrl,
+			imageSrc,
 		};
 	} catch (e) {
 		console.error(e);
