@@ -63,13 +63,10 @@ const olderPost = await getCollection(
 		<LazyImage
 			src={post.data.banner}
 			alt={post.data.bannerAlt}
-			layout="fixed"
-			fit="fill"
-			draggable={false}
-			sizes="(max-width: 768px) 90vw, (max-width: 1168px) 36vw, 38vw"
 			priority
 			banner
 		/>
+		<!-- sizes="(max-width: 768px) 90vw, (max-width: 1168px) 36vw, 38vw" -->
 		<!-- placeholder={banner.placeholder} -->
 	</Fragment>
 	<Content />

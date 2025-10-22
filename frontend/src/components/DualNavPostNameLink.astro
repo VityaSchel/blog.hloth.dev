@@ -15,7 +15,7 @@ const ru =
 ---
 
 <li class:list={{ "self-end text-right": type === "end" }}>
-	<a href={el.path} class="flex items-center gap-2">
+	<a href={el.path} class="flex items-center gap-2" data-astro-prefetch>
 		{type === "end" && title}
 		{el.ru && type === "end" && <span class={ru}>RU</span>}
 		<svg width="20" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">

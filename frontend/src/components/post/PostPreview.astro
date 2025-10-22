@@ -82,16 +82,7 @@ const { emphasized, regular } = formatTitle(title);
 			class="relative mt-8 ml-auto w-full px-4 md:mt-0
 				md:w-auto md:max-w-[41.67%] md:flex-[41.67%]"
 		>
-			<LazyImage
-				src={banner}
-				alt={bannerAlt}
-				layout="full-width"
-				fit="fill"
-				draggable={false}
-				sizes="(max-width: 768px) 93vw, 38vw"
-				priority={first}
-				banner
-			/>
+			<LazyImage src={banner} alt={bannerAlt} priority={first} banner />
 			<div
 				class="absolute top-10 right-14 z-[1] flex h-[50px] w-[50px]
 					items-center justify-center"

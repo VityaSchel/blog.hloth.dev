@@ -12,13 +12,20 @@
 import type { Picture } from "astro:assets";
 import LazyImage from "$ui/LazyImage.astro";
 import type { ComponentProps } from "astro/types";
+import type { ImageMetadata } from "astro";
 
-type Props = ComponentProps<typeof Picture> & {
+type Props = Pick<
+	ComponentProps<typeof Picture>,
+	"class" | "height" | "alt"
+> & {
 	background?: boolean;
 	// border?: boolean;
+	src: ImageMetadata;
 };
 
 const { background, ...props } = Astro.props;
+
+const aspectRatio = props.src.width / props.src.height;
 ---
 
 <figure>
@@ -28,20 +35,23 @@ const { background, ...props } = Astro.props;
 			{
 				// border,
 				[`flex h-fit max-h-[500px] items-center justify-center overflow-clip
-				rounded-lg bg-white p-4`]: background,
+				rounded-lg bg-white dark:bg-black-alt p-4`]: background,
 			},
 		]}
 	>
 		<!-- TODO: placeholder -->
-		<!-- height={props.height ? Math.min(Number(props.height), 500) : 500} -->
 		<LazyImage
+			width={background
+				? Math.min(500 * aspectRatio, 680)
+				: props.src.width !== undefined
+					? Math.min(props.src.width, 680)
+					: undefined}
 			height={background ? 500 : props.height}
 			class={props.class ?? (background ? "" : undefined)}
+			zoomable
 			{...props}
 		/>
 		<!-- sizes={background ? undefined : "(max-width: 728px) 100vw, 680px"} -->
-		<!-- {...imgProps} -->
-		<!-- rounded={!background} -->
 	</div>
 	{
 		Astro.slots.default && (

@@ -3,7 +3,7 @@ import BaseHead from "$components/BaseHead.astro";
 import Separator from "$ui/Separator.astro";
 import Footer from "$components/Footer.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "$consts";
-import CustomToaster from "$components/CustomToaster.astro";
+import CustomToaster from "$components/CustomToaster.svelte";
 
 type Props = {
 	title?: string;
@@ -37,7 +37,7 @@ let {
 		<BaseHead {title} {description} {image} {locale} {article} />
 	</head>
 	<body>
-		<CustomToaster />
+		<CustomToaster client:idle />
 		<div class="relative z-0">
 			<div class="bg-cream dark:bg-black">
 				<main class="flex min-h-screen flex-col pt-6 mx-6 md:mx-12 md:pt-9">
