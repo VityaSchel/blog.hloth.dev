@@ -26,11 +26,15 @@
 	.full-bleed.carousel-items > :global(figure > *:first-child) {
 		min-height: 0;
 	}
-	.full-bleed.carousel-items > :global(figure picture img) {
+	.full-bleed.carousel-items > :global(figure picture img),
+	.full-bleed.carousel-items :global(.img-container) {
 		max-width: var(--content-width);
 		max-height: 500px;
 	}
-	.full-bleed.carousel-items :global(.img-container) {
-		max-height: 500px;
+	.full-bleed.carousel-items :global(.img-container.landscape) {
+		width: var(--content-width);
+	}
+	.full-bleed.carousel-items :global(.img-container.portrait) {
+		height: 500px;
 	}
 </style>

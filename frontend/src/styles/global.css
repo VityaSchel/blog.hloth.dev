@@ -134,7 +134,7 @@ body:has(dialog[open]) {
 
 @media (width < 48rem) {
 	.article-content {
-		--m: 1.5em;
+		--m: 1.5rem;
 	}
 }
 
@@ -180,15 +180,15 @@ body:has(dialog[open]) {
 	}
 
 	h1 {
-		@apply mb-4 mt-9 text-4xl;
+		@apply mt-9 mb-4 text-4xl;
 	}
 
 	h2 {
-		@apply mb-3 mt-7 text-3xl;
+		@apply mt-7 mb-3 text-3xl;
 	}
 
 	h3 {
-		@apply mb-2 mt-6 text-2xl;
+		@apply mt-6 mb-2 text-2xl;
 	}
 
 	h4 {
@@ -204,7 +204,8 @@ body:has(dialog[open]) {
 	}
 
 	p:not(:only-child):not(:where(blockquote > p)) {
-		margin: 16px 0;
+		margin-top: 16px;
+		margin-bottom: 16px;
 		overflow-wrap: break-word;
 		padding: 0;
 		line-height: 24px;
@@ -383,7 +384,7 @@ hr {
 	@apply border-none;
 
 	&:not(.asterisks):not(:where(footer hr)) {
-		@apply dark:bg-sandy my-[60px] h-[2px] bg-black;
+		@apply my-[60px] h-[2px] bg-black dark:bg-sandy;
 	}
 
 	&.asterisks {
