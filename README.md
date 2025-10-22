@@ -1,6 +1,13 @@
 # [hloth blog](https://blog.hloth.dev)
 
-[TODO: insert screenshot]
+<img alt="Home page screenshot" src="docs/screenshot1-dark.webp#gh-dark-mode-only">
+<img alt="Home page screenshot" src="docs/screenshot1-light.webp#gh-light-mode-only">
+
+<img alt="Post screenshot" src="docs/screenshot2-dark.webp#gh-dark-mode-only">
+<img alt="Post screenshot" src="docs/screenshot2-light.webp#gh-light-mode-only">
+
+<img alt="Post screenshot" src="docs/screenshot3-dark.webp#gh-dark-mode-only">
+<img alt="Post screenshot" src="docs/screenshot3-light.webp#gh-light-mode-only">
 
 [Visit the website](https://blog.hloth.dev) · Tor: [blog.hlothdevzkti6suoksy7lcy7hmpxnr3msu5waokzaslsi2mnx5ouu4qd.onion](http://blog.hlothdevzkti6suoksy7lcy7hmpxnr3msu5waokzaslsi2mnx5ouu4qd.onion/)
 
@@ -25,15 +32,13 @@ Made with the amazing [Astro](https://astro.build/) and Svelte!
 - A special THANK YOU to [Anthony Fu](https://antfu.me/) for fantastic [shiki](https://github.com/shikijs/shiki) code highlighter!
 - And others!
   - [cheerio](https://cheerio.js.org/)
-  - [ESLint](https://eslint.org)
+  - [Elysia](https://elysiajs.com/)
   - [Fontsource](https://fontsource.org/)
-  - [Husky](https://typicode.github.io/husky/)
   - [mediainfo.js](https://mediainfo.js.org/)
-  - [Prettier](https://prettier.io)
-  - [remark](https://remark.js.org/)
   - [TailwindCSS](https://tailwindcss.com/)
   - [web-push](https://github.com/web-push-libs/web-push)
   - [zod](https://zod.dev/)
+  - My own page [proof-of-work reactions](https://git.hloth.dev/hloth/pow-reaction) lib!
 
 ## Issues
 
