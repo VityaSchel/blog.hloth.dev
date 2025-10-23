@@ -15,7 +15,7 @@ let { activeCategory } = Astro.props;
 	<div class="flex flex-col md:flex-row md:items-end">
 		<div
 			class="flex flex-col text-2xl font-semibold break-all md:mt-0 md:gap-1.5
-				md:pr-36 md:text-3xl tall-screen:mt-2 tall-screen:gap-3
+				md:pr-24 lg:pr-36 md:text-3xl tall-screen:mt-2 tall-screen:gap-3
 				tall-screen:text-4xl"
 		>
 			{
@@ -66,7 +66,7 @@ let { activeCategory } = Astro.props;
 			class="flex flex-wrap items-center gap-x-1 text-[11px] leading-3
 				font-medium tracking-normal text-inverted md:text-right md:text-sm
 				md:leading-normal dark:text-inverted-alt-dark tall-screen:text-sm
-				tall-screen:leading-normal"
+				tall-screen:leading-normal gap-y-2"
 		>
 			<span>
 				Licensed with
@@ -88,6 +88,35 @@ let { activeCategory } = Astro.props;
 					MIT
 				</a>
 				unless otherwise stated.
+				<span
+					title="No AI was used in the creation of this blog"
+					class="cursor-help inline align-text-bottom"
+				>
+					<svg
+						class="size-4 inline"
+						viewBox="0 0 128 128"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							fill-rule="evenodd"
+							clip-rule="evenodd"
+							d="M69.7695 95.3496L77.415 96.2676L86.9785 95.124C87.1292 90.3781 87.2051 85.5568 87.2051 80.6602V45.8564C87.2051 40.9599 87.1292 36.1005 86.9785 31.2793L76.583 30.0361V25.4033H108.562V30.0361L98.166 31.2793C98.0907 36.0252 98.0158 40.8466 97.9404 45.7432V80.5469C98.0158 85.3682 98.0907 90.2274 98.166 95.124L108.562 96.3672V101H47.5088V96.3672L58.582 95.0107L52.3672 76.4795H26.1514L19.8232 94.8984L30.8975 96.3672V101H11.7734C10.5916 99.3348 9.48711 97.6109 8.46582 95.833L14.5127 94.8984L38.5811 24.8379H45.7002L69.7695 95.3496ZM27.959 71.168H50.6729L39.3721 37.4941L27.959 71.168Z"
+							class="fill-white dark:fill-black"
+						>
+						</path>
+						<path
+							d="M120 64C120 33.0721 94.9279 8 64 8C33.0721 8 8 33.0721 8 64C8 94.9279 33.0721 120 64 120V128C28.6538 128 0 99.3462 0 64C0 28.6538 28.6538 0 64 0C99.3462 0 128 28.6538 128 64C128 99.3462 99.3462 128 64 128V120C94.9279 120 120 94.9279 120 64Z"
+							fill="#840000"
+						>
+						</path>
+						<path
+							d="M120.551 87.623L116.551 94.5512L12.4473 34.4472L16.4473 27.519L120.551 87.623Z"
+							fill="#840000"
+						>
+						</path>
+					</svg>
+				</span>
 			</span>
 		</div>
 	</div>
