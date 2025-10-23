@@ -21,24 +21,53 @@ let {
 	...props
 } = Astro.props;
 
-const img = await getImage({ src: props.src, format: "webp", quality: "max" });
+const [hqImg, lqImg] = await Promise.all([
+	getImage({ src: props.src, format: "webp", quality: "max" }),
+	getImage({ src: props.src, format: "avif", quality: 1, width: 32 }),
+]);
 
 let aspectRatio: number | null = null;
 if (banner) {
 	aspectRatio = 1.625 / 1;
 } else if (
-	img.options.width !== undefined &&
-	img.options.height !== undefined
+	hqImg.options.width !== undefined &&
+	hqImg.options.height !== undefined
 ) {
-	aspectRatio = img.options.width / img.options.height;
+	aspectRatio = hqImg.options.width / hqImg.options.height;
 }
 
 const Element = zoomable ? "a" : "div";
 ---
 
+<script>
+	const onLoad = () => {
+		const lazyImages = Array.from(document.querySelectorAll(".lazy-image"));
+		for (const picture of lazyImages) {
+			if (!(picture instanceof HTMLPictureElement)) continue;
+			const img = picture.querySelector(":scope img");
+			if (!(img instanceof HTMLImageElement)) continue;
+			const lqipElements =
+				picture.parentElement?.querySelectorAll(".lqip, .lqip-blur");
+			if (!lqipElements) continue;
+			if (img.complete) {
+				lqipElements.forEach((el) => el.classList.add("hidden"));
+			} else {
+				lqipElements.forEach((el) => el.classList.remove("hidden"));
+				img.addEventListener("load", () => {
+					lqipElements.forEach((el) => el.classList.add("hidden"));
+				});
+			}
+		}
+	};
+
+	document.addEventListener("astro:page-load", onLoad);
+	document.addEventListener("load", onLoad);
+	onLoad();
+</script>
+
 <Element
 	class:list={[
-		"img-container rounded-lg overflow-clip",
+		"img-container rounded-lg overflow-clip relative",
 		{
 			"max-h-[inherit]": content,
 			"banner-clip overflow-clip relative h-auto w-full": banner,
@@ -48,8 +77,9 @@ const Element = zoomable ? "a" : "div";
 	]}
 	style={aspectRatio != null ? `aspect-ratio: ${aspectRatio};` : undefined}
 	{...zoomable
-		? { href: img.src, target: "_blank", rel: "noopener noreferrer" }
+		? { href: hqImg.src, target: "_blank", rel: "noopener noreferrer" }
 		: {}}
+	data-astro-prefetch={false}
 >
 	<Picture
 		class:list={[
@@ -57,7 +87,7 @@ const Element = zoomable ? "a" : "div";
 				"object-contain h-full": content,
 				"object-cover h-full w-full": banner,
 			},
-			"backdrop-blur-2xl in-[.full-bleed]:w-auto in-[.full-bleed]:h-full",
+			"backdrop-blur-2xl in-[.full-bleed]:w-auto in-[.full-bleed]:h-full text-[0px]",
 			className,
 		]}
 		densities={[1, 2]}
@@ -66,7 +96,18 @@ const Element = zoomable ? "a" : "div";
 		quality="high"
 		pictureAttributes={{
 			style: "mask: inherit",
+			class: "relative z-[2] lazy-image",
 		}}
 		{...props}
+	/>
+	<span
+		aria-hidden="true"
+		class="absolute top-0 left-0 w-full h-full backdrop-blur-3xl z-[1] lqip-blur"
+	></span>
+	<img
+		src={lqImg.src}
+		alt=""
+		class="absolute top-0 left-0 w-full h-full lqip"
+		aria-hidden="true"
 	/>
 </Element>
