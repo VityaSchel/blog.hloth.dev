@@ -45,16 +45,13 @@ const { Content } = await render(draft);
 					<LazyImage
 						src={draft.data.banner}
 						alt={draft.data.bannerAlt}
-						layout="fixed"
-						fit="fill"
-						draggable={false}
-						sizes="(max-width: 768px) 90vw, (max-width: 1168px) 36vw, 38vw"
 						priority
 						banner
 					/>
 				) : (
 					<span>Alt is required</span>
 				))
+			// sizes="(max-width: 768px) 90vw, (max-width: 1168px) 36vw, 38vw"
 		}
 	</Fragment>
 	<Content />

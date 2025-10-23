@@ -5,7 +5,7 @@ export function mapCollectionEntryToNavPostLink(
 ): NavPostLink | undefined {
 	return (
 		entry && {
-			path: "/" + entry.id,
+			path: "/" + entry.id + "/",
 			title: entry.data.title,
 			ru: entry.data.locale === "ru",
 		}
