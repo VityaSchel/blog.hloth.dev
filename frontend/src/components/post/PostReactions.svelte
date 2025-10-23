@@ -28,79 +28,84 @@
 	});
 </script>
 
-{#await query then value}
-	<div
-		class="mt-16 flex w-full flex-wrap items-center gap-x-[2.75px] gap-y-2
-			md:mt-8"
-		in:slide={{ duration: 300 }}
-	>
-		{#snippet Reaction(emoji: Reaction, i: number)}
-			<div in:fade|global={{ duration: 200, delay: i * 10 }}>
-				<ReactionButton
-					reaction={emoji}
-					value={value[emoji] ?? 0}
-					onclick={async () => {
-						try {
-							const req = await fetch(
-								new URL(`posts/${postId}/reactions/challenge`, API_URL),
-								{
-									method: "POST",
-									headers: { "Content-Type": "application/json" },
-									body: JSON.stringify({ reaction: emoji }),
-								},
-							);
-							if (!req.ok) {
-								throw new Error(
-									"Failed to get challenge: " + (await req.text()),
+<div>
+	{#await query then value}
+		<div
+			class="flex w-full flex-wrap items-center gap-x-[2.75px] gap-y-2
+			mt-8"
+			in:slide={{ duration: 300 }}
+		>
+			{#snippet Reaction(emoji: Reaction, i: number)}
+				<div in:fade|global={{ duration: 200, delay: i * 10 }}>
+					<ReactionButton
+						reaction={emoji}
+						value={value[emoji] ?? 0}
+						onclick={async () => {
+							try {
+								const req = await fetch(
+									new URL(`posts/${postId}/reactions/challenge`, API_URL),
+									{
+										method: "POST",
+										headers: { "Content-Type": "application/json" },
+										body: JSON.stringify({ reaction: emoji }),
+									},
 								);
-							}
-							return z
-								.object({ challenge: z.string() })
-								.parse(await req.json());
-						} catch (error) {
-							toast.error("An error occurred, please try again later.");
-							throw error;
-						}
-					}}
-					onreact={async ({ challenge, solutions }) => {
-						try {
-							const req = await fetch(
-								new URL(`posts/${postId}/reactions`, API_URL),
-								{
-									method: "POST",
-									headers: { "Content-Type": "application/json" },
-									body: JSON.stringify({
-										challenge,
-										solutions,
-										reaction: emoji,
-									}),
-								},
-							);
-							if (!req.ok) {
+								if (!req.ok) {
+									throw new Error(
+										"Failed to get challenge: " + (await req.text()),
+									);
+								}
+								return z
+									.object({ challenge: z.string() })
+									.parse(await req.json());
+							} catch (error) {
 								toast.error("An error occurred, please try again later.");
-								console.error(await req.text());
-								throw new Error("Failed to submit reaction");
+								throw error;
 							}
-							const { reactions } = z
-								.object({
-									ok: z.literal(true),
-									reactions: z.record(reactionSchema, z.number().int().min(0)),
-								})
-								.parse(await req.json());
-							query = Promise.resolve(reactions);
-						} catch (error) {
-							toast.error("An error occurred, please try again later.");
-							throw error;
-						}
-					}}
-				/>
-			</div>
-		{/snippet}
-		{#each reactions as emoji, i (emoji)}
-			{@render Reaction(emoji, i)}
-		{/each}
-	</div>
-{/await}
+						}}
+						onreact={async ({ challenge, solutions }) => {
+							try {
+								const req = await fetch(
+									new URL(`posts/${postId}/reactions`, API_URL),
+									{
+										method: "POST",
+										headers: { "Content-Type": "application/json" },
+										body: JSON.stringify({
+											challenge,
+											solutions,
+											reaction: emoji,
+										}),
+									},
+								);
+								if (!req.ok) {
+									toast.error("An error occurred, please try again later.");
+									console.error(await req.text());
+									throw new Error("Failed to submit reaction");
+								}
+								const { reactions } = z
+									.object({
+										ok: z.literal(true),
+										reactions: z.record(
+											reactionSchema,
+											z.number().int().min(0),
+										),
+									})
+									.parse(await req.json());
+								query = Promise.resolve(reactions);
+							} catch (error) {
+								toast.error("An error occurred, please try again later.");
+								throw error;
+							}
+						}}
+					/>
+				</div>
+			{/snippet}
+			{#each reactions as emoji, i (emoji)}
+				{@render Reaction(emoji, i)}
+			{/each}
+		</div>
+	{/await}
+</div>
 
 <style>
 	div {
