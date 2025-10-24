@@ -26,7 +26,7 @@
 		<div
 			class="
 				flex flex-col items-center justify-center gap-4 rounded-lg bg-slate-600
-				px-16 py-8 text-center text-white
+				px-16 py-8 text-center text-white min-w-0
 			"
 			style="aspect-ratio: {aspectRatio};"
 		>
