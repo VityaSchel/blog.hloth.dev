@@ -31,7 +31,6 @@ const [hqImg, lqImg] = await Promise.all([
 				"data:image/avif;base64," + Buffer.from(buffer).toString("base64"),
 		),
 ]);
-console.log(lqImg);
 
 let aspectRatio: number | null = null;
 if (banner) {

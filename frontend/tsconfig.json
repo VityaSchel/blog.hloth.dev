@@ -14,7 +14,7 @@
 			"$consts": ["src/lib/consts.ts"],
 			"$lib/*": ["src/lib/*"],
 			"$ui/*": ["src/components/ui/*"],
-			"$emoji": ["src/components/Emoji.astro"]
+			"$emoji": ["src/components/Emoji.svelte"]
 		}
 	},
 	"mdx": {

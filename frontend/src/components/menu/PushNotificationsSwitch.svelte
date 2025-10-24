@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { API_URL, PUBLIC_WEB_PUSH_KEY } from "astro:env/client";
 	import { onMount } from "svelte";
+	import Emoji from "$emoji";
 
 	let subscribed = $state(false);
 	let subscription: PushSubscription | null = $state(null);
@@ -11,20 +12,34 @@
 	onMount(() => {
 		if (typeof window !== "undefined" && "serviceWorker" in navigator) {
 			navigator.serviceWorker.ready.then((reg) => {
-				if ("getSubscription" in reg.pushManager) {
-					reg.pushManager.getSubscription().then((sub) => {
-						if (
-							sub &&
-							!(
-								sub.expirationTime &&
-								Date.now() > sub.expirationTime - 5 * 60 * 1000
-							)
-						) {
-							subscription = sub;
-							subscribed = true;
-						}
-					});
-					registration = reg;
+				if (reg.pushManager) {
+					if ("getSubscription" in reg.pushManager) {
+						reg.pushManager.getSubscription().then((sub) => {
+							if (
+								sub &&
+								!(
+									sub.expirationTime &&
+									Date.now() > sub.expirationTime - 5 * 60 * 1000
+								)
+							) {
+								subscription = sub;
+								subscribed = true;
+							}
+						});
+						registration = reg;
+					}
+				} else if (
+					[
+						"iPad Simulator",
+						"iPhone Simulator",
+						"iPod Simulator",
+						"iPad",
+						"iPhone",
+						"iPod",
+					].includes(navigator.platform) ||
+					(navigator.userAgent.includes("Mac") && "ontouchend" in document)
+				) {
+					error = "safari_moment";
 				}
 			});
 		}
@@ -119,6 +134,11 @@
 		{:else if error === "unknown_unsubscribe_success"}
 			An error occurred while unsubscribing but you have been unsubscribed
 			nonetheless.
+		{:else if error === "safari_moment"}
+			Oh, no! You're using Safari on iOS so you're not eligible for push
+			notifications <Emoji code="giggity" width={16} />
+			<br />
+			Perhaps, add this website to the home screen?
 		{/if}
 	</div>
 {/if}
