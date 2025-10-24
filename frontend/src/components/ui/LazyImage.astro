@@ -23,8 +23,15 @@ let {
 
 const [hqImg, lqImg] = await Promise.all([
 	getImage({ src: props.src, format: "webp", quality: "max" }),
-	getImage({ src: props.src, format: "avif", quality: 1, width: 32 }),
+	getImage({ src: props.src, format: "avif", quality: 50, width: 24 })
+		.then((img) => fetch(new URL(img.src, Astro.url.origin)))
+		.then((req) => req.arrayBuffer())
+		.then(
+			(buffer) =>
+				"data:image/avif;base64," + Buffer.from(buffer).toString("base64"),
+		),
 ]);
+console.log(lqImg);
 
 let aspectRatio: number | null = null;
 if (banner) {
@@ -46,15 +53,11 @@ const Element = zoomable ? "a" : "div";
 			if (!(picture instanceof HTMLPictureElement)) continue;
 			const img = picture.querySelector(":scope img");
 			if (!(img instanceof HTMLImageElement)) continue;
-			const lqipElements =
-				picture.parentElement?.querySelectorAll(".lqip, .lqip-blur");
-			if (!lqipElements) continue;
 			if (img.complete) {
-				lqipElements.forEach((el) => el.classList.add("hidden"));
+				img.style.backgroundImage = "none";
 			} else {
-				lqipElements.forEach((el) => el.classList.remove("hidden"));
 				img.addEventListener("load", () => {
-					lqipElements.forEach((el) => el.classList.add("hidden"));
+					img.style.backgroundImage = "none";
 				});
 			}
 		}
@@ -87,32 +90,18 @@ const Element = zoomable ? "a" : "div";
 				"object-contain h-full": content,
 				"object-cover h-full w-full": banner,
 			},
-			"backdrop-blur-2xl in-[.full-bleed]:w-auto in-[.full-bleed]:h-full text-[0px]",
+			"backdrop-blur-2xl in-[.full-bleed]:w-auto in-[.full-bleed]:h-full text-[0px] bg-cover",
 			className,
 		]}
+		style={"background-image: url(" + lqImg + ");"}
 		densities={[1, 2]}
 		formats={["avif", "webp"]}
 		loading={props.priority ? "eager" : "lazy"}
 		quality="high"
 		pictureAttributes={{
-			style: "mask: inherit",
+			style: "mask: inherit;",
 			class: "relative z-[2] lazy-image",
 		}}
 		{...props}
-	/>
-	<span
-		aria-hidden="true"
-		class:list={[
-			"absolute top-0 left-0 w-full h-full backdrop-blur-3xl z-[1] lqip-blur mask-[inherit]",
-			className,
-		]}></span>
-	<img
-		src={lqImg.src}
-		alt=""
-		class:list={[
-			"absolute top-0 left-0 w-full h-full lqip mask-[inherit]",
-			className,
-		]}
-		aria-hidden="true"
 	/>
 </Element>
