@@ -21,9 +21,17 @@ if (!service) {
 	const serviceUrl = new URL(url);
 	if (
 		serviceUrl.hostname === "www.youtube.com" ||
+		serviceUrl.hostname === "youtube.com" ||
+		serviceUrl.hostname === "www.youtube-nocookie.com" ||
+		serviceUrl.hostname === "youtube-nocookie.com" ||
 		serviceUrl.hostname === "youtu.be"
 	) {
 		service = "YouTube";
+		if (!serviceUrl.hostname.includes("youtube-nocookie.com")) {
+			serviceUrl.hostname = "www.youtube-nocookie.com";
+			serviceUrl.searchParams.delete("si");
+			url = serviceUrl.toString();
+		}
 	} else if (
 		serviceUrl.hostname === "twitter.com" ||
 		serviceUrl.hostname === "www.twitter.com" ||
@@ -37,11 +45,20 @@ if (!service) {
 }
 ---
 
+<!-- {
+	service === "YouTube" ? (
+		<div>
+			<button />
+		</div>
+	) : ( -->
 <IsolatedIframe
 	{url}
 	aspectRatio={ar}
-	title={`Embedded ${service} frame`}
+	name={service}
 	client:visible
+	referrer={service === "YouTube"}
 >
 	<slot />
 </IsolatedIframe>
+<!-- )
+} -->

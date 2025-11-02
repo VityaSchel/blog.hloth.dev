@@ -4,13 +4,15 @@
 	let {
 		aspectRatio,
 		url,
-		title,
+		name,
 		children,
+		referrer = false,
 	}: {
 		aspectRatio: number;
 		url: string;
-		title: string;
+		name: string;
 		children?: import("svelte").Snippet;
+		referrer?: boolean;
 	} = $props();
 
 	let load = $state(false);
@@ -26,7 +28,7 @@
 		<div
 			class="
 				flex flex-col items-center justify-center gap-4 rounded-lg bg-slate-600
-				px-16 py-8 text-center text-white min-w-0
+				px-4 smol:px-8 sm:px-16 py-8 text-center text-white min-w-0
 			"
 			style="aspect-ratio: {aspectRatio};"
 		>
@@ -35,8 +37,8 @@
 				request.
 			</span>
 			<span class="font-text text-sm font-medium text-slate-200">
-				Websites such as YouTube collect metric data even when you are not
-				interacting with their embedded player.
+				{name} might collect your personal data even when you are not interacting
+				with the embedded widget.
 			</span>
 			<div class="flex flex-col gap-2">
 				<button
@@ -54,7 +56,7 @@
 					disabled={!browser}
 					onclick={() => (load = true)}
 				>
-					Load “{title}”
+					Load embedded {name} widget
 				</button>
 				{#if !browser}
 					<span
@@ -71,8 +73,11 @@
 				<a
 					href={url}
 					target="_blank"
-					rel="noopener noreferrer nofollow"
+					rel="noopener nofollow{referrer ? '' : ' noreferrer'}"
 					class="font-semibold"
+					referrerpolicy={referrer
+						? "strict-origin-when-cross-origin"
+						: "no-referrer"}
 				>
 					{url}
 				</a>
@@ -82,10 +87,14 @@
 		<iframe
 			src={url}
 			frameborder="0"
-			{title}
+			title={`Embedded ${name} frame`}
 			sandbox="allow-orientation-lock allow-presentation allow-scripts allow-same-origin"
 			allow="picture-in-picture; fullscreen; autoplay"
 			style="width: 100%; aspect-ratio: {aspectRatio}; height: auto;"
+			class="bg-black"
+			referrerpolicy={referrer
+				? "strict-origin-when-cross-origin"
+				: "no-referrer"}
 		></iframe>
 	{/if}
 	{#if children}

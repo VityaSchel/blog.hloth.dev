@@ -21,6 +21,7 @@
 	--color-inverted-alt-dark: #978d62;
 	--color-active: #a3e635;
 	--color-active-dark: white;
+	--breakpoint-smol: 30rem;
 	--breakpoint-xs: 24rem;
 	--font-default-sans-serif:
 		system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
