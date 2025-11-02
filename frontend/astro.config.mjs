@@ -3,16 +3,15 @@
 import path from "path";
 import { fileURLToPath } from "url";
 import { defineConfig, envField } from "astro/config";
-import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
 import mdx from "@astrojs/mdx";
 import tailwindcss from "@tailwindcss/vite";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import { rehypeHeadingGroup } from "./src/plugins/rehype-heading-group";
-import { rehypeStyledHrs } from "./src/plugins/rehype-styled-hrs";
-import serviceWorker from "src/plugins/astro-sw";
-import { remarkStyledHrs } from "src/plugins/remark-styled-hrs";
+import { rehypeHeadingGroup } from "./src/plugins/rehype-heading-group.js";
+import { rehypeStyledHrs } from "./src/plugins/rehype-styled-hrs.js";
+import { remarkStyledHrs } from "./src/plugins/remark-styled-hrs.js";
+import serviceWorker from "./src/plugins/astro-sw.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url)) + "/";
 
@@ -24,13 +23,13 @@ export default defineConfig({
 		contentIntellisense: true,
 	},
 	integrations: [
-		sitemap(),
 		svelte(),
 		mdx(),
 		serviceWorker({
 			path: path.resolve(path.join(__dirname, "src/sw.ts")),
 		}),
 	],
+	outDir: "dist-new",
 	output: "static",
 	image: {
 		domains: ["i.ytimg.com"],
