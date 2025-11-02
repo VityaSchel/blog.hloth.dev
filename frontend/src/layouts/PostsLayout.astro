@@ -30,12 +30,10 @@ let { posts, category = false } = Astro.props;
 		posts.length ? (
 			<ul class="list-none">
 				{posts.map(({ id, data }, i) => (
-					<>
-						<li>
-							<PostPreview {id} post={data} first={i === 0} />
-						</li>
+					<li>
+						<PostPreview {id} post={data} first={i === 0} />
 						{i !== posts.length - 1 && <Separator />}
-					</>
+					</li>
 				))}
 			</ul>
 		) : (

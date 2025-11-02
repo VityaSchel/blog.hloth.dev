@@ -104,11 +104,11 @@ User-agent: YandexAdditional
 User-agent: YandexAdditionalBot
 User-agent: YouBot
 Disallow: /
-DisallowAITraining: /
+# DisallowAITraining: /
 
 User-Agent: *
-DisallowAITraining: /
-Content-Usage: ai=n
+# DisallowAITraining: /
+# Content-Usage: ai=n
 Allow: /
 
-Sitemap: https://bepyan.me/sitemap.xml
+Sitemap: https://blog.hloth.dev/sitemap.xml
