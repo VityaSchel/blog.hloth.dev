@@ -65,9 +65,9 @@ const olderPost = await getCollection(
 			alt={post.data.bannerAlt}
 			priority
 			banner
+			width={1625}
 		/>
 		<!-- sizes="(max-width: 768px) 90vw, (max-width: 1168px) 36vw, 38vw" -->
-		<!-- placeholder={banner.placeholder} -->
 	</Fragment>
 	<Content />
 	<ReadNext previous={newerPost} next={olderPost} slot="readNext" />
