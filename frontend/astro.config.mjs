@@ -1,6 +1,7 @@
 // @ts-check
 
 import path from "path";
+import { fileURLToPath } from "url";
 import { defineConfig, envField } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
@@ -12,6 +13,8 @@ import { rehypeHeadingGroup } from "./src/plugins/rehype-heading-group";
 import { rehypeStyledHrs } from "./src/plugins/rehype-styled-hrs";
 import serviceWorker from "src/plugins/astro-sw";
 import { remarkStyledHrs } from "src/plugins/remark-styled-hrs";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url)) + "/";
 
 // https://astro.build/config
 export default defineConfig({
@@ -29,7 +32,9 @@ export default defineConfig({
 		}),
 	],
 	output: "static",
-	image: {},
+	image: {
+		domains: ["i.ytimg.com"],
+	},
 	markdown: {
 		shikiConfig: {
 			themes: {

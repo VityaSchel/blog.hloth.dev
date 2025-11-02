@@ -21,7 +21,7 @@ const draft = Astro.props;
 const { Content } = await render(draft);
 ---
 
-<PostPageLayout id={draft.id} {...draft.data}>
+<PostPageLayout mb id={draft.id} {...draft.data}>
 	<AppBar homepage slot="appbar" />
 	<Fragment slot="about-top">
 		{

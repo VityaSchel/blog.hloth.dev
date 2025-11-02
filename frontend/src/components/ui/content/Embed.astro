@@ -7,6 +7,10 @@
  */
 
 import IsolatedIframe from "$ui/IsolatedIframe.svelte";
+import type { GetImageResult } from "astro";
+import { getImage } from "astro:assets";
+import siteConfig from "astro.config.mjs";
+import { isRemoteAllowed } from "@astrojs/internal-helpers/remote";
 
 interface Props {
 	url: string;
@@ -16,6 +20,10 @@ interface Props {
 
 let { url, service: serviceVar, ar = 16 / 9 } = Astro.props;
 
+let privacyPolicy: string | undefined;
+let oembedUrl: string | undefined;
+let thumbnailUrlOverrides: string[] = [];
+
 let service = serviceVar;
 if (!service) {
 	const serviceUrl = new URL(url);
@@ -23,8 +31,7 @@ if (!service) {
 		serviceUrl.hostname === "www.youtube.com" ||
 		serviceUrl.hostname === "youtube.com" ||
 		serviceUrl.hostname === "www.youtube-nocookie.com" ||
-		serviceUrl.hostname === "youtube-nocookie.com" ||
-		serviceUrl.hostname === "youtu.be"
+		serviceUrl.hostname === "youtube-nocookie.com"
 	) {
 		service = "YouTube";
 		if (!serviceUrl.hostname.includes("youtube-nocookie.com")) {
@@ -32,6 +39,22 @@ if (!service) {
 			serviceUrl.searchParams.delete("si");
 			url = serviceUrl.toString();
 		}
+		privacyPolicy = "https://policies.google.com/privacy";
+		const videoId = serviceUrl.pathname.includes("/embed/")
+			? serviceUrl.pathname.split("/embed/")[1].split("/")[0]
+			: serviceUrl.searchParams.get("v");
+		if (!videoId) {
+			throw new Error("Could not determine YouTube video ID from URL");
+		}
+		oembedUrl = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`;
+		thumbnailUrlOverrides = [
+			`maxresdefault`,
+			`hq720`,
+			"sddefault",
+			"hqdefault",
+			"mqdefault",
+			"default",
+		].map((size) => `https://i.ytimg.com/vi/${videoId}/${size}.jpg`);
 	} else if (
 		serviceUrl.hostname === "twitter.com" ||
 		serviceUrl.hostname === "www.twitter.com" ||
@@ -43,22 +66,60 @@ if (!service) {
 		throw new Error("Service argument must be provided for this URL");
 	}
 }
+
+let preview: { title: string; thumbnail: GetImageResult } | undefined;
+if (oembedUrl) {
+	const response = await fetch(oembedUrl);
+	if (response.ok) {
+		const data = await response.json();
+		thumbnailUrlOverrides.push(data.thumbnail_url);
+		let thumbnailUrl: string | undefined;
+		for (const url of thumbnailUrlOverrides) {
+			const res = await fetch(url, { method: "HEAD" });
+			if (res.ok) {
+				thumbnailUrl = url;
+				break;
+			}
+		}
+		if (thumbnailUrl !== undefined) {
+			if (
+				!isRemoteAllowed(thumbnailUrl, {
+					domains: siteConfig.image?.domains || [],
+					remotePatterns: siteConfig.image?.remotePatterns || [],
+				})
+			) {
+				throw new Error(
+					`Remote thumbnail in Embed preview is not allowed from ${new URL(thumbnailUrl).hostname}`,
+				);
+			}
+			const thumbnail = await getImage({
+				src: thumbnailUrl,
+				width: 640,
+				format: "avif",
+				height: ar ? Math.round(640 / ar) : undefined,
+				fit: "cover",
+			});
+			preview = {
+				title: data.title,
+				thumbnail,
+			};
+		}
+	} else {
+		console.warn(
+			`Failed to fetch oEmbed data from ${oembedUrl}: ${response.status} ${response.statusText}`,
+		);
+	}
+}
 ---
 
-<!-- {
-	service === "YouTube" ? (
-		<div>
-			<button />
-		</div>
-	) : ( -->
 <IsolatedIframe
 	{url}
 	aspectRatio={ar}
 	name={service}
 	client:visible
 	referrer={service === "YouTube"}
+	{privacyPolicy}
+	{preview}
 >
 	<slot />
 </IsolatedIframe>
-<!-- )
-} -->

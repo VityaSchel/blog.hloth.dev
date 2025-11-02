@@ -11,6 +11,7 @@ type Props = (
 	| CollectionEntry<"blog">["data"]
 ) & {
 	id: string;
+	mb?: boolean;
 };
 
 const {
@@ -23,6 +24,7 @@ const {
 	createdAt,
 	updatedAt,
 	category,
+	mb = false,
 } = Astro.props;
 ---
 
@@ -65,8 +67,10 @@ const {
 				<div class="flex w-full justify-center">
 					<div class="flex w-full max-w-[680px] flex-col">
 						<div
-							class="flex w-full flex-col justify-between gap-2 mt-8
-						md:flex-row md:items-center"
+							class:list={[
+								"flex w-full flex-col justify-between gap-2 md:flex-row md:items-center",
+								mb ? "my-8" : "mt-8",
+							]}
 						>
 							<PostDate date={createdAt}>Published at:</PostDate>
 							{updatedAt !== undefined && (
