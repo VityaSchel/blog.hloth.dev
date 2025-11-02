@@ -22,6 +22,13 @@
 		"svg.preview.background": "transparent",
 		"files.associations": {
 			"global.css": "tailwindcss"
+		},
+		"search.exclude": {
+			"**/node_modules": true,
+			"**/.git": true,
+			"**/.astro": true,
+			"**/bun.lock": true,
+			"**/.eslintcache": true
 		}
 	}
 }
