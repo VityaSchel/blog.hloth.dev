@@ -70,7 +70,7 @@
 						class="flex justify-between absolute items-end pointer-events-none bottom-0 left-0 w-full"
 					>
 						<span
-							class="px-2 py-1 h-8 bg-black/60 rounded-sm text-neutral-200 font-bold text-xs xs:text-sm mx-4 mb-4"
+							class="px-2 py-1 bg-black/60 rounded-sm text-neutral-200 font-bold text-xs xs:text-sm mx-4 mb-4"
 						>
 							{name}
 						</span>

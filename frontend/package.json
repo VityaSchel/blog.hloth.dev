@@ -6,7 +6,7 @@
 	"license": "MIT",
 	"scripts": {
 		"dev": "bun --env-file .env.development --bun astro dev",
-		"build": "bun --env-file .env.production --bun astro build",
+		"build": "bun --env-file .env.production --bun astro build && rm -rf dist && mv dist-new dist",
 		"preview": "bun --env-file .env.production --bun astro build && bun --bun astro preview",
 		"astro": "astro"
 	},

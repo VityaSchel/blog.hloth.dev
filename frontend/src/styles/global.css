@@ -99,6 +99,7 @@
 	inherits: true;
 }
 
+html:has(dialog[open]),
 body:has(dialog[open]) {
 	overflow: hidden;
 }
