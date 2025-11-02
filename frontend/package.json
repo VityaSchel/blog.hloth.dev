@@ -24,6 +24,7 @@
 		"@fontsource-variable/source-serif-4": "^5.2.9",
 		"@tailwindcss/vite": "^4.1.14",
 		"astro": "^5.14.4",
+		"astro-loading-indicator": "^0.7.1",
 		"blog.hloth.dev-shared": "../shared",
 		"cheerio": "^1.1.2",
 		"mediainfo.js": "^0.3.6",
