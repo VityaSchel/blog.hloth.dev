@@ -28,7 +28,7 @@ const { background, ...props } = Astro.props;
 const aspectRatio = props.src.width / props.src.height;
 ---
 
-<figure>
+<figure style={`--aspect-ratio: ${aspectRatio}`}>
 	<div
 		class:list={[
 			"w-full flex items-center justify-center in-[.full-bleed]:w-auto in-[.full-bleed]:flex-1 in-[.full-bleed]:justify-start",
@@ -39,7 +39,6 @@ const aspectRatio = props.src.width / props.src.height;
 			},
 		]}
 	>
-		<!-- TODO: placeholder -->
 		<LazyImage
 			width={background
 				? Math.min(500 * aspectRatio, 680)

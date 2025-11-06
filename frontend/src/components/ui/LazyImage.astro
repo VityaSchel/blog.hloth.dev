@@ -22,9 +22,12 @@ let {
 	...props
 } = Astro.props;
 
-const lqip = await getLqip(props.src.src, {
-	origin: Astro.url.origin,
-});
+let lqip: string | undefined;
+if (!Astro.url.pathname.includes("/drafts/")) {
+	lqip = await getLqip(props.src.src, {
+		origin: Astro.url.origin,
+	});
+}
 
 let aspectRatio: number | null = null;
 if (banner) {
@@ -64,8 +67,10 @@ const Element = zoomable ? "a" : "div";
 		{
 			"max-h-[inherit]": content,
 			"banner-clip overflow-clip relative h-auto w-full": banner,
-			landscape: aspectRatio != null && aspectRatio > 1,
-			portrait: aspectRatio != null && aspectRatio <= 1,
+			wide: aspectRatio != null && aspectRatio >= 680 / 500,
+			landscape:
+				aspectRatio != null && aspectRatio > 1 && aspectRatio < 680 / 500,
+			portrait: aspectRatio != null && aspectRatio <= 1, //680 / 500,
 		},
 	]}
 	style={aspectRatio != null ? `aspect-ratio: ${aspectRatio};` : undefined}
@@ -83,7 +88,7 @@ const Element = zoomable ? "a" : "div";
 			"backdrop-blur-2xl in-[.full-bleed]:w-auto in-[.full-bleed]:h-full text-[0px] bg-cover",
 			className,
 		]}
-		style={"background-image: url(" + lqip + ");"}
+		style={lqip ? "background-image: url(" + lqip + ");" : undefined}
 		densities={[1, 2]}
 		formats={["avif", "webp"]}
 		loading={props.priority ? "eager" : "lazy"}

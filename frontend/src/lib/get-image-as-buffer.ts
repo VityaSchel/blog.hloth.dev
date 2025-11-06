@@ -14,10 +14,20 @@ export async function getLqip(src: string, { origin }: { origin: string }) {
 		const arrayBuffer = await req.arrayBuffer();
 		hqImgBuffer = Buffer.from(arrayBuffer);
 	}
-	const lqImgBuffer = await sharp(hqImgBuffer)
+	let lqImg = sharp(hqImgBuffer)
 		.autoOrient()
-		.resize({ width: 24, fit: "contain", withoutEnlargement: true })
-		.avif({ quality: 50 })
-		.toBuffer();
-	return "data:image/avif;base64," + lqImgBuffer.toString("base64");
+		.resize({ width: 24, fit: "contain", withoutEnlargement: true });
+	const useAvif = import.meta.env.PROD;
+	if (useAvif) {
+		lqImg = lqImg.avif({ quality: 50 });
+	} else {
+		lqImg = lqImg.jpeg({ quality: 1 });
+	}
+	const lqImgBuffer = await lqImg.toBuffer();
+	return (
+		"data:image/" +
+		(useAvif ? "avif" : "jpeg") +
+		";base64," +
+		lqImgBuffer.toString("base64")
+	);
 }
