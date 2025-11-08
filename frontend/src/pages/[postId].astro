@@ -9,6 +9,7 @@ import Category from "$ui/Category.astro";
 import LazyImage from "$ui/LazyImage.astro";
 import ReadNext from "$components/ReadNext.astro";
 import { mapCollectionEntryToNavPostLink } from "$lib/nav-post-link";
+import { components } from "$ui/content";
 
 export async function getStaticPaths() {
 	const posts = await getCollection("blog");
@@ -69,6 +70,6 @@ const olderPost = await getCollection(
 		/>
 		<!-- sizes="(max-width: 768px) 90vw, (max-width: 1168px) 36vw, 38vw" -->
 	</Fragment>
-	<Content />
+	<Content {components} />
 	<ReadNext previous={newerPost} next={olderPost} slot="readNext" />
 </PostPageLayout>

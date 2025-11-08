@@ -8,9 +8,6 @@
 		},
 		{
 			"path": "backend"
-		},
-		{
-			"path": "frontend/src/content"
 		}
 	],
 	"settings": {
@@ -29,6 +26,7 @@
 			"**/.astro": true,
 			"**/bun.lock": true,
 			"**/.eslintcache": true
-		}
+		},
+		"git.repositoryScanMaxDepth": 5
 	}
 }

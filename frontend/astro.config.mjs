@@ -11,11 +11,13 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { rehypeHeadingGroup } from "./src/plugins/rehype-heading-group.js";
 import { rehypeStyledHrs } from "./src/plugins/rehype-styled-hrs.js";
 import { remarkStyledHrs } from "./src/plugins/remark-styled-hrs.js";
+import rehypeExternalLinks from "rehype-external-links";
 import serviceWorker from "./src/plugins/astro-sw.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url)) + "/";
 
 // https://astro.build/config
+/** @type { import("astro").AstroUserConfig } */
 export default defineConfig({
 	prefetch: true,
 	site: "https://blog.hloth.dev",
@@ -45,6 +47,7 @@ export default defineConfig({
 		rehypePlugins: [
 			rehypeHeadingGroup,
 			rehypeSlug,
+			[rehypeExternalLinks, { rel: ["nofollow", "noreferrer"] }],
 			[
 				rehypeAutolinkHeadings,
 				{

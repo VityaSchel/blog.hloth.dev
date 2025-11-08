@@ -18,6 +18,7 @@
 		}
 	},
 	"mdx": {
-		"checkMdx": true
+		"checkMdx": true,
+		"plugins": ["remark-frontmatter"]
 	}
 }

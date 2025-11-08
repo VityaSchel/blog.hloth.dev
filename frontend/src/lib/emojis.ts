@@ -1,5 +1,4 @@
 export type EmojiCode =
-	| "silly"
 	| "ahyj"
 	| "blevota"
 	| "bonk"
@@ -8,7 +7,7 @@ export type EmojiCode =
 	| "eww"
 	| "funny"
 	| "giggity"
-	| "gpl"
+	| "gpl-monster"
 	| "handsome"
 	| "jojo"
 	| "sad"
