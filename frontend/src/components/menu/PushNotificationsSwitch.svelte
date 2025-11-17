@@ -136,7 +136,7 @@
 			nonetheless.
 		{:else if error === "safari_moment"}
 			Oh, no! You're using Safari on iOS so you're not eligible for push
-			notifications <Emoji code="giggity" width={16} />
+			notifications <Emoji icon="giggity" width={16} />
 			<br />
 			Perhaps, add this website to the home screen?
 		{/if}

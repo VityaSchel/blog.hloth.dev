@@ -3,3 +3,5 @@ bun.lock
 
 # Miscellaneous
 /public/
+
+src/components/ui/content/ForcedImgAlt.astro

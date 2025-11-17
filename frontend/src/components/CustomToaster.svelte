@@ -4,5 +4,5 @@
 </script>
 
 <Toaster expand>
-	<Emoji code="silly" slot="errorIcon" />
+	<Emoji icon="silly" slot="errorIcon" />
 </Toaster>

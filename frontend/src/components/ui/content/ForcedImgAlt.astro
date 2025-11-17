@@ -1,0 +1,12 @@
+---
+interface Props {
+	alt: string;
+}
+let { alt } = Astro.props;
+---
+
+<p
+	aria-hidden="true"
+	class="mt-4 text-sm whitespace-pre-wrap xs:max-xsm:text-base xsm:mt-0 xsm:ml-4
+		xsm:max-w-1/2"
+>{alt}</p>

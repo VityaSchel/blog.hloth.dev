@@ -1,0 +1,22 @@
+{
+	"Image": {
+		"scope": "mdx",
+		"prefix": "img",
+		"body": [
+			"import img$1 from \"./$1.avif\";",
+			"",
+			"<Image src={img$1} alt=\"\"></Image>",
+		],
+		"description": "Insert an image",
+	},
+	"Video": {
+		"scope": "mdx",
+		"prefix": "video",
+		"body": [
+			"import video$1 from \"./$1.mp4\";",
+			"",
+			"<Video src={video$1}></Video>",
+		],
+		"description": "Insert a video",
+	},
+}

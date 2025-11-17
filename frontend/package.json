@@ -66,5 +66,8 @@
 		"remark-preset-prettier": "^2.0.2",
 		"svelte-sonner": "^1.0.5",
 		"typescript-eslint": "^8.46.0"
+	},
+	"patchedDependencies": {
+		"prettier@3.6.2": "patches/prettier@3.6.2.patch"
 	}
 }

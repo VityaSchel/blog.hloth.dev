@@ -14,8 +14,13 @@
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"[svelte]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
+		"editor.defaultFormatter": "svelte.svelte-vscode"
 	},
+	"files.associations": {
+		"global.css": "tailwindcss"
+	},
+	"search.useIgnoreFiles": false,
+	"search.useParentIgnoreFiles": false,
 	"editor.formatOnSave": true,
 	"editor.indentSize": "tabSize",
 	"editor.insertSpaces": false,
@@ -24,5 +29,8 @@
 		"**/node_modules": true,
 		"**/.husky/_": true,
 		"**/build": true
+	},
+	"[astro]": {
+		"editor.defaultFormatter": "astro-build.astro-vscode"
 	}
 }

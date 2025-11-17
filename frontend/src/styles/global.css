@@ -21,6 +21,7 @@
 	--color-inverted-alt-dark: #978d62;
 	--color-active: #a3e635;
 	--color-active-dark: white;
+	--breakpoint-xsm: 34rem;
 	--breakpoint-smol: 30rem;
 	--breakpoint-xs: 24rem;
 	--font-default-sans-serif:
@@ -208,7 +209,7 @@ body:has(dialog[open]) {
 		@apply text-base;
 	}
 
-	p:not(:only-child):not(:where(blockquote > p)) {
+	p:not(:only-child):not(:where(blockquote > p)):not(:where(.img-with-background > p)) {
 		margin-top: 16px;
 		margin-bottom: 16px;
 		overflow-wrap: break-word;
@@ -382,6 +383,10 @@ body:has(dialog[open]) {
 
 	a:not(.rich-link) {
 		text-decoration: underline;
+	}
+
+	abbr {
+		cursor: help;
 	}
 }
 

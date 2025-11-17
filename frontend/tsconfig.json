@@ -19,6 +19,6 @@
 	},
 	"mdx": {
 		"checkMdx": true,
-		"plugins": ["remark-frontmatter"]
+		"plugins": []
 	}
 }

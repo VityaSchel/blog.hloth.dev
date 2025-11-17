@@ -19,13 +19,14 @@
 	import smarty from "$emoji/smarty.webp";
 	import tired from "$emoji/tired.webp";
 	import vietnam from "$emoji/vietnam.webp";
+	import smile from "$emoji/smile.webp";
 
 	let {
 		width = 32,
 		height = 32,
-		code,
+		icon,
 	}: {
-		code: EmojiCode;
+		icon: EmojiCode;
 		width?: number;
 		height?: number;
 	} = $props();
@@ -53,10 +54,15 @@
 		smarty,
 		tired,
 		vietnam,
+		smile,
 	};
 
+	if (!emojiMap[icon]) {
+		throw new Error(`Emoji icon "${icon}" not found`);
+	}
+
 	const image = await getImage({
-		src: emojiMap[code],
+		src: emojiMap[icon],
 		width: width,
 		height: height,
 		densities: [1, 2],
@@ -65,17 +71,26 @@
 	});
 </script>
 
-<div class="relative inline-block align-middle">
+<span
+	class="relative inline-block align-middle"
+	style="width: {width}px; height: {height}px;"
+>
 	<img
 		{width}
 		{height}
-		src={emojiMap[code].src}
-		alt="Silly Ket"
-		class="text-[0px]"
+		src={emojiMap[icon].src}
+		alt={`${icon} emoji`}
+		class="relative z-[1] text-[0px]"
 		loading="lazy"
 		srcset={image.srcSet.attribute}
 	/>
-	<span
-		class="absolute z-[-1] w-full h-full aspect-square object-contain bg-stone-300"
-	></span>
-</div>
+	<!-- <span
+		class={[
+			`absolute top-0 left-0 aspect-square h-full w-full animate-pulse
+			rounded-full bg-stone-300 object-contain`,
+			// {
+			// 	hidden: !browser || loaded,
+			// },
+		]}
+	></span> -->
+</span>

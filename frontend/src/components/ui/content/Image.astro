@@ -9,8 +9,9 @@
  * </Image>
  */
 
-import type { Picture } from "astro:assets";
 import LazyImage from "$ui/LazyImage.astro";
+import ForcedAlt from "./ForcedImgAlt.astro";
+import type { Picture } from "astro:assets";
 import type { ComponentProps } from "astro/types";
 import type { ImageMetadata } from "astro";
 
@@ -19,11 +20,16 @@ type Props = Pick<
 	"class" | "height" | "alt" | "children"
 > & {
 	background?: boolean;
+	forceAlt?: boolean;
 	// border?: boolean;
 	src: ImageMetadata;
 };
 
 const { background, ...props } = Astro.props;
+
+if (props.forceAlt && !background) {
+	throw new Error("Background prop is required when forceAlt is true");
+}
 
 const aspectRatio = props.src.width / props.src.height;
 ---
@@ -31,11 +37,13 @@ const aspectRatio = props.src.width / props.src.height;
 <figure style={`--aspect-ratio: ${aspectRatio}`}>
 	<div
 		class:list={[
-			"w-full flex items-center justify-center in-[.full-bleed]:w-auto in-[.full-bleed]:flex-1 in-[.full-bleed]:justify-start",
+			`flex w-full items-center justify-center in-[.full-bleed]:w-auto
+			in-[.full-bleed]:flex-1 in-[.full-bleed]:justify-start`,
 			{
 				// border,
-				[`flex h-fit max-h-[500px] items-center justify-center overflow-clip
-				rounded-lg bg-white dark:bg-black-alt p-4`]: background,
+				[`img-with-background flex h-fit flex-col items-center justify-center
+				overflow-clip rounded-3xl bg-white p-4 xsm:flex-row dark:bg-black-alt`]:
+					background,
 			},
 		]}
 	>
@@ -50,11 +58,16 @@ const aspectRatio = props.src.width / props.src.height;
 			zoomable
 			{...props}
 		/>
+		{
+			background && props.forceAlt && props.alt !== null && (
+				<ForcedAlt alt={props.alt} />
+			)
+		}
 		<!-- sizes={background ? undefined : "(max-width: 728px) 100vw, 680px"} -->
 	</div>
 	{
 		Astro.slots.default && (
-			<figcaption>
+			<figcaption style={`max-width: ${Math.min(500 * aspectRatio, 680)}px;`}>
 				<slot />
 			</figcaption>
 		)

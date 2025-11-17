@@ -5,6 +5,7 @@ import Embed from "$ui/content/Embed.astro";
 import Attachments from "$ui/content/Attachments.astro";
 import Carousel from "$ui/content/Carousel.astro";
 import Callout from "$ui/content/Callout.astro";
+import Emoji from "$ui/content/Emoji.astro";
 
 export const components = {
 	Callout,
@@ -14,6 +15,7 @@ export const components = {
 	RichLink,
 	Video,
 	Image,
+	Emoji,
 };
 
 declare global {

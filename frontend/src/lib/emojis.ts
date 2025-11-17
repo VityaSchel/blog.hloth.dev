@@ -16,4 +16,5 @@ export type EmojiCode =
 	| "silly"
 	| "smarty"
 	| "tired"
-	| "vietnam";
+	| "vietnam"
+	| "smile";
