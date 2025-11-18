@@ -37,8 +37,9 @@ const aspectRatio = props.src.width / props.src.height;
 <figure style={`--aspect-ratio: ${aspectRatio}`}>
 	<div
 		class:list={[
-			`flex w-full items-center justify-center in-[.full-bleed]:w-auto
-			in-[.full-bleed]:flex-1 in-[.full-bleed]:justify-start`,
+			`flex w-full items-center justify-center
+			in-[.carousel-items]:justify-start in-[.full-bleed]:w-auto
+			in-[.full-bleed]:flex-1`,
 			{
 				// border,
 				[`img-with-background flex h-fit flex-col items-center justify-center
@@ -67,7 +68,9 @@ const aspectRatio = props.src.width / props.src.height;
 	</div>
 	{
 		Astro.slots.default && (
-			<figcaption style={`max-width: ${Math.min(500 * aspectRatio, 680)}px;`}>
+			<figcaption
+				style={`--max-width-px: ${Math.min(500 * aspectRatio, 680) + "px"}; --max-width: ${background || aspectRatio < 1 ? "100%" : "var(--max-width-px)"};`}
+			>
 				<slot />
 			</figcaption>
 		)
@@ -77,5 +80,6 @@ const aspectRatio = props.src.width / props.src.height;
 <style>
 	figcaption {
 		flex-shrink: 0;
+		max-width: var(--max-width);
 	}
 </style>

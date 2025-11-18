@@ -6,6 +6,7 @@ import Attachments from "$ui/content/Attachments.astro";
 import Carousel from "$ui/content/Carousel.astro";
 import Callout from "$ui/content/Callout.astro";
 import Emoji from "$ui/content/Emoji.astro";
+import Panorama from "$ui/content/Panorama.astro";
 
 export const components = {
 	Callout,
@@ -16,6 +17,7 @@ export const components = {
 	Video,
 	Image,
 	Emoji,
+	Panorama,
 };
 
 declare global {

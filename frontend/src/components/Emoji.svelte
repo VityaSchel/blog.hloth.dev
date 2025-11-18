@@ -44,7 +44,7 @@
 		eww,
 		funny,
 		giggity,
-		"gpl-monster": gpl,
+		gpl,
 		handsome,
 		jojo,
 		sad,

@@ -209,7 +209,9 @@ body:has(dialog[open]) {
 		@apply text-base;
 	}
 
-	p:not(:only-child):not(:where(blockquote > p)):not(:where(.img-with-background > p)) {
+	p:not(:only-child):not(:where(blockquote > p)):not(
+			:where(.img-with-background > p)
+		) {
 		margin-top: 16px;
 		margin-bottom: 16px;
 		overflow-wrap: break-word;
@@ -387,6 +389,27 @@ body:has(dialog[open]) {
 
 	abbr {
 		cursor: help;
+	}
+
+	sup a {
+		&::before {
+			content: "[";
+		}
+
+		&::after {
+			content: "]";
+		}
+	}
+
+
+	.full-bleed figcaption {
+		--max-width: var(--max-width-px) !important;
+	}
+
+	.footnotes {
+		li:target {
+			background-color: rgb(from hsl(50 9% 73.7%) r g b/.2);
+		}
 	}
 }
 
