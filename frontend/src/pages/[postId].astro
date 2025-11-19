@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"blog">;
 
 const post = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 
 const newerPost = await getCollection(
 	"blog",
@@ -45,6 +45,7 @@ const olderPost = await getCollection(
 	id={post.id}
 	{...post.data}
 	nextPost={mapCollectionEntryToNavPostLink(olderPost)}
+	{headings}
 >
 	<Fragment slot="about-top">
 		<PageViews postId={post.id} client:only="svelte" />

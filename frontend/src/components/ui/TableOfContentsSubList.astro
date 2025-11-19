@@ -1,0 +1,23 @@
+---
+import type { NestedHeading } from "./TableOfContents.astro";
+
+interface Props {
+	children: NestedHeading[];
+}
+let { children } = Astro.props;
+---
+
+<ul class="ml-2 border">
+	{
+		children.map(({ children, depth, heading }, i) => (
+			<li class="w-full">
+				{heading && (
+					<a href={`#${heading.slug}`} class="block w-full">
+						{depth}.{i + 1}: {heading.text}
+					</a>
+				)}
+				{Boolean(children.length) && <Astro.self {children} />}
+			</li>
+		))
+	}
+</ul>

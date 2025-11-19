@@ -1,0 +1,42 @@
+---
+import type { MarkdownHeading } from "astro";
+import TableOfContentsSubList from "./TableOfContentsSubList.astro";
+
+interface Props {
+	headings: MarkdownHeading[];
+}
+
+let { headings } = Astro.props;
+
+export type NestedHeading = {
+	heading?: MarkdownHeading;
+	depth: number;
+	children: NestedHeading[];
+};
+
+const nestedHeadings: NestedHeading[] = [];
+
+const stack: NestedHeading[] = [{ children: nestedHeadings, depth: 0 }];
+
+for (const heading of headings) {
+	while (stack.length > 1 && stack[stack.length - 1].depth >= heading.depth) {
+		stack.pop();
+	}
+
+	const parent = stack[stack.length - 1];
+	const item: NestedHeading = {
+		depth: heading.depth,
+		heading,
+		children: [],
+	};
+
+	parent.children.push(item);
+	stack.push(item);
+}
+---
+
+<aside class="fixed top-0 left-0 z-50 w-96 bg-neutral-200/50">
+	<nav>
+		<TableOfContentsSubList children={nestedHeadings} />
+	</nav>
+</aside>

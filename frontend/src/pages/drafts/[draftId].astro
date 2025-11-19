@@ -14,9 +14,9 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"drafts">;
 
 const draft = Astro.props;
-const { Content } = await render(draft);
+const { Content, headings } = await render(draft);
 ---
 
-<PostPageLayout mb id={draft.id} {...draft.data}>
+<PostPageLayout mb id={draft.id} {...draft.data} {headings}>
 	<Content {components} />
 </PostPageLayout>

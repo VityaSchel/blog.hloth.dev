@@ -1,16 +1,18 @@
 ---
+import type { CollectionEntry } from "astro:content";
+import type { ComponentProps } from "astro/types";
+import type { MarkdownHeading } from "astro";
 import BaseLayout from "$layouts/BaseLayout.astro";
 import AppBar from "$components/AppBar.astro";
 import Separator from "$ui/Separator.astro";
 import LazyImage from "$ui/LazyImage.astro";
 import Category from "$ui/Category.astro";
+import TableOfContents from "$ui/TableOfContents.astro";
 import Me from "$components/post/Me.astro";
 import PostDate from "$components/post/PostDate.astro";
 import PostReactions from "$components/post/PostReactions.svelte";
 import PostTitle from "$components/post/PostTitle.astro";
 import ReadTime from "$components/post/ReadTime.astro";
-import type { CollectionEntry } from "astro:content";
-import type { ComponentProps } from "astro/types";
 
 type Props = (
 	| CollectionEntry<"drafts">["data"]
@@ -19,6 +21,7 @@ type Props = (
 	id: string;
 	mb?: boolean;
 	nextPost?: ComponentProps<typeof AppBar>["next"];
+	headings?: MarkdownHeading[];
 };
 
 const {
@@ -34,6 +37,7 @@ const {
 	category,
 	mb = false,
 	nextPost,
+	headings,
 } = Astro.props;
 ---
 
@@ -47,6 +51,7 @@ const {
 		: undefined}
 >
 	<AppBar homepage next={nextPost} />
+	{headings && Boolean(headings.length) && <TableOfContents {headings} />}
 	<article class="pt-8">
 		<div class="flex flex-col-reverse items-start justify-between md:flex-row">
 			<div
