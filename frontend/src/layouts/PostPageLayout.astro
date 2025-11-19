@@ -1,10 +1,16 @@
 ---
+import BaseLayout from "$layouts/BaseLayout.astro";
+import AppBar from "$components/AppBar.astro";
+import Separator from "$ui/Separator.astro";
+import LazyImage from "$ui/LazyImage.astro";
+import Category from "$ui/Category.astro";
 import Me from "$components/post/Me.astro";
 import PostDate from "$components/post/PostDate.astro";
-import Separator from "$components/ui/Separator.astro";
-import BaseLayout from "$layouts/BaseLayout.astro";
 import PostReactions from "$components/post/PostReactions.svelte";
+import PostTitle from "$components/post/PostTitle.astro";
+import ReadTime from "$components/post/ReadTime.astro";
 import type { CollectionEntry } from "astro:content";
+import type { ComponentProps } from "astro/types";
 
 type Props = (
 	| CollectionEntry<"drafts">["data"]
@@ -12,6 +18,7 @@ type Props = (
 ) & {
 	id: string;
 	mb?: boolean;
+	nextPost?: ComponentProps<typeof AppBar>["next"];
 };
 
 const {
@@ -23,8 +30,10 @@ const {
 	locale,
 	createdAt,
 	updatedAt,
+	readTime,
 	category,
 	mb = false,
+	nextPost,
 } = Astro.props;
 ---
 
@@ -37,27 +46,43 @@ const {
 		? { createdAt, updatedAt, category }
 		: undefined}
 >
-	<slot name="appbar" />
+	<AppBar homepage next={nextPost} />
 	<article class="pt-8">
 		<div class="flex flex-col-reverse items-start justify-between md:flex-row">
 			<div
 				class="flex flex-col gap-8 self-stretch md:max-w-[50%] md:flex-[50%]"
 			>
 				<div class="flex items-center gap-5">
+					{category !== undefined && <Category category={category} />}
+					{readTime !== undefined && <ReadTime value={readTime} />}
 					<slot name="about-top" />
 				</div>
-				<slot name="about-title" />
+				{title !== undefined && <PostTitle title={title} />}
 				<Me />
 			</div>
 			<div
-				class="banner-clip relative mb-8
-					w-full overflow-clip md:mb-0 md:w-auto md:max-w-[40%] md:flex-[40%]"
+				class="banner-clip relative mb-8 w-full overflow-clip md:mb-0 md:w-auto
+					md:max-w-[40%] md:flex-[40%]"
 			>
-				<slot name="banner" />
+				{
+					banner !== undefined &&
+						(bannerAlt ? (
+							<LazyImage
+								src={banner}
+								alt={bannerAlt}
+								priority
+								banner
+								width={1625}
+							/>
+						) : (
+							<span>Alt is required</span>
+						))
+				}
+				<!-- sizes="(max-width: 768px) 90vw, (max-width: 1168px) 36vw, 38vw" -->
 			</div>
 		</div>
 		<Separator />
-		<div class="flex w-[100cqw] justify-center -ml-6 md:-ml-12">
+		<div class="-ml-6 flex w-[100cqw] justify-center md:-ml-12">
 			<div class="article-content w-full break-words">
 				<slot />
 			</div>

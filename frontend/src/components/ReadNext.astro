@@ -1,6 +1,6 @@
 ---
 import DualNav from "$components/DualNav.astro";
-import Separator from "$components/ui/Separator.astro";
+import Separator from "$ui/Separator.astro";
 import {
 	mapCollectionEntryToNavPostLink,
 	type NavPostLink,
@@ -18,7 +18,7 @@ const startEl: NavPostLink | undefined =
 const endEl: NavPostLink | undefined = mapCollectionEntryToNavPostLink(next);
 ---
 
-<div class="flex w-full flex-col gap-[12px] mb-6 md:mb-9">
+<div class="mb-6 flex w-full flex-col gap-[12px] md:mb-9">
 	<Separator class="mb-3!" />
 	<DualNav {startEl} {endEl} />
 </div>

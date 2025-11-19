@@ -1,12 +1,7 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
-import AppBar from "$components/AppBar.astro";
-import ReadTime from "$components/post/ReadTime.astro";
-import PostTitle from "$components/post/PostTitle.astro";
-import Category from "$ui/Category.astro";
-import LazyImage from "$ui/LazyImage.astro";
 import PostPageLayout from "$layouts/PostPageLayout.astro";
-import { components } from "$components/ui/content";
+import { components } from "$ui/content";
 
 export async function getStaticPaths() {
 	if (import.meta.env.PROD) return [];
@@ -23,36 +18,5 @@ const { Content } = await render(draft);
 ---
 
 <PostPageLayout mb id={draft.id} {...draft.data}>
-	<AppBar homepage slot="appbar" />
-	<Fragment slot="about-top">
-		{
-			draft.data.category !== undefined && (
-				<Category category={draft.data.category} />
-			)
-		}
-		{
-			draft.data.readTime !== undefined && (
-				<ReadTime value={draft.data.readTime} />
-			)
-		}
-	</Fragment>
-	<Fragment slot="about-title">
-		{draft.data.title && <PostTitle title={draft.data.title} />}
-	</Fragment>
-	<Fragment slot="banner">
-		{
-			draft.data.banner &&
-				(draft.data.bannerAlt ? (
-					<LazyImage
-						src={draft.data.banner}
-						alt={draft.data.bannerAlt}
-						priority
-						banner
-					/>
-				) : (
-					<span>Alt is required</span>
-				))
-		}
-	</Fragment>
 	<Content {components} />
 </PostPageLayout>
