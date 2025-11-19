@@ -35,13 +35,80 @@ for (const heading of headings) {
 }
 ---
 
-<aside class="sticky top-12 left-12 z-50 h-fit max-h-96 w-0">
-	<nav
-		class="max-h-full w-96 overflow-auto rounded-xl border border-cream-alt/50
-			bg-cream-alt/50 p-2 text-sm backdrop-blur-3xl dark:border-golden-creamy/40
-			dark:bg-golden-creamy/40"
+<aside
+	class="sticky top-0 left-0 z-50 h-dvh w-6 shrink-0 transition-[width]
+		has-checked:w-96"
+>
+	<input
+		type="checkbox"
+		id="show-table-of-contents"
+		class="peer/toc-toggler pointer-events-none absolute h-0 w-0 opacity-0"
+		aria-label="Expand table of contents"
+	/>
+	<label
+		for="show-table-of-contents"
+		aria-hidden="true"
+		class="h-6 cursor-pointer peer-checked/toc-toggler:hidden"
 	>
-		<span class="font-semibold">Table of Contents</span>
-		<TableOfContentsSubList children={nestedHeadings} depth={0} />
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			width="24px"
+			height="24px"
+			viewBox="0 0 24 24"
+			><!-- Icon from Tabler Icons by Paweł Kuna - https://github.com/tabler/tabler-icons/blob/master/LICENSE -->
+			<path
+				fill="currentColor"
+				d="M18 3a3 3 0 0 1 2.995 2.824L21 6v12a3 3 0 0 1-2.824 2.995L18 21H6a3 3 0 0 1-2.995-2.824L3 18V6a3 3 0 0 1 2.824-2.995L6 3zm0 2H9v14h9a1 1 0 0 0 .993-.883L19 18V6a1 1 0 0 0-.883-.993zm-4.387 4.21l.094.083l2 2a1 1 0 0 1 .083 1.32l-.083.094l-2 2a1 1 0 0 1-1.497-1.32l.083-.094L13.585 12l-1.292-1.293a1 1 0 0 1-.083-1.32l.083-.094a1 1 0 0 1 1.32-.083"
+			></path>
+		</svg>
+	</label>
+	<nav
+		class="absolute -top-2 left-0 w-0 overflow-x-clip overflow-y-auto
+			transition-[width] peer-checked/toc-toggler:w-96"
+	>
+		<div
+			class="h-full w-96 min-w-96 rounded-r-lg border border-l-0
+				border-cream-alt/50 bg-cream-alt/50 p-4 py-5 text-black-alt
+				backdrop-blur-3xl dark:border-golden-creamy/40 dark:bg-golden-creamy/20
+				dark:text-cream-alt"
+		>
+			<div class="mb-2 flex items-center justify-between">
+				<h2 class="font-medium">Table of Contents</h2>
+				<label
+					for="show-table-of-contents"
+					aria-hidden="true"
+					class="cursor-pointer"
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24px"
+						height="24px"
+						viewBox="0 0 24 24"
+					>
+						<!-- Icon from Tabler Icons by Paweł Kuna - https://github.com/tabler/tabler-icons/blob/master/LICENSE -->
+						<path
+							fill="currentColor"
+							d="M18 3a3 3 0 0 1 2.995 2.824L21 6v12a3 3 0 0 1-2.824 2.995L18 21H6a3 3 0 0 1-2.995-2.824L3 18V6a3 3 0 0 1 2.824-2.995L6 3zm0 2H9v14h9a1 1 0 0 0 .993-.883L19 18V6a1 1 0 0 0-.883-.993zm-2.293 4.293a1 1 0 0 1 .083 1.32l-.083.094L14.415 12l1.292 1.293a1 1 0 0 1 .083 1.32l-.083.094a1 1 0 0 1-1.32.083l-.094-.083l-2-2a1 1 0 0 1-.083-1.32l.083-.094l2-2a1 1 0 0 1 1.414 0"
+						></path>
+					</svg>
+				</label>
+			</div>
+			<TableOfContentsSubList children={nestedHeadings} depth={0} />
+		</div>
 	</nav>
 </aside>
+
+<style>
+	nav::after {
+		content: "";
+		position: absolute;
+		right: 0;
+		top: 0;
+		height: 100%;
+		width: 16px;
+		background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.025));
+	}
+	nav {
+		height: calc(100% + 16px);
+	}
+</style>

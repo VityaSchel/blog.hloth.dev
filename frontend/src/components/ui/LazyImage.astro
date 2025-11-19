@@ -16,7 +16,7 @@ type Props = Pick<
 
 let {
 	banner,
-	class: className = "rounded-lg",
+	class: className = "not-in-[.panorama]:rounded-lg",
 	content,
 	zoomable,
 	...props
@@ -63,10 +63,10 @@ const Element = zoomable ? "a" : "div";
 
 <Element
 	class:list={[
-		"img-container rounded-lg overflow-clip relative",
+		"img-container relative overflow-clip not-in-[.panorama]:rounded-lg",
 		{
 			"max-h-[inherit]": content,
-			"banner-clip overflow-clip relative h-auto w-full": banner,
+			"banner-clip relative h-auto w-full overflow-clip": banner,
 			wide: aspectRatio != null && aspectRatio >= 680 / 500,
 			landscape:
 				aspectRatio != null && aspectRatio > 1 && aspectRatio < 680 / 500,
@@ -82,10 +82,11 @@ const Element = zoomable ? "a" : "div";
 	<Picture
 		class:list={[
 			{
-				"object-contain h-full": content,
-				"object-cover h-full w-full": banner,
+				"h-full object-contain": content,
+				"h-full w-full object-cover": banner,
 			},
-			"backdrop-blur-2xl in-[.full-bleed]:w-auto in-[.full-bleed]:h-full text-[0px] bg-cover",
+			`bg-cover text-[0px] backdrop-blur-2xl in-[.full-bleed]:h-full
+			in-[.full-bleed]:w-auto`,
 			className,
 		]}
 		style={lqip ? "background-image: url(" + lqip + ");" : undefined}

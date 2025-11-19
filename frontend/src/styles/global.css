@@ -141,6 +141,10 @@ body:has(dialog[open]) {
 	}
 }
 
+.test {
+	container-type: inline-size;
+}
+
 .article-content {
 	--w: 680px;
 	--content-width: min(calc(100cqw - 2 * max(var(--m))), var(--w));

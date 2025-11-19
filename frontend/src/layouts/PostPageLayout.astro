@@ -88,8 +88,10 @@ const {
 		<Separator />
 		<div class="-ml-6 flex w-[100cqw] justify-center md:-ml-12">
 			{headings && Boolean(headings.length) && <TableOfContents {headings} />}
-			<div class="article-content w-full break-words">
-				<slot />
+			<div class="test w-full">
+				<div class="article-content w-full break-words">
+					<slot />
+				</div>
 			</div>
 		</div>
 		{
