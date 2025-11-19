@@ -1,10 +1,10 @@
 ---
+import type { CollectionEntry } from "astro:content";
 import AppBar from "$components/AppBar.astro";
 import Separator from "$ui/Separator.astro";
 import PostPreview from "$components/post/PostPreview.astro";
 import HlothBlogSvg from "$components/HlothBlogSvg.astro";
-import type { CollectionEntry } from "astro:content";
-import ShowAllPostsButton from "$components/ui/ShowAllPostsButton.astro";
+import ShowAllPostsButton from "$ui/ShowAllPostsButton.astro";
 
 interface Props {
 	posts: CollectionEntry<"blog">[];
@@ -48,6 +48,6 @@ let { posts, category = false } = Astro.props;
 
 {
 	Boolean(posts.length) && category && (
-		<ShowAllPostsButton class="shrink-0 mt-12 self-center" />
+		<ShowAllPostsButton class="mt-12 shrink-0 self-center" />
 	)
 }
