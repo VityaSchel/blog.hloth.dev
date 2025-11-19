@@ -51,7 +51,6 @@ const {
 		: undefined}
 >
 	<AppBar homepage next={nextPost} />
-	{headings && Boolean(headings.length) && <TableOfContents {headings} />}
 	<article class="pt-8">
 		<div class="flex flex-col-reverse items-start justify-between md:flex-row">
 			<div
@@ -88,6 +87,7 @@ const {
 		</div>
 		<Separator />
 		<div class="-ml-6 flex w-[100cqw] justify-center md:-ml-12">
+			{headings && Boolean(headings.length) && <TableOfContents {headings} />}
 			<div class="article-content w-full break-words">
 				<slot />
 			</div>

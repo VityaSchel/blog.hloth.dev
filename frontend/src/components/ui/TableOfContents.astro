@@ -35,8 +35,13 @@ for (const heading of headings) {
 }
 ---
 
-<aside class="fixed top-0 left-0 z-50 w-96 bg-neutral-200/50">
-	<nav>
-		<TableOfContentsSubList children={nestedHeadings} />
+<aside class="sticky top-12 left-12 z-50 h-fit max-h-96 w-0">
+	<nav
+		class="max-h-full w-96 overflow-auto rounded-xl border border-cream-alt/50
+			bg-cream-alt/50 p-2 text-sm backdrop-blur-3xl dark:border-golden-creamy/40
+			dark:bg-golden-creamy/40"
+	>
+		<span class="font-semibold">Table of Contents</span>
+		<TableOfContentsSubList children={nestedHeadings} depth={0} />
 	</nav>
 </aside>
