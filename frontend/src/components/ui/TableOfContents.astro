@@ -39,7 +39,7 @@ for (const heading of headings) {
 	const onScroll = () => {
 		document.querySelectorAll("#reveal-toc-button").forEach((btn) => {
 			if (btn instanceof HTMLLabelElement) {
-				if (btn.getBoundingClientRect().y) {
+				if (btn.getBoundingClientRect().y > 0) {
 					btn.dataset["pl"] = "";
 				} else {
 					delete btn.dataset["pl"];
@@ -49,11 +49,30 @@ for (const heading of headings) {
 	};
 	window.addEventListener("scroll", onScroll);
 	onScroll();
+
+	function onLoad() {
+		document.querySelectorAll("#toc-nav a").forEach((link) => {
+			if (link instanceof HTMLAnchorElement) {
+				link.addEventListener("click", () => {
+					if (!window.matchMedia("(width >= 40rem)").matches) {
+						const checkbox = document.querySelector("#show-table-of-contents");
+						if (checkbox instanceof HTMLInputElement) {
+							checkbox.checked = false;
+						}
+					}
+				});
+			}
+		});
+	}
+
+	document.addEventListener("astro:page-load", onLoad);
+	document.addEventListener("load", onLoad);
+	onLoad();
 </script>
 
 <aside
 	class="sticky top-0 left-0 z-50 h-dvh w-0 shrink-0 transition-[width]
-		duration-500 has-checked:w-64 has-checked:mdl:w-80 has-checked:lg:w-96"
+		duration-500 has-checked:sm:w-64 has-checked:mdl:w-80 has-checked:lg:w-96"
 >
 	<input
 		type="checkbox"
@@ -100,16 +119,20 @@ for (const heading of headings) {
 		</div>
 	</label>
 	<nav
-		class="absolute -top-2 -left-4 z-[1] w-0 overflow-x-clip overflow-y-auto
+		class="absolute -top-2 -left-4 z-[1] w-0 max-w-dvw overflow-x-clip
 			rounded-r-lg border border-l-0 border-cream-alt/50 transition-[width,left]
-			duration-500 peer-checked/toc-toggler:left-0 peer-checked/toc-toggler:w-64
+			duration-500 peer-checked/toc-toggler:left-0
+			peer-checked/toc-toggler:w-dvw peer-checked/toc-toggler:sm:w-64
 			peer-checked/toc-toggler:mdl:w-80 peer-checked/toc-toggler:lg:w-96
 			dark:border-golden-creamy/40"
+		id="toc-nav"
 	>
 		<div
-			class="h-full w-64 rounded-r-lg bg-toc-bg-light text-black-alt
-				transition-[width] duration-500 mdl:w-80 lg:w-96 dark:bg-toc-bg-dark
-				dark:text-cream-alt"
+			class="h-full w-dvw max-w-dvw overflow-y-auto rounded-r-lg bg-cream/40
+				text-black-alt backdrop-blur-3xl transition-[width] duration-500 sm:w-64
+				sm:bg-toc-bg-light sm:backdrop-blur-none mdl:w-80 lg:w-96
+				dark:bg-toc-bg-dark-transparent dark:text-cream-alt
+				sm:dark:bg-toc-bg-dark"
 		>
 			<div class="relative z-[1] flex items-start justify-between">
 				<h2 class="mt-5 ml-4 font-medium">Table of Contents</h2>

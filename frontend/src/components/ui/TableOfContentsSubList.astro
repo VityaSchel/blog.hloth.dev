@@ -8,12 +8,15 @@ interface Props {
 let { children, depth } = Astro.props;
 ---
 
-<ul class:list={{ "ml-2": depth > 0 }}>
+<ul class:list={{ "ml-4": depth > 0 }}>
 	{
 		children.map(({ children, depth, heading }) => (
 			<li class="w-full">
 				{heading && (
-					<a href={`#${heading.slug}`} class="block w-full truncate py-0.5">
+					<a
+						href={`#${heading.slug}`}
+						class="block w-full truncate py-0.5 transition-colors hover:text-black dark:hover:text-white"
+					>
 						{heading.text}
 					</a>
 				)}

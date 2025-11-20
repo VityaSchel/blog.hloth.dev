@@ -23,6 +23,7 @@
 	--color-active-dark: white;
 	--color-toc-bg-light: color-mix(in oklab, #e0d9c9 50%, var(--bg) 50%);
 	--color-toc-bg-dark: color-mix(in oklab, #8e7a48 35%, var(--bg) 65%);
+	--color-toc-bg-dark-transparent: color-mix(in oklab, #544625 55%, transparent);
 	--breakpoint-mdl: 58rem;
 	--breakpoint-xsm: 34rem;
 	--breakpoint-smol: 30rem;

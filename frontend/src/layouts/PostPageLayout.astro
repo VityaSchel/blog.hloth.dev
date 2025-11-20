@@ -87,7 +87,16 @@ const {
 		</div>
 		<Separator />
 		<div class="-ml-6 flex w-[100cqw] justify-center md:-ml-12">
-			{headings && Boolean(headings.length) && <TableOfContents {headings} />}
+			{
+				headings && Boolean(headings.length) && (
+					<TableOfContents
+						headings={headings.map((h) => ({
+							...h,
+							text: h.text.slice(0, -1),
+						}))}
+					/>
+				)
+			}
 			<div class="test w-full">
 				<div class="article-content w-full break-words">
 					<slot />
