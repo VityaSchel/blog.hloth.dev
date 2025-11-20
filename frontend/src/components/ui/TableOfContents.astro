@@ -35,49 +35,78 @@ for (const heading of headings) {
 }
 ---
 
+<script>
+	const onScroll = () => {
+		document.querySelectorAll("#reveal-toc-button").forEach((btn) => {
+			if (btn instanceof HTMLLabelElement) {
+				if (btn.getBoundingClientRect().y) {
+					btn.dataset["pl"] = "";
+				} else {
+					delete btn.dataset["pl"];
+				}
+			}
+		});
+	};
+	window.addEventListener("scroll", onScroll);
+	onScroll();
+</script>
+
 <aside
-	class="sticky top-0 left-0 z-50 h-dvh w-6 shrink-0 transition-[width]
-		has-checked:w-96"
+	class="sticky top-0 left-0 z-50 h-dvh w-0 shrink-0 transition-[width]
+		duration-500 has-checked:w-96"
 >
 	<input
 		type="checkbox"
 		id="show-table-of-contents"
-		class="peer/toc-toggler pointer-events-none absolute h-0 w-0 opacity-0"
-		aria-label="Expand table of contents"
+		class="peer/toc-toggler pointer-events-none absolute top-0 left-0 opacity-0"
+		aria-label="Expand/collapse table of contents"
 	/>
 	<label
+		id="reveal-toc-button"
 		for="show-table-of-contents"
 		aria-hidden="true"
-		class="h-6 cursor-pointer peer-checked/toc-toggler:hidden"
-	>
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			width="24px"
-			height="24px"
-			viewBox="0 0 24 24"
-			><!-- Icon from Tabler Icons by Paweł Kuna - https://github.com/tabler/tabler-icons/blob/master/LICENSE -->
-			<path
-				fill="currentColor"
-				d="M18 3a3 3 0 0 1 2.995 2.824L21 6v12a3 3 0 0 1-2.824 2.995L18 21H6a3 3 0 0 1-2.995-2.824L3 18V6a3 3 0 0 1 2.824-2.995L6 3zm0 2H9v14h9a1 1 0 0 0 .993-.883L19 18V6a1 1 0 0 0-.883-.993zm-4.387 4.21l.094.083l2 2a1 1 0 0 1 .083 1.32l-.083.094l-2 2a1 1 0 0 1-1.497-1.32l.083-.094L13.585 12l-1.292-1.293a1 1 0 0 1-.083-1.32l.083-.094a1 1 0 0 1 1.32-.083"
-			></path>
-		</svg>
-	</label>
-	<nav
-		class="absolute -top-2 left-0 w-0 overflow-x-clip overflow-y-auto
-			transition-[width] peer-checked/toc-toggler:w-96"
+		class:list={[
+			`group block h-fit w-fit cursor-pointer p-2 transition-[padding-left]
+			duration-200 ease-out peer-focus-visible/toc-toggler:border
+			peer-focus-visible/toc-toggler:border-blue-400/50 data-[pl]:pl-12`,
+		]}
+		data-pl
 	>
 		<div
-			class="h-full w-96 min-w-96 rounded-r-lg border border-l-0
-				border-cream-alt/50 bg-cream-alt/50 p-4 py-5 text-black-alt
-				backdrop-blur-3xl dark:border-golden-creamy/40 dark:bg-golden-creamy/20
-				dark:text-cream-alt"
+			class="rounded-sm border border-transparent bg-cream/70 p-2
+				backdrop-blur-3xl transition-[border-color] duration-200 ease-out
+				group-data-[pl]:border-cream-alt/50 dark:bg-black/60
+				group-data-[pl]:dark:border-golden-creamy/40"
 		>
-			<div class="mb-2 flex items-center justify-between">
-				<h2 class="font-medium">Table of Contents</h2>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="24px"
+				height="24px"
+				viewBox="0 0 24 24"
+				><!-- Icon from Tabler Icons by Paweł Kuna - https://github.com/tabler/tabler-icons/blob/master/LICENSE -->
+				<path
+					fill="currentColor"
+					d="M18 3a3 3 0 0 1 2.995 2.824L21 6v12a3 3 0 0 1-2.824 2.995L18 21H6a3 3 0 0 1-2.995-2.824L3 18V6a3 3 0 0 1 2.824-2.995L6 3zm0 2H9v14h9a1 1 0 0 0 .993-.883L19 18V6a1 1 0 0 0-.883-.993zm-4.387 4.21l.094.083l2 2a1 1 0 0 1 .083 1.32l-.083.094l-2 2a1 1 0 0 1-1.497-1.32l.083-.094L13.585 12l-1.292-1.293a1 1 0 0 1-.083-1.32l.083-.094a1 1 0 0 1 1.32-.083"
+				></path>
+			</svg>
+		</div>
+	</label>
+	<nav
+		class="absolute -top-2 -left-4 z-[1] w-0 overflow-x-clip overflow-y-auto
+			rounded-r-lg border border-l-0 border-cream-alt/50 transition-[width,left]
+			duration-500 peer-checked/toc-toggler:left-0 peer-checked/toc-toggler:w-96
+			dark:border-golden-creamy/40"
+	>
+		<div
+			class="h-full w-96 min-w-96 rounded-r-lg bg-toc-bg-light text-black-alt
+				dark:bg-toc-bg-dark dark:text-cream-alt"
+		>
+			<div class="relative z-[1] flex items-start justify-between">
+				<h2 class="mt-5 ml-4 font-medium">Table of Contents</h2>
 				<label
 					for="show-table-of-contents"
 					aria-hidden="true"
-					class="cursor-pointer"
+					class="cursor-pointer px-4 py-5"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +122,9 @@ for (const heading of headings) {
 					</svg>
 				</label>
 			</div>
-			<TableOfContentsSubList children={nestedHeadings} depth={0} />
+			<div class="mx-5 mb-4">
+				<TableOfContentsSubList children={nestedHeadings} depth={0} />
+			</div>
 		</div>
 	</nav>
 </aside>
@@ -107,6 +138,7 @@ for (const heading of headings) {
 		height: 100%;
 		width: 16px;
 		background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.025));
+		pointer-events: none;
 	}
 	nav {
 		height: calc(100% + 16px);
