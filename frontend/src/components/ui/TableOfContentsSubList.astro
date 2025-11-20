@@ -13,7 +13,7 @@ let { children, depth } = Astro.props;
 		children.map(({ children, depth, heading }) => (
 			<li class="w-full">
 				{heading && (
-					<a href={`#${heading.slug}`} class="block w-full py-0.5">
+					<a href={`#${heading.slug}`} class="block w-full truncate py-0.5">
 						{heading.text}
 					</a>
 				)}
