@@ -67,17 +67,25 @@ for (const heading of headings) {
 		aria-hidden="true"
 		class:list={[
 			`group block h-fit w-fit cursor-pointer p-2 transition-[padding-left]
-			duration-200 ease-out peer-focus-visible/toc-toggler:border
-			peer-focus-visible/toc-toggler:border-blue-400/50 data-[pl]:pl-12`,
+			duration-200 ease-out peer-focus-visible/toc-toggler:outline
+			peer-focus-visible/toc-toggler:outline-blue-400/50 data-[pl]:pl-12`,
 		]}
 		data-pl
 	>
 		<div
-			class="rounded-sm border border-transparent bg-cream/70 p-2
-				backdrop-blur-3xl transition-[border-color] duration-200 ease-out
-				group-data-[pl]:border-cream-alt/50 dark:bg-black/60
+			class="flex items-center gap-0 rounded-sm border border-transparent
+				bg-cream/70 p-2 backdrop-blur-3xl transition-[border-color] duration-200
+				ease-out group-data-[pl]:border-cream-alt/50 dark:bg-black/60
 				group-data-[pl]:dark:border-golden-creamy/40"
 		>
+			<div
+				class="w-0 overflow-clip transition-[width] duration-200 ease-out
+					group-data-[pl]:w-34"
+			>
+				<span class="block w-max px-1 text-[15px] whitespace-nowrap">
+					Table of Contents
+				</span>
+			</div>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				width="24px"
