@@ -53,7 +53,7 @@ for (const heading of headings) {
 
 <aside
 	class="sticky top-0 left-0 z-50 h-dvh w-0 shrink-0 transition-[width]
-		duration-500 has-checked:w-80 has-checked:lg:w-96"
+		duration-500 has-checked:w-64 has-checked:mdl:w-80 has-checked:lg:w-96"
 >
 	<input
 		type="checkbox"
@@ -102,12 +102,13 @@ for (const heading of headings) {
 	<nav
 		class="absolute -top-2 -left-4 z-[1] w-0 overflow-x-clip overflow-y-auto
 			rounded-r-lg border border-l-0 border-cream-alt/50 transition-[width,left]
-			duration-500 peer-checked/toc-toggler:left-0 peer-checked/toc-toggler:w-80
-			peer-checked/toc-toggler:lg:w-96 dark:border-golden-creamy/40"
+			duration-500 peer-checked/toc-toggler:left-0 peer-checked/toc-toggler:w-64
+			peer-checked/toc-toggler:mdl:w-80 peer-checked/toc-toggler:lg:w-96
+			dark:border-golden-creamy/40"
 	>
 		<div
-			class="h-full w-80 rounded-r-lg bg-toc-bg-light text-black-alt
-				transition-[width] duration-500 lg:w-96 dark:bg-toc-bg-dark
+			class="h-full w-64 rounded-r-lg bg-toc-bg-light text-black-alt
+				transition-[width] duration-500 mdl:w-80 lg:w-96 dark:bg-toc-bg-dark
 				dark:text-cream-alt"
 		>
 			<div class="relative z-[1] flex items-start justify-between">
