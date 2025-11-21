@@ -3,36 +3,70 @@ import {
 	AutoModelForImageTextToText,
 	load_image,
 	ModelOutput,
+	Processor,
+	PreTrainedModel,
+	type DeviceType,
 } from "@huggingface/transformers";
 
-const model_id = "onnx-community/FastVLM-0.5B-ONNX";
-
-const processor = await AutoProcessor.from_pretrained(model_id);
-const model = await AutoModelForImageTextToText.from_pretrained(model_id, {
-	dtype: {
-		embed_tokens: "fp16",
-		vision_encoder: "q4",
-		decoder_model_merged: "q4",
-	},
-});
-const prompt = processor.apply_chat_template(
-	[
-		{
-			role: "user",
-			content: "<image>Describe in one sentence for alt text",
-		},
-	],
+const models = new Map<
+	string,
 	{
-		add_generation_prompt: true,
-	},
-);
+		processor: Processor;
+		model: PreTrainedModel;
+	}
+>();
 
-async function getAlt(fullPath: string): Promise<string> {
+async function loadModel({
+	model_id,
+	device,
+}: {
+	model_id: string;
+	device: DeviceType;
+}) {
+	if (models.has(model_id)) return models.get(model_id)!;
+	const processor = await AutoProcessor.from_pretrained(model_id);
+	const model = await AutoModelForImageTextToText.from_pretrained(model_id, {
+		dtype: {
+			embed_tokens: "fp16",
+			vision_encoder: "q4",
+			decoder_model_merged: "q4",
+		},
+		device,
+	});
+	models.set(model_id, { processor, model });
+	return { processor, model };
+}
+// safari 4900ms
+// cpu node.js 4200ms
+// cpu bun 4100ms
+// chrome 2500ms
+export async function getAlt({
+	fullPath,
+	backend,
+}: {
+	fullPath: string;
+	backend: DeviceType;
+}): Promise<string> {
+	const { processor, model } = await loadModel({
+		model_id: "onnx-community/FastVLM-0.5B-ONNX",
+		device: backend,
+	});
 	const image = await load_image(fullPath);
+	const prompt = processor.apply_chat_template(
+		[
+			{
+				role: "user",
+				content: "<image>Describe in one sentence for alt text",
+			},
+		],
+		{
+			add_generation_prompt: true,
+		},
+	);
 	const inputs = await processor(image, prompt, {
 		add_special_tokens: false,
 	});
-
+	const genStart = performance.now();
 	const outputs = await model.generate({
 		...inputs,
 		max_new_tokens: 500,
@@ -45,6 +79,7 @@ async function getAlt(fullPath: string): Promise<string> {
 		outputs.slice(null, [inputs.input_ids.dims.at(-1), null]),
 		{ skip_special_tokens: true },
 	);
+	console.log(`Alt text generated in ${performance.now() - genStart} ms`);
 	let result = decoded[0]?.trim();
 	if (!result) throw new Error("No generated text found");
 
@@ -62,7 +97,8 @@ async function getAlt(fullPath: string): Promise<string> {
 	return result.at(0)?.toUpperCase() + result.slice(1);
 }
 
-const alt = await getAlt(
-	"/Users/hloth/Downloads/aakljsdjklasjkldjskladljkasjkldasjkld.jpg",
-);
-console.log("Generated alt text:", alt);
+await getAlt({
+	fullPath:
+		"/Users/hloth/Documents/blog.hloth.dev-new/frontend/public/Statue-of-Liberty-Island-New-York-Bay.jpg",
+	backend: "cpu",
+});
