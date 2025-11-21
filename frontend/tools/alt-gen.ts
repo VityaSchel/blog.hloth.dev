@@ -1,3 +1,5 @@
+import { Server } from "net-ipc";
+
 const images = [
 	"/Users/hloth/Documents/blog.hloth.dev-new/frontend/public/Statue-of-Liberty-Island-New-York-Bay.jpg",
 	"/Users/hloth/Downloads/aakljsdjklasjkldjskladljkasjkldasjkld.jpg",
@@ -11,28 +13,34 @@ const batchSize = 2;
 
 async function spawnWorker(name: string) {
 	try {
-		const worker = new Worker(new URL("./alt-gen.worker.ts", import.meta.url), {
-			type: "module",
-			preload: ["@huggingface/transformers"],
+		const worker = Bun.spawn([
+			"node",
+			Bun.fileURLToPath(new URL("./alt-gen.worker.ts", import.meta.url)),
+		]);
+
+		const server = new Server({
+			path: "/alt-gen-worker-" + name,
 		});
+		server.start().catch(console.error);
+
 		console.log("Spawned worker:", name);
 		let image: string | undefined;
 		while ((image = images.pop())) {
 			if (!image) break;
-			worker.postMessage(image);
+			worker.send(image);
 			console.log(`Worker ${name} processing image: ${image}`);
 			const alt = await new Promise<string>((resolve, reject) => {
-				worker.onmessage = (event: MessageEvent) => {
+				server.on("request", (event) => {
 					if (typeof event.data === "string") {
 						resolve(event.data);
 					} else {
 						reject(new Error("Failed to generate alt text"));
 					}
-				};
-				worker.onerror = (e) => {
+				});
+				server.on("error", (e) => {
 					console.error(`Worker ${name} error:`, e);
 					reject(e.error);
-				};
+				});
 			});
 			alts.set(image, alt);
 			console.log(`Worker ${name} generated alt text: ${alt}`);

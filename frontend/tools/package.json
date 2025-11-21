@@ -9,6 +9,7 @@
 		"typescript": "^5"
 	},
 	"dependencies": {
-		"@huggingface/transformers": "^3.7.6"
+		"@huggingface/transformers": "^3.7.6",
+		"net-ipc": "^2.2.2"
 	}
 }
