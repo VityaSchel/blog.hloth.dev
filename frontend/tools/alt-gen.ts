@@ -1,4 +1,5 @@
-import { Server } from "net-ipc";
+import { fork } from "child_process";
+import { fileURLToPath } from "url";
 
 const images = [
 	"/Users/hloth/Documents/blog.hloth.dev-new/frontend/public/Statue-of-Liberty-Island-New-York-Bay.jpg",
@@ -10,18 +11,18 @@ const images = [
 const alts = new Map<string, string>();
 
 const batchSize = 2;
+const abortControllers: AbortController[] = [];
 
 async function spawnWorker(name: string) {
 	try {
-		const worker = Bun.spawn([
-			"node",
-			Bun.fileURLToPath(new URL("./alt-gen.worker.ts", import.meta.url)),
-		]);
-
-		const server = new Server({
-			path: "/alt-gen-worker-" + name,
-		});
-		server.start().catch(console.error);
+		const abortController = new AbortController();
+		abortControllers.push(abortController);
+		const worker = fork(
+			fileURLToPath(new URL("./alt-gen.worker.ts", import.meta.url)),
+			{
+				signal: abortController.signal,
+			},
+		);
 
 		console.log("Spawned worker:", name);
 		let image: string | undefined;
@@ -30,20 +31,25 @@ async function spawnWorker(name: string) {
 			worker.send(image);
 			console.log(`Worker ${name} processing image: ${image}`);
 			const alt = await new Promise<string>((resolve, reject) => {
-				server.on("request", (event) => {
-					if (typeof event.data === "string") {
-						resolve(event.data);
+				const onMsg = (message: unknown) => {
+					worker.off("message", onMsg);
+					worker.off("error", onError);
+					if (typeof message === "string") {
+						resolve(message);
 					} else {
 						reject(new Error("Failed to generate alt text"));
 					}
-				});
-				server.on("error", (e) => {
+				};
+				const onError = (e: unknown) => {
+					worker.off("message", onMsg);
+					worker.off("error", onError);
 					console.error(`Worker ${name} error:`, e);
-					reject(e.error);
-				});
+					reject(e);
+				};
+				worker.on("message", onMsg);
+				worker.on("error", onError);
 			});
 			alts.set(image, alt);
-			console.log(`Worker ${name} generated alt text: ${alt}`);
 		}
 	} catch (err) {
 		console.error(`Worker ${name} encountered an error:`, err);
@@ -62,3 +68,5 @@ await Promise.all(workers);
 for (const [image, alt] of alts) {
 	console.log(`Image: ${image}\nAlt Text: ${alt}\n`);
 }
+
+abortControllers.forEach((ac) => ac.abort());

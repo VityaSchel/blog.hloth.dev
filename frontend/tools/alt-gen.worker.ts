@@ -8,8 +8,6 @@ import {
 	type DeviceType,
 } from "@huggingface/transformers";
 
-declare let self: Worker;
-
 const models = new Map<
 	string,
 	| {
@@ -33,7 +31,6 @@ async function loadModel({
 		models.set(
 			model_id,
 			(async () => {
-				console.log(`Loading model ${model_id} on device ${device}...`);
 				const processor = await AutoProcessor.from_pretrained(model_id);
 				const model = await AutoModelForImageTextToText.from_pretrained(
 					model_id,
@@ -80,7 +77,6 @@ async function getAlt({
 	const inputs = await processor(image, prompt, {
 		add_special_tokens: false,
 	});
-	const genStart = performance.now();
 	const outputs = await model.generate({
 		...inputs,
 		max_new_tokens: 500,
@@ -93,7 +89,6 @@ async function getAlt({
 		outputs.slice(null, [inputs.input_ids.dims.at(-1), null]),
 		{ skip_special_tokens: true },
 	);
-	console.log(`Alt text generated in ${performance.now() - genStart} ms`);
 	let result = decoded[0]?.trim();
 	if (!result) throw new Error("No generated text found");
 
@@ -111,14 +106,22 @@ async function getAlt({
 	return result.at(0)?.toUpperCase() + result.slice(1);
 }
 
-self.onmessage = (event: MessageEvent) => {
-	getAlt({ fullPath: event.data, backend: "cpu" })
+process.on("message", (message) => {
+	if (!process.send) {
+		console.error("Process send function is undefined");
+		return;
+	}
+	if (typeof message !== "string") {
+		console.error("Worker received invalid message:", message);
+		process.send(null);
+		return;
+	}
+	getAlt({ fullPath: message, backend: "cpu" })
 		.then((alt) => {
-			console.log("Success");
-			self.postMessage(alt);
+			process.send!(alt);
 		})
 		.catch((err) => {
 			console.error("Worker internal error generating alt text:", err);
 			self.postMessage(null);
 		});
-};
+});
