@@ -1,5 +1,6 @@
 {
 	"name": "dev",
+	"type": "module",
 	"private": true,
 	"devDependencies": {
 		"@types/bun": "latest"
@@ -8,6 +9,7 @@
 		"typescript": "^5"
 	},
 	"dependencies": {
-		"@huggingface/transformers": "^3.7.6"
+		"@huggingface/transformers": "^3.7.6",
+		"webgpu": "^0.3.8"
 	}
 }

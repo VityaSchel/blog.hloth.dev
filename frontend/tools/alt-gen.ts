@@ -1,104 +1,58 @@
-import {
-	AutoProcessor,
-	AutoModelForImageTextToText,
-	load_image,
-	ModelOutput,
-	Processor,
-	PreTrainedModel,
-	type DeviceType,
-} from "@huggingface/transformers";
+import { Worker } from "node:worker_threads";
 
-const models = new Map<
-	string,
-	{
-		processor: Processor;
-		model: PreTrainedModel;
+const images = [
+	"/Users/hloth/Documents/blog.hloth.dev-new/frontend/public/Statue-of-Liberty-Island-New-York-Bay.jpg",
+	"/Users/hloth/Downloads/aakljsdjklasjkldjskladljkasjkldasjkld.jpg",
+	"/Users/hloth/Downloads/amlsdksadkasd.webp",
+	"/Users/hloth/Downloads/photo_2024-02-24 03.14.02.jpeg",
+];
+
+const alts = new Map<string, string>();
+
+const batchSize = 2;
+
+async function spawnWorker(name: string) {
+	try {
+		const worker = new Worker(new URL("./alt-gen.worker.ts", import.meta.url), {
+			// type: "module",
+			// preload: ["@huggingface/transformers"],
+		});
+		console.log("Spawned worker:", name);
+		let image: string | undefined;
+		while ((image = images.pop())) {
+			if (!image) break;
+			worker.postMessage(image);
+			console.log(`Worker ${name} processing image: ${image}`);
+			const alt = await new Promise<string>((resolve, reject) => {
+				worker.on("message", (event: MessageEvent) => {
+					if (typeof event.data === "string") {
+						resolve(event.data);
+					} else {
+						reject(new Error("Failed to generate alt text"));
+					}
+				});
+				worker.on("error", (e) => {
+					// console.error(`Worker ${name} error:`, e);
+					reject(e);
+				});
+			});
+			alts.set(image, alt);
+			console.log(`Worker ${name} generated alt text: ${alt}`);
+		}
+	} catch (err) {
+		console.error(`Worker ${name} encountered an error:`, err);
 	}
->();
-
-async function loadModel({
-	model_id,
-	device,
-}: {
-	model_id: string;
-	device: DeviceType;
-}) {
-	if (models.has(model_id)) return models.get(model_id)!;
-	const processor = await AutoProcessor.from_pretrained(model_id);
-	const model = await AutoModelForImageTextToText.from_pretrained(model_id, {
-		dtype: {
-			embed_tokens: "fp16",
-			vision_encoder: "q4",
-			decoder_model_merged: "q4",
-		},
-		device,
-	});
-	models.set(model_id, { processor, model });
-	return { processor, model };
-}
-// safari 4900ms
-// cpu node.js 4200ms
-// cpu bun 4100ms
-// chrome 2500ms
-export async function getAlt({
-	fullPath,
-	backend,
-}: {
-	fullPath: string;
-	backend: DeviceType;
-}): Promise<string> {
-	const { processor, model } = await loadModel({
-		model_id: "onnx-community/FastVLM-0.5B-ONNX",
-		device: backend,
-	});
-	const image = await load_image(fullPath);
-	const prompt = processor.apply_chat_template(
-		[
-			{
-				role: "user",
-				content: "<image>Describe in one sentence for alt text",
-			},
-		],
-		{
-			add_generation_prompt: true,
-		},
-	);
-	const inputs = await processor(image, prompt, {
-		add_special_tokens: false,
-	});
-	const genStart = performance.now();
-	const outputs = await model.generate({
-		...inputs,
-		max_new_tokens: 500,
-		do_sample: false,
-	});
-	if (outputs instanceof ModelOutput)
-		throw new Error("Expected generated tokens, but got ModelOutput");
-
-	const decoded = processor.batch_decode(
-		outputs.slice(null, [inputs.input_ids.dims.at(-1), null]),
-		{ skip_special_tokens: true },
-	);
-	console.log(`Alt text generated in ${performance.now() - genStart} ms`);
-	let result = decoded[0]?.trim();
-	if (!result) throw new Error("No generated text found");
-
-	result = ["The image depicts", "The image captures"].reduce(
-		(prev, cur) =>
-			prev.startsWith(cur) ? prev.substring(cur.length).trim() : prev,
-		result,
-	);
-	result = ["."].reduce(
-		(prev, cur) =>
-			prev.endsWith(cur) ? prev.slice(0, -cur.length).trim() : prev,
-		result,
-	);
-
-	return result.at(0)?.toUpperCase() + result.slice(1);
 }
 
-await getAlt({
-	fullPath:
-		"/Users/hloth/Documents/blog.hloth.dev-new/frontend/public/Statue-of-Liberty-Island-New-York-Bay.jpg",
-	backend: "cpu",
-});
+const workers = [];
+for (let i = 0; i < batchSize; i++) {
+	workers.push(spawnWorker(`Worker-${i + 1}`));
+}
+
+await Promise.all(workers);
+
+// ===
+
+for (const [image, alt] of alts) {
+	console.log(`Image: ${image}\nAlt Text: ${alt}\n`);
+}
