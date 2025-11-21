@@ -1,7 +1,10 @@
 {
-	"name": "dev",
+	"name": "blog.hloth.dev-tools-alt-gen",
 	"type": "module",
 	"private": true,
+	"scripts": {
+		"start": "bun src/index.ts"
+	},
 	"devDependencies": {
 		"@types/bun": "latest"
 	},

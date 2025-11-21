@@ -52,17 +52,17 @@ async function loadModel({
 }
 
 async function getAlt({
-	fullPath,
+	image,
 	backend,
 }: {
-	fullPath: string;
+	image: Buffer;
 	backend: DeviceType;
 }): Promise<string> {
+	return "fake-" + Math.random().toString(36).substring(2, 15);
 	const { processor, model } = await loadModel({
 		model_id: "onnx-community/FastVLM-0.5B-ONNX",
 		device: backend,
 	});
-	const image = await load_image(fullPath);
 	const prompt = processor.apply_chat_template(
 		[
 			{
@@ -74,7 +74,7 @@ async function getAlt({
 			add_generation_prompt: true,
 		},
 	);
-	const inputs = await processor(image, prompt, {
+	const inputs = await processor(await load_image(image), prompt, {
 		add_special_tokens: false,
 	});
 	const outputs = await model.generate({
@@ -111,12 +111,21 @@ process.on("message", (message) => {
 		console.error("Process send function is undefined");
 		return;
 	}
-	if (typeof message !== "string") {
+	if (
+		typeof message !== "object" ||
+		!message ||
+		!("type" in message) ||
+		!("data" in message) ||
+		message.type !== "Buffer" ||
+		!Array.isArray(message.data) ||
+		!message.data.every((b) => typeof b === "number")
+	) {
 		console.error("Worker received invalid message:", message);
 		process.send(null);
 		return;
 	}
-	getAlt({ fullPath: message, backend: "cpu" })
+	console.log("Worker received image of size:", message.data.length);
+	getAlt({ image: Buffer.from(message.data), backend: "cpu" })
 		.then((alt) => {
 			process.send!(alt);
 		})
