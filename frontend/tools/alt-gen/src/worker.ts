@@ -7,6 +7,8 @@ import {
 	PreTrainedModel,
 	type DeviceType,
 } from "@huggingface/transformers";
+import fs from "fs/promises";
+// import sharp from "sharp";
 
 const models = new Map<
 	string,
@@ -52,17 +54,27 @@ async function loadModel({
 }
 
 async function getAlt({
-	image,
+	fullPath,
 	backend,
 }: {
-	image: Buffer;
+	fullPath: string;
 	backend: DeviceType;
 }): Promise<string> {
-	return "fake-" + Math.random().toString(36).substring(2, 15);
+	const content = await fs.readFile(fullPath);
+	// const converted = await sharp(content)
+	// 	.resize(512, 512, {
+	// 		fit: "inside",
+	// 	})
+	// 	.jpeg({
+	// 		quality: 50,
+	// 	})
+	// 	.toBuffer();
+	return "fake-" + Math.random().toString(36).substring(2, 8);
 	const { processor, model } = await loadModel({
 		model_id: "onnx-community/FastVLM-0.5B-ONNX",
 		device: backend,
 	});
+	const image = await load_image(content);
 	const prompt = processor.apply_chat_template(
 		[
 			{
@@ -74,7 +86,7 @@ async function getAlt({
 			add_generation_prompt: true,
 		},
 	);
-	const inputs = await processor(await load_image(image), prompt, {
+	const inputs = await processor(image, prompt, {
 		add_special_tokens: false,
 	});
 	const outputs = await model.generate({
@@ -111,21 +123,12 @@ process.on("message", (message) => {
 		console.error("Process send function is undefined");
 		return;
 	}
-	if (
-		typeof message !== "object" ||
-		!message ||
-		!("type" in message) ||
-		!("data" in message) ||
-		message.type !== "Buffer" ||
-		!Array.isArray(message.data) ||
-		!message.data.every((b) => typeof b === "number")
-	) {
+	if (typeof message !== "string") {
 		console.error("Worker received invalid message:", message);
 		process.send(null);
 		return;
 	}
-	console.log("Worker received image of size:", message.data.length);
-	getAlt({ image: Buffer.from(message.data), backend: "cpu" })
+	getAlt({ fullPath: message, backend: "cpu" })
 		.then((alt) => {
 			process.send!(alt);
 		})

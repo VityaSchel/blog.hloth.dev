@@ -1,9 +1,11 @@
 import path from "path";
-import fs from "fs/promises";
-// import sharp from "sharp";
 import { remark } from "remark";
 import remarkMdx from "remark-mdx";
-import type { RootContent, Node } from "mdast";
+import remarkFrontmatter from "remark-frontmatter";
+import type { RootContent, Root } from "mdast";
+import type { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
+
+const mdx = remark().use(remarkMdx).use(remarkFrontmatter);
 
 export async function parseMdx({
 	content,
@@ -11,10 +13,10 @@ export async function parseMdx({
 }: {
 	content: string;
 	dir: string;
-}) {
-	const file = remark().use(remarkMdx).parse(content);
+}): Promise<{ tree: Root; imageMap: Map<MdxJsxFlowElement, string> }> {
+	const file = mdx.parse(content);
 
-	const imageMap = new Map<Node, Buffer>();
+	const imageMap = new Map<MdxJsxFlowElement, string>();
 
 	const importMap = new Map<string, string>();
 	async function loop(children: RootContent[]) {
@@ -44,17 +46,8 @@ export async function parseMdx({
 						const importPath = importMap.get(importVarName);
 						if (importPath) {
 							const importFullPath = path.join(dir, importPath);
-							const content = await fs.readFile(importFullPath);
-							// const converted = await sharp(content)
-							// 	.resize(512, 512, {
-							// 		fit: "inside",
-							// 	})
-							// 	.jpeg({
-							// 		quality: 50,
-							// 	})
-							// 	.toBuffer();
 
-							imageMap.set(node, content);
+							imageMap.set(node, importFullPath);
 						} else {
 							console.error(
 								`Image with missing alt and unknown import variable: ${importVarName}`,
@@ -100,5 +93,30 @@ export async function parseMdx({
 	}
 	await loop(file.children);
 
-	return imageMap;
+	return { tree: file, imageMap };
+}
+
+export async function applyMdxAlts({
+	tree,
+	alts,
+}: {
+	tree: Root;
+	alts: Map<MdxJsxFlowElement, string>;
+}) {
+	for (const [node, alt] of alts.entries()) {
+		const altAttribute = node.attributes.find(
+			(a) => a.type === "mdxJsxAttribute" && a.name === "alt",
+		);
+		if (altAttribute) {
+			altAttribute.value = alt;
+		} else {
+			console.error(
+				node.attributes
+					.find((a) => a.type === "mdxJsxAttribute" && a.name === "src")
+					?.value?.toString(),
+			);
+			throw new Error("Alt attribute not found on node");
+		}
+	}
+	return mdx.stringify(tree);
 }

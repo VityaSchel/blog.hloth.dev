@@ -3,7 +3,7 @@ import { fileURLToPath } from "url";
 
 const batchSize = 3;
 
-export async function batchAltGen<T>(imagesMap: [T, Buffer][]) {
+export async function batchAltGen<T>(imagesMap: [T, string][]) {
 	const alts = new Map<T, string>();
 
 	const workers: ChildProcess[] = [];
@@ -15,11 +15,11 @@ export async function batchAltGen<T>(imagesMap: [T, Buffer][]) {
 			workers.push(worker);
 
 			console.log("Spawned worker:", name);
-			let image: [T, Buffer] | undefined;
+			let image: [T, string] | undefined;
 			while ((image = imagesMap.pop())) {
 				if (!image) break;
-				const [key, content] = image;
-				worker.send(content);
+				const [key, fullPath] = image;
+				worker.send(fullPath);
 				const alt = await new Promise<string>((resolve, reject) => {
 					const onMsg = (message: unknown) => {
 						worker.off("message", onMsg);
