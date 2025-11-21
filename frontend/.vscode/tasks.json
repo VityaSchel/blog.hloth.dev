@@ -1,0 +1,19 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "genaiscript",
+			"script": "/Users/hloth/Documents/blog.hloth.dev-new/frontend/genaisrc/iat.genai.mts",
+			"problemMatcher": [
+				"$genaiscript",
+				"$eslint-compact",
+				"$tsc",
+				"$msCompile",
+				"$lessCompile",
+				"$jshint"
+			],
+			"label": "genaiscript: iat",
+			"detail": "Iat - genaisrc/iat.genai.mts"
+		}
+	]
+}

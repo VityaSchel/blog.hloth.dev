@@ -23,12 +23,17 @@
 	"search.useParentIgnoreFiles": false,
 	"editor.formatOnSave": true,
 	"editor.indentSize": "tabSize",
+	"editor.tabSize": 4,
 	"editor.insertSpaces": false,
+	"editor.detectIndentation": false,
 	"typescript.preferences.importModuleSpecifierEnding": "minimal",
 	"search.exclude": {
 		"**/node_modules": true,
 		"**/.husky/_": true,
-		"**/build": true
+		"**/build": true,
+		"**/dist": true,
+		"**/.astro": true,
+		"**/dist-new": true
 	},
 	"[astro]": {
 		"editor.defaultFormatter": "astro-build.astro-vscode"
