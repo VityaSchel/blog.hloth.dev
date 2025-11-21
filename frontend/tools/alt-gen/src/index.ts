@@ -12,10 +12,10 @@ if (!mdxFile) {
 const mdxContent = await fs.readFile(mdxFile, "utf-8");
 const mdxDir = path.dirname(mdxFile);
 
-const { tree, imageMap } = await parseMdx({
+const imageMap = await parseMdx({
 	content: mdxContent,
 	dir: mdxDir,
 });
 const alts = await batchAltGen(Array.from(imageMap.entries()));
-const output = await applyMdxAlts({ tree, alts });
-await fs.writeFile(mdxFile + ".alt.mdx", output, "utf-8");
+const output = await applyMdxAlts({ source: mdxContent, alts });
+await fs.writeFile(mdxFile, output, "utf-8");

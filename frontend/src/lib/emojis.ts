@@ -7,7 +7,7 @@ export type EmojiCode =
 	| "eww"
 	| "funny"
 	| "giggity"
-	| "gpl-monster"
+	| "gpl"
 	| "handsome"
 	| "jojo"
 	| "sad"

@@ -16,6 +16,7 @@ interface Props {
 	url: string;
 	service?: string;
 	ar?: number;
+	children?: Element;
 }
 
 let { url, service: serviceVar, ar = 16 / 9 } = Astro.props;

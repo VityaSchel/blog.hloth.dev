@@ -2,7 +2,7 @@ import path from "path";
 import { remark } from "remark";
 import remarkMdx from "remark-mdx";
 import remarkFrontmatter from "remark-frontmatter";
-import type { RootContent, Root } from "mdast";
+import type { RootContent } from "mdast";
 import type { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
 
 const mdx = remark().use(remarkMdx).use(remarkFrontmatter);
@@ -13,7 +13,7 @@ export async function parseMdx({
 }: {
 	content: string;
 	dir: string;
-}): Promise<{ tree: Root; imageMap: Map<MdxJsxFlowElement, string> }> {
+}): Promise<Map<MdxJsxFlowElement, string>> {
 	const file = mdx.parse(content);
 
 	const imageMap = new Map<MdxJsxFlowElement, string>();
@@ -93,22 +93,41 @@ export async function parseMdx({
 	}
 	await loop(file.children);
 
-	return { tree: file, imageMap };
+	return imageMap;
 }
 
 export async function applyMdxAlts({
-	tree,
+	source,
 	alts,
 }: {
-	tree: Root;
+	source: string;
 	alts: Map<MdxJsxFlowElement, string>;
 }) {
+	const edits: { start: number; end: number; text: string }[] = [];
+
 	for (const [node, alt] of alts.entries()) {
 		const altAttribute = node.attributes.find(
 			(a) => a.type === "mdxJsxAttribute" && a.name === "alt",
 		);
 		if (altAttribute) {
-			altAttribute.value = alt;
+			const attrStart = altAttribute.position?.start.offset;
+			const attrEnd = altAttribute.position?.end.offset;
+			if (attrStart === undefined || attrEnd === undefined) {
+				throw new Error("Alt attribute position not found on node");
+			}
+			const attrSource = source.slice(attrStart, attrEnd);
+			const eqPos = attrSource.indexOf("=");
+			const quote = attrSource[eqPos + 1];
+			if (!quote) {
+				throw new Error("Alt attribute format invalid");
+			}
+			const openQuote = attrStart + eqPos + 1;
+			const closeQuote = attrStart + attrSource.lastIndexOf(quote);
+			edits.push({
+				start: openQuote + 1,
+				end: closeQuote,
+				text: alt,
+			});
 		} else {
 			console.error(
 				node.attributes
@@ -118,5 +137,13 @@ export async function applyMdxAlts({
 			throw new Error("Alt attribute not found on node");
 		}
 	}
-	return mdx.stringify(tree);
+
+	edits.sort((a, b) => b.start - a.start);
+
+	let result = source;
+	for (const edit of edits) {
+		result = result.slice(0, edit.start) + edit.text + result.slice(edit.end);
+	}
+
+	return result;
 }
