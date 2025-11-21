@@ -1,5 +1,3 @@
-import { Worker } from "node:worker_threads";
-
 const images = [
 	"/Users/hloth/Documents/blog.hloth.dev-new/frontend/public/Statue-of-Liberty-Island-New-York-Bay.jpg",
 	"/Users/hloth/Downloads/aakljsdjklasjkldjskladljkasjkldasjkld.jpg",
@@ -14,8 +12,8 @@ const batchSize = 2;
 async function spawnWorker(name: string) {
 	try {
 		const worker = new Worker(new URL("./alt-gen.worker.ts", import.meta.url), {
-			// type: "module",
-			// preload: ["@huggingface/transformers"],
+			type: "module",
+			preload: ["@huggingface/transformers"],
 		});
 		console.log("Spawned worker:", name);
 		let image: string | undefined;
@@ -24,17 +22,17 @@ async function spawnWorker(name: string) {
 			worker.postMessage(image);
 			console.log(`Worker ${name} processing image: ${image}`);
 			const alt = await new Promise<string>((resolve, reject) => {
-				worker.on("message", (event: MessageEvent) => {
+				worker.onmessage = (event: MessageEvent) => {
 					if (typeof event.data === "string") {
 						resolve(event.data);
 					} else {
 						reject(new Error("Failed to generate alt text"));
 					}
-				});
-				worker.on("error", (e) => {
-					// console.error(`Worker ${name} error:`, e);
-					reject(e);
-				});
+				};
+				worker.onerror = (e) => {
+					console.error(`Worker ${name} error:`, e);
+					reject(e.error);
+				};
 			});
 			alts.set(image, alt);
 			console.log(`Worker ${name} generated alt text: ${alt}`);

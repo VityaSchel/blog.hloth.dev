@@ -8,12 +8,7 @@ import {
 	type DeviceType,
 } from "@huggingface/transformers";
 
-// declare let self: Worker;
-import { parentPort } from "worker_threads";
-
-if (!parentPort) {
-	throw new Error("This script must be run as a worker thread.");
-}
+declare let self: Worker;
 
 const models = new Map<
 	string,
@@ -116,14 +111,14 @@ async function getAlt({
 	return result.at(0)?.toUpperCase() + result.slice(1);
 }
 
-parentPort?.on("message", (message) => {
-	getAlt({ fullPath: message, backend: "cpu" })
+self.onmessage = (event: MessageEvent) => {
+	getAlt({ fullPath: event.data, backend: "cpu" })
 		.then((alt) => {
 			console.log("Success");
-			parentPort!.postMessage(alt);
+			self.postMessage(alt);
 		})
 		.catch((err) => {
 			console.error("Worker internal error generating alt text:", err);
-			parentPort!.postMessage(null);
+			self.postMessage(null);
 		});
-});
+};
