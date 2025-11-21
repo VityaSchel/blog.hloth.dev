@@ -7,19 +7,6 @@ import {
 
 const model_id = "onnx-community/FastVLM-0.5B-ONNX";
 
-const trimPrefix = (result: string, prefix: string) => {
-	if (result.startsWith(prefix)) {
-		return result.substring(prefix.length).trim();
-	}
-	return result;
-};
-const trimSuffix = (result: string, suffix: string) => {
-	if (result.endsWith(suffix)) {
-		return result.slice(0, -suffix.length).trim();
-	}
-	return result;
-};
-
 const processor = await AutoProcessor.from_pretrained(model_id);
 const model = await AutoModelForImageTextToText.from_pretrained(model_id, {
 	dtype: {
@@ -51,7 +38,6 @@ async function getAlt(fullPath: string): Promise<string> {
 		max_new_tokens: 500,
 		do_sample: false,
 	});
-
 	if (outputs instanceof ModelOutput)
 		throw new Error("Expected generated tokens, but got ModelOutput");
 
@@ -59,16 +45,21 @@ async function getAlt(fullPath: string): Promise<string> {
 		outputs.slice(null, [inputs.input_ids.dims.at(-1), null]),
 		{ skip_special_tokens: true },
 	);
-
 	let result = decoded[0]?.trim();
 	if (!result) throw new Error("No generated text found");
+
 	result = ["The image depicts", "The image captures"].reduce(
-		(prev, cur) => trimPrefix(prev, cur),
+		(prev, cur) =>
+			prev.startsWith(cur) ? prev.substring(cur.length).trim() : prev,
 		result,
 	);
-	result = ["."].reduce((prev, cur) => trimSuffix(prev, cur), result);
-	result = result.at(0)?.toUpperCase() + result.slice(1);
-	return result;
+	result = ["."].reduce(
+		(prev, cur) =>
+			prev.endsWith(cur) ? prev.slice(0, -cur.length).trim() : prev,
+		result,
+	);
+
+	return result.at(0)?.toUpperCase() + result.slice(1);
 }
 
 const alt = await getAlt(
