@@ -7,7 +7,7 @@ export async function getVideoDimensions(filePath: string) {
 		path.join(fileURLToPath(import.meta.url), "../../../"),
 	);
 	const base = path.resolve(
-		path.join(root, import.meta.env.PROD ? "./dist/" : "./"),
+		path.join(root, import.meta.env.PROD ? "./dist-new/" : "./"),
 	);
 	const resolvedPath = path.resolve(path.join(base, filePath));
 	const content = Bun.file(resolvedPath);

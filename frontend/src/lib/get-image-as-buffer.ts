@@ -7,7 +7,11 @@ export async function getLqip(src: string, { origin }: { origin: string }) {
 	let hqImgBuffer: Buffer;
 	if (import.meta.env.PROD) {
 		hqImgBuffer = await fs.readFile(
-			path.join(path.basename(fileURLToPath(import.meta.url)), "../dist", src),
+			path.join(
+				path.basename(fileURLToPath(import.meta.url)),
+				"../dist-new",
+				src,
+			),
 		);
 	} else {
 		const req = await fetch(new URL(src, origin));
