@@ -142,7 +142,10 @@ export async function applyMdxAlts({
 
 	let result = source;
 	for (const edit of edits) {
-		result = result.slice(0, edit.start) + edit.text + result.slice(edit.end);
+		result =
+			result.slice(0, edit.start) +
+			edit.text.replaceAll('"', "&quot;") +
+			result.slice(edit.end);
 	}
 
 	return result;

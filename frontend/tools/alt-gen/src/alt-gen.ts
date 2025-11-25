@@ -5,6 +5,8 @@ const batchSize = 3;
 
 export async function batchAltGen<T>(imagesMap: [T, string][]) {
 	const alts = new Map<T, string>();
+	const imagesNumber = imagesMap.length;
+	console.log(`Found ${imagesNumber} images to process.`);
 
 	const workers: ChildProcess[] = [];
 	async function spawnWorker(name: string) {
@@ -40,6 +42,11 @@ export async function batchAltGen<T>(imagesMap: [T, string][]) {
 					worker.on("error", onError);
 				});
 				alts.set(key, alt);
+
+				if (imagesNumber > 0) {
+					const processed = imagesNumber - imagesMap.length;
+					console.log(`${processed}/${imagesNumber}`);
+				}
 			}
 		} catch (err) {
 			console.error(`Worker ${name} encountered an error:`, err);
@@ -47,7 +54,7 @@ export async function batchAltGen<T>(imagesMap: [T, string][]) {
 	}
 
 	const workersPromises = [];
-	for (let i = 0; i < batchSize; i++) {
+	for (let i = 0; i < Math.min(imagesNumber, batchSize); i++) {
 		workersPromises.push(spawnWorker(`Worker-${i + 1}`));
 	}
 

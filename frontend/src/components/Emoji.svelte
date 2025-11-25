@@ -84,13 +84,4 @@
 		loading="lazy"
 		srcset={image.srcSet.attribute}
 	/>
-	<!-- <span
-		class={[
-			`absolute top-0 left-0 aspect-square h-full w-full animate-pulse
-			rounded-full bg-stone-300 object-contain`,
-			// {
-			// 	hidden: !browser || loaded,
-			// },
-		]}
-	></span> -->
 </span>

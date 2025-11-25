@@ -16,6 +16,6 @@ const imageMap = await parseMdx({
 	content: mdxContent,
 	dir: mdxDir,
 });
-const alts = await batchAltGen(Array.from(imageMap.entries()));
+const alts = await batchAltGen(Array.from(imageMap.entries())); //.slice(0, 50)
 const output = await applyMdxAlts({ source: mdxContent, alts });
 await fs.writeFile(mdxFile, output, "utf-8");

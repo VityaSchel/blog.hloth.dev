@@ -43,42 +43,45 @@
 <figure>
 	{#if !load}
 		{#if preview}
-			<div style="aspect-ratio: {aspectRatio};" class="relative rounded-lg">
-				<div class="flex flex-col z-[1] relative h-full">
+			<div
+				style="aspect-ratio: {aspectRatio};"
+				class="relative max-w-full rounded-lg"
+			>
+				<div class="relative z-[1] flex h-full flex-col">
 					<a
-						class="font-semibold text-white no-underline! hover:underline! p-4 bg-gradient-to-b from-black/80 to-black/0 via-50% via-black/70 truncate"
+						class="truncate bg-gradient-to-b from-black/80 via-black/70 via-50% to-black/0 p-4 font-semibold text-white no-underline! hover:underline!"
 						{...linkProps}
 					>
 						{preview.title}
 					</a>
 					{#if !browser}
 						<a
-							class="flex-1 flex justify-center items-center no-underline!"
+							class="flex flex-1 items-center justify-center no-underline!"
 							{...linkProps}
 						>
 							<span class="load-button mb-14">Open</span>
 						</a>
 					{:else}
 						<button
-							class="flex-1 flex justify-center cursor-pointer items-center"
+							class="flex flex-1 cursor-pointer items-center justify-center"
 							onclick={() => (load = true)}
 						>
 							<span class="load-button mb-14">Load widget</span>
 						</button>
 					{/if}
 					<div
-						class="flex justify-between absolute items-end pointer-events-none bottom-0 left-0 w-full"
+						class="pointer-events-none absolute bottom-0 left-0 flex w-full items-end justify-between"
 					>
 						<span
-							class="px-2 py-1 bg-black/60 rounded-sm text-neutral-200 font-bold text-xs xs:text-sm mx-4 mb-4"
+							class="mx-4 mb-4 rounded-sm bg-black/60 px-2 py-1 text-xs font-bold text-neutral-200 xs:text-sm"
 						>
 							{name}
 						</span>
 						<div
-							class="pointer-events-auto px-4 pb-4 flex self-stretch items-center justify-center"
+							class="pointer-events-auto flex items-center justify-center self-stretch px-4 pb-4"
 						>
 							<span
-								class="font-text text-[10px] xs:text-xs font-medium text-slate-200 text-right text-shadow-md text-shadow-black tracking-tight"
+								class="text-right font-text text-[10px] font-medium tracking-tight text-slate-200 text-shadow-black text-shadow-md xs:text-xs"
 							>
 								{name} might collect your personal data.
 								{#if privacyPolicy}
@@ -86,7 +89,7 @@
 										href={privacyPolicy}
 										target="_blank"
 										rel="noopener noreferrer nofollow"
-										class="underline text-nowrap"
+										class="text-nowrap underline"
 									>
 										Privacy Policy
 									</a>
@@ -98,14 +101,14 @@
 				<img
 					src={preview.thumbnail.src}
 					alt="Thumbnail"
-					class="w-full h-full object-cover absolute top-0 left-0 text-[0px]"
+					class="absolute top-0 left-0 h-full w-full object-cover text-[0px]"
 				/>
 			</div>
 		{:else}
 			<div
 				class="
-				flex flex-col items-center justify-center gap-4 rounded-lg bg-slate-600
-				px-4 smol:px-8 sm:px-16 py-8 text-center text-white min-w-0
+				flex min-w-0 flex-col items-center justify-center gap-4 rounded-lg
+				bg-slate-600 px-4 py-8 text-center text-white smol:px-8 sm:px-16
 			"
 				style="aspect-ratio: {aspectRatio};"
 			>
@@ -177,7 +180,7 @@
 <style lang="postcss">
 	@reference "tailwindcss";
 	.load-button {
-		@apply rounded-full border px-4 py-1 font-semibold tracking-tight text-black block w-fit h-fit;
+		@apply block h-fit w-fit rounded-full border px-4 py-1 font-semibold tracking-tight text-black;
 
 		&:disabled,
 		&:where(button:disabled .load-button) {

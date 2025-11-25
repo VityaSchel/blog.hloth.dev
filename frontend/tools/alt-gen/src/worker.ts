@@ -8,7 +8,7 @@ import {
 	type DeviceType,
 } from "@huggingface/transformers";
 import fs from "fs/promises";
-// import sharp from "sharp";
+import sharp from "sharp";
 
 const models = new Map<
 	string,
@@ -45,7 +45,6 @@ async function loadModel({
 						device,
 					},
 				);
-				console.log(`Model ${model_id} loaded.`);
 				return { processor, model };
 			})(),
 		);
@@ -61,25 +60,28 @@ async function getAlt({
 	backend: DeviceType;
 }): Promise<string> {
 	const content = await fs.readFile(fullPath);
-	// const converted = await sharp(content)
-	// 	.resize(512, 512, {
-	// 		fit: "inside",
-	// 	})
-	// 	.jpeg({
-	// 		quality: 50,
-	// 	})
-	// 	.toBuffer();
-	return "fake-" + Math.random().toString(36).substring(2, 8);
+	const converted = await sharp(content)
+		.resize(512, 512, {
+			fit: "inside",
+		})
+		.jpeg({
+			quality: 50,
+		})
+		.toBuffer();
 	const { processor, model } = await loadModel({
 		model_id: "onnx-community/FastVLM-0.5B-ONNX",
 		device: backend,
 	});
-	const image = await load_image(content);
+	const smallImageUrl = URL.createObjectURL(
+		new Blob([new Uint8Array(converted)], { type: "image/jpeg" }),
+	);
+	const image = await load_image(smallImageUrl);
 	const prompt = processor.apply_chat_template(
 		[
 			{
 				role: "user",
-				content: "<image>Describe in one sentence for alt text",
+				content:
+					"<image>Describe IN ONE SENTENCE for alt text. Maximum 20 words.",
 			},
 		],
 		{
@@ -94,6 +96,7 @@ async function getAlt({
 		max_new_tokens: 500,
 		do_sample: false,
 	});
+	URL.revokeObjectURL(smallImageUrl);
 	if (outputs instanceof ModelOutput)
 		throw new Error("Expected generated tokens, but got ModelOutput");
 
@@ -104,7 +107,14 @@ async function getAlt({
 	let result = decoded[0]?.trim();
 	if (!result) throw new Error("No generated text found");
 
-	result = ["The image depicts", "The image captures"].reduce(
+	result = [
+		"The image depicts",
+		"The image captures",
+		"The image shows",
+		"The image features",
+		"The image is",
+		"The image displays",
+	].reduce(
 		(prev, cur) =>
 			prev.startsWith(cur) ? prev.substring(cur.length).trim() : prev,
 		result,
