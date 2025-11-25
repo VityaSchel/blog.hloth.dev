@@ -71,8 +71,9 @@ for (const heading of headings) {
 </script>
 
 <aside
-	class="sticky top-0 left-0 z-50 h-dvh w-0 shrink-0 transition-[width]
-		duration-500 has-checked:sm:w-64 has-checked:mdl:w-80 has-checked:lg:w-96"
+	class="sticky top-0 left-0 z-50 -mt-12 h-dvh w-0 shrink-0 transition-[width]
+		duration-500 has-checked:sm:w-64 has-checked:mdl:w-80 has-checked:lg:w-96
+		xl:mt-0"
 >
 	<input
 		type="checkbox"
@@ -85,9 +86,11 @@ for (const heading of headings) {
 		for="show-table-of-contents"
 		aria-hidden="true"
 		class:list={[
-			`group block h-fit w-fit cursor-pointer p-2 transition-[padding-left]
-			duration-200 ease-out peer-focus-visible/toc-toggler:outline
-			peer-focus-visible/toc-toggler:outline-blue-400/50 data-[pl]:pl-12`,
+			`group block h-fit w-fit cursor-pointer p-2 opacity-100
+			transition-[padding-left,opacity] duration-200 ease-out
+			peer-focus-visible/toc-toggler:outline
+			peer-focus-visible/toc-toggler:outline-blue-400/50 data-[pl]:pl-6
+			max-md:peer-checked/toc-toggler:opacity-0 data-[pl]:md:pl-12`,
 		]}
 		data-pl
 	>
