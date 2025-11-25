@@ -51,8 +51,9 @@ export async function getRichLinkPreview(url: string) {
 						throw new Error("Image not found");
 					}
 					imageSrc = imageUrl;
-				} catch {
-					console.warn("Invalid image URL:", bannerTagUrl);
+				} catch (e) {
+					console.error(e);
+					console.warn("Invalid image URL:", bannerTagUrl, linkUrl.origin);
 				}
 			}
 		}
