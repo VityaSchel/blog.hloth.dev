@@ -29,6 +29,10 @@ let lqip: { src: string; width: number; height: number } = await getLqip(
 	},
 );
 
+const lqipWidth = props.width !== undefined ? Number(props.width) : lqip.width;
+const lqipHeight =
+	props.height !== undefined ? Number(props.height) : lqip.height;
+
 let aspectRatio: number | null = null;
 if (banner) {
 	aspectRatio = 1.625 / 1;
@@ -37,8 +41,6 @@ if (banner) {
 }
 
 const Element = zoomable ? "a" : "div";
-
-console.log(lqip.src);
 ---
 
 <script>
@@ -92,9 +94,7 @@ console.log(lqip.src);
 			in-[.full-bleed]:w-auto`,
 			className,
 		]}
-		style={`--ph: url("${lqip.src}"); --phw: ${lqip.width}px; --phh: ${lqip.height}px; --phar: ${
-			lqip.width / lqip.height
-		};`}
+		style={`--ph: url("${lqip.src}"); --phw: ${lqipWidth}px; --phh: ${lqipHeight}px; --phar: ${aspectRatio};`}
 		densities={[1, 2]}
 		formats={["avif", "webp"]}
 		loading={props.priority ? "eager" : "lazy"}
