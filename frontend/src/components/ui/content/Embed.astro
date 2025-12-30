@@ -15,7 +15,7 @@ import { isRemoteAllowed } from "@astrojs/internal-helpers/remote";
 interface Props {
 	url: string;
 	service?: string;
-	ar?: number;
+	ar?: number | null;
 	children?: Element;
 }
 
@@ -63,6 +63,9 @@ if (!service) {
 		serviceUrl.hostname === "www.x.com"
 	) {
 		service = "Twitter";
+	} else if (serviceUrl.hostname === "open.spotify.com") {
+		service = "Spotify";
+		ar = null;
 	} else {
 		throw new Error("Service argument must be provided for this URL");
 	}
@@ -121,6 +124,7 @@ if (oembedUrl) {
 	referrer={service === "YouTube"}
 	{privacyPolicy}
 	{preview}
+	containerClass={{ "rounded-xl h-[152px]": service === "Spotify" }}
 >
 	<slot />
 </IsolatedIframe>

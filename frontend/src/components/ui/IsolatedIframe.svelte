@@ -10,8 +10,9 @@
 		referrer = false,
 		preview,
 		privacyPolicy,
+		containerClass,
 	}: {
-		aspectRatio: number;
+		aspectRatio?: number | null;
 		url: string;
 		name: string;
 		children?: import("svelte").Snippet;
@@ -21,6 +22,7 @@
 			thumbnail: GetImageResult;
 		};
 		privacyPolicy?: string;
+		containerClass?: import("svelte/elements").ClassValue;
 	} = $props();
 
 	let load = $state(false);
@@ -44,7 +46,7 @@
 	{#if !load}
 		{#if preview}
 			<div
-				style="aspect-ratio: {aspectRatio};"
+				style={aspectRatio ? `aspect-ratio: ${aspectRatio};` : undefined}
 				class="relative max-w-full rounded-lg"
 			>
 				<div class="relative z-[1] flex h-full flex-col">
@@ -163,8 +165,10 @@
 			title={`Embedded ${name} frame${preview ? `: ${preview.title}` : ""}`}
 			sandbox="allow-orientation-lock allow-presentation allow-scripts allow-same-origin"
 			allow="picture-in-picture; fullscreen; autoplay; web-share"
-			style="width: 100%; aspect-ratio: {aspectRatio}; height: auto;"
-			class="bg-black"
+			style={aspectRatio
+				? `aspect-ratio: ${aspectRatio}; height: auto;`
+				: undefined}
+			class={["w-full bg-black", containerClass]}
 			referrerpolicy={referrer
 				? "strict-origin-when-cross-origin"
 				: "no-referrer"}
