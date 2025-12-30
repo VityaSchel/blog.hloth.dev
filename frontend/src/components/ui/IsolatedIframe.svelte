@@ -1,11 +1,13 @@
 <script lang="ts">
 	import type { GetImageResult } from "astro";
 	import { onMount } from "svelte";
+	import { loadIsolatedFrame } from "./isolated-iframe-state.svelte";
 
 	let {
 		aspectRatio,
 		url,
 		name,
+		serviceId,
 		children,
 		referrer = false,
 		preview,
@@ -15,6 +17,7 @@
 		aspectRatio?: number | null;
 		url: string;
 		name: string;
+		serviceId: string;
 		children?: import("svelte").Snippet;
 		referrer?: boolean;
 		preview?: {
@@ -40,6 +43,12 @@
 			? "strict-origin-when-cross-origin"
 			: "no-referrer",
 	} as const;
+
+	$effect(() => {
+		if (loadIsolatedFrame[serviceId]) {
+			load = true;
+		}
+	});
 </script>
 
 <figure>
@@ -136,7 +145,10 @@
 					<button
 						class="load-button"
 						disabled={!browser}
-						onclick={() => (load = true)}
+						onclick={() => {
+							load = true;
+							loadIsolatedFrame[serviceId] = true;
+						}}
 					>
 						Load embedded {name} widget
 					</button>

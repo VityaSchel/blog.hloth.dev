@@ -24,6 +24,7 @@ let { url, service: serviceVar, ar = 16 / 9 } = Astro.props;
 let privacyPolicy: string | undefined;
 let oembedUrl: string | undefined;
 let thumbnailUrlOverrides: string[] = [];
+let serviceId: string;
 
 let service = serviceVar;
 if (!service) {
@@ -35,6 +36,7 @@ if (!service) {
 		serviceUrl.hostname === "youtube-nocookie.com"
 	) {
 		service = "YouTube";
+		serviceId = "youtube";
 		if (!serviceUrl.hostname.includes("youtube-nocookie.com")) {
 			serviceUrl.hostname = "www.youtube-nocookie.com";
 			serviceUrl.searchParams.delete("si");
@@ -63,12 +65,20 @@ if (!service) {
 		serviceUrl.hostname === "www.x.com"
 	) {
 		service = "Twitter";
+		serviceId = "twitter";
 	} else if (serviceUrl.hostname === "open.spotify.com") {
 		service = "Spotify";
+		serviceId = "spotify";
+		privacyPolicy = "https://www.spotify.com/to/legal/privacy-policy/";
 		ar = null;
+		if (!serviceUrl.pathname.includes("/embed/")) {
+			throw new Error("Spotify embeds must use the /embed/ URL format");
+		}
 	} else {
 		throw new Error("Service argument must be provided for this URL");
 	}
+} else {
+	serviceId = service.toLowerCase();
 }
 
 let preview: { title: string; thumbnail: GetImageResult } | undefined;
@@ -120,6 +130,7 @@ if (oembedUrl) {
 	{url}
 	aspectRatio={ar}
 	name={service}
+	{serviceId}
 	client:visible
 	referrer={service === "YouTube"}
 	{privacyPolicy}
