@@ -63,10 +63,10 @@ const articleJsonLd = article && {
 
 const banner = await getImage({
 	src: image.src,
-	width: 1200,
-	height: image.src.height
-		? Math.round((1200 / image.src.width) * image.src.height)
-		: 630,
+	width: 1625,
+	height: 1000,
+	fit: "cover",
+	position: "center",
 	format: "jpeg",
 });
 ---

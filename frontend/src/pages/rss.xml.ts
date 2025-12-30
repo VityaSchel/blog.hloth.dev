@@ -12,7 +12,13 @@ export const GET: APIRoute = async ({ site }) => {
 			? `http://localhost:${process.env.PORT ?? 4321}`
 			: (site?.origin ?? null);
 	for (const post of posts) {
-		const banner = await getImage({ src: post.data.banner });
+		const banner = await getImage({
+			src: post.data.banner,
+			width: 1625,
+			height: 1000,
+			fit: "cover",
+			position: "center",
+		});
 		const bannerUrl = new URL(banner.src, base ?? "https://blog.hloth.dev");
 		items.push({
 			title: post.data.title,
