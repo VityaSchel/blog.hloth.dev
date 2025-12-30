@@ -1,5 +1,5 @@
 <div
-	class="full-bleed carousel-items flex w-[100cqw] gap-6 overflow-x-auto
+	class="full-bleed carousel-items flex w-[100cqw] gap-6 overflow-x-scroll
 		overflow-y-hidden"
 >
 	<slot />
@@ -10,7 +10,7 @@
 		--full-bleed-padding: max(var(--m), calc(50cqw - var(--w) / 2));
 		padding-inline: var(--full-bleed-padding);
 		/* padding-inline-end: min(50cqw, calc(var(--m) + var(--w))); */
-		scrollbar-width: thin;
+		/* scrollbar-width: thin; */
 	}
 
 	.full-bleed.carousel-items {
@@ -42,5 +42,17 @@
 		--full-bleed-width: calc(100cqw - calc(var(--full-bleed-padding) * 2));
 		--item-width: calc(500px * var(--aspect-ratio));
 		padding-right: calc(var(--full-bleed-width) - var(--item-width));
+	}
+
+	.carousel-items::-webkit-scrollbar {
+		height: 6px;
+	}
+	.carousel-items::-webkit-scrollbar-thumb {
+		border-radius: 5px;
+		background: linear-gradient(
+			to right,
+			var(--theme-scrollbar-from),
+			var(--theme-scrollbar-to)
+		);
 	}
 </style>

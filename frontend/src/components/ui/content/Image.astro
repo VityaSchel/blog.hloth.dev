@@ -40,13 +40,15 @@ const aspectRatio = props.src.width / props.src.height;
 >
 	<div
 		class:list={[
-			`flex w-full items-start justify-center in-[.carousel-items]:justify-start
+			`flex w-full justify-center in-[.carousel-items]:justify-start
 			in-[.full-bleed]:w-auto`,
 			{
 				// border,
 				[`img-with-background flex h-fit flex-col items-center justify-center
 				overflow-clip rounded-3xl bg-white p-4 xsm:flex-row dark:bg-black-alt`]:
 					background,
+				"items-start": !background,
+				"items-center": background,
 			},
 		]}
 	>

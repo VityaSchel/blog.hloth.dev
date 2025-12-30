@@ -23,7 +23,11 @@
 	--color-active-dark: white;
 	--color-toc-bg-light: color-mix(in oklab, #e0d9c9 50%, var(--bg) 50%);
 	--color-toc-bg-dark: color-mix(in oklab, #8e7a48 35%, var(--bg) 65%);
-	--color-toc-bg-dark-transparent: color-mix(in oklab, #544625 55%, transparent);
+	--color-toc-bg-dark-transparent: color-mix(
+		in oklab,
+		#544625 55%,
+		transparent
+	);
 	--breakpoint-mdl: 58rem;
 	--breakpoint-xsm: 34rem;
 	--breakpoint-smol: 30rem;
@@ -54,6 +58,8 @@
 	--text: #000000;
 	--theme-switch-day: #000000;
 	--theme-switch-night: #293760;
+	--theme-scrollbar-from: rgb(5, 6, 11, 0.85);
+	--theme-scrollbar-to: rgb(22, 29, 51, 0.85);
 	--text-alt: #121212;
 	--page-height: 100%;
 }
@@ -64,6 +70,8 @@
 		--text: var(--color-sandy);
 		--theme-switch-day: var(--color-sandy);
 		--theme-switch-night: #a3965f;
+		--theme-scrollbar-from: rgb(192, 171, 118, 0.75);
+		--theme-scrollbar-to: rgb(163, 150, 95, 0.75);
 		--text-alt: var(--sandy-alt);
 	}
 	.footer-text:not(:has(:focus-visible)) {
