@@ -83,45 +83,49 @@ if (!service) {
 
 let preview: { title: string; thumbnail: GetImageResult } | undefined;
 if (oembedUrl) {
-	const response = await fetch(oembedUrl);
-	if (response.ok) {
-		const data = await response.json();
-		thumbnailUrlOverrides.push(data.thumbnail_url);
-		let thumbnailUrl: string | undefined;
-		for (const url of thumbnailUrlOverrides) {
-			const res = await fetch(url, { method: "HEAD" });
-			if (res.ok) {
-				thumbnailUrl = url;
-				break;
+	try {
+		const response = await fetch(oembedUrl);
+		if (response.ok) {
+			const data = await response.json();
+			thumbnailUrlOverrides.push(data.thumbnail_url);
+			let thumbnailUrl: string | undefined;
+			for (const url of thumbnailUrlOverrides) {
+				const res = await fetch(url, { method: "HEAD" });
+				if (res.ok) {
+					thumbnailUrl = url;
+					break;
+				}
 			}
-		}
-		if (thumbnailUrl !== undefined) {
-			if (
-				!isRemoteAllowed(thumbnailUrl, {
-					domains: siteConfig.image?.domains || [],
-					remotePatterns: siteConfig.image?.remotePatterns || [],
-				})
-			) {
-				throw new Error(
-					`Remote thumbnail in Embed preview is not allowed from ${new URL(thumbnailUrl).hostname}`,
-				);
+			if (thumbnailUrl !== undefined) {
+				if (
+					!isRemoteAllowed(thumbnailUrl, {
+						domains: siteConfig.image?.domains || [],
+						remotePatterns: siteConfig.image?.remotePatterns || [],
+					})
+				) {
+					throw new Error(
+						`Remote thumbnail in Embed preview is not allowed from ${new URL(thumbnailUrl).hostname}`,
+					);
+				}
+				const thumbnail = await getImage({
+					src: thumbnailUrl,
+					width: 640,
+					format: "avif",
+					height: ar ? Math.round(640 / ar) : undefined,
+					fit: "cover",
+				});
+				preview = {
+					title: data.title,
+					thumbnail,
+				};
 			}
-			const thumbnail = await getImage({
-				src: thumbnailUrl,
-				width: 640,
-				format: "avif",
-				height: ar ? Math.round(640 / ar) : undefined,
-				fit: "cover",
-			});
-			preview = {
-				title: data.title,
-				thumbnail,
-			};
+		} else {
+			console.warn(
+				`Failed to fetch oEmbed data from ${oembedUrl}: ${response.status} ${response.statusText}`,
+			);
 		}
-	} else {
-		console.warn(
-			`Failed to fetch oEmbed data from ${oembedUrl}: ${response.status} ${response.statusText}`,
-		);
+	} catch (e) {
+		console.error(e);
 	}
 }
 ---

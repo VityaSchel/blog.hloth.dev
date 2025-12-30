@@ -1,12 +1,13 @@
 <div
-	class="full-bleed w-[100cqw] overflow-x-auto overflow-y-hidden flex carousel-items gap-6"
+	class="full-bleed carousel-items flex w-[100cqw] gap-6 overflow-x-auto
+		overflow-y-hidden"
 >
 	<slot />
 </div>
 
 <style>
 	.full-bleed {
-		--full-bleed-padding: max(var(--m), 50cqw - var(--w) / 2);
+		--full-bleed-padding: max(var(--m), calc(50cqw - var(--w) / 2));
 		padding-inline: var(--full-bleed-padding);
 		/* padding-inline-end: min(50cqw, calc(var(--m) + var(--w))); */
 		scrollbar-width: thin;
@@ -35,7 +36,7 @@
 		width: var(--content-width);
 	}
 	.full-bleed.carousel-items :global(.img-container.portrait) {
-		height: 500px;
+		max-height: 500px;
 	}
 	.full-bleed.carousel-items > :global(*:last-child) {
 		--full-bleed-width: calc(100cqw - calc(var(--full-bleed-padding) * 2));

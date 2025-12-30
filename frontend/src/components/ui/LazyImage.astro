@@ -22,12 +22,12 @@ let {
 	...props
 } = Astro.props;
 
-let lqip: string | undefined;
-if (!Astro.url.pathname.includes("/drafts/")) {
-	lqip = await getLqip(props.src.src, {
+let lqip: { src: string; width: number; height: number } = await getLqip(
+	props.src.src,
+	{
 		origin: Astro.url.origin,
-	});
-}
+	},
+);
 
 let aspectRatio: number | null = null;
 if (banner) {
@@ -37,6 +37,8 @@ if (banner) {
 }
 
 const Element = zoomable ? "a" : "div";
+
+console.log(lqip.src);
 ---
 
 <script>
@@ -47,10 +49,10 @@ const Element = zoomable ? "a" : "div";
 			const img = picture.querySelector(":scope img");
 			if (!(img instanceof HTMLImageElement)) continue;
 			if (img.complete) {
-				img.style.backgroundImage = "none";
+				img.classList.remove("ph");
 			} else {
 				img.addEventListener("load", () => {
-					img.style.backgroundImage = "none";
+					img.classList.remove("ph");
 				});
 			}
 		}
@@ -63,7 +65,8 @@ const Element = zoomable ? "a" : "div";
 
 <Element
 	class:list={[
-		"img-container relative overflow-clip not-in-[.panorama]:rounded-lg",
+		`img-container relative max-w-full overflow-clip
+		not-in-[.panorama]:rounded-lg`,
 		{
 			"max-h-[inherit]": content,
 			"banner-clip relative h-auto w-full overflow-clip": banner,
@@ -85,11 +88,13 @@ const Element = zoomable ? "a" : "div";
 				"h-full object-contain": content,
 				"h-full w-full object-cover": banner,
 			},
-			`bg-cover text-[0px] backdrop-blur-2xl in-[.full-bleed]:h-full
+			`ph bg-cover text-[0px] backdrop-blur-2xl in-[.full-bleed]:h-full
 			in-[.full-bleed]:w-auto`,
 			className,
 		]}
-		style={lqip ? "background-image: url(" + lqip + ");" : undefined}
+		style={`--ph: url("${lqip.src}"); --phw: ${lqip.width}px; --phh: ${lqip.height}px; --phar: ${
+			lqip.width / lqip.height
+		};`}
 		densities={[1, 2]}
 		formats={["avif", "webp"]}
 		loading={props.priority ? "eager" : "lazy"}
@@ -101,3 +106,18 @@ const Element = zoomable ? "a" : "div";
 		{...props}
 	/>
 </Element>
+
+<style>
+	.ph {
+		background-image: var(--ph);
+	}
+	.wide .ph,
+	.landscape .ph {
+		width: var(--phw);
+		height: auto;
+	}
+	.portrait .ph {
+		width: min(var(--phw), calc(var(--phar) * 500px));
+		height: auto;
+	}
+</style>

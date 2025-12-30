@@ -34,12 +34,14 @@ if (props.forceAlt && !background) {
 const aspectRatio = props.src.width / props.src.height;
 ---
 
-<figure style={`--aspect-ratio: ${aspectRatio}`}>
+<figure
+	style={`--aspect-ratio: ${aspectRatio}`}
+	class="in-[.carousel-items]:h-auto!"
+>
 	<div
 		class:list={[
-			`flex w-full items-center justify-center
-			in-[.carousel-items]:justify-start in-[.full-bleed]:w-auto
-			in-[.full-bleed]:flex-1`,
+			`flex w-full items-start justify-center in-[.carousel-items]:justify-start
+			in-[.full-bleed]:w-auto`,
 			{
 				// border,
 				[`img-with-background flex h-fit flex-col items-center justify-center
@@ -55,7 +57,10 @@ const aspectRatio = props.src.width / props.src.height;
 					? Math.min(props.src.width, 680)
 					: undefined}
 			height={background ? 500 : props.height}
-			class={props.class ?? (background ? "" : undefined)}
+			class:list={[
+				props.class ?? (background ? "" : undefined),
+				"in[.full-bleed]:max-w-dvw",
+			]}
 			zoomable
 			{...props}
 		/>
@@ -70,6 +75,7 @@ const aspectRatio = props.src.width / props.src.height;
 		Astro.slots.default && (
 			<figcaption
 				style={`--max-width-px: ${Math.min(500 * aspectRatio, 680) + "px"}; --max-width: ${background || aspectRatio < 1 ? "100%" : "var(--max-width-px)"};`}
+				class="in-[.panorama]:px-[max(var(--m),calc(50cqw-var(--w)/2))]"
 			>
 				<slot />
 			</figcaption>
@@ -80,6 +86,9 @@ const aspectRatio = props.src.width / props.src.height;
 <style>
 	figcaption {
 		flex-shrink: 0;
-		max-width: var(--max-width);
+		max-width: min(
+			var(--max-width),
+			calc(100cqw - calc(var(--full-bleed-padding) * 2))
+		);
 	}
 </style>

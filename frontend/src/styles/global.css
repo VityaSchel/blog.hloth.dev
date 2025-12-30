@@ -154,7 +154,7 @@ body:has(dialog[open]) {
 	--content-width: min(calc(100cqw - 2 * max(var(--m))), var(--w));
 
 	& > *:not(.full-bleed) {
-		margin-inline: max(var(--m), 50cqw - var(--w) / 2) !important;
+		margin-inline: max(var(--m), calc(50cqw - var(--w) / 2)) !important;
 		/* max-width: 680px; */
 	}
 
