@@ -164,7 +164,7 @@
 					<span class="font-text font-medium tracking-normal">
 						or open the URL in new tab:
 					</span>
-					<a {...linkProps}>
+					<a {...linkProps} class="wrap-anywhere">
 						{url}
 					</a>
 				</div>
