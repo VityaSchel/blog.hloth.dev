@@ -12,13 +12,14 @@ import { getVideoDimensions } from "$lib/video-metadata-retriever";
 interface Props {
 	src: string;
 	srcHevc?: string;
+	srcHvc1?: string;
 	children?: Element;
 	autoplay?: boolean;
 	controls?: boolean;
 	alt?: string;
 }
 
-let { src, srcHevc, autoplay = false, controls, alt } = Astro.props;
+let { src, srcHevc, srcHvc1, autoplay = false, controls, alt } = Astro.props;
 
 let { width, height } = await getVideoDimensions(src);
 const aspectRatio = width / height;
@@ -46,6 +47,13 @@ const aspectRatio = width / height;
 				<>
 					<source src={srcHevc} type="video/mp4; codecs=hvc1" />
 					<source src={srcHevc} type="video/mp4; codecs=hev1.1.6.L93.B0" />
+				</>
+			)
+		}
+		{
+			srcHvc1 !== undefined && (
+				<>
+					<source src={srcHvc1} type="video/mp4; codecs=hvc1" />
 				</>
 			)
 		}
