@@ -1,4 +1,6 @@
 ---
+import { formatLongDateTime } from "$lib/date-formatter";
+
 interface Props {
 	date: Date;
 }
@@ -9,17 +11,7 @@ const { date } = Astro.props;
 	<span class="font-display font-semibold">
 		<slot />
 	</span>
-	<time
-		datetime={date.toISOString()}
-		title={Intl.DateTimeFormat("en-US", {
-			day: "2-digit",
-			month: "2-digit",
-			year: "numeric",
-			hour: "2-digit",
-			minute: "2-digit",
-			second: "2-digit",
-		}).format(date)}
-	>
+	<time datetime={date.toISOString()} title={formatLongDateTime(date)}>
 		{
 			Intl.DateTimeFormat("en-US", {
 				day: "numeric",

@@ -5,6 +5,7 @@ import type { InferEntrySchema } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import { formatTitle } from "$lib/title-formatter";
 import LazyImage from "$ui/LazyImage.astro";
+import { formatLongDateTime } from "$lib/date-formatter";
 
 interface Props {
 	id: CollectionEntry<"blog">["id"];
@@ -31,17 +32,10 @@ const { emphasized, regular } = formatTitle(title);
 ---
 
 <a class="article-preview block w-full" href={`/${id}/`} data-astro-prefetch>
-	<article class="-mr-4 -ml-4 flex flex-col md:flex-row items-start">
+	<article class="-mr-4 -ml-4 flex flex-col items-start md:flex-row">
 		<time
 			datetime={createdAt.toISOString()}
-			title={Intl.DateTimeFormat("en-US", {
-				day: "numeric",
-				month: "long",
-				year: "numeric",
-				hour: "2-digit",
-				minute: "2-digit",
-				second: "2-digit",
-			}).format(createdAt)}
+			title={formatLongDateTime(createdAt)}
 			class="col-span-2 px-4 font-display text-base font-medium
 				md:max-w-[16.67%] md:flex-[16.67%]"
 		>
@@ -79,8 +73,8 @@ const { emphasized, regular } = formatTitle(title);
 			</div>
 		</div>
 		<div
-			class="relative mt-8 ml-auto w-full px-4 md:mt-0
-				md:w-auto md:max-w-[41.67%] md:flex-[41.67%]"
+			class="relative mt-8 ml-auto w-full px-4 md:mt-0 md:w-auto
+				md:max-w-[41.67%] md:flex-[41.67%]"
 		>
 			<LazyImage
 				src={banner}
