@@ -67,8 +67,11 @@ const app = new Elysia()
 	.use(pushNotificationsRouter)
 	.use(pushNotificationSubscriptionRouter);
 // https://github.com/elysiajs/elysia/issues/138
-app.listen(process.env.PORT ?? 3000, ({ hostname, port }: Bun.Server<void>) => {
-	console.log(`Server running at http://${hostname}:${port}`);
-});
+app.listen(
+	{ hostname: process.env.HOST ?? "127.0.0.1", port: process.env.PORT ?? 3000 },
+	({ hostname, port }: Bun.Server<void>) => {
+		console.log(`Server running at http://${hostname}:${port}`);
+	},
+);
 
 void checkNewPosts();
