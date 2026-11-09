@@ -1,71 +1,55 @@
 import z from "zod";
 import * as cheerio from "cheerio";
+import { cached } from "$lib/cache";
+import { ONE_WEEK_MS, firstReachable } from "$lib/remote";
 
-export async function getRichLinkPreview(url: string) {
+export type RichLinkPreview = {
+	title: string;
+	siteName: string;
+	description?: string;
+	imageSrc?: string;
+};
+
+const MAX_HTML_BYTES = 1_000_000;
+
+const loadDocument = async (link: string) => {
+	const response = await fetch(link, { signal: AbortSignal.timeout(8000) });
+	if (!response.ok) throw new Error(`Failed to fetch ${link}`);
+	if (!response.headers.get("content-type")?.includes("text/html"))
+		throw new Error(`Not an HTML page: ${link}`);
+	const text = await response.text();
+	if (text.length > MAX_HTML_BYTES)
+		throw new Error(`Content too large: ${link}`);
+	return cheerio.load(text);
+};
+
+const fetchPreview = async (link: string): Promise<RichLinkPreview> => {
+	const $ = await loadDocument(link);
+	const linkUrl = new URL(link);
+	const image = $('meta[property="og:image"]').first().attr("content");
+	return {
+		title: $("title").first().text(),
+		siteName:
+			$('meta[property="og:site_name"]').attr("content") || linkUrl.hostname,
+		description: $('meta[name="description"]').first().attr("content"),
+		imageSrc:
+			image && URL.canParse(image, linkUrl.origin)
+				? await firstReachable([new URL(image, linkUrl.origin).href])
+				: undefined,
+	};
+};
+
+export async function getRichLinkPreview(
+	url: string,
+): Promise<RichLinkPreview | null> {
+	const link = z.url().safeParse(url);
+	if (!link.success) return null;
 	try {
-		const linkParsing = await z.url().safeParseAsync(url);
-		if (!linkParsing.success) {
-			throw new Error("Invalid link");
-		}
-		const link = linkParsing.data;
-
-		let $;
-		try {
-			const req = await fetch(link);
-			if (!req.ok) {
-				throw new Error("Failed to fetch the URL");
-			}
-			const text = await req.text();
-			if (text.length > 1000000) {
-				throw new Error("Content too large");
-			}
-			if (!req.headers.get("content-type")?.includes("text/html")) {
-				throw new Error("URL does not point to an HTML page");
-			}
-			$ = cheerio.load(text);
-		} catch (e) {
-			console.log("Invalid response from URL");
-			throw e;
-		}
-
-		let description: string | undefined;
-		let imageSrc: string | undefined;
-		const title = $("title").first().text();
-		const linkUrl = new URL(link);
-		const siteName =
-			$('meta[property="og:site_name"]').attr("content") || linkUrl.hostname;
-
-		const descriptionTag = $('meta[name="description"]').first();
-		if (descriptionTag) {
-			description = descriptionTag.attr("content");
-		}
-
-		const bannerTag = $('meta[property="og:image"]').first();
-		if (bannerTag) {
-			const bannerTagUrl = bannerTag.attr("content");
-			if (bannerTagUrl) {
-				try {
-					const imageUrl = new URL(bannerTagUrl, linkUrl.origin).href;
-					const image = await fetch(imageUrl);
-					if (image.status !== 200) {
-						throw new Error("Image not found");
-					}
-					imageSrc = imageUrl;
-				} catch (e) {
-					console.error(e);
-					console.warn("Invalid image URL:", bannerTagUrl, linkUrl.origin);
-				}
-			}
-		}
-
-		return {
-			title,
-			siteName,
-			description,
-			imageSrc,
-		};
-	} catch (e) {
-		console.error(e);
+		return await cached("rich-link", link.data, () => fetchPreview(link.data), {
+			maxAgeMs: ONE_WEEK_MS,
+		});
+	} catch (error) {
+		console.warn(`RichLink preview unavailable for ${url}:`, error);
 		return null;
 	}
 }

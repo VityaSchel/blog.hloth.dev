@@ -37,23 +37,19 @@ const preview = await getRichLinkPreview(url);
 			class="block flex-1 text-[17px] leading-[1.5em] font-semibold
 				no-underline wrap-break-word"
 		>
-			{preview?.title ?? new URL(url).hostname}
+			{preview?.title || url}
 		</span>
 		{
 			preview?.description && (
 				<p class="line-clamp-3 font-text text-[15px]">{preview.description}</p>
 			)
 		}
-		{
-			preview?.title && (
-				<span
-					class="block leading-tight text-[15px] text-[#888]
+		<span
+			class="block leading-tight text-[15px] text-[#888]
 				dark:text-cream-alt"
-				>
-					{new URL(url).hostname}
-				</span>
-			)
-		}
+		>
+			{preview?.siteName ?? "Preview unavailable"}
+		</span>
 	</a>
 </div>
 
