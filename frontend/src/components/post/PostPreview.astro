@@ -3,9 +3,9 @@ import ReadTime from "$components/post/ReadTime.astro";
 import Category from "$ui/Category.astro";
 import type { InferEntrySchema } from "astro:content";
 import type { CollectionEntry } from "astro:content";
-import { formatTitle } from "$lib/title-formatter";
+import { formatTitle } from "blog.hloth.dev-shared/src/title-formatter";
 import LazyImage from "$ui/LazyImage.astro";
-import { formatLongDateTime } from "$lib/date-formatter";
+import { formatLongDateTime } from "blog.hloth.dev-shared/src/date-formatter";
 
 interface Props {
 	id: CollectionEntry<"blog">["id"];

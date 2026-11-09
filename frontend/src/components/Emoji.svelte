@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { EmojiCode } from "$lib/emojis";
+	import type { EmojiCode } from "blog.hloth.dev-shared/src/emojis";
 	import { getImage } from "astro:assets";
 	import ahyj from "$emoji/ahyj.webp";
 	import blevota from "$emoji/blevota.webp";
