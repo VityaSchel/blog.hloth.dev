@@ -1,0 +1,35 @@
+---
+import type { UnresolvedImageTransform } from "astro";
+import type { ComponentProps } from "astro/types";
+import { getImage, type Picture } from "astro:assets";
+import type { HdrSource } from "$lib/hdr/sources";
+
+type Props = ComponentProps<typeof Picture> & { hdr: HdrSource };
+
+const { hdr, pictureAttributes = {}, ...props } = Astro.props;
+
+const scopeAttributes = Object.fromEntries(
+	Object.entries(props).filter(([key]) => key.startsWith("data-astro-cid")),
+);
+
+const fallback = await getImage({
+	...props,
+	format: "webp",
+} as UnresolvedImageTransform);
+
+const { class: className, ...attributes } = fallback.attributes;
+---
+
+<picture
+	{...pictureAttributes}
+	{...scopeAttributes}
+	data-hdr-headroom={hdr.headroom.toFixed(2)}
+>
+	<source srcset={hdr.srcset} sizes={hdr.sizes} type="image/avif" />
+	<img
+		src={fallback.src}
+		srcset={fallback.srcSet.attribute}
+		{...attributes}
+		class={className}
+	/>
+</picture>
