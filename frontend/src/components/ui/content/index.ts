@@ -4,6 +4,7 @@ import RichLink from "$ui/content/RichLink.astro";
 import Embed from "$ui/content/Embed.astro";
 import Attachments from "$ui/content/Attachments.astro";
 import Carousel from "$ui/content/Carousel.astro";
+import Gallery from "$ui/content/Gallery.astro";
 import Callout from "$ui/content/Callout.astro";
 import Emoji from "$ui/content/Emoji.astro";
 import Panorama from "$ui/content/Panorama.astro";
@@ -11,6 +12,7 @@ import Panorama from "$ui/content/Panorama.astro";
 export const components = {
 	Callout,
 	Carousel,
+	Gallery,
 	Attachments,
 	Embed,
 	RichLink,

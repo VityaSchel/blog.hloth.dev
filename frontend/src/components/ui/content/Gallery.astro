@@ -1,0 +1,147 @@
+---
+/**
+ * Telegram-style album: every image visible at once, at most 3 per row.
+ * Rows and columns are picked from the children's aspect ratios.
+ *
+ * <Gallery>
+ *   <Image src={first} alt="..." />
+ *   <Image src={second} alt="..." />
+ * </Gallery>
+ */
+
+import { buildGallery } from "$lib/gallery/markup";
+
+const slot = Astro.slots.has("default")
+	? await Astro.slots.render("default")
+	: "";
+const { ratio, fitsScreen, html, rest } = buildGallery(slot);
+---
+
+<div class="gallery">
+	{
+		html && (
+			<div
+				class:list={["gallery-album", { "fits-screen": fitsScreen }]}
+				style={`--gallery-ratio: ${ratio}`}
+			>
+				<Fragment set:html={html} />
+			</div>
+		)
+	}
+	{rest && <Fragment set:html={rest} />}
+</div>
+
+<style>
+	.gallery {
+		--gallery-gap: 3px;
+		padding-block: 16px;
+	}
+
+	.gallery-album {
+		display: flex;
+		aspect-ratio: var(--gallery-ratio);
+		margin-inline: auto;
+		overflow: clip;
+		border-radius: 0.5rem;
+	}
+
+	.gallery-album.fits-screen {
+		max-width: min(100%, calc(85svh * var(--gallery-ratio)));
+	}
+
+	.gallery-album :global(:is(.gallery-row, .gallery-column, .gallery-cell)) {
+		display: flex;
+		flex-shrink: 1;
+		flex-basis: 0;
+		gap: var(--gallery-gap);
+		min-width: 0;
+		min-height: 0;
+	}
+
+	.gallery-album :global(.gallery-row) {
+		flex-direction: row;
+	}
+
+	.gallery-album :global(.gallery-column) {
+		flex-direction: column;
+	}
+
+	.gallery-album :global(.gallery-cell) {
+		position: relative;
+		overflow: clip;
+		border-radius: 2px;
+		container-type: inline-size;
+	}
+
+	.gallery-album :global(.gallery-cell > figure) {
+		flex: 1;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		padding: 0;
+	}
+
+	.gallery-album :global(.gallery-cell > figure > :not(figcaption)),
+	.gallery-album :global(.gallery-cell .img-container) {
+		width: 100%;
+		height: 100%;
+		max-width: none;
+		max-height: none;
+		aspect-ratio: auto !important;
+		border-radius: 0;
+	}
+
+	.gallery-album :global(.gallery-cell :is(picture, img, video)) {
+		display: block;
+		width: 100% !important;
+		height: 100% !important;
+		max-width: none;
+		max-height: none;
+		object-fit: cover;
+		aspect-ratio: auto !important;
+		border-radius: 0;
+	}
+
+	.gallery-album :global(.gallery-cell figcaption) {
+		position: absolute;
+		inset: auto 0 0;
+		z-index: 3;
+		max-width: none;
+		max-height: 100%;
+		margin: 0;
+		padding: 24px 8px 6px;
+		overflow: hidden;
+		background: linear-gradient(
+			to top,
+			rgb(0 0 0 / 0.7),
+			rgb(0 0 0 / 0.45) 60%,
+			transparent
+		);
+		color: white;
+		font-size: 12px;
+		line-height: 1.35;
+		text-align: start;
+		text-shadow: 0 1px 2px rgb(0 0 0 / 0.5);
+		pointer-events: none;
+	}
+
+	.gallery-album :global(.gallery-cell figcaption > *) {
+		display: -webkit-box;
+		margin: 0;
+		overflow: hidden;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 6;
+	}
+
+	.gallery-album :global(.gallery-cell figcaption a) {
+		color: inherit;
+		pointer-events: auto;
+	}
+
+	@container (max-width: 160px) {
+		.gallery-album :global(.gallery-cell figcaption) {
+			padding: 16px 6px 4px;
+			font-size: 10.5px;
+		}
+	}
+</style>
