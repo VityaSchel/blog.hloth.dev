@@ -143,6 +143,10 @@ body:has(dialog[open]) {
 		}
 	}
 
+	blockquote figure {
+		margin: 0;
+	}
+
 	:is(h1, h2, h3, h4, h5, h6) {
 		font-family: var(--font-serif);
 		padding: 0;
