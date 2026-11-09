@@ -8,6 +8,7 @@ import Gallery from "$ui/content/Gallery.astro";
 import Callout from "$ui/content/Callout.astro";
 import Emoji from "$ui/content/Emoji.astro";
 import Panorama from "$ui/content/Panorama.astro";
+import Sketch from "$ui/content/Sketch.astro";
 
 export const components = {
 	Callout,
@@ -20,6 +21,7 @@ export const components = {
 	Image,
 	Emoji,
 	Panorama,
+	Sketch,
 };
 
 declare global {

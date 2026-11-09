@@ -1,0 +1,136 @@
+---
+/**
+ * A small tilted square picture next to the text column, floated into the
+ * text on narrower screens.
+ *
+ * import sketch from "./sketch.avif";
+ *
+ * <Sketch src={sketch} alt="..." side="left" rotate={-6} />
+ */
+
+import type { ImageMetadata } from "astro";
+import { Picture } from "astro:assets";
+
+interface Props {
+	src: ImageMetadata;
+	alt: string;
+	side?: "left" | "right";
+	rotate?: number;
+}
+
+const {
+	src,
+	alt,
+	side = "right",
+	rotate = side === "left" ? -4 : 4,
+} = Astro.props;
+---
+
+<div class:list={["sketch", side]} style={`--sketch-angle: ${rotate}deg`}>
+	<a
+		class="sketch-link"
+		href={src.src}
+		target="_blank"
+		rel="noopener noreferrer"
+		data-astro-prefetch={false}
+	>
+		<Picture
+			src={src}
+			alt={alt}
+			width={200}
+			densities={[1, 2]}
+			formats={["avif", "webp"]}
+			loading="lazy"
+			quality="high"
+		/>
+	</a>
+</div>
+
+<style>
+	.sketch {
+		--sketch-gap: 20px;
+		width: min(40%, 192px);
+		margin-block: 6px 12px;
+	}
+
+	.sketch.right {
+		float: right;
+	}
+
+	.sketch.left {
+		float: left;
+	}
+
+	:global(.article-content) > .sketch.right {
+		margin-left: var(--sketch-gap) !important;
+	}
+
+	:global(.article-content) > .sketch.left {
+		margin-right: var(--sketch-gap) !important;
+	}
+
+	.sketch ~ :global(:not(p, ul, ol, blockquote, .sketch)) {
+		clear: both;
+	}
+
+	.sketch-link {
+		display: block;
+		aspect-ratio: 1;
+		rotate: var(--sketch-angle);
+	}
+
+	.sketch-link :global(:is(picture, img)) {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 0.5rem;
+	}
+
+	@container (width >= 1360px) {
+		.sketch {
+			position: relative;
+			width: auto;
+			height: 0;
+			margin-block: 0;
+		}
+
+		.sketch.right,
+		.sketch.left {
+			float: none;
+		}
+
+		:global(.article-content) > .sketch:is(.right, .left) {
+			margin-inline: max(var(--m), calc(50cqw - var(--w) / 2)) !important;
+		}
+
+		.sketch-link {
+			position: absolute;
+			top: 0;
+			z-index: 5;
+			width: 256px;
+			transition:
+				rotate 100ms ease-in-out,
+				scale 100ms ease-in-out;
+		}
+
+		.right .sketch-link {
+			left: calc(100% + 48px);
+		}
+
+		.left .sketch-link {
+			right: calc(100% + 48px);
+		}
+
+		.sketch-link:is(:hover, :focus-visible) {
+			rotate: 0deg;
+			scale: 1.2;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.sketch-link {
+			transition: none;
+		}
+	}
+</style>
