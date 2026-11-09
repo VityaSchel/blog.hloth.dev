@@ -4,10 +4,14 @@
   "version": "1.0.0",
   "author": "Viktor Shchelochkov <hi@hloth.dev> (https://hloth.dev)",
   "license": "MIT",
+  "workspaces": ["frontend", "shared"],
   "scripts": {
     "prepare": "husky"
   },
   "devDependencies": {
     "husky": "^9.1.7"
+  },
+  "patchedDependencies": {
+    "prettier@3.6.2": "frontend/patches/prettier@3.6.2.patch"
   }
 }

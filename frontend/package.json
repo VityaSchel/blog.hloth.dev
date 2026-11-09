@@ -24,7 +24,7 @@
 		"@tailwindcss/vite": "^4.1.14",
 		"astro": "5.17.2",
 		"astro-loading-indicator": "^0.7.1",
-		"blog.hloth.dev-shared": "../shared",
+		"blog.hloth.dev-shared": "workspace:*",
 		"cheerio": "^1.1.2",
 		"dedent": "^1.7.0",
 		"mediainfo.js": "^0.3.6",
@@ -53,7 +53,7 @@
 		"eslint-plugin-svelte": "^3.12.4",
 		"husky": "^9.1.7",
 		"lint-staged": "^16.2.0",
-		"prettier": "^3.6.2",
+		"prettier": "3.6.2",
 		"prettier-plugin-astro": "^0.14.1",
 		"prettier-plugin-classnames": "^0.8.4",
 		"prettier-plugin-merge": "^0.8.0",
@@ -66,8 +66,5 @@
 		"remark-preset-prettier": "^2.0.2",
 		"svelte-sonner": "^1.0.5",
 		"typescript-eslint": "^8.46.0"
-	},
-	"patchedDependencies": {
-		"prettier@3.6.2": "patches/prettier@3.6.2.patch"
 	}
 }
