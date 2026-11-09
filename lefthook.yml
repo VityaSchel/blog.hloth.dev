@@ -1,0 +1,17 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - name: frontend
+      root: frontend/
+      glob: "*.{js,ts,svelte,astro}"
+      run: bunx eslint --cache --fix {staged_files} && bunx prettier --write {staged_files}
+      stage_fixed: true
+    - name: shared
+      root: shared/
+      glob: "*.{js,ts}"
+      run: bunx eslint --cache --fix {staged_files} && bunx prettier --write {staged_files}
+      stage_fixed: true
+    - name: backend
+      root: backend/
+      glob: "*.go"
+      run: "! gofmt -l {staged_files} | grep . && go vet ./..."

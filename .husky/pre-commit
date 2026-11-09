@@ -1,3 +1,0 @@
-cd frontend && bunx lint-staged
-cd ../backend && bunx lint-staged
-cd ../shared && bunx lint-staged

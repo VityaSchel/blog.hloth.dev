@@ -6,10 +6,7 @@
   "license": "MIT",
   "workspaces": ["frontend", "shared"],
   "scripts": {
-    "prepare": "husky"
-  },
-  "devDependencies": {
-    "husky": "^9.1.7"
+    "prepare": "command -v lefthook >/dev/null && lefthook install || true"
   },
   "patchedDependencies": {
     "prettier@3.6.2": "frontend/patches/prettier@3.6.2.patch"
