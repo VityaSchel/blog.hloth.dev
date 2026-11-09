@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { GetImageResult } from "astro";
 	import { onMount } from "svelte";
+	import { hydratedRender } from "./hydrated-render";
 	import { loadIsolatedFrame } from "./isolated-iframe-state.svelte";
 
 	let {
@@ -29,7 +30,7 @@
 	} = $props();
 
 	let load = $state(false);
-	let browser = $state(false);
+	let browser = $state(hydratedRender());
 
 	onMount(() => {
 		browser = true;

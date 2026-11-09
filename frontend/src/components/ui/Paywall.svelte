@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
+	import { hydratedRender } from "./hydrated-render";
 
 	let {
 		children,
@@ -7,8 +8,8 @@
 		children: import("svelte").Snippet;
 	} = $props();
 
-	let browser = $state(false);
-	let reveal = $state(false);
+	let browser = $state(hydratedRender());
+	let reveal = $state(hydratedRender());
 	onMount(() => {
 		browser = true;
 	});
