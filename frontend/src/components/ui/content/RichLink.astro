@@ -3,9 +3,13 @@
  * Example usage:
  *
  * <RichLink url="https://example.com" />
+ *
+ * Title, description and image come from the posts' previews/ folder
+ * (bun run prefetch-previews), so the build makes no network requests.
  */
 
-import { getRichLinkPreview } from "$lib/rich-link-preview-generator";
+import { getImage } from "astro:assets";
+import { linkPreview } from "$lib/embed/previews";
 
 interface Props {
 	url: string;
@@ -13,42 +17,50 @@ interface Props {
 
 let { url } = Astro.props;
 
-const preview = await getRichLinkPreview(url);
+const preview = linkPreview(url);
+const image = preview.image
+	? await getImage({
+			src: preview.image,
+			width: 130,
+			height: 130,
+			fit: "cover",
+			format: "avif",
+		})
+	: undefined;
 ---
 
-<div class="py-[0.4em] rich-link">
+<div class="rich-link py-[0.4em]">
 	<a
 		href={url}
 		rel="noopener noreferrer nofollow"
 		target="_blank"
 		class="box-shadow rich-link block rounded-md bg-white p-[25px]
-			dark:bg-black-alt has-[img]:min-h-[115px]"
+			has-[img]:min-h-[115px] dark:bg-black-alt"
 	>
 		{
-			preview?.imageSrc && (
+			image && (
 				<img
-					src={preview.imageSrc}
+					src={image.src}
 					alt="Website banner"
-					class="float-right aspect-square w-[65px] rounded-[3px] object-cover ml-2"
+					class="float-right ml-2 aspect-square w-[65px] rounded-[3px] object-cover"
 				/>
 			)
 		}
 		<span
 			class="block flex-1 text-[17px] leading-[1.5em] font-semibold
-				no-underline wrap-break-word"
+				wrap-break-word no-underline"
 		>
-			{preview?.title || url}
+			{preview.title || url}
 		</span>
 		{
-			preview?.description && (
+			preview.description && (
 				<p class="line-clamp-3 font-text text-[15px]">{preview.description}</p>
 			)
 		}
 		<span
-			class="block leading-tight text-[15px] text-[#888]
-				dark:text-cream-alt"
+			class="block text-[15px] leading-tight text-[#888] dark:text-cream-alt"
 		>
-			{preview?.siteName ?? "Preview unavailable"}
+			{preview.siteName}
 		</span>
 	</a>
 </div>

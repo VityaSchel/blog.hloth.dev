@@ -1,3 +1,5 @@
+export type EmbedPreviewKey = { kind: "youtube" | "spotify"; id: string };
+
 type ResolvedEmbed = {
 	url: string;
 	link: string;
@@ -5,9 +7,7 @@ type ResolvedEmbed = {
 	serviceId: string;
 	aspectRatio: number | null;
 	privacyPolicy?: string;
-	oembedUrl?: string;
-	subtitleUrl?: string;
-	thumbnailCandidates: string[];
+	preview?: EmbedPreviewKey;
 };
 
 const YOUTUBE_HOSTS = new Set([
@@ -26,15 +26,6 @@ const TWITTER_HOSTS = new Set([
 	"x.com",
 	"www.x.com",
 ]);
-
-const YOUTUBE_THUMBNAIL_SIZES = [
-	"maxresdefault",
-	"hq720",
-	"sddefault",
-	"hqdefault",
-	"mqdefault",
-	"default",
-];
 
 const YOUTUBE_PATH_ID = /^\/(?:embed|shorts|live|v)\/([\w-]{11})/;
 
@@ -81,10 +72,7 @@ const resolveYouTube = (
 		serviceId: "youtube",
 		aspectRatio,
 		privacyPolicy: "https://policies.google.com/privacy",
-		oembedUrl: `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`,
-		thumbnailCandidates: YOUTUBE_THUMBNAIL_SIZES.map(
-			(size) => `https://i.ytimg.com/vi/${videoId}/${size}.jpg`,
-		),
+		preview: { kind: "youtube", id: videoId },
 	};
 };
 
@@ -95,17 +83,14 @@ const resolveSpotify = (source: URL): ResolvedEmbed => {
 			"Spotify embeds need a track, album, playlist, episode, show or artist URL",
 		);
 	const [, kind, id] = match;
-	const link = `https://open.spotify.com/${kind}/${id}`;
 	return {
 		url: `https://open.spotify.com/embed/${kind}/${id}`,
-		link,
+		link: `https://open.spotify.com/${kind}/${id}`,
 		service: "Spotify",
 		serviceId: "spotify",
 		aspectRatio: null,
 		privacyPolicy: "https://www.spotify.com/to/legal/privacy-policy/",
-		oembedUrl: `https://open.spotify.com/oembed?url=${encodeURIComponent(link)}`,
-		subtitleUrl: link,
-		thumbnailCandidates: [],
+		preview: { kind: "spotify", id: id! },
 	};
 };
 
@@ -121,7 +106,6 @@ export const resolveEmbed = (
 			service,
 			serviceId: service.toLowerCase(),
 			aspectRatio,
-			thumbnailCandidates: [],
 		};
 	const source = new URL(url);
 	if (YOUTUBE_HOSTS.has(source.hostname))

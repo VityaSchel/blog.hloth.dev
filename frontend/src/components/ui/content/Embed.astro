@@ -4,15 +4,16 @@
  *
  * <Embed url="https://www.youtube.com/embed/dQw4w9WgXcQ">Caption</Embed>
  * <Embed url="https://example.org" service="Example" ar={16/9} />
+ *
+ * YouTube and Spotify previews come from the posts' previews/ folder
+ * (bun run prefetch-previews), so the build makes no network requests.
  */
 
 import IsolatedIframe from "$ui/IsolatedIframe.svelte";
 import type { GetImageResult } from "astro";
 import { getImage } from "astro:assets";
-import siteConfig from "astro.config.mjs";
-import { isRemoteAllowed } from "@astrojs/internal-helpers/remote";
 import { resolveEmbed } from "$lib/embed/services";
-import { getEmbedPreview } from "$lib/embed/preview";
+import { embedPreview } from "$lib/embed/previews";
 
 interface Props {
 	url: string;
@@ -27,41 +28,24 @@ const embed = resolveEmbed(url, service, ar);
 const compact = embed.aspectRatio === null;
 const thumbnailWidth = compact ? 240 : 640;
 
-const previewData = embed.oembedUrl
-	? await getEmbedPreview({
-			oembedUrl: embed.oembedUrl,
-			thumbnailCandidates: embed.thumbnailCandidates,
-			subtitleUrl: embed.subtitleUrl,
-		})
-	: null;
-
 let preview:
 	| { title: string; subtitle?: string; thumbnail: GetImageResult }
 	| undefined;
-if (previewData) {
-	const allowed = isRemoteAllowed(previewData.thumbnailUrl, {
-		domains: siteConfig.image?.domains || [],
-		remotePatterns: siteConfig.image?.remotePatterns || [],
-	});
-	if (allowed) {
-		preview = {
-			title: previewData.title,
-			subtitle: previewData.subtitle,
-			thumbnail: await getImage({
-				src: previewData.thumbnailUrl,
-				width: thumbnailWidth,
-				format: "avif",
-				height: compact
-					? thumbnailWidth
-					: Math.round(thumbnailWidth / (embed.aspectRatio ?? 1)),
-				fit: "cover",
-			}),
-		};
-	} else {
-		console.warn(
-			`Remote thumbnail in Embed preview is not allowed from ${new URL(previewData.thumbnailUrl).hostname}`,
-		);
-	}
+if (embed.preview) {
+	const cached = embedPreview(embed.preview, url);
+	preview = {
+		title: cached.title,
+		subtitle: cached.subtitle,
+		thumbnail: await getImage({
+			src: cached.image,
+			width: thumbnailWidth,
+			format: "avif",
+			height: compact
+				? thumbnailWidth
+				: Math.round(thumbnailWidth / (embed.aspectRatio ?? 1)),
+			fit: "cover",
+		}),
+	};
 }
 
 const frame = {

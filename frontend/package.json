@@ -9,6 +9,7 @@
 		"build": "bun --env-file .env.production --bun astro build && rm -rf dist && mv dist-new dist",
 		"preview": "bun --env-file .env.production --bun astro build && bun --bun astro preview",
 		"astro": "astro",
+		"prefetch-previews": "bun tools/prefetch-previews.ts src/content",
 		"test": "bun test src/lib",
 		"check": "astro check",
 		"build:check": "bun --env-file .env.production --bun astro build"
