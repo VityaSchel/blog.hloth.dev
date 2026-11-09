@@ -21,7 +21,7 @@ self.addEventListener("push", (event) => {
 
 	event.waitUntil(
 		self.registration.showNotification(data.title, {
-			// id: data.id,
+			tag: data.id,
 			dir: "ltr",
 			lang: "en",
 			body: data.description,
