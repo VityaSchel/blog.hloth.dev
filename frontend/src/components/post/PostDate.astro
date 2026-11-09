@@ -1,5 +1,8 @@
 ---
-import { formatLongDateTime } from "blog.hloth.dev-shared/src/date-formatter";
+import {
+	formatLongDateTime,
+	formatShortDate,
+} from "blog.hloth.dev-shared/src/date-formatter";
 
 interface Props {
 	date: Date;
@@ -12,14 +15,6 @@ const { date } = Astro.props;
 		<slot />
 	</span>
 	<time datetime={date.toISOString()} title={formatLongDateTime(date)}>
-		{
-			Intl.DateTimeFormat("en-US", {
-				day: "numeric",
-				month: "long",
-				...(date.getFullYear() !== new Date().getFullYear() && {
-					year: "numeric",
-				}),
-			}).format(date)
-		}
+		{formatShortDate(date)}
 	</time>
 </div>
