@@ -7,6 +7,8 @@
 	let {
 		aspectRatio,
 		url,
+		link = url,
+		compact = false,
 		name,
 		serviceId,
 		children,
@@ -17,12 +19,15 @@
 	}: {
 		aspectRatio?: number | null;
 		url: string;
+		link?: string;
+		compact?: boolean;
 		name: string;
 		serviceId: string;
 		children?: import("svelte").Snippet;
 		referrer?: boolean;
 		preview?: {
 			title: string;
+			subtitle?: string;
 			thumbnail: GetImageResult;
 		};
 		privacyPolicy?: string;
@@ -37,7 +42,7 @@
 	});
 
 	const linkProps = {
-		href: url,
+		href: link,
 		target: "_blank",
 		rel: `noopener nofollow${referrer ? "" : " noreferrer"}`,
 		referrerpolicy: referrer
@@ -54,7 +59,74 @@
 
 <figure>
 	{#if !load}
-		{#if preview}
+		{#if preview && compact}
+			<div
+				class="@container relative isolate flex h-[152px] items-center gap-4 overflow-clip rounded-xl bg-neutral-900 p-4 text-white @max-sm:gap-3"
+			>
+				<img
+					src={preview.thumbnail.src}
+					alt=""
+					aria-hidden="true"
+					class="absolute inset-0 -z-10 h-full w-full scale-150 object-cover opacity-60 blur-2xl"
+				/>
+				<div class="absolute inset-0 -z-10 bg-black/45"></div>
+				<img
+					src={preview.thumbnail.src}
+					alt={`Cover of ${preview.title}`}
+					class="aspect-square h-full shrink-0 rounded-lg object-cover text-[0px] shadow-lg @max-sm:h-20"
+				/>
+				<div class="flex min-w-0 flex-1 flex-col self-stretch">
+					<a
+						class="truncate font-semibold text-white no-underline! hover:underline!"
+						{...linkProps}
+					>
+						{preview.title}
+					</a>
+					{#if preview.subtitle}
+						<span class="truncate text-sm text-white/75">
+							{preview.subtitle}
+						</span>
+					{/if}
+					<div class="mt-auto flex items-center justify-between gap-2">
+						{#if !browser}
+							<a class="no-underline!" {...linkProps}>
+								<span
+									class="load-button text-nowrap @max-sm:px-3! @max-sm:text-sm!"
+									>Open</span
+								>
+							</a>
+						{:else}
+							<button class="cursor-pointer" onclick={() => (load = true)}>
+								<span
+									class="load-button text-nowrap @max-sm:px-3! @max-sm:text-sm!"
+									>Load widget</span
+								>
+							</button>
+						{/if}
+						<span
+							class="rounded-sm bg-black/60 px-2 py-1 text-xs font-bold text-neutral-200 @max-sm:hidden"
+						>
+							{name}
+						</span>
+					</div>
+					<span
+						class="mt-2 line-clamp-2 font-text text-[10px] leading-tight font-medium tracking-tight text-slate-200 xs:text-xs"
+					>
+						{name} might collect your personal data.
+						{#if privacyPolicy}
+							<a
+								href={privacyPolicy}
+								target="_blank"
+								rel="noopener noreferrer nofollow"
+								class="text-nowrap underline"
+							>
+								Privacy Policy
+							</a>
+						{/if}
+					</span>
+				</div>
+			</div>
+		{:else if preview}
 			<div
 				style={aspectRatio ? `aspect-ratio: ${aspectRatio};` : undefined}
 				class="relative max-w-full rounded-lg"
@@ -166,7 +238,7 @@
 						or open the URL in new tab:
 					</span>
 					<a {...linkProps} class="wrap-anywhere">
-						{url}
+						{link}
 					</a>
 				</div>
 			</div>

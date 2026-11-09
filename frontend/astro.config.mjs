@@ -36,7 +36,8 @@ export default defineConfig({
 	outDir: "dist-new",
 	output: "static",
 	image: {
-		domains: ["i.ytimg.com"],
+		domains: ["i.ytimg.com", "i.scdn.co"],
+		remotePatterns: [{ protocol: "https", hostname: "**.spotifycdn.com" }],
 	},
 	markdown: {
 		shikiConfig: {

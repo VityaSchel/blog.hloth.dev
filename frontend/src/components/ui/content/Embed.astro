@@ -24,11 +24,20 @@ interface Props {
 const { url, service, ar = 16 / 9 } = Astro.props;
 const embed = resolveEmbed(url, service, ar);
 
+const compact = embed.aspectRatio === null;
+const thumbnailWidth = compact ? 240 : 640;
+
 const previewData = embed.oembedUrl
-	? await getEmbedPreview(embed.oembedUrl, embed.thumbnailCandidates)
+	? await getEmbedPreview({
+			oembedUrl: embed.oembedUrl,
+			thumbnailCandidates: embed.thumbnailCandidates,
+			subtitleUrl: embed.subtitleUrl,
+		})
 	: null;
 
-let preview: { title: string; thumbnail: GetImageResult } | undefined;
+let preview:
+	| { title: string; subtitle?: string; thumbnail: GetImageResult }
+	| undefined;
 if (previewData) {
 	const allowed = isRemoteAllowed(previewData.thumbnailUrl, {
 		domains: siteConfig.image?.domains || [],
@@ -37,13 +46,14 @@ if (previewData) {
 	if (allowed) {
 		preview = {
 			title: previewData.title,
+			subtitle: previewData.subtitle,
 			thumbnail: await getImage({
 				src: previewData.thumbnailUrl,
-				width: 640,
+				width: thumbnailWidth,
 				format: "avif",
-				height: embed.aspectRatio
-					? Math.round(640 / embed.aspectRatio)
-					: undefined,
+				height: compact
+					? thumbnailWidth
+					: Math.round(thumbnailWidth / (embed.aspectRatio ?? 1)),
 				fit: "cover",
 			}),
 		};
@@ -56,6 +66,8 @@ if (previewData) {
 
 const frame = {
 	url: embed.url,
+	link: embed.link,
+	compact,
 	aspectRatio: embed.aspectRatio,
 	name: embed.service,
 	serviceId: embed.serviceId,
