@@ -18,3 +18,5 @@ export type EmojiCode =
 	| "tired"
 	| "vietnam"
 	| "smile";
+
+export type EmojiEntry = { code: EmojiCode; file: string };
