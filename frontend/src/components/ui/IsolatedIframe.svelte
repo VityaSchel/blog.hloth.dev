@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { GetImageResult } from "astro";
 	import { onMount } from "svelte";
 	import { hydratedRender } from "./hydrated-render";
 	import { loadIsolatedFrame } from "./isolated-iframe-state.svelte";
@@ -28,7 +27,7 @@
 		preview?: {
 			title: string;
 			subtitle?: string;
-			thumbnail: GetImageResult;
+			thumbnail: string;
 		};
 		privacyPolicy?: string;
 		containerClass?: import("svelte/elements").ClassValue;
@@ -64,14 +63,14 @@
 				class="@container relative isolate flex h-[152px] items-center gap-4 overflow-clip rounded-xl bg-neutral-900 p-4 text-white @max-sm:gap-3"
 			>
 				<img
-					src={preview.thumbnail.src}
+					src={preview.thumbnail}
 					alt=""
 					aria-hidden="true"
 					class="absolute inset-0 -z-10 h-full w-full scale-150 object-cover opacity-60 blur-2xl"
 				/>
 				<div class="absolute inset-0 -z-10 bg-black/45"></div>
 				<img
-					src={preview.thumbnail.src}
+					src={preview.thumbnail}
 					alt={`Cover of ${preview.title}`}
 					class="aspect-square h-full shrink-0 rounded-lg object-cover text-[0px] shadow-lg @max-sm:h-20"
 				/>
@@ -183,7 +182,7 @@
 					</div>
 				</div>
 				<img
-					src={preview.thumbnail.src}
+					src={preview.thumbnail}
 					alt="Thumbnail"
 					class="absolute top-0 left-0 h-full w-full object-cover text-[0px]"
 				/>

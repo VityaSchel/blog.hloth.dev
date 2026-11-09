@@ -10,7 +10,6 @@
  */
 
 import IsolatedIframe from "$ui/IsolatedIframe.svelte";
-import type { GetImageResult } from "astro";
 import { getImage } from "astro:assets";
 import { resolveEmbed } from "$lib/embed/services";
 import { embedPreview } from "$lib/embed/previews";
@@ -29,22 +28,24 @@ const compact = embed.aspectRatio === null;
 const thumbnailWidth = compact ? 240 : 640;
 
 let preview:
-	| { title: string; subtitle?: string; thumbnail: GetImageResult }
+	| { title: string; subtitle?: string; thumbnail: string }
 	| undefined;
 if (embed.preview) {
 	const cached = embedPreview(embed.preview, url);
 	preview = {
 		title: cached.title,
 		subtitle: cached.subtitle,
-		thumbnail: await getImage({
-			src: cached.image,
-			width: thumbnailWidth,
-			format: "avif",
-			height: compact
-				? thumbnailWidth
-				: Math.round(thumbnailWidth / (embed.aspectRatio ?? 1)),
-			fit: "cover",
-		}),
+		thumbnail: (
+			await getImage({
+				src: cached.image,
+				width: thumbnailWidth,
+				format: "avif",
+				height: compact
+					? thumbnailWidth
+					: Math.round(thumbnailWidth / (embed.aspectRatio ?? 1)),
+				fit: "cover",
+			})
+		).src,
 	};
 }
 
