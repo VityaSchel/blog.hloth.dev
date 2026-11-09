@@ -8,18 +8,28 @@
  */
 
 import { getVideoDimensions } from "$lib/video-metadata-retriever";
+import type { ImageMetadata } from "astro";
 
 interface Props {
 	src: string;
 	srcHevc?: string;
 	srcHvc1?: string;
+	poster?: ImageMetadata;
 	children?: Element;
 	autoplay?: boolean;
 	controls?: boolean;
 	alt?: string;
 }
 
-let { src, srcHevc, srcHvc1, autoplay = false, controls, alt } = Astro.props;
+let {
+	src,
+	srcHevc,
+	srcHvc1,
+	poster,
+	autoplay = false,
+	controls,
+	alt,
+} = Astro.props;
 
 let { width, height } = await getVideoDimensions(src);
 const aspectRatio = width / height;
@@ -39,6 +49,7 @@ const aspectRatio = width / height;
 		muted={autoplay}
 		autoplay={autoplay}
 		playsinline
+		poster={poster?.src}
 		aria-label={alt}
 		style={`aspect-ratio: ${aspectRatio};`}
 	>
