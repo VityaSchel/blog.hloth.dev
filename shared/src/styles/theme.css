@@ -1,0 +1,32 @@
+@theme inline {
+	--color-cream: #f3f1e6;
+	--color-golden: #f1c470;
+	--color-sandy: #d5c18e;
+	--color-sandy-alt: #a89870;
+	--color-golden-creamy: #8e7a48;
+	--color-cream-alt: #e0d9c9;
+	--color-black-alt: #333333;
+	--color-inverted: #585858;
+	--color-inverted-alt: #2f2f2f;
+	--color-inverted-alt-dark: #978d62;
+	--color-active: #a3e635;
+	--color-active-dark: white;
+	--color-toc-bg-light: color-mix(in oklab, #e0d9c9 50%, var(--bg) 50%);
+	--color-toc-bg-dark: color-mix(in oklab, #8e7a48 35%, var(--bg) 65%);
+	--color-toc-bg-dark-transparent: color-mix(in oklab, #544625 55%, transparent);
+	--breakpoint-mdl: 58rem;
+	--breakpoint-xsm: 34rem;
+	--breakpoint-smol: 30rem;
+	--breakpoint-xs: 24rem;
+	--font-default-sans-serif:
+		system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+		"Open Sans", "Helvetica Neue", sans-serif;
+	--font-default-serif: "PT Serif", Cambria, Cochin, Georgia, "Times New Roman", Times, serif;
+	--font-serif: "Source Serif 4 Variable", var(--font-default-serif);
+	--font-text: var(--font-default-sans-serif);
+	--font-display: "PP Mori", var(--font-text);
+	--tracking-tightest: -0.06em;
+	--font-mono:
+		Menlo, Consolas, DejaVu Sans Mono, ui-monospace, SFMono-Regular, Monaco, Liberation Mono,
+		Courier New, monospace;
+}

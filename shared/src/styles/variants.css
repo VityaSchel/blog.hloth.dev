@@ -1,0 +1,7 @@
+@custom-variant hf (&:where(&:hover, &:focus-visible));
+
+@custom-variant tall-screen {
+	@media screen and (min-height: 670px) and (width < 768px) {
+		@slot;
+	}
+}
