@@ -28,7 +28,7 @@ let {
 	first,
 } = Astro.props;
 
-const { emphasized, regular } = formatTitle(title);
+const { title: plainTitle, segments } = formatTitle(title);
 ---
 
 <a class="article-preview block w-full" href={`/${id}/`} data-astro-prefetch>
@@ -53,9 +53,22 @@ const { emphasized, regular } = formatTitle(title);
 			class="mt-2 flex flex-col px-4 md:mt-0 md:max-w-[50%] md:flex-[50%]
 				lg:max-w-[25%] lg:flex-[25%]"
 		>
-			<h2 class="font-display text-3xl font-semibold tracking-[-.03em]" {title}>
-				<span class="font-serif font-medium italic">{emphasized}</span>
-				{regular}
+			<h2
+				class="font-display text-3xl font-semibold tracking-[-.03em]"
+				title={plainTitle}
+			>
+				{
+					segments.map((segment) =>
+						segment.emphasized ? (
+							<span
+								class="font-serif font-medium italic"
+								set:text={segment.text}
+							/>
+						) : (
+							segment.text
+						),
+					)
+				}
 			</h2>
 			<p class="mt-4 line-clamp-6 font-text text-ellipsis md:mt-6">
 				{

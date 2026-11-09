@@ -12,11 +12,19 @@ const formattedTitle = formatTitle(title);
 
 <h1
 	class="one-storey-a leading-tighter line-clamp-3 font-display text-3xl
-		font-semibold tracking-tight md:text-6xl"
-	{title}
+		font-semibold tracking-tight wrap-anywhere md:text-6xl"
+	title={formattedTitle.title}
 >
-	<span class="optical-sizing-none font-serif font-semibold italic">
-		{formattedTitle.emphasized}
-	</span>
-	{formattedTitle.regular}
+	{
+		formattedTitle.segments.map((segment) =>
+			segment.emphasized ? (
+				<span
+					class="optical-sizing-none font-serif font-semibold italic"
+					set:text={segment.text}
+				/>
+			) : (
+				segment.text
+			),
+		)
+	}
 </h1>

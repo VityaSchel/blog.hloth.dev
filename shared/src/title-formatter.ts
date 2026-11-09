@@ -1,15 +1,25 @@
+type TitleSegment = { text: string; emphasized: boolean };
+
+const EMPHASIS = /\*([^*]+)\*/g;
+
+export const titleSegments = (title: string): TitleSegment[] => {
+	const segments: TitleSegment[] = [];
+	let last = 0;
+	for (const match of title.matchAll(EMPHASIS)) {
+		const index = match.index ?? 0;
+		if (index > last) segments.push({ text: title.slice(last, index), emphasized: false });
+		segments.push({ text: match[1] ?? "", emphasized: true });
+		last = index + match[0].length;
+	}
+	if (last < title.length || !segments.length)
+		segments.push({ text: title.slice(last), emphasized: false });
+	return segments;
+};
+
 export function formatTitle(title: string): {
 	title: string;
-	emphasized: string;
-	regular: string;
+	segments: TitleSegment[];
 } {
-	const emStart = title.indexOf("*");
-	if (emStart === 0) {
-		const emEnd = title.indexOf("*", 1);
-		const emphasized = title.slice(1, emEnd);
-		const regular = title.slice(emEnd + 1);
-		return { title: emphasized + regular, emphasized, regular };
-	} else {
-		return { title, emphasized: "", regular: title };
-	}
+	const segments = titleSegments(title);
+	return { title: segments.map((segment) => segment.text).join(""), segments };
 }
