@@ -13,6 +13,7 @@ import { rehypeStyledHrs } from "./src/plugins/rehype-styled-hrs.js";
 import { remarkStyledHrs } from "./src/plugins/remark-styled-hrs.js";
 import rehypeExternalLinks from "rehype-external-links";
 import serviceWorker from "./src/plugins/astro-sw.js";
+import { CODE_THEMES } from "blog.hloth.dev-shared/src/code-themes";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url)) + "/";
 
@@ -38,10 +39,7 @@ export default defineConfig({
 	},
 	markdown: {
 		shikiConfig: {
-			themes: {
-				light: "min-light",
-				dark: "dark-plus",
-			},
+			themes: CODE_THEMES,
 		},
 		remarkPlugins: [remarkStyledHrs],
 		rehypePlugins: [
