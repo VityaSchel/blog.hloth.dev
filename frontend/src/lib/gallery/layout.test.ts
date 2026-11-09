@@ -1,5 +1,10 @@
 import { describe, expect, test } from "bun:test";
-import { layoutGallery, MAX_PER_ROW, type GalleryNode } from "./layout";
+import {
+	layoutGallery,
+	MAX_PER_ROW,
+	tallestBand,
+	type GalleryNode,
+} from "./layout";
 
 const leaves = (node: GalleryNode): number[] =>
 	"index" in node ? [node.index] : node.children.flatMap(leaves);
@@ -88,6 +93,37 @@ describe("layoutGallery", () => {
 			}
 			expect(layout.ratio).toBeGreaterThan(0);
 			expect(Number.isFinite(layout.ratio)).toBe(true);
+		},
+	);
+});
+
+describe("tallestBand", () => {
+	test("a single image or a single row is one band", () => {
+		expect(tallestBand(layoutGallery([PORTRAIT])!.root)).toBe(1);
+		expect(tallestBand(layoutGallery([PORTRAIT, PORTRAIT])!.root)).toBe(1);
+		expect(
+			tallestBand(layoutGallery([PORTRAIT, LANDSCAPE, LANDSCAPE])!.root),
+		).toBe(1);
+	});
+
+	test("a wide image above three others is split by height", () => {
+		const root = layoutGallery([WIDE, PORTRAIT, PORTRAIT, PORTRAIT])!.root;
+		if ("index" in root) throw new Error("expected a split");
+		const [head, tail] = root.children.map((child) => child.size);
+		expect(tallestBand(root)).toBeCloseTo(
+			Math.max(head!, tail!) / (head! + tail!),
+			10,
+		);
+	});
+
+	test.each(Array.from({ length: 30 }, (_, i) => i + 1))(
+		"%i images: the tallest band is a share of the album",
+		(count) => {
+			const random = seeded(count * 104729);
+			const ratios = Array.from({ length: count }, () => 0.4 + random() * 2.6);
+			const band = tallestBand(layoutGallery(ratios)!.root);
+			expect(band).toBeGreaterThan(0);
+			expect(band).toBeLessThanOrEqual(1);
 		},
 	);
 });

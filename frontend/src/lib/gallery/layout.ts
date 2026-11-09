@@ -239,3 +239,13 @@ export function layoutGallery(ratios: number[]): GalleryLayout | null {
 	const { width, height, root } = album(ratios);
 	return { ratio: width / height, root };
 }
+
+export const tallestBand = (node: GalleryNode, share = 1): number => {
+	if ("index" in node || node.direction === "row") return share;
+	const total = sum(node.children.map((child) => child.size));
+	return Math.max(
+		...node.children.map((child) =>
+			tallestBand(child, (share * child.size) / total),
+		),
+	);
+};

@@ -1,11 +1,17 @@
 import { load } from "cheerio";
-import { layoutGallery, MAX_PER_ALBUM, type GalleryNode } from "./layout";
+import {
+	layoutGallery,
+	MAX_PER_ALBUM,
+	tallestBand,
+	type GalleryNode,
+} from "./layout";
 
 const ASPECT_RATIO =
 	/(?:^|[\s;])(?:--)?aspect-ratio:\s*([\d.]+)(?:\s*\/\s*([\d.]+))?/;
 
 export interface GalleryMarkup {
 	ratio: number;
+	band: number;
 	fitsScreen: boolean;
 	html: string;
 	rest: string;
@@ -53,6 +59,7 @@ export function buildGallery(slotHtml: string): GalleryMarkup {
 	const cells = media.map((item) => item.html);
 	return {
 		ratio: layout?.ratio ?? 1,
+		band: layout ? tallestBand(layout.root) : 1,
 		fitsScreen: media.length <= MAX_PER_ALBUM,
 		html: layout ? renderNode(layout.root, cells) : "",
 		rest: rest.join(""),

@@ -21,12 +21,12 @@ const captionMarkup = caption ? await captionHtml(caption) : "";
 const slot = Astro.slots.has("default")
 	? await Astro.slots.render("default")
 	: "";
-const { ratio, fitsScreen, html, rest } = buildGallery(slot);
+const { ratio, band, fitsScreen, html, rest } = buildGallery(slot);
 ---
 
 <figure
 	class:list={["gallery", { "fits-screen": fitsScreen }]}
-	style={`--gallery-ratio: ${ratio}`}
+	style={`--gallery-ratio: ${ratio}; --gallery-band: ${band}`}
 >
 	{
 		html && (
@@ -46,6 +46,10 @@ const { ratio, fitsScreen, html, rest } = buildGallery(slot);
 <style>
 	.gallery {
 		--gallery-gap: 3px;
+		--gallery-row-max: 400px;
+		--gallery-width-cap: calc(
+			var(--gallery-row-max) * var(--gallery-ratio) / var(--gallery-band)
+		);
 		padding-block: 16px;
 	}
 
@@ -61,8 +65,16 @@ const { ratio, fitsScreen, html, rest } = buildGallery(slot);
 		border-radius: 0.5rem;
 	}
 
+	.gallery > :is(.gallery-album, .gallery-caption) {
+		max-width: min(100%, var(--gallery-width-cap));
+	}
+
 	.fits-screen > :is(.gallery-album, .gallery-caption) {
-		max-width: min(100%, calc(85svh * var(--gallery-ratio)));
+		max-width: min(
+			100%,
+			calc(85svh * var(--gallery-ratio)),
+			var(--gallery-width-cap)
+		);
 	}
 
 	.gallery-caption {
