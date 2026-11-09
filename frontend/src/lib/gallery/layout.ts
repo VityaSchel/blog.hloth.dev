@@ -249,3 +249,25 @@ export const tallestBand = (node: GalleryNode, share = 1): number => {
 		),
 	);
 };
+
+export type LeafShare = { width: number; height: number };
+
+export const leafShares = (
+	node: GalleryNode,
+	share: LeafShare = { width: 1, height: 1 },
+	shares = new Map<number, LeafShare>(),
+): Map<number, LeafShare> => {
+	if ("index" in node) return shares.set(node.index, share);
+	const total = sum(node.children.map((child) => child.size));
+	for (const child of node.children) {
+		const part = child.size / total;
+		leafShares(
+			child,
+			node.direction === "row"
+				? { width: share.width * part, height: share.height }
+				: { width: share.width, height: share.height * part },
+			shares,
+		);
+	}
+	return shares;
+};

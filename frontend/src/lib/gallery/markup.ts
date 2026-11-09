@@ -1,10 +1,15 @@
 import { load } from "cheerio";
 import {
 	layoutGallery,
+	leafShares,
 	MAX_PER_ALBUM,
 	tallestBand,
 	type GalleryNode,
 } from "./layout";
+
+export const GALLERY_ROW_MAX = 400;
+
+const COLUMN_WIDTH = "min(100vw - 3rem, 680px)";
 
 const ASPECT_RATIO =
 	/(?:^|[\s;])(?:--)?aspect-ratio:\s*([\d.]+)(?:\s*\/\s*([\d.]+))?/;
@@ -36,9 +41,15 @@ const renderNode = (node: GalleryNode, cells: string[], grow = 1): string => {
 	return `<div class="gallery-${node.direction}" style="${style}">${children.join("")}</div>`;
 };
 
+export const albumWidthCap = (ratio: number, band: number) =>
+	Math.round((GALLERY_ROW_MAX * ratio) / band);
+
+export const cellSizes = (factor: number, albumCap: number) =>
+	`calc(${factor.toFixed(4)} * min(${COLUMN_WIDTH}, ${albumCap}px))`;
+
 export function buildGallery(slotHtml: string): GalleryMarkup {
 	const $ = load(slotHtml, null, false);
-	const media: { ratio: number; html: string }[] = [];
+	const media: { ratio: number; element: ReturnType<typeof $> }[] = [];
 	const rest: string[] = [];
 	$.root()
 		.contents()
@@ -53,13 +64,27 @@ export function buildGallery(slotHtml: string): GalleryMarkup {
 						))
 					: null;
 			if (ratio === null) rest.push($.html(node));
-			else media.push({ ratio, html: $.html(node) });
+			else media.push({ ratio, element });
 		});
 	const layout = layoutGallery(media.map((item) => item.ratio));
-	const cells = media.map((item) => item.html);
+	const band = layout ? tallestBand(layout.root) : 1;
+	if (layout) {
+		const cap = albumWidthCap(layout.ratio, band);
+		for (const [index, share] of leafShares(layout.root)) {
+			const { ratio, element } = media[index]!;
+			const factor = Math.max(
+				share.width,
+				(share.height * ratio) / layout.ratio,
+			);
+			element
+				.find("img[srcset], source[srcset]")
+				.attr("sizes", cellSizes(factor, cap));
+		}
+	}
+	const cells = media.map((item) => $.html(item.element));
 	return {
 		ratio: layout?.ratio ?? 1,
-		band: layout ? tallestBand(layout.root) : 1,
+		band,
 		fitsScreen: media.length <= MAX_PER_ALBUM,
 		html: layout ? renderNode(layout.root, cells) : "",
 		rest: rest.join(""),

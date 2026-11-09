@@ -9,7 +9,7 @@
  * </Gallery>
  */
 
-import { buildGallery } from "$lib/gallery/markup";
+import { buildGallery, GALLERY_ROW_MAX } from "$lib/gallery/markup";
 import { captionHtml } from "$lib/gallery/caption";
 
 interface Props {
@@ -26,7 +26,7 @@ const { ratio, band, fitsScreen, html, rest } = buildGallery(slot);
 
 <figure
 	class:list={["gallery", { "fits-screen": fitsScreen }]}
-	style={`--gallery-ratio: ${ratio}; --gallery-band: ${band}`}
+	style={`--gallery-ratio: ${ratio}; --gallery-band: ${band}; --gallery-row-max: ${GALLERY_ROW_MAX}px`}
 >
 	{
 		html && (
@@ -46,7 +46,6 @@ const { ratio, band, fitsScreen, html, rest } = buildGallery(slot);
 <style>
 	.gallery {
 		--gallery-gap: 3px;
-		--gallery-row-max: 400px;
 		--gallery-width-cap: calc(
 			var(--gallery-row-max) * var(--gallery-ratio) / var(--gallery-band)
 		);

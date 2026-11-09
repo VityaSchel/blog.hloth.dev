@@ -46,6 +46,24 @@ const Element = zoomable ? "a" : "div";
 const hdr = await hdrSource(props.src, lqipWidth);
 const PictureElement = (hdr ? HdrPicture : Picture) as typeof Picture;
 const hdrProps = hdr ? { hdr } : {};
+
+const CONTENT_WIDTHS = [240, 360, 480, 680, 1020, 1360];
+const displayWidth =
+	aspectRatio !== null && aspectRatio <= 1
+		? Math.min(lqipWidth, Math.round(aspectRatio * 500))
+		: lqipWidth;
+const responsiveWidths = [
+	...new Set([...CONTENT_WIDTHS, displayWidth, displayWidth * 2]),
+]
+	.filter((width) => width <= Math.min(props.src.width, displayWidth * 2))
+	.sort((a, b) => a - b);
+const srcsetProps =
+	zoomable && !banner && !hdr && lqipWidth <= 680 && responsiveWidths.length > 1
+		? {
+				widths: responsiveWidths,
+				sizes: `min(${displayWidth}px, 100vw - 3rem)`,
+			}
+		: { densities: [1, 2] };
 ---
 
 <script>
@@ -95,12 +113,12 @@ const hdrProps = hdr ? { hdr } : {};
 				"h-full object-contain": content,
 				"h-full w-full object-cover": banner,
 			},
-			`ph bg-cover text-[0px] backdrop-blur-2xl in-[.full-bleed]:h-full
-			in-[.full-bleed]:w-auto`,
+			`ph thumb-box bg-cover text-[0px] backdrop-blur-2xl
+			in-[.full-bleed]:h-full in-[.full-bleed]:w-auto`,
 			className,
 		]}
 		style={`--ph: url("${lqip.src}"); --phw: ${lqipWidth}px; --phh: ${lqipHeight}px; --phar: ${aspectRatio};`}
-		densities={[1, 2]}
+		{...srcsetProps}
 		formats={["avif", "webp"]}
 		loading={props.priority ? "eager" : "lazy"}
 		quality="high"
@@ -117,11 +135,12 @@ const hdrProps = hdr ? { hdr } : {};
 	.ph {
 		background-image: var(--ph);
 	}
-	:is(.wide, .landscape):not(.banner-clip) .ph {
+	:is(.wide, .landscape):not(.banner-clip) .thumb-box {
 		width: var(--phw);
 		height: auto;
+		object-fit: cover;
 	}
-	.portrait .ph {
+	.portrait .thumb-box {
 		width: min(var(--phw), calc(var(--phar) * 500px));
 		height: auto;
 	}
