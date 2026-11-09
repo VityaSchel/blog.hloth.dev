@@ -3,38 +3,54 @@
  * Telegram-style album: every image visible at once, at most 3 per row.
  * Rows and columns are picked from the children's aspect ratios.
  *
- * <Gallery>
+ * <Gallery caption="Markdown, e.g. [a link](https://example.org)\nand a second line">
  *   <Image src={first} alt="..." />
  *   <Image src={second} alt="..." />
  * </Gallery>
  */
 
 import { buildGallery } from "$lib/gallery/markup";
+import { captionHtml } from "$lib/gallery/caption";
 
+interface Props {
+	caption?: string;
+}
+
+const { caption } = Astro.props;
+const captionMarkup = caption ? await captionHtml(caption) : "";
 const slot = Astro.slots.has("default")
 	? await Astro.slots.render("default")
 	: "";
 const { ratio, fitsScreen, html, rest } = buildGallery(slot);
 ---
 
-<div class="gallery">
+<figure
+	class:list={["gallery", { "fits-screen": fitsScreen }]}
+	style={`--gallery-ratio: ${ratio}`}
+>
 	{
 		html && (
-			<div
-				class:list={["gallery-album", { "fits-screen": fitsScreen }]}
-				style={`--gallery-ratio: ${ratio}`}
-			>
+			<div class="gallery-album">
 				<Fragment set:html={html} />
 			</div>
 		)
 	}
 	{rest && <Fragment set:html={rest} />}
-</div>
+	{
+		captionMarkup && (
+			<figcaption class="gallery-caption" set:html={captionMarkup} />
+		)
+	}
+</figure>
 
 <style>
 	.gallery {
 		--gallery-gap: 3px;
 		padding-block: 16px;
+	}
+
+	:global(.article-content) figure.gallery {
+		display: block;
 	}
 
 	.gallery-album {
@@ -45,8 +61,16 @@ const { ratio, fitsScreen, html, rest } = buildGallery(slot);
 		border-radius: 0.5rem;
 	}
 
-	.gallery-album.fits-screen {
+	.fits-screen > :is(.gallery-album, .gallery-caption) {
 		max-width: min(100%, calc(85svh * var(--gallery-ratio)));
+	}
+
+	.gallery-caption {
+		margin-inline: auto;
+	}
+
+	.gallery-caption > :global(*) {
+		white-space: pre-line;
 	}
 
 	.gallery-album :global(:is(.gallery-row, .gallery-column, .gallery-cell)) {
