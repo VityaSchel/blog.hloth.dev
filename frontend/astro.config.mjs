@@ -10,6 +10,7 @@ import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { rehypeHeadingGroup } from "./src/plugins/rehype-heading-group.js";
 import { rehypeStyledHrs } from "./src/plugins/rehype-styled-hrs.js";
+import { rehypeTableScroll } from "./src/plugins/rehype-table-scroll.js";
 import { remarkStyledHrs } from "./src/plugins/remark-styled-hrs.js";
 import rehypeExternalLinks from "rehype-external-links";
 import serviceWorker from "./src/plugins/astro-sw.js";
@@ -62,6 +63,7 @@ export default defineConfig({
 				},
 			],
 			rehypeStyledHrs,
+			rehypeTableScroll,
 		],
 	},
 	vite: {

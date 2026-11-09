@@ -57,6 +57,7 @@
 		"remark-preset-lint-recommended": "^7.0.1",
 		"remark-preset-prettier": "^2.0.2",
 		"svelte-sonner": "^1.0.5",
-		"typescript-eslint": "^8.46.0"
+		"typescript-eslint": "^8.46.0",
+		"unist-util-visit": "^5.1.0"
 	}
 }
