@@ -31,8 +31,8 @@
 <div>
 	{#await query then value}
 		<div
-			class="flex w-full flex-wrap items-center gap-x-[2.75px] gap-y-2
-			mt-8"
+			class="mt-8 flex w-full flex-wrap items-center gap-x-[2.75px]
+			gap-y-2"
 			in:slide={{ duration: 300 }}
 		>
 			{#snippet Reaction(emoji: Reaction, i: number)}
