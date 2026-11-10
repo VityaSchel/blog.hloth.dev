@@ -61,14 +61,17 @@
 		throw new Error(`Emoji icon "${icon}" not found`);
 	}
 
-	const image = await getImage({
-		src: emojiMap[icon],
-		width: width,
-		height: height,
-		densities: [1, 2],
-		format: "avif",
-		quality: 100,
-	});
+	// svelte-ignore state_referenced_locally
+	const image = import.meta.env.SSR
+		? await getImage({
+				src: emojiMap[icon],
+				width: width,
+				height: height,
+				densities: [1, 2],
+				format: "avif",
+				quality: 100,
+			})
+		: undefined;
 </script>
 
 <span
@@ -82,6 +85,6 @@
 		alt={`${icon} emoji`}
 		class="relative z-[1] text-[0px]"
 		loading="lazy"
-		srcset={image.srcSet.attribute}
+		srcset={image?.srcSet.attribute}
 	/>
 </span>
