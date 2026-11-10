@@ -9,6 +9,7 @@
     "prepare": "command -v lefthook >/dev/null && lefthook install || true"
   },
   "overrides": {
+    "eslint-scope": "^9.1.2",
     "typescript": "6.0.3"
   },
   "patchedDependencies": {
