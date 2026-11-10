@@ -3,6 +3,7 @@
 import path from "path";
 import { fileURLToPath } from "url";
 import { defineConfig, envField } from "astro/config";
+import { unified } from "@astrojs/markdown-remark";
 import svelte from "@astrojs/svelte";
 import mdx from "@astrojs/mdx";
 import tailwindcss from "@tailwindcss/vite";
@@ -22,6 +23,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url)) + "/";
 /** @type { import("astro").AstroUserConfig } */
 export default defineConfig({
 	prefetch: true,
+	compressHTML: true,
 	site: "https://blog.hloth.dev",
 	experimental: {
 		contentIntellisense: true,
@@ -42,29 +44,31 @@ export default defineConfig({
 		shikiConfig: {
 			themes: CODE_THEMES,
 		},
-		remarkPlugins: [remarkStyledHrs],
-		rehypePlugins: [
-			rehypeHeadingGroup,
-			rehypeSlug,
-			[rehypeExternalLinks, { rel: ["nofollow", "noreferrer"] }],
-			[
-				rehypeAutolinkHeadings,
-				{
-					behavior: "append",
-					properties: {
-						class:
-							"opacity-0 transition-opacity group-hover/heading:opacity-100 focus-visible:opacity-100 ml-2",
-						ariaLabel: "Link to heading",
+		processor: unified({
+			remarkPlugins: [remarkStyledHrs],
+			rehypePlugins: [
+				rehypeHeadingGroup,
+				rehypeSlug,
+				[rehypeExternalLinks, { rel: ["nofollow", "noreferrer"] }],
+				[
+					rehypeAutolinkHeadings,
+					{
+						behavior: "append",
+						properties: {
+							class:
+								"opacity-0 transition-opacity group-hover/heading:opacity-100 focus-visible:opacity-100 ml-2",
+							ariaLabel: "Link to heading",
+						},
+						content: {
+							type: "text",
+							value: "#",
+						},
 					},
-					content: {
-						type: "text",
-						value: "#",
-					},
-				},
+				],
+				rehypeStyledHrs,
+				rehypeTableScroll,
 			],
-			rehypeStyledHrs,
-			rehypeTableScroll,
-		],
+		}),
 	},
 	vite: {
 		plugins: [tailwindcss()],
