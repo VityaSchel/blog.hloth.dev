@@ -13,6 +13,6 @@
     "typescript": "6.0.3"
   },
   "patchedDependencies": {
-    "prettier@3.6.2": "frontend/patches/prettier@3.6.2.patch"
+    "prettier@3.9.10": "frontend/patches/prettier@3.9.10.patch"
   }
 }
