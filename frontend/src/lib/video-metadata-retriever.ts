@@ -1,6 +1,5 @@
 import path from "path";
 import mediaInfoFactory, { type MediaInfo } from "mediainfo.js";
-import { fileURLToPath } from "url";
 import { cached, fileRevision } from "$lib/cache";
 
 export type VideoDimensions = { width: number; height: number };
@@ -26,9 +25,7 @@ const analyze = async (filePath: string): Promise<VideoDimensions> => {
 export async function getVideoDimensions(
 	filePath: string,
 ): Promise<VideoDimensions> {
-	const root = path.resolve(
-		path.join(fileURLToPath(import.meta.url), "../../../"),
-	);
+	const root = process.cwd();
 	const base = path.resolve(
 		path.join(root, import.meta.env.PROD ? "./dist-new/" : "./"),
 	);
