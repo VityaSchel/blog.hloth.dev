@@ -4,17 +4,17 @@
 	"exclude": ["dist", "dist-new", "tools/alt-gen"],
 	"compilerOptions": {
 		"strictNullChecks": true,
-		"baseUrl": ".",
+		"types": ["bun"],
 		"paths": {
-			"$components/*": ["src/components/*"],
-			"$assets/*": ["src/assets/*"],
-			"$layouts/*": ["src/layouts/*"],
-			"$styles/*": ["src/styles/*"],
-			"$emoji/*": ["src/assets/emoji/*"],
-			"$consts": ["src/lib/consts.ts"],
-			"$lib/*": ["src/lib/*"],
-			"$ui/*": ["src/components/ui/*"],
-			"$emoji": ["src/components/Emoji.svelte"]
+			"$components/*": ["./src/components/*"],
+			"$assets/*": ["./src/assets/*"],
+			"$layouts/*": ["./src/layouts/*"],
+			"$styles/*": ["./src/styles/*"],
+			"$emoji/*": ["./src/assets/emoji/*"],
+			"$consts": ["./src/lib/consts.ts"],
+			"$lib/*": ["./src/lib/*"],
+			"$ui/*": ["./src/components/ui/*"],
+			"$emoji": ["./src/components/Emoji.svelte"]
 		}
 	},
 	"mdx": {
