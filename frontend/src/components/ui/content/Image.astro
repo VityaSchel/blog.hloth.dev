@@ -58,7 +58,7 @@ const aspectRatio = props.src.width / props.src.height;
 				: props.src.width !== undefined
 					? Math.min(props.src.width, 680)
 					: undefined}
-			height={background ? 500 : props.height}
+			height={background ? Math.min(500, 680 / aspectRatio) : props.height}
 			class:list={[
 				props.class ?? (background ? "" : undefined),
 				"in[.full-bleed]:max-w-dvw",
