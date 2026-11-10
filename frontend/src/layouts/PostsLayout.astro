@@ -37,7 +37,10 @@ let { posts, category = false } = Astro.props;
 				))}
 			</ul>
 		) : (
-			<div class="flex h-64 w-full flex-col items-center justify-center gap-4 text-[24.5px]">
+			<div
+				class="flex h-64 w-full flex-col items-center justify-center gap-4
+					text-[24.5px]"
+			>
 				<span class="font-text tracking-normal">No posts yet</span>
 				<img src="/no.gif" alt="🙂‍↔️" />
 				{category && <ShowAllPostsButton />}

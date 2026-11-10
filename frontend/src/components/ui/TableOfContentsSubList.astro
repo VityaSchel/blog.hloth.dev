@@ -15,7 +15,8 @@ let { children, depth } = Astro.props;
 				{heading && (
 					<a
 						href={`#${heading.slug}`}
-						class="block w-full truncate py-0.5 transition-colors hover:text-black dark:hover:text-white"
+						class="block w-full truncate py-0.5 transition-colors
+							hover:text-black dark:hover:text-white"
 					>
 						{heading.text}
 					</a>

@@ -17,7 +17,7 @@
 
 <div
 	class={[
-		"mt-2 overflow-clip rounded-lg paywall",
+		"paywall mt-2 overflow-clip rounded-lg",
 		{
 			"grid grid-cols-1 grid-rows-1": browser,
 			"flex flex-col": !browser,
@@ -48,7 +48,7 @@
 	<div
 		class={[
 			` flex h-full w-full flex-col items-center justify-center gap-2
-				bg-slate-900/60 p-6 backdrop-blur-sm `,
+			bg-slate-900/60 p-6 backdrop-blur-sm `,
 			{
 				hidden: reveal && browser,
 				"z-[1] col-1 row-1": browser,
@@ -69,10 +69,8 @@
 		</span>
 		{#if browser}
 			<span
-				class="
-					my-2 mb-4 text-center font-text text-sm leading-tight tracking-normal
-					text-slate-300
-				"
+				class="my-2 mb-4 text-center font-text text-sm leading-tight
+					tracking-normal text-slate-300"
 			>
 				Clicking the button below will open donation page in a new tab and
 				reveal files and links. Donations are not mandatory but highly
@@ -82,10 +80,8 @@
 				href="https://hloth.dev/donate"
 				target="_blank"
 				rel="noopener noreferrer"
-				class="
-					rounded-md border border-indigo-700/50 bg-indigo-600 px-4 py-2 font-medium
-					text-white !no-underline
-				"
+				class="rounded-md border border-indigo-700/50 bg-indigo-600 px-4 py-2
+					font-medium text-white !no-underline"
 				onclick={() => (reveal = true)}
 			>
 				Donate

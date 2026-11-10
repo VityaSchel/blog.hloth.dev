@@ -44,10 +44,8 @@
 
 {#await query then value}
 	<div
-		class="
-		font-display font-normal text-[#a3a3a3] tabular-nums
-		dark:text-[#4b5563]
-	"
+		class="font-display font-normal text-[#a3a3a3] tabular-nums
+			dark:text-[#4b5563]"
 		in:scale|global={{ duration: 300, easing: expoOut, start: 0.5 }}
 	>
 		<span

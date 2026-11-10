@@ -119,10 +119,8 @@
 
 {#if error}
 	<div
-		class="
-			mb-2 rounded-lg bg-red-600 p-2 font-text text-[11px] leading-tight
-			font-normal
-		"
+		class="mb-2 rounded-lg bg-red-600 p-2 font-text text-[11px] leading-tight
+			font-normal"
 	>
 		{#if error === "not_allowed"}
 			Your browser does not allow push-notifications. Try enabling them in the
@@ -145,27 +143,21 @@
 {#if registration}
 	<button
 		type="button"
-		class="
-			flex w-full cursor-pointer items-center justify-between gap-8 text-left
-			text-sm font-medium
-		"
+		class="flex w-full cursor-pointer items-center justify-between gap-8
+			text-left text-sm font-medium"
 		onclick={subscribed ? handleUnsubscribe : handleSubscribe}
 		disabled={loading}
 	>
 		<span>Subscribe to push-notifications about new posts</span>
 		<div
-			class="
-				relative flex h-6 w-16 shrink-0 gap-1 rounded-full bg-cream-alt/70 px-2
-				py-[4px] tracking-tight
-				dark:bg-black-alt
-			"
+			class="relative flex h-6 w-16 shrink-0 gap-1 rounded-full bg-cream-alt/70
+				px-2 py-[4px] tracking-tight dark:bg-black-alt"
 		>
 			<span
 				class={[
-					`
-						border-opacity-30 absolute top-1 left-1 flex h-[calc(100%-8px)] w-[40%]
-						items-center justify-center rounded-full border border-white/20
-						bg-amber-100/30 shadow-md transition-all duration-300
+					` border-opacity-30 absolute top-1 left-1 flex h-[calc(100%-8px)]
+					w-[40%] items-center justify-center rounded-full border
+					border-white/20 bg-amber-100/30 shadow-md transition-all duration-300
 					`,
 					{
 						"left-[calc(60%-4px)] bg-lime-500/90": subscribed,

@@ -28,8 +28,7 @@ const compact = embed.aspectRatio === null;
 const thumbnailWidth = compact ? 240 : 640;
 
 let preview:
-	| { title: string; subtitle?: string; thumbnail: string }
-	| undefined;
+	{ title: string; subtitle?: string; thumbnail: string } | undefined;
 if (embed.preview) {
 	const cached = embedPreview(embed.preview, url);
 	preview = {

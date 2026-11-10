@@ -15,8 +15,7 @@ import PostTitle from "$components/post/PostTitle.astro";
 import ReadTime from "$components/post/ReadTime.astro";
 
 type Props = (
-	| CollectionEntry<"drafts">["data"]
-	| CollectionEntry<"blog">["data"]
+	CollectionEntry<"drafts">["data"] | CollectionEntry<"blog">["data"]
 ) & {
 	id: string;
 	mb?: boolean;
@@ -66,7 +65,10 @@ const {
 			</div>
 			{
 				banner !== undefined && (
-					<div class="banner-clip relative mb-8 w-full overflow-clip md:mb-0 md:w-auto md:max-w-[40%] md:flex-[40%]">
+					<div
+						class="banner-clip relative mb-8 w-full overflow-clip md:mb-0
+							md:w-auto md:max-w-[40%] md:flex-[40%]"
+					>
 						{bannerAlt ? (
 							<LazyImage
 								src={banner}
@@ -107,7 +109,8 @@ const {
 					<div class="flex w-full max-w-[680px] flex-col">
 						<div
 							class:list={[
-								"flex w-full flex-col justify-between gap-2 md:flex-row md:items-center",
+								`flex w-full flex-col justify-between gap-2 md:flex-row
+								md:items-center`,
 								mb ? "my-8" : "mt-8",
 							]}
 						>

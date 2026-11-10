@@ -60,23 +60,27 @@
 	{#if !load}
 		{#if preview && compact}
 			<div
-				class="@container relative isolate flex h-[152px] items-center gap-4 overflow-clip rounded-xl bg-neutral-900 p-4 text-white @max-sm:gap-3"
+				class="@container relative isolate flex h-[152px] items-center gap-4
+					overflow-clip rounded-xl bg-neutral-900 p-4 text-white @max-sm:gap-3"
 			>
 				<img
 					src={preview.thumbnail}
 					alt=""
 					aria-hidden="true"
-					class="absolute inset-0 -z-10 h-full w-full scale-150 object-cover opacity-60 blur-2xl"
+					class="absolute inset-0 -z-10 h-full w-full scale-150 object-cover
+						opacity-60 blur-2xl"
 				/>
 				<div class="absolute inset-0 -z-10 bg-black/45"></div>
 				<img
 					src={preview.thumbnail}
 					alt={`Cover of ${preview.title}`}
-					class="aspect-square h-full shrink-0 rounded-lg object-cover text-[0px] shadow-lg @max-sm:h-20"
+					class="aspect-square h-full shrink-0 rounded-lg object-cover
+						text-[0px] shadow-lg @max-sm:h-20"
 				/>
 				<div class="flex min-w-0 flex-1 flex-col self-stretch">
 					<a
-						class="truncate font-semibold text-white no-underline! hover:underline!"
+						class="truncate font-semibold text-white no-underline!
+							hover:underline!"
 						{...linkProps}
 					>
 						{preview.title}
@@ -103,13 +107,15 @@
 							</button>
 						{/if}
 						<span
-							class="rounded-sm bg-black/60 px-2 py-1 text-xs font-bold text-neutral-200 @max-sm:hidden"
+							class="rounded-sm bg-black/60 px-2 py-1 text-xs font-bold
+								text-neutral-200 @max-sm:hidden"
 						>
 							{name}
 						</span>
 					</div>
 					<span
-						class="mt-2 line-clamp-2 font-text text-[10px] leading-tight font-medium tracking-tight text-slate-200 xs:text-xs"
+						class="mt-2 line-clamp-2 font-text text-[10px] leading-tight
+							font-medium tracking-tight text-slate-200 xs:text-xs"
 					>
 						{name} might collect your personal data.
 						{#if privacyPolicy}
@@ -132,7 +138,9 @@
 			>
 				<div class="relative z-[1] flex h-full flex-col">
 					<a
-						class="truncate bg-gradient-to-b from-black/80 via-black/70 via-50% to-black/0 p-4 font-semibold text-white no-underline! hover:underline!"
+						class="truncate bg-gradient-to-b from-black/80 via-black/70 via-50%
+							to-black/0 p-4 font-semibold text-white no-underline!
+							hover:underline!"
 						{...linkProps}
 					>
 						{preview.title}
@@ -153,18 +161,23 @@
 						</button>
 					{/if}
 					<div
-						class="pointer-events-none absolute bottom-0 left-0 flex w-full items-end justify-between"
+						class="pointer-events-none absolute bottom-0 left-0 flex w-full
+							items-end justify-between"
 					>
 						<span
-							class="mx-4 mb-4 rounded-sm bg-black/60 px-2 py-1 text-xs font-bold text-neutral-200 xs:text-sm"
+							class="mx-4 mb-4 rounded-sm bg-black/60 px-2 py-1 text-xs
+								font-bold text-neutral-200 xs:text-sm"
 						>
 							{name}
 						</span>
 						<div
-							class="pointer-events-auto flex items-center justify-center self-stretch px-4 pb-4"
+							class="pointer-events-auto flex items-center justify-center
+								self-stretch px-4 pb-4"
 						>
 							<span
-								class="text-right font-text text-[10px] font-medium tracking-tight text-slate-200 text-shadow-black text-shadow-md xs:text-xs"
+								class="text-right font-text text-[10px] font-medium
+									tracking-tight text-slate-200 text-shadow-black text-shadow-md
+									xs:text-xs"
 							>
 								{name} might collect your personal data.
 								{#if privacyPolicy}
@@ -189,10 +202,9 @@
 			</div>
 		{:else}
 			<div
-				class="
-				flex min-w-0 flex-col items-center justify-center gap-4 rounded-lg
-				bg-slate-600 px-4 py-8 text-center text-white smol:px-8 sm:px-16
-			"
+				class="flex min-w-0 flex-col items-center justify-center gap-4
+					rounded-lg bg-slate-600 px-4 py-8 text-center text-white smol:px-8
+					sm:px-16"
 				style="aspect-ratio: {aspectRatio};"
 			>
 				<span class="font-display text-xl font-semibold tracking-wide">
@@ -226,7 +238,8 @@
 					</button>
 					{#if !browser}
 						<span
-							class="font-display text-sm font-semibold tracking-normal text-amber-300"
+							class="font-display text-sm font-semibold tracking-normal
+								text-amber-300"
 						>
 							Enable JavaScript to load the iframe
 						</span>
