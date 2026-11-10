@@ -19,7 +19,7 @@
 		"@astrojs/rss": "4.0.19",
 		"@astrojs/svelte": "7.2.5",
 		"@fontsource-variable/source-serif-4": "^5.3.1",
-		"@tailwindcss/vite": "^4.1.14",
+		"@tailwindcss/vite": "^4.3.4",
 		"astro": "5.17.2",
 		"astro-loading-indicator": "^0.7.1",
 		"blog.hloth.dev-shared": "workspace:*",
@@ -38,7 +38,7 @@
 		"remark-rehype": "^11.1.2",
 		"sharp": "^0.34.3",
 		"svelte": "^5.57.3",
-		"tailwindcss": "^4.1.14",
+		"tailwindcss": "^4.3.4",
 		"typescript": "^5.9.3",
 		"unified": "^11.0.5",
 		"zod": "^4.6.7"
