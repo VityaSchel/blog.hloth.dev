@@ -40,14 +40,14 @@
 		browser = true;
 	});
 
-	const linkProps = {
+	const linkProps = $derived({
 		href: link,
 		target: "_blank",
 		rel: `noopener nofollow${referrer ? "" : " noreferrer"}`,
 		referrerpolicy: referrer
 			? "strict-origin-when-cross-origin"
 			: "no-referrer",
-	} as const;
+	} as const);
 
 	$effect(() => {
 		if (loadIsolatedFrame[serviceId]) {
