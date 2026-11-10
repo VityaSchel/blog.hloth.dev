@@ -16,16 +16,16 @@
 	},
 	"dependencies": {
 		"@astrojs/mdx": "4.3.13",
-		"@astrojs/rss": "4.0.15",
+		"@astrojs/rss": "4.0.19",
 		"@astrojs/svelte": "7.2.5",
-		"@fontsource-variable/source-serif-4": "^5.2.9",
+		"@fontsource-variable/source-serif-4": "^5.3.1",
 		"@tailwindcss/vite": "^4.1.14",
 		"astro": "5.17.2",
 		"astro-loading-indicator": "^0.7.1",
 		"blog.hloth.dev-shared": "workspace:*",
-		"cheerio": "^1.1.2",
-		"dedent": "^1.7.0",
-		"mediainfo.js": "^0.3.6",
+		"cheerio": "^1.2.0",
+		"dedent": "^1.7.2",
+		"mediainfo.js": "^0.3.8",
 		"pow-reaction": "^1.0.17",
 		"rehype-autolink-headings": "^7.1.0",
 		"rehype-external-links": "^3.0.0",
@@ -42,7 +42,7 @@
 		"typescript": "^5.9.3",
 		"unified": "^11.0.5",
 		"web-push": "^3.6.7",
-		"zod": "^4.1.12"
+		"zod": "^4.6.7"
 	},
 	"devDependencies": {
 		"@astrojs/check": "^0.9.10",
@@ -66,8 +66,8 @@
 		"remark-preset-lint-markdown-style-guide": "^6.0.1",
 		"remark-preset-lint-recommended": "^7.0.1",
 		"remark-preset-prettier": "^2.0.2",
-		"svelte-sonner": "^1.0.5",
+		"svelte-sonner": "^1.2.3",
 		"typescript-eslint": "^8.46.0",
-		"unist-util-visit": "^5.1.0"
+		"unist-util-visit": "^5.2.0"
 	}
 }
